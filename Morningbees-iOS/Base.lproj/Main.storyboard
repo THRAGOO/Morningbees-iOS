@@ -1,24 +1,206 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PPN-b6-wYA">
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="NanumBarunGothicBold.ttf">
+            <string>NanumBarunGothicBold</string>
+        </array>
+        <array key="Roboto-Bold.ttf">
+            <string>Roboto-Bold</string>
+        </array>
+    </customFonts>
     <scenes>
-        <!--View Controller-->
+        <!--Sign In View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignIn" id="BYZ-38-t0r" customClass="SignInViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="morningbeesPic" translatesAutoresizingMaskIntoConstraints="NO" id="YnH-ru-yWK">
+                                <rect key="frame" x="40" y="198" width="295" height="240"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ukd-it-K4E">
+                                <rect key="frame" x="40" y="528" width="295" height="50"/>
+                                <color key="backgroundColor" red="0.11764705882352941" green="0.78431372549019607" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="5IE-Ma-eTP"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="NanumBarunGothicBold" family="NanumBarunGothic" pointSize="17"/>
+                                <state key="normal" title="NAVER 로 시작하기">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="touchUpSignInNaver:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ky6-7a-BcR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eJr-ob-OA2">
+                                <rect key="frame" x="40" y="598" width="295" height="50"/>
+                                <color key="backgroundColor" red="0.25882352941176467" green="0.52156862745098043" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="yoC-E4-VGz"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="17"/>
+                                <state key="normal" title="Google 로 시작하기">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="touchUpSignInGoogle:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SE7-WI-Oce"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="eJr-ob-OA2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="Efj-iS-hyU"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="eJr-ob-OA2" secondAttribute="bottom" constant="130" id="PMM-9g-DxV"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eJr-ob-OA2" secondAttribute="trailing" constant="40" id="VX0-lG-qwf"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Ukd-it-K4E" secondAttribute="trailing" constant="40" id="f72-NU-Cfx"/>
+                            <constraint firstItem="YnH-ru-yWK" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="110" id="ryw-Fz-uHh"/>
+                            <constraint firstItem="Ukd-it-K4E" firstAttribute="top" secondItem="YnH-ru-yWK" secondAttribute="bottom" constant="90" id="sUM-P6-mR9"/>
+                            <constraint firstItem="eJr-ob-OA2" firstAttribute="top" secondItem="Ukd-it-K4E" secondAttribute="bottom" constant="20" id="sge-KY-aSG"/>
+                            <constraint firstItem="Ukd-it-K4E" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="tMu-lo-0bB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YnH-ru-yWK" secondAttribute="trailing" constant="40" id="w3Z-Rf-DAI"/>
+                            <constraint firstItem="YnH-ru-yWK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="wbK-k4-EcO"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Cxb-Og-enM"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="2023.2" y="137.4384236453202"/>
+        </scene>
+        <!--Sign Up View Controller-->
+        <scene sceneID="pI6-tI-AWT">
+            <objects>
+                <viewController storyboardIdentifier="SignUp" id="am7-bX-keQ" customClass="SignUpViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7W7-8M-LH3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="VXl-cK-XyP">
+                                <rect key="frame" x="40" y="155" width="295" height="135"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="135" id="WS3-lw-IYO"/>
+                                </constraints>
+                                <string key="text">Morningbees
+에 오신 것을 환영합니다.
+닉네임을 만들고
+아침미션에 참가하세요!</string>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="25"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="?????" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6Ro-bh-pGP">
+                                <rect key="frame" x="40" y="359" width="223" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="223" id="AEM-hI-qeb"/>
+                                    <constraint firstAttribute="height" constant="40" id="SXz-ma-P6Q"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yrq-Cc-Zfp">
+                                <rect key="frame" x="271" y="360" width="64" height="40"/>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="17"/>
+                                <state key="normal" title="중복 확인"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FdP-xl-Obj">
+                                <rect key="frame" x="0.0" y="706" width="375" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="tTc-C4-GyF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="25"/>
+                                <state key="normal" title="시작하기">
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="닉네임을 입력하세요" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="1T0-m1-IHG">
+                                <rect key="frame" x="40" y="310" width="205" height="37"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="37" id="YlY-ar-7kh"/>
+                                </constraints>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="22"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tfp-Kp-SR7">
+                                <rect key="frame" x="152.66666666666666" y="549" width="70" height="36"/>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
+                                <state key="normal" title="로그아웃"/>
+                                <connections>
+                                    <action selector="touchUpSignOutGoogle:" destination="am7-bX-keQ" eventType="touchUpInside" id="XN6-fp-ale"/>
+                                    <action selector="touchUpSignOutNaver:" destination="am7-bX-keQ" eventType="touchUpInside" id="hH6-fS-8bQ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="njd-f2-RR1">
+                                <rect key="frame" x="150" y="605" width="75" height="36"/>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
+                                <state key="normal" title="회원 탈퇴"/>
+                                <connections>
+                                    <action selector="touchUpDisconnectGoogle:" destination="am7-bX-keQ" eventType="touchUpInside" id="w0W-KM-zAd"/>
+                                    <action selector="touchUpDisconnectNaver:" destination="am7-bX-keQ" eventType="touchUpInside" id="sdw-C7-YIQ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="6Ro-bh-pGP" firstAttribute="top" secondItem="1T0-m1-IHG" secondAttribute="bottom" constant="12" id="0c7-9f-LeJ"/>
+                            <constraint firstItem="VXl-cK-XyP" firstAttribute="top" secondItem="juU-Uj-SwR" secondAttribute="top" constant="111" id="6SQ-KO-Pei"/>
+                            <constraint firstItem="juU-Uj-SwR" firstAttribute="trailing" secondItem="yrq-Cc-Zfp" secondAttribute="trailing" constant="40" id="CgI-oQ-sFP"/>
+                            <constraint firstItem="yrq-Cc-Zfp" firstAttribute="leading" secondItem="6Ro-bh-pGP" secondAttribute="trailing" constant="8" id="HRH-5h-dqb"/>
+                            <constraint firstItem="1T0-m1-IHG" firstAttribute="top" secondItem="VXl-cK-XyP" secondAttribute="bottom" constant="20" id="HZN-B4-Gil"/>
+                            <constraint firstItem="juU-Uj-SwR" firstAttribute="bottom" secondItem="FdP-xl-Obj" secondAttribute="bottom" constant="12" id="IzD-0A-TjW"/>
+                            <constraint firstItem="njd-f2-RR1" firstAttribute="centerX" secondItem="7W7-8M-LH3" secondAttribute="centerX" id="MMG-a3-gMr"/>
+                            <constraint firstItem="Tfp-Kp-SR7" firstAttribute="top" secondItem="6Ro-bh-pGP" secondAttribute="bottom" constant="150" id="Qde-Qc-tVu"/>
+                            <constraint firstItem="FdP-xl-Obj" firstAttribute="trailing" secondItem="juU-Uj-SwR" secondAttribute="trailing" id="Uyu-RG-45t"/>
+                            <constraint firstItem="6Ro-bh-pGP" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" constant="40" id="V8k-3i-pqG"/>
+                            <constraint firstItem="yrq-Cc-Zfp" firstAttribute="height" secondItem="6Ro-bh-pGP" secondAttribute="height" id="Vh4-40-qUv"/>
+                            <constraint firstItem="Tfp-Kp-SR7" firstAttribute="centerX" secondItem="7W7-8M-LH3" secondAttribute="centerX" id="Wz9-MA-m5C"/>
+                            <constraint firstItem="njd-f2-RR1" firstAttribute="top" secondItem="Tfp-Kp-SR7" secondAttribute="bottom" constant="20" id="gB3-lV-w1d"/>
+                            <constraint firstItem="yrq-Cc-Zfp" firstAttribute="top" secondItem="VXl-cK-XyP" secondAttribute="bottom" constant="70" id="kJN-np-ShM"/>
+                            <constraint firstItem="FdP-xl-Obj" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" id="p65-g5-Q1v"/>
+                            <constraint firstItem="juU-Uj-SwR" firstAttribute="trailing" secondItem="VXl-cK-XyP" secondAttribute="trailing" constant="40" id="pH3-UM-FfB"/>
+                            <constraint firstItem="1T0-m1-IHG" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" constant="40" id="rqY-Oa-uVk"/>
+                            <constraint firstItem="VXl-cK-XyP" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" constant="40" id="xQh-l1-DmE"/>
+                            <constraint firstItem="juU-Uj-SwR" firstAttribute="trailing" secondItem="1T0-m1-IHG" secondAttribute="trailing" constant="130" id="y0U-He-cXz"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="juU-Uj-SwR"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="EzI-i2-6jK"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aPz-0u-3s0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2682.4000000000001" y="136.69950738916256"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Sgk-ma-XRJ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PPN-b6-wYA" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="X5Y-c7-bES">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="QRS-N0-N4L"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ft4-ir-Qus" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1319" y="137"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="morningbeesPic" width="450" height="452"/>
+    </resources>
 </document>

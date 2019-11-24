@@ -3,27 +3,36 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		47099ACBE21D5E0ED06E4CA1 /* Pods_Morningbees_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F217BC5EA6A592F88E8C77 /* Pods_Morningbees_iOS.framework */; };
 		7279EF84236EC61D005ECC81 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7279EF83236EC61D005ECC81 /* AppDelegate.swift */; };
 		7279EF86236EC61D005ECC81 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7279EF85236EC61D005ECC81 /* SceneDelegate.swift */; };
-		7279EF88236EC61D005ECC81 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7279EF87236EC61D005ECC81 /* ViewController.swift */; };
+		7279EF88236EC61D005ECC81 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7279EF87236EC61D005ECC81 /* SignInViewController.swift */; };
 		7279EF8B236EC61D005ECC81 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7279EF89236EC61D005ECC81 /* Main.storyboard */; };
 		7279EF8D236EC623005ECC81 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7279EF8C236EC623005ECC81 /* Assets.xcassets */; };
 		7279EF90236EC623005ECC81 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7279EF8E236EC623005ECC81 /* LaunchScreen.storyboard */; };
+		B00115EF2387DAD9003A5E83 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00115EE2387DAD9003A5E83 /* SignUpViewController.swift */; };
+		B078DFCD2388469C00B31DBB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B078DFCC2388469C00B31DBB /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7279EF80236EC61D005ECC81 /* Morningbees-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Morningbees-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		45F217BC5EA6A592F88E8C77 /* Pods_Morningbees_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Morningbees_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7279EF80236EC61D005ECC81 /* Morningbees.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Morningbees.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7279EF83236EC61D005ECC81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7279EF85236EC61D005ECC81 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		7279EF87236EC61D005ECC81 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7279EF87236EC61D005ECC81 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		7279EF8A236EC61D005ECC81 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7279EF8C236EC623005ECC81 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7279EF8F236EC623005ECC81 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7279EF91236EC623005ECC81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B00115ED2386E6F2003A5E83 /* NanumBarunGothicBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = NanumBarunGothicBold.ttf; path = "/Users/iiwiigen/Desktop/Morningbees-iOS/Morningbees-iOS/NanumBarunGothicBold.ttf"; sourceTree = "<absolute>"; };
+		B00115EE2387DAD9003A5E83 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		B078DFCC2388469C00B31DBB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B8A9D1B64CFCC0291249B172 /* Pods-Morningbees-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.release.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.release.xcconfig"; sourceTree = "<group>"; };
+		E6D244607548017DCD414837 /* Pods-Morningbees-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,24 +40,44 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47099ACBE21D5E0ED06E4CA1 /* Pods_Morningbees_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0137016CD9920C46BE450189 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				45F217BC5EA6A592F88E8C77 /* Pods_Morningbees_iOS.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0A7E79114FB64218C0D90A1E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E6D244607548017DCD414837 /* Pods-Morningbees-iOS.debug.xcconfig */,
+				B8A9D1B64CFCC0291249B172 /* Pods-Morningbees-iOS.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		7279EF77236EC61D005ECC81 = {
 			isa = PBXGroup;
 			children = (
 				7279EF82236EC61D005ECC81 /* Morningbees-iOS */,
 				7279EF81236EC61D005ECC81 /* Products */,
+				0A7E79114FB64218C0D90A1E /* Pods */,
+				0137016CD9920C46BE450189 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		7279EF81236EC61D005ECC81 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7279EF80236EC61D005ECC81 /* Morningbees-iOS.app */,
+				7279EF80236EC61D005ECC81 /* Morningbees.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -58,13 +87,24 @@
 			children = (
 				7279EF83236EC61D005ECC81 /* AppDelegate.swift */,
 				7279EF85236EC61D005ECC81 /* SceneDelegate.swift */,
-				7279EF87236EC61D005ECC81 /* ViewController.swift */,
-				7279EF89236EC61D005ECC81 /* Main.storyboard */,
+				B078DFCE2389835700B31DBB /* ViewController */,
 				7279EF8C236EC623005ECC81 /* Assets.xcassets */,
+				7279EF89236EC61D005ECC81 /* Main.storyboard */,
 				7279EF8E236EC623005ECC81 /* LaunchScreen.storyboard */,
 				7279EF91236EC623005ECC81 /* Info.plist */,
+				B078DFCC2388469C00B31DBB /* GoogleService-Info.plist */,
+				B00115ED2386E6F2003A5E83 /* NanumBarunGothicBold.ttf */,
 			);
 			path = "Morningbees-iOS";
+			sourceTree = "<group>";
+		};
+		B078DFCE2389835700B31DBB /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7279EF87236EC61D005ECC81 /* SignInViewController.swift */,
+				B00115EE2387DAD9003A5E83 /* SignUpViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +114,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7279EF94236EC623005ECC81 /* Build configuration list for PBXNativeTarget "Morningbees-iOS" */;
 			buildPhases = (
+				DA819CA54BE56F3E255E1F54 /* [CP] Check Pods Manifest.lock */,
 				7279EF7C236EC61D005ECC81 /* Sources */,
 				7279EF7D236EC61D005ECC81 /* Frameworks */,
 				7279EF7E236EC61D005ECC81 /* Resources */,
+				ED3F21F2F760A59D31E5C98C /* [CP] Embed Pods Frameworks */,
+				FDEC50C19B765CABA5F6ADEF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -84,7 +127,7 @@
 			);
 			name = "Morningbees-iOS";
 			productName = "Morningbees-iOS";
-			productReference = 7279EF80236EC61D005ECC81 /* Morningbees-iOS.app */;
+			productReference = 7279EF80236EC61D005ECC81 /* Morningbees.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -126,6 +169,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7279EF90236EC623005ECC81 /* LaunchScreen.storyboard in Resources */,
+				B078DFCD2388469C00B31DBB /* GoogleService-Info.plist in Resources */,
 				7279EF8D236EC623005ECC81 /* Assets.xcassets in Resources */,
 				7279EF8B236EC61D005ECC81 /* Main.storyboard in Resources */,
 			);
@@ -133,13 +177,73 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		DA819CA54BE56F3E255E1F54 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Morningbees-iOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ED3F21F2F760A59D31E5C98C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FDEC50C19B765CABA5F6ADEF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		7279EF7C236EC61D005ECC81 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7279EF88236EC61D005ECC81 /* ViewController.swift in Sources */,
+				7279EF88236EC61D005ECC81 /* SignInViewController.swift in Sources */,
 				7279EF84236EC61D005ECC81 /* AppDelegate.swift in Sources */,
+				B00115EF2387DAD9003A5E83 /* SignUpViewController.swift in Sources */,
 				7279EF86236EC61D005ECC81 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -282,17 +386,18 @@
 		};
 		7279EF95236EC623005ECC81 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E6D244607548017DCD414837 /* Pods-Morningbees-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 836DYQVDP8;
+				DEVELOPMENT_TEAM = W2PU542377;
 				INFOPLIST_FILE = "Morningbees-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.leejun.Morningbees-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Morningbees;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -300,17 +405,18 @@
 		};
 		7279EF96236EC623005ECC81 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B8A9D1B64CFCC0291249B172 /* Pods-Morningbees-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 836DYQVDP8;
+				DEVELOPMENT_TEAM = W2PU542377;
 				INFOPLIST_FILE = "Morningbees-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.leejun.Morningbees-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Morningbees;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
