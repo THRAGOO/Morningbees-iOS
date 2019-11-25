@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  Morningbees-iOS
 //
-//  Created by JUN LEE on 2019/11/03.
+//  Created by iiwii on 2019/11/03.
 //  Copyright © 2019 JUN LEE. All rights reserved.
 //
 

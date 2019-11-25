@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  Morningbees-iOS
 //
-//  Created by JUN LEE on 2019/11/03.
+//  Created by iiwii on 2019/11/03.
 //  Copyright © 2019 JUN LEE. All rights reserved.
 //
 
@@ -11,7 +11,7 @@ import GoogleSignIn
 import NaverThirdPartyLogin
 import UIKit
 
-class SignInViewController: UIViewController {
+final class SignInViewController: UIViewController {
     
 //MARK:- Properties
     
@@ -27,7 +27,7 @@ class SignInViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.isHidden = true
     }
 }
 
@@ -36,8 +36,10 @@ class SignInViewController: UIViewController {
 extension SignInViewController {
     
     func pushToSignUpViewController() {
-        let signUpViewInstance = self.storyboard?.instantiateViewController(identifier: "SignUp")
-        self.navigationController?.pushViewController(signUpViewInstance!, animated: true)
+        guard let signUpViewController = self.storyboard?.instantiateViewController(identifier: "SignUp") else {
+            fatalError("Missing ViewController")
+        }
+        navigationController?.pushViewController(signUpViewController, animated: true)
     }
 }
 
@@ -64,7 +66,7 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
     
     //MARK: Action
     
-    @IBAction func touchUpSignInNaver(_ sender: UIButton) {
+    @IBAction private func touchUpSignInNaver(_ sender: UIButton) {
         naverSignInInstance?.delegate = self
         naverSignInInstance?.requestThirdPartyLogin()
     }
@@ -76,8 +78,8 @@ extension SignInViewController {
     
     //MARK: Action
     
-    @IBAction func touchUpSignInGoogle(_ sender: UIButton) {
-        if ((GIDSignIn.sharedInstance()?.hasPreviousSignIn())!) {
+    @IBAction private func touchUpSignInGoogle(_ sender: UIButton) {
+        if (GIDSignIn.sharedInstance()?.hasPreviousSignIn() ?? false) {
             GIDSignIn.sharedInstance()?.restorePreviousSignIn()
         } else {
             GIDSignIn.sharedInstance()?.signIn()

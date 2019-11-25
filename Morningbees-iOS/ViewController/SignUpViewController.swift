@@ -11,7 +11,7 @@ import GoogleSignIn
 import NaverThirdPartyLogin
 import UIKit
 
-class SignUpViewController: UIViewController {
+final class SignUpViewController: UIViewController {
     
 //MARK:- Properties
     
@@ -26,7 +26,7 @@ class SignUpViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
 }
 
@@ -35,7 +35,7 @@ class SignUpViewController: UIViewController {
 extension SignUpViewController {
     
     func popToSignInViewContoller() {
-        self.navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 }
     
@@ -59,13 +59,13 @@ extension SignUpViewController: NaverThirdPartyLoginConnectionDelegate {
     
     //MARK: Action
     
-    @IBAction func touchUpSignOutNaver(_ sender: UIButton) {
+    @IBAction private func touchUpSignOutNaver(_ sender: UIButton) {
         naverSignInInstance?.delegate = self
         naverSignInInstance?.resetToken()
         popToSignInViewContoller()
     }
     
-    @IBAction func touchUpDisconnectNaver(_ sender: UIButton) {
+    @IBAction private func touchUpDisconnectNaver(_ sender: UIButton) {
         naverSignInInstance?.delegate = self
         naverSignInInstance?.requestDeleteToken()
     }
@@ -77,12 +77,12 @@ extension SignUpViewController {
     
     //MARK: Action
     
-    @IBAction func touchUpSignOutGoogle(_ sender: UIButton) {
+    @IBAction private func touchUpSignOutGoogle(_ sender: UIButton) {
         GIDSignIn.sharedInstance()?.signOut()
         popToSignInViewContoller()
     }
     
-    @IBAction func touchUpDisconnectGoogle(_ sender: UIButton) {
+    @IBAction private func touchUpDisconnectGoogle(_ sender: UIButton) {
         GIDSignIn.sharedInstance()?.disconnect()
     }
 }
@@ -92,6 +92,6 @@ extension SignUpViewController {
 extension SignUpViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
+        view.endEditing(true)
     }
 }

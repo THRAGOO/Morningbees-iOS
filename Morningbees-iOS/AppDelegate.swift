@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Morningbees-iOS
 //
-//  Created by JUN LEE on 2019/11/03.
+//  Created by iiwii on 2019/11/03.
 //  Copyright © 2019 JUN LEE. All rights reserved.
 //
 
@@ -12,7 +12,7 @@ import NaverThirdPartyLogin
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var signInCallBack: (() -> ())?
     var disconnectCallBack: (() -> ())?
@@ -21,14 +21,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         //MARK: SetUp for SignIn with Naver
         
-        let naverSignInInstance = NaverThirdPartyLoginConnection.getSharedInstance()
-        naverSignInInstance?.isInAppOauthEnable = true
-        naverSignInInstance?.isNaverAppOauthEnable = false
-        naverSignInInstance?.setOnlyPortraitSupportInIphone(true)
-        naverSignInInstance?.serviceUrlScheme = kServiceAppUrlScheme
-        naverSignInInstance?.consumerKey = kConsumerKey
-        naverSignInInstance?.consumerSecret = kConsumerSecret
-        naverSignInInstance?.appName = kServiceAppName
+        if let naverSignInInstance = NaverThirdPartyLoginConnection.getSharedInstance() {
+            naverSignInInstance.isInAppOauthEnable = true
+            naverSignInInstance.isNaverAppOauthEnable = false
+            naverSignInInstance.setOnlyPortraitSupportInIphone(true)
+            naverSignInInstance.serviceUrlScheme = kServiceAppUrlScheme
+            naverSignInInstance.consumerKey = kConsumerKey
+            naverSignInInstance.consumerSecret = kConsumerSecret
+            naverSignInInstance.appName = kServiceAppName
+        }
         
         //MARK: SetUp for SignIn with Google
         
@@ -43,10 +44,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         NaverThirdPartyLoginConnection.getSharedInstance()?.application(app, open: url, options: options)
         GIDSignIn.sharedInstance().handle(url)
         
-      return true
+        return true
     }
-    
-    //MARK: Google SignIn
+
+    // MARK: UISceneSession Lifecycle
+
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        // Called when a new scene session is being created.
+        // Use this method to select a configuration to create the new scene with.
+        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    }
+
+    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+        // Called when the user discards a scene session.
+        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
+        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+    }
+}
+
+//MARK:- Google SignIn
+
+extension AppDelegate: GIDSignInDelegate {
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
@@ -64,20 +82,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         }
         print("[Success] : Disconnect with Google")
         disconnectCallBack!()
-    }
-
-    // MARK: UISceneSession Lifecycle
-
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-    }
-
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 }
 
