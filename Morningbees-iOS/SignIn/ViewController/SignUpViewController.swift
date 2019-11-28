@@ -19,11 +19,6 @@ final class SignUpViewController: UIViewController {
     
 //MARK:- Life Cycle
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        (UIApplication.shared.delegate as? AppDelegate)?.disconnectCallBack = popToSignInViewContoller
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
@@ -34,7 +29,7 @@ final class SignUpViewController: UIViewController {
 
 extension SignUpViewController {
     
-    func popToSignInViewContoller() {
+    private func popToSignInViewContoller() {
         navigationController?.popViewController(animated: true)
     }
 }

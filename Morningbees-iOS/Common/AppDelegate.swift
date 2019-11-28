@@ -12,10 +12,7 @@ import NaverThirdPartyLogin
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-    
-    var signInCallBack: (() -> ())?
-    var disconnectCallBack: (() -> ())?
+final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -72,7 +69,17 @@ extension AppDelegate: GIDSignInDelegate {
             return
         }
         print("[Success] : SignIn with Google")
-        signInCallBack!()
+
+        //TODO: We have to manage the storyboard separately. (Enum)
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController,
+            let signInViewController = navigationController.topViewController as? SignInViewController,
+            let signUpViewController = mainStoryboard.instantiateViewController(
+                withIdentifier: "\(SignUpViewController.self)") as? SignUpViewController else {
+                    fatalError("Not found the SignUpViewController")
+        }
+
+        signInViewController.navigationController?.pushViewController(signUpViewController, animated: true)
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
@@ -81,7 +88,12 @@ extension AppDelegate: GIDSignInDelegate {
             return
         }
         print("[Success] : Disconnect with Google")
-        disconnectCallBack!()
+
+        guard let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController else {
+            fatalError("Not found the navigationController")
+        }
+
+        navigationController.popViewController(animated: true)
     }
 }
 

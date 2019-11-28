@@ -22,7 +22,6 @@ final class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         GIDSignIn.sharedInstance()?.presentingViewController = self
-        (UIApplication.shared.delegate as? AppDelegate)?.signInCallBack = pushToSignUpViewController
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,10 +34,12 @@ final class SignInViewController: UIViewController {
 
 extension SignInViewController {
     
-    func pushToSignUpViewController() {
-        guard let signUpViewController = self.storyboard?.instantiateViewController(identifier: "SignUp") else {
-            fatalError("Missing ViewController")
+    private func pushToSignUpViewController() {
+        guard let signUpViewController = self.storyboard?.instantiateViewController(
+            identifier: "SignUpViewController") as? SignUpViewController else {
+                fatalError("Missing ViewController")
         }
+
         navigationController?.pushViewController(signUpViewController, animated: true)
     }
 }
