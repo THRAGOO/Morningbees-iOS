@@ -79,7 +79,7 @@
         <!--Sign Up View Controller-->
         <scene sceneID="pI6-tI-AWT">
             <objects>
-                <viewController storyboardIdentifier="SignUp" id="am7-bX-keQ" customClass="SignUpViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignUpViewController" id="am7-bX-keQ" customClass="SignUpViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7W7-8M-LH3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
