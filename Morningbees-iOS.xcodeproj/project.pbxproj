@@ -16,7 +16,6 @@
 		7279EF90236EC623005ECC81 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7279EF8E236EC623005ECC81 /* LaunchScreen.storyboard */; };
 		B00115EF2387DAD9003A5E83 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00115EE2387DAD9003A5E83 /* SignUpViewController.swift */; };
 		CE432C212390098F0005F257 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE432C202390098F0005F257 /* UIApplication+Extension.swift */; };
-		CEB665112393F965008E2A86 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CEB665102393F964008E2A86 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +32,6 @@
 		B00115EE2387DAD9003A5E83 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		B8A9D1B64CFCC0291249B172 /* Pods-Morningbees-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.release.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		CE432C202390098F0005F257 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
-		CEB665102393F964008E2A86 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E6D244607548017DCD414837 /* Pods-Morningbees-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,7 +92,6 @@
 				7279EF89236EC61D005ECC81 /* Main.storyboard */,
 				7279EF8E236EC623005ECC81 /* LaunchScreen.storyboard */,
 				7279EF91236EC623005ECC81 /* Info.plist */,
-				CEB665102393F964008E2A86 /* GoogleService-Info.plist */,
 				B00115ED2386E6F2003A5E83 /* NanumBarunGothicBold.ttf */,
 			);
 			path = "Morningbees-iOS";
@@ -196,7 +193,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7279EF90236EC623005ECC81 /* LaunchScreen.storyboard in Resources */,
-				CEB665112393F965008E2A86 /* GoogleService-Info.plist in Resources */,
 				7279EF8D236EC623005ECC81 /* Assets.xcassets in Resources */,
 				7279EF8B236EC61D005ECC81 /* Main.storyboard in Resources */,
 			);

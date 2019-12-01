@@ -130,6 +130,3 @@ iOSInjectionProject/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.gitignore.io/api/swift,xcode,macos
-
-# Google Service
-GoogleService-Info.plist
