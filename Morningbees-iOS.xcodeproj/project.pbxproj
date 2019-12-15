@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		47099ACBE21D5E0ED06E4CA1 /* Pods_Morningbees_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F217BC5EA6A592F88E8C77 /* Pods_Morningbees_iOS.framework */; };
+		7254BF4923A66AA10036D24D /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 7254BF4823A66AA10036D24D /* .swiftlint.yml */; };
 		7279EF84236EC61D005ECC81 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7279EF83236EC61D005ECC81 /* AppDelegate.swift */; };
 		7279EF86236EC61D005ECC81 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7279EF85236EC61D005ECC81 /* SceneDelegate.swift */; };
 		7279EF88236EC61D005ECC81 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7279EF87236EC61D005ECC81 /* SignInViewController.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		45F217BC5EA6A592F88E8C77 /* Pods_Morningbees_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Morningbees_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7254BF4823A66AA10036D24D /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		7279EF80236EC61D005ECC81 /* Morningbees.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Morningbees.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7279EF83236EC61D005ECC81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7279EF85236EC61D005ECC81 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 		7279EF77236EC61D005ECC81 = {
 			isa = PBXGroup;
 			children = (
+				7254BF4823A66AA10036D24D /* .swiftlint.yml */,
 				7279EF82236EC61D005ECC81 /* Morningbees-iOS */,
 				7279EF81236EC61D005ECC81 /* Products */,
 				0A7E79114FB64218C0D90A1E /* Pods */,
@@ -144,6 +147,7 @@
 				7279EF7E236EC61D005ECC81 /* Resources */,
 				ED3F21F2F760A59D31E5C98C /* [CP] Embed Pods Frameworks */,
 				FDEC50C19B765CABA5F6ADEF /* [CP] Copy Pods Resources */,
+				7254BF4723A669D20036D24D /* SwiftLint Script */,
 			);
 			buildRules = (
 			);
@@ -192,6 +196,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7254BF4923A66AA10036D24D /* .swiftlint.yml in Resources */,
 				7279EF90236EC623005ECC81 /* LaunchScreen.storyboard in Resources */,
 				7279EF8D236EC623005ECC81 /* Assets.xcassets in Resources */,
 				7279EF8B236EC61D005ECC81 /* Main.storyboard in Resources */,
@@ -201,6 +206,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		7254BF4723A669D20036D24D /* SwiftLint Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftLint Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
+		};
 		DA819CA54BE56F3E255E1F54 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
