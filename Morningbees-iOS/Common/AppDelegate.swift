@@ -13,11 +13,13 @@ import UIKit
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
-    
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
+
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
         //MARK: SetUp for SignIn with Naver
-        
+
         if let naverSignInInstance = NaverThirdPartyLoginConnection.getSharedInstance() {
             naverSignInInstance.isInAppOauthEnable = true
             naverSignInInstance.isNaverAppOauthEnable = false
@@ -27,42 +29,43 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             naverSignInInstance.consumerSecret = kConsumerSecret
             naverSignInInstance.appName = kServiceAppName
         }
-        
+
         //MARK: SetUp for SignIn with Google
-        
+
         FirebaseApp.configure()
         GIDSignIn.sharedInstance()?.clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
-        
+
         return true
     }
-    
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+
+    func application(
+        _ app: UIApplication,
+        open url: URL,
+        options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         NaverThirdPartyLoginConnection.getSharedInstance()?.application(app, open: url, options: options)
         GIDSignIn.sharedInstance().handle(url)
-        
+
         return true
     }
 
-    // MARK: UISceneSession Lifecycle
+    //MARK: UISceneSession Lifecycle
 
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
+    func application(
+        _ application: UIApplication,
+        configurationForConnecting connectingSceneSession: UISceneSession,
+        options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 }
 
 //MARK:- Google SignIn
 
 extension AppDelegate: GIDSignInDelegate {
-    
+
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
         print("[Error] :", error.localizedDescription)
@@ -81,7 +84,7 @@ extension AppDelegate: GIDSignInDelegate {
 
         signInViewController.navigationController?.pushViewController(signUpViewController, animated: true)
     }
-    
+
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
             print("[Error] :", error.localizedDescription)
@@ -89,11 +92,11 @@ extension AppDelegate: GIDSignInDelegate {
         }
         print("[Success] : Disconnect with Google")
 
-        guard let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController else {
-            fatalError("Not found the navigationController")
+        guard let navigationController =
+            UIApplication.shared.keyWindow?.rootViewController as? UINavigationController else {
+                fatalError("Not found the navigationController")
         }
 
         navigationController.popViewController(animated: true)
     }
 }
-

@@ -1,0 +1,10 @@
+disabled_rules:
+- for_where
+- unused_optional_binding
+- mark
+- todo
+
+included:
+
+excluded:
+- Pods
