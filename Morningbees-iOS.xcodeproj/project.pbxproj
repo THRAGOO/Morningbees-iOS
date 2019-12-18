@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		47099ACBE21D5E0ED06E4CA1 /* Pods_Morningbees_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F217BC5EA6A592F88E8C77 /* Pods_Morningbees_iOS.framework */; };
 		7254BF4923A66AA10036D24D /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 7254BF4823A66AA10036D24D /* .swiftlint.yml */; };
+		7254BF4B23A913940036D24D /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7254BF4A23A913940036D24D /* Logger.swift */; };
 		7279EF84236EC61D005ECC81 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7279EF83236EC61D005ECC81 /* AppDelegate.swift */; };
 		7279EF86236EC61D005ECC81 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7279EF85236EC61D005ECC81 /* SceneDelegate.swift */; };
 		7279EF88236EC61D005ECC81 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7279EF87236EC61D005ECC81 /* SignInViewController.swift */; };
@@ -22,6 +23,7 @@
 /* Begin PBXFileReference section */
 		45F217BC5EA6A592F88E8C77 /* Pods_Morningbees_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Morningbees_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7254BF4823A66AA10036D24D /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		7254BF4A23A913940036D24D /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		7279EF80236EC61D005ECC81 /* Morningbees.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Morningbees.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7279EF83236EC61D005ECC81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7279EF85236EC61D005ECC81 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 			children = (
 				7279EF83236EC61D005ECC81 /* AppDelegate.swift */,
 				7279EF85236EC61D005ECC81 /* SceneDelegate.swift */,
+				7254BF4A23A913940036D24D /* Logger.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7279EF88236EC61D005ECC81 /* SignInViewController.swift in Sources */,
+				7254BF4B23A913940036D24D /* Logger.swift in Sources */,
 				7279EF84236EC61D005ECC81 /* AppDelegate.swift in Sources */,
 				B00115EF2387DAD9003A5E83 /* SignUpViewController.swift in Sources */,
 				CE432C212390098F0005F257 /* UIApplication+Extension.swift in Sources */,
