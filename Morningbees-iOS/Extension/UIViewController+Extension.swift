@@ -38,6 +38,10 @@ extension UIViewController {
     @objc
     private func swizzleViewDidLoad() {
         Logger.debug("\(String(describing: self)) ViewDidLoad")
+
+        let deallocator = Deallocator { Logger.debug("\(String(describing: self)) deinit") }
+        var associatedObjectAddr = ""
+        objc_setAssociatedObject(self, &associatedObjectAddr, deallocator, .OBJC_ASSOCIATION_RETAIN)
     }
 
     @objc
@@ -58,5 +62,17 @@ extension UIViewController {
     @objc
     private func swizzleViewDidDisappear(_ animated: Bool) {
         Logger.debug("\(String(describing: self)) ViewDidDisappear")
+    }
+}
+
+final class Deallocator {
+    let closure: () -> Void
+
+    init(_ closure: @escaping () -> Void) {
+        self.closure = closure
+    }
+
+    deinit {
+        closure()
     }
 }
