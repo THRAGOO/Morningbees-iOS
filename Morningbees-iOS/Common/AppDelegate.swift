@@ -18,6 +18,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
+        //MARK: Swizzle
+
+        UIViewController.swizzle
+
         //MARK: SetUp for SignIn with Naver
 
         if let naverSignInInstance = NaverThirdPartyLoginConnection.getSharedInstance() {
