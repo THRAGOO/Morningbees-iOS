@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PPN-b6-wYA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PPN-b6-wYA">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -98,19 +98,22 @@
                                 <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="25"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="?????" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6Ro-bh-pGP">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6Ro-bh-pGP">
                                 <rect key="frame" x="40" y="359" width="223" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="223" id="AEM-hI-qeb"/>
                                     <constraint firstAttribute="height" constant="40" id="SXz-ma-P6Q"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yrq-Cc-Zfp">
                                 <rect key="frame" x="271" y="360" width="64" height="40"/>
                                 <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="17"/>
                                 <state key="normal" title="중복 확인"/>
+                                <connections>
+                                    <action selector="touchUpVaildCheckButton:" destination="am7-bX-keQ" eventType="touchUpInside" id="T55-Bb-2yS"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FdP-xl-Obj">
                                 <rect key="frame" x="0.0" y="706" width="375" height="60"/>
@@ -122,7 +125,7 @@
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="닉네임을 입력하세요" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="1T0-m1-IHG">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="닉네임을 입력하세요." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="1T0-m1-IHG">
                                 <rect key="frame" x="40" y="310" width="205" height="37"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
@@ -150,11 +153,23 @@
                                     <action selector="touchUpDisconnectNaver:" destination="am7-bX-keQ" eventType="touchUpInside" id="sdw-C7-YIQ"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="2-10자 (한글, 영어, 숫자)" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="iiR-1p-4HM">
+                                <rect key="frame" x="40" y="407" width="132" height="30.333333333333314"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30.329999999999998" id="PJU-dO-gkf"/>
+                                    <constraint firstAttribute="width" constant="132" id="WFH-hQ-DJJ"/>
+                                </constraints>
+                                <color key="textColor" red="0.46274834869999998" green="0.4627391696" blue="0.46274536849999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="6Ro-bh-pGP" firstAttribute="top" secondItem="1T0-m1-IHG" secondAttribute="bottom" constant="12" id="0c7-9f-LeJ"/>
                             <constraint firstItem="VXl-cK-XyP" firstAttribute="top" secondItem="juU-Uj-SwR" secondAttribute="top" constant="111" id="6SQ-KO-Pei"/>
+                            <constraint firstItem="iiR-1p-4HM" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" constant="40" id="Apm-Es-YYv"/>
                             <constraint firstItem="juU-Uj-SwR" firstAttribute="trailing" secondItem="yrq-Cc-Zfp" secondAttribute="trailing" constant="40" id="CgI-oQ-sFP"/>
                             <constraint firstItem="yrq-Cc-Zfp" firstAttribute="leading" secondItem="6Ro-bh-pGP" secondAttribute="trailing" constant="8" id="HRH-5h-dqb"/>
                             <constraint firstItem="1T0-m1-IHG" firstAttribute="top" secondItem="VXl-cK-XyP" secondAttribute="bottom" constant="20" id="HZN-B4-Gil"/>
@@ -166,6 +181,7 @@
                             <constraint firstItem="yrq-Cc-Zfp" firstAttribute="height" secondItem="6Ro-bh-pGP" secondAttribute="height" id="Vh4-40-qUv"/>
                             <constraint firstItem="Tfp-Kp-SR7" firstAttribute="centerX" secondItem="7W7-8M-LH3" secondAttribute="centerX" id="Wz9-MA-m5C"/>
                             <constraint firstItem="njd-f2-RR1" firstAttribute="top" secondItem="Tfp-Kp-SR7" secondAttribute="bottom" constant="20" id="gB3-lV-w1d"/>
+                            <constraint firstItem="iiR-1p-4HM" firstAttribute="top" secondItem="6Ro-bh-pGP" secondAttribute="bottom" constant="8" id="joZ-fz-w2p"/>
                             <constraint firstItem="yrq-Cc-Zfp" firstAttribute="top" secondItem="VXl-cK-XyP" secondAttribute="bottom" constant="70" id="kJN-np-ShM"/>
                             <constraint firstItem="FdP-xl-Obj" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" id="p65-g5-Q1v"/>
                             <constraint firstItem="juU-Uj-SwR" firstAttribute="trailing" secondItem="VXl-cK-XyP" secondAttribute="trailing" constant="40" id="pH3-UM-FfB"/>
@@ -176,6 +192,9 @@
                         <viewLayoutGuide key="safeArea" id="juU-Uj-SwR"/>
                     </view>
                     <navigationItem key="navigationItem" id="EzI-i2-6jK"/>
+                    <connections>
+                        <outlet property="nickname" destination="6Ro-bh-pGP" id="EOW-11-hlh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aPz-0u-3s0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
