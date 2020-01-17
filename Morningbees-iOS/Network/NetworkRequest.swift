@@ -8,79 +8,102 @@
 
 import Foundation
 
-enum HTTPSMethod: String {
+enum Path: String {
+    case base = "https://api-morningbees.thragoo.com"
+    case validNickname = "/api/auth/valid_nickname"
+}
+
+enum HTTPMethod: String {
     case get = "GET"
     case post = "POST"
 }
 
-enum SubURL: String {
-    case validNickname = "/api/auth/valid_nickname"
-    case signUp = "/api/auth/sign_up"
-    case signIn = "/api/auth/sign_in"
+enum ResponseResult<T: Decodable> {
+    case success(T)
+    case failure(Error)
 }
 
-struct AssembleURL {
-    static let baseURLString = "https://api-morningbees.thragoo.com"
-    static func getURL<T>(subURL: SubURL, value: T) -> URL? {
-        if subURL == SubURL.validNickname {
-            var url: URL? {
-                var components = URLComponents(string: baseURLString)
-                components?.path = SubURL.validNickname.rawValue
-                components?.queryItems = [
-                    URLQueryItem(name: "nickname", value: "\(value)")
-                ]
-                return components?.url
-            }
-            return url
-        } else {
-            return URL(string: baseURLString)
-        }
+enum ResponseError: Error {
+    case unknown
+    case badRequest
+}
+
+protocol RequestModel {
+//
+    associatedtype ModelType: Decodable
+    var method: HTTPMethod { get set }
+    var path: Path { get set }
+}
+
+final class RequestSet {
+//
+    let method: HTTPMethod
+    let path: Path
+//    
+    init(
+        method: HTTPMethod,
+        path: Path
+    ) {
+        self.method = method
+        self.path = path
     }
 }
 
-final class NetworkRequest {
-    
-    //MARK: Fetch Request
-    
-    static func fetchData(url: URL?, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        guard let url = url else {
+final class Request<Model> where Model: Decodable {
+//
+    private let session: URLSession = {
+        let config = URLSessionConfiguration.default
+        return URLSession(configuration: config)
+    }()
+//
+    func request<T: Encodable>(req: RequestSet,
+                               param: T,
+                               completion: @escaping (Model?, Error?) -> Void) {
+        var urlComponents = URLComponents(string: Path.base.rawValue)
+        urlComponents?.path = req.path.rawValue
+//
+        if req.method == .get {
+            if let dicParam = param as? [String: String?] {
+                let items = dicParam.map { URLQueryItem(name: $0, value: $1) }
+                urlComponents?.queryItems = items
+            }
+        }
+//
+        guard let componentsURL = urlComponents?.url else {
+            completion(nil, ResponseError.unknown)
             return
         }
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPSMethod.get.rawValue
-        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: .main)
+        var request = URLRequest(url: componentsURL)
+        request.httpMethod = req.method.rawValue
+//
+        if req.method == .post {
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            guard let httpBody = try? encoder.encode(param) else {
+                completion(nil, ResponseError.unknown)
+                return
+            }
+            request.httpBody = httpBody
+        }
+//
         let dataTask = session.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 print("error: \(error)")
             } else {
                 guard let data = data else {
+                    completion(nil, ResponseError.unknown)
                     return
                 }
-                completionHandler(data, response, error)
-            }
-        }
-        dataTask.resume()
-    }
-    
-    //MARK: Upload Request
-    
-    static func uploadData(url: URL?,
-                           uploadData: Data,
-                           completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        guard let url = url else {
-            return
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPSMethod.post.rawValue
-        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: .main)
-        let dataTask = session.uploadTask(with: request, from: uploadData) { (data, response, error) in
-            if let error = error {
-                print("error: \(error)")
-            } else {
-                guard let data = data else {
+                guard let response = response as? HTTPURLResponse,
+                    (200...299).contains(response.statusCode) else {
+                        completion(nil, ResponseError.badRequest)
+                        return
+                }
+                guard let result = try? JSONDecoder().decode(Model.self, from: data) else {
+                    completion(nil, ResponseError.unknown)
                     return
                 }
-                completionHandler(data, response, error)
+                completion(result, nil)
             }
         }
         dataTask.resume()

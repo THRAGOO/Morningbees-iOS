@@ -22,6 +22,7 @@
 		B0747AA923AA349000100858 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B0747AA823AA349000100858 /* GoogleService-Info.plist */; };
 		B0747AAC23AA642C00100858 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0747AAB23AA642C00100858 /* NetworkRequest.swift */; };
 		B08EB50E23BB124300FE411F /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B08EB50D23BB124300FE411F /* ServerError.swift */; };
+		B0CC67AD23C9958C0083A012 /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC67AC23C9958C0083A012 /* CustomAlert.swift */; };
 		CE432C212390098F0005F257 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE432C202390098F0005F257 /* UIApplication+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +45,7 @@
 		B0747AA823AA349000100858 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B0747AAB23AA642C00100858 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		B08EB50D23BB124300FE411F /* ServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
+		B0CC67AC23C9958C0083A012 /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
 		B8A9D1B64CFCC0291249B172 /* Pods-Morningbees-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.release.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		CE432C202390098F0005F257 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		E6D244607548017DCD414837 /* Pods-Morningbees-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				7279EF83236EC61D005ECC81 /* AppDelegate.swift */,
 				7279EF85236EC61D005ECC81 /* SceneDelegate.swift */,
 				7254BF4A23A913940036D24D /* Logger.swift */,
+				B0CC67AC23C9958C0083A012 /* CustomAlert.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				7279EF88236EC61D005ECC81 /* SignInViewController.swift in Sources */,
 				7254BF4B23A913940036D24D /* Logger.swift in Sources */,
 				7279EF84236EC61D005ECC81 /* AppDelegate.swift in Sources */,
+				B0CC67AD23C9958C0083A012 /* CustomAlert.swift in Sources */,
 				B00115EF2387DAD9003A5E83 /* SignUpViewController.swift in Sources */,
 				7254BF4F23B658C00036D24D /* UIViewController+Extension.swift in Sources */,
 				CE432C212390098F0005F257 /* UIApplication+Extension.swift in Sources */,

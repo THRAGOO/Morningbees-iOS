@@ -12,8 +12,8 @@ enum ServerErrAlert: String {
     case title = "Server Error"
 }
 
-struct ServerError: Codable {
-    let timestamp: String
+struct ServerError: Decodable {
+    let timestamp: Int
     let status: Int
     let message: String
     let code: Int

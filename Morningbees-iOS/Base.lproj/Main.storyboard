@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PPN-b6-wYA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PPN-b6-wYA">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -24,7 +24,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="morningbeesPic" translatesAutoresizingMaskIntoConstraints="NO" id="YnH-ru-yWK">
-                                <rect key="frame" x="40" y="198" width="295" height="240"/>
+                                <rect key="frame" x="10" y="148" width="355" height="380"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ukd-it-K4E">
                                 <rect key="frame" x="40" y="528" width="295" height="50"/>
@@ -61,12 +61,12 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="eJr-ob-OA2" secondAttribute="bottom" constant="130" id="PMM-9g-DxV"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eJr-ob-OA2" secondAttribute="trailing" constant="40" id="VX0-lG-qwf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Ukd-it-K4E" secondAttribute="trailing" constant="40" id="f72-NU-Cfx"/>
-                            <constraint firstItem="YnH-ru-yWK" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="110" id="ryw-Fz-uHh"/>
-                            <constraint firstItem="Ukd-it-K4E" firstAttribute="top" secondItem="YnH-ru-yWK" secondAttribute="bottom" constant="90" id="sUM-P6-mR9"/>
+                            <constraint firstItem="YnH-ru-yWK" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="60" id="ryw-Fz-uHh"/>
+                            <constraint firstItem="Ukd-it-K4E" firstAttribute="top" secondItem="YnH-ru-yWK" secondAttribute="bottom" id="sUM-P6-mR9"/>
                             <constraint firstItem="eJr-ob-OA2" firstAttribute="top" secondItem="Ukd-it-K4E" secondAttribute="bottom" constant="20" id="sge-KY-aSG"/>
                             <constraint firstItem="Ukd-it-K4E" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="tMu-lo-0bB"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YnH-ru-yWK" secondAttribute="trailing" constant="40" id="w3Z-Rf-DAI"/>
-                            <constraint firstItem="YnH-ru-yWK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="wbK-k4-EcO"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YnH-ru-yWK" secondAttribute="trailing" constant="10" id="w3Z-Rf-DAI"/>
+                            <constraint firstItem="YnH-ru-yWK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="wbK-k4-EcO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -84,7 +84,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="VXl-cK-XyP">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VXl-cK-XyP">
                                 <rect key="frame" x="40" y="155" width="295" height="135"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
@@ -125,7 +125,7 @@
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="닉네임을 입력하세요." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="1T0-m1-IHG">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="닉네임을 입력하세요." textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1T0-m1-IHG">
                                 <rect key="frame" x="40" y="310" width="205" height="37"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
@@ -153,7 +153,7 @@
                                     <action selector="touchUpDisconnectNaver:" destination="am7-bX-keQ" eventType="touchUpInside" id="sdw-C7-YIQ"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="2-10자 (한글, 영어, 숫자)" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="iiR-1p-4HM">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="2-10자 (한글, 영어, 숫자)" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iiR-1p-4HM">
                                 <rect key="frame" x="40" y="407" width="132" height="30.333333333333314"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
@@ -220,6 +220,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="morningbeesPic" width="450" height="452"/>
+        <image name="morningbeesPic" width="780" height="780"/>
     </resources>
 </document>
