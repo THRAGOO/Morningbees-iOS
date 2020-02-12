@@ -17,9 +17,11 @@ final class SignUpViewController: UIViewController {
 
     private let naverSignInInstance = NaverThirdPartyLoginConnection.getSharedInstance()
     @IBOutlet private weak var nickname: UITextField!
+    @IBOutlet private weak var startBtn: UIButton!
+    @IBOutlet private weak var validComment: UITextView!
 
 //MARK:- Life Cycle
-//
+
     override func viewDidLoad() {
         nickname.delegate = self
     }
@@ -27,6 +29,8 @@ final class SignUpViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        startBtn.isHidden = true
+        validComment.isHidden = false
     }
 }
 
@@ -85,9 +89,9 @@ extension SignUpViewController {
     @IBAction private func touchUpDisconnectGoogle(_ sender: UIButton) {
         GIDSignIn.sharedInstance()?.disconnect()
     }
-//
+
     //MARK: Request Action
-//    
+    
     @IBAction private func touchUpVaildCheckButton(_ sender: UIButton) {
         guard let nickname = nickname.text else {
             return
@@ -116,38 +120,47 @@ extension SignUpViewController {
 //MARK:- Validation Request
 
 extension SignUpViewController: CustomAlert {
-//
+
     //MARK: Nickname Validation Check on Server
-//
+
     func isValidNicknameServer() {
-        DispatchQueue.main.async {
-            guard let nickname = self.nickname.text else {
-                return
-            }
-            let reqModel = ValidNicknameModel()
-            let request = RequestSet(method: reqModel.method,
-                                  path: reqModel.path)
-            let validNick = Request<ValidNickname>()
-            validNick.request(req: request, param: ["nickname": nickname]) { (validNickname, error) in
+        guard let nickname = self.nickname.text else {
+            return
+        }
+        let reqModel = ValidNicknameModel()
+        let request = RequestSet(method: reqModel.method,
+                                 path: reqModel.path)
+        let validNick = Request<ValidNickname>()
+        validNick.request(req: request, param: ["nickname": nickname]) { (validNickname, error) in
+            DispatchQueue.main.async {
                 guard let error = error else {
                     guard let validNickname = validNickname else {
                         self.presentOneBtnAlert(title: "Sorry", message: "Error ouccured! Please try again.")
+                        self.startBtn.isHidden = true
+                        self.validComment.isHidden = false
                         return
                     }
                     if validNickname.isValid == true {
                         self.presentOneBtnAlert(title: "Valid!", message: "You can use that nickname.")
+                        self.nickname.endEditing(true)
+                        self.startBtn.isHidden = false
+                        self.validComment.isHidden = true
                     } else {
                         self.presentOneBtnAlert(title: "Not valid!", message: "Please type another nickname.")
+                        self.startBtn.isHidden = true
+                        self.validComment.isHidden = false
                     }
                     return
                 }
                 self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                self.startBtn.isHidden = true
+                self.validComment.isHidden = false
             }
         }
     }
-//
+
     //MARK: Nickname Regulation Inspection
-//
+
     private func inspecNicknameReg(originText: String, filter: String = "[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ]") -> Bool {
         let regulation = try? NSRegularExpression(pattern: filter, options: [])
         let newText = regulation?.matches(in: originText,
@@ -160,11 +173,11 @@ extension SignUpViewController: CustomAlert {
         return true
     }
 }
-//
+
 //MARK: TextField length limit
-//
+
 extension SignUpViewController: UITextFieldDelegate {
-//
+
     func textField(_ textField: UITextField,
                    shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
@@ -172,5 +185,10 @@ extension SignUpViewController: UITextFieldDelegate {
         let prospectedText = (text as NSString).replacingCharacters(in: range, with: string)
         let length = prospectedText.count
         return length < 11
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.startBtn.isHidden = true
+        self.validComment.isHidden = false
     }
 }

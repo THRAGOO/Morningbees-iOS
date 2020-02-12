@@ -3,6 +3,7 @@ disabled_rules:
 - unused_optional_binding
 - mark
 - todo
+- trailing_whitespace
 
 included:
 

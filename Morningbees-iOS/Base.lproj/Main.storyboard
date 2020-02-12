@@ -164,6 +164,18 @@
                                 <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="12"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="중복 확인을 해주세요!" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FpY-ls-KxV">
+                                <rect key="frame" x="40" y="445.33333333333331" width="132" height="37"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32.670000000000002" id="GEu-Af-pQa"/>
+                                    <constraint firstAttribute="height" constant="37" id="IWF-7D-2Em"/>
+                                    <constraint firstAttribute="width" constant="132" id="m5g-fs-zc6"/>
+                                </constraints>
+                                <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -181,6 +193,7 @@
                             <constraint firstItem="yrq-Cc-Zfp" firstAttribute="height" secondItem="6Ro-bh-pGP" secondAttribute="height" id="Vh4-40-qUv"/>
                             <constraint firstItem="Tfp-Kp-SR7" firstAttribute="centerX" secondItem="7W7-8M-LH3" secondAttribute="centerX" id="Wz9-MA-m5C"/>
                             <constraint firstItem="njd-f2-RR1" firstAttribute="top" secondItem="Tfp-Kp-SR7" secondAttribute="bottom" constant="20" id="gB3-lV-w1d"/>
+                            <constraint firstItem="FpY-ls-KxV" firstAttribute="top" secondItem="iiR-1p-4HM" secondAttribute="bottom" constant="8" id="ixo-TZ-xz0"/>
                             <constraint firstItem="iiR-1p-4HM" firstAttribute="top" secondItem="6Ro-bh-pGP" secondAttribute="bottom" constant="8" id="joZ-fz-w2p"/>
                             <constraint firstItem="yrq-Cc-Zfp" firstAttribute="top" secondItem="VXl-cK-XyP" secondAttribute="bottom" constant="70" id="kJN-np-ShM"/>
                             <constraint firstItem="FdP-xl-Obj" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" id="p65-g5-Q1v"/>
@@ -188,12 +201,15 @@
                             <constraint firstItem="1T0-m1-IHG" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" constant="40" id="rqY-Oa-uVk"/>
                             <constraint firstItem="VXl-cK-XyP" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" constant="40" id="xQh-l1-DmE"/>
                             <constraint firstItem="juU-Uj-SwR" firstAttribute="trailing" secondItem="1T0-m1-IHG" secondAttribute="trailing" constant="130" id="y0U-He-cXz"/>
+                            <constraint firstItem="FpY-ls-KxV" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" constant="40" id="ysX-of-Zjw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="juU-Uj-SwR"/>
                     </view>
                     <navigationItem key="navigationItem" id="EzI-i2-6jK"/>
                     <connections>
                         <outlet property="nickname" destination="6Ro-bh-pGP" id="EOW-11-hlh"/>
+                        <outlet property="startBtn" destination="FdP-xl-Obj" id="pdA-jb-o5T"/>
+                        <outlet property="validComment" destination="FpY-ls-KxV" id="G3X-an-p9S"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aPz-0u-3s0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
