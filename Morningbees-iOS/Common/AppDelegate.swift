@@ -85,12 +85,15 @@ extension AppDelegate: GIDSignInDelegate {
                     fatalError("Not found the SignUpViewController")
         }
         
-        let accessToken = user.authentication.idToken
+        guard let accessToken = user.authentication.idToken else {
+            signInViewController.presentOneBtnAlert(title: "Error!", message: "Couldn't get accessToken.")
+            return
+        }
         let reqModel = SignInModel()
         let request = RequestSet(method: reqModel.method, path: reqModel.path)
-        let param: [String: String?] = [
+        let param: [String: String] = [
             "socialAccessToken": accessToken,
-            "provider": "google"
+            "provider": SignInProvider.google.rawValue
         ]
         let signInReq = Request<SignIn>()
         signInReq.request(req: request, param: param) { (signIn, error)  in
@@ -106,10 +109,7 @@ extension AppDelegate: GIDSignInDelegate {
                                                                                   animated: true)
                 }
             } else if signIn.type == 1 {
-                if signInViewController.accessToken == signIn.accessToken
-                    || signInViewController.refreshToken == signIn.refreshToken {
-                    // move to main view.
-                }
+                // move to main view.
             } else {
                 signInViewController.presentOneBtnAlert(title: "Error!", message: "Invalid Value.")
             }

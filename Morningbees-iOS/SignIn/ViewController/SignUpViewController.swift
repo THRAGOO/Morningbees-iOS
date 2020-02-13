@@ -29,8 +29,7 @@ final class SignUpViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        startBtn.isHidden = true
-        validComment.isHidden = false
+        nicknameUnavailSet()
     }
 }
 
@@ -136,25 +135,21 @@ extension SignUpViewController: CustomAlert {
                 guard let error = error else {
                     guard let validNickname = validNickname else {
                         self.presentOneBtnAlert(title: "Sorry", message: "Error ouccured! Please try again.")
-                        self.startBtn.isHidden = true
-                        self.validComment.isHidden = false
+                        self.nicknameUnavailSet()
                         return
                     }
                     if validNickname.isValid == true {
                         self.presentOneBtnAlert(title: "Valid!", message: "You can use that nickname.")
                         self.nickname.endEditing(true)
-                        self.startBtn.isHidden = false
-                        self.validComment.isHidden = true
+                        self.nicknameAvailSet()
                     } else {
                         self.presentOneBtnAlert(title: "Not valid!", message: "Please type another nickname.")
-                        self.startBtn.isHidden = true
-                        self.validComment.isHidden = false
+                        self.nicknameUnavailSet()
                     }
                     return
                 }
                 self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
-                self.startBtn.isHidden = true
-                self.validComment.isHidden = false
+                self.nicknameUnavailSet()
             }
         }
     }
@@ -172,6 +167,18 @@ extension SignUpViewController: CustomAlert {
         }
         return true
     }
+    
+    //MARK: Nickname Validation Status
+    
+    private func nicknameAvailSet() {
+        self.startBtn.isHidden = false
+        self.validComment.isHidden = true
+    }
+    
+    private func nicknameUnavailSet() {
+        self.startBtn.isHidden = true
+        self.validComment.isHidden = false
+    }
 }
 
 //MARK: TextField length limit
@@ -188,7 +195,6 @@ extension SignUpViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.startBtn.isHidden = true
-        self.validComment.isHidden = false
+        nicknameUnavailSet()
     }
 }

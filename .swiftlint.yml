@@ -4,6 +4,7 @@ disabled_rules:
 - mark
 - todo
 - trailing_whitespace
+- redundant_string_enum_value
 
 included:
 

@@ -16,8 +16,6 @@ final class SignInViewController: UIViewController {
 //MARK:- Properties
 
     private let naverSignInInstance = NaverThirdPartyLoginConnection.getSharedInstance()
-    var accessToken = ""
-    var refreshToken = ""
 
 //MARK:- Life Cycle
 
@@ -40,7 +38,8 @@ extension SignInViewController {
         DispatchQueue.main.async {
             guard let signUpViewController = self.storyboard?.instantiateViewController(
                 identifier: "SignUpViewController") as? SignUpViewController else {
-                    fatalError("Missing ViewController")
+                    print(String(describing: SignUpViewController.self))
+                    return
             }
             self.navigationController?.pushViewController(signUpViewController, animated: true)
         }
@@ -60,13 +59,15 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
     }
     
     func naverSignInRequest() {
-        let accessToken = naverSignInInstance?.accessToken
-        print(accessToken ?? "nil")
+        guard let accessToken = naverSignInInstance?.accessToken else {
+            self.presentOneBtnAlert(title: "Error!", message: "")
+            return
+        }
         let reqModel = SignInModel()
         let request = RequestSet(method: reqModel.method, path: reqModel.path)
-        let param: [String: String?] = [
+        let param: [String: String] = [
             "socialAccessToken": accessToken,
-            "provider": "naver"
+            "provider": SignInProvider.naver.rawValue
         ]
         let signInReq = Request<SignIn>()
         signInReq.request(req: request, param: param) { (signIn, error)  in
@@ -79,10 +80,7 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
             if signIn.type == 0 {
                 self.pushToSignUpViewController()
             } else if signIn.type == 1 {
-                if self.accessToken == signIn.accessToken
-                    || self.refreshToken == signIn.refreshToken {
-                    // move to main view.
-                }
+                // move to main view.
             } else {
                 self.presentOneBtnAlert(title: "Error!", message: "Invalid Value.")
             }

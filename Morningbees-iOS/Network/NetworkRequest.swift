@@ -10,8 +10,10 @@ import Foundation
 
 enum Path: String {
     case base = "https://api-morningbees.thragoo.com"
-    case validNickname = "/api/auth/valid_nickname"
+    
     case signIn = "/api/auth/sign_in"
+    case signUp = "/api/auth/sign_up"
+    case validNickname = "/api/auth/valid_nickname"
 }
 
 enum HTTPMethod: String {
@@ -22,6 +24,11 @@ enum HTTPMethod: String {
 enum ResponseError: Error {
     case unknown
     case badRequest
+}
+
+enum SignInProvider: String {
+    case naver = "naver"
+    case google = "google"
 }
 
 protocol RequestModel {
@@ -79,11 +86,8 @@ final class Request<Model> where Model: Decodable {
             if let error = error {
                 print("error: \(error)")
             }
-            guard let data = data else {
-                completion(nil, ResponseError.unknown)
-                return
-            }
-            guard let response = response as? HTTPURLResponse else {
+            guard let data = data,
+                let response = response as? HTTPURLResponse else {
                 completion(nil, ResponseError.unknown)
                 return
             }
