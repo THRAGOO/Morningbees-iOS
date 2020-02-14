@@ -65,13 +65,14 @@ final class Request<Model> where Model: Decodable {
         var urlComponents = URLComponents(string: Path.base.rawValue)
         urlComponents?.path = req.path.rawValue
         
-        //TODO: queryParams might be changed if httpMethod is POST.
-        if let queryParams = param as? [String: String] {
-            urlComponents?.queryItems = queryParams.map({ (key, value) -> URLQueryItem in
-                URLQueryItem(name: key, value: value)
-            })
+        if req.method == HTTPMethod.get {
+            if let queryParams = param as? [String: String] {
+                urlComponents?.queryItems = queryParams.map({ (key, value) -> URLQueryItem in
+                    URLQueryItem(name: key, value: value)
+                })
+            }
         }
-
+        
         guard let componentsURL = urlComponents?.url else {
             completion(nil, ResponseError.unknown)
             return
@@ -79,6 +80,15 @@ final class Request<Model> where Model: Decodable {
         var request = URLRequest(url: componentsURL)
         request.httpMethod = req.method.rawValue
         
+        if req.method == HTTPMethod.post {
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            guard let httpBody = try? encoder.encode(param) else {
+                completion(nil, ResponseError.unknown)
+                return
+            }
+            request.httpBody = httpBody
+        }
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
