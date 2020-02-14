@@ -29,7 +29,7 @@ final class SignUpViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        nicknameUnavailSet()
+        nicknameAvailableSet(false)
     }
 }
 
@@ -135,21 +135,21 @@ extension SignUpViewController: CustomAlert {
                 guard let error = error else {
                     guard let validNickname = validNickname else {
                         self.presentOneBtnAlert(title: "Sorry", message: "Error ouccured! Please try again.")
-                        self.nicknameUnavailSet()
+                        self.nicknameAvailableSet(false)
                         return
                     }
                     if validNickname.isValid == true {
                         self.presentOneBtnAlert(title: "Valid!", message: "You can use that nickname.")
                         self.nickname.endEditing(true)
-                        self.nicknameAvailSet()
+                        self.nicknameAvailableSet(true)
                     } else {
                         self.presentOneBtnAlert(title: "Not valid!", message: "Please type another nickname.")
-                        self.nicknameUnavailSet()
+                        self.nicknameAvailableSet(false)
                     }
                     return
                 }
                 self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
-                self.nicknameUnavailSet()
+                self.nicknameAvailableSet(false)
             }
         }
     }
@@ -170,14 +170,9 @@ extension SignUpViewController: CustomAlert {
     
     //MARK: Nickname Validation Status
     
-    private func nicknameAvailSet() {
-        self.startBtn.isHidden = false
-        self.validComment.isHidden = true
-    }
-    
-    private func nicknameUnavailSet() {
-        self.startBtn.isHidden = true
-        self.validComment.isHidden = false
+    private func nicknameAvailableSet(_ state: Bool) {
+        self.startBtn.isHidden = !state
+        self.validComment.isHidden = state
     }
 }
 
@@ -195,6 +190,6 @@ extension SignUpViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        nicknameUnavailSet()
+        nicknameAvailableSet(false)
     }
 }
