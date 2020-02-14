@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum SignInProvider: String {
+    case naver = "naver"
+    case google = "google"
+}
+
 struct SignInModel: RequestModel {
     typealias ModelType = SignIn
     var method: HTTPMethod = .post

@@ -26,11 +26,6 @@ enum ResponseError: Error {
     case badRequest
 }
 
-enum SignInProvider: String {
-    case naver = "naver"
-    case google = "google"
-}
-
 protocol RequestModel {
 
     associatedtype ModelType: Decodable
