@@ -18,6 +18,7 @@
 		7279EF8D236EC623005ECC81 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7279EF8C236EC623005ECC81 /* Assets.xcassets */; };
 		7279EF90236EC623005ECC81 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7279EF8E236EC623005ECC81 /* LaunchScreen.storyboard */; };
 		B00115EF2387DAD9003A5E83 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00115EE2387DAD9003A5E83 /* SignUpViewController.swift */; };
+		B020492423D73E2F00B41003 /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B020492323D73E2F00B41003 /* SignIn.swift */; };
 		B0449EAB23B5D41E0079D816 /* VaildNickname.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0449EAA23B5D41E0079D816 /* VaildNickname.swift */; };
 		B0747AA923AA349000100858 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B0747AA823AA349000100858 /* GoogleService-Info.plist */; };
 		B0747AAC23AA642C00100858 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0747AAB23AA642C00100858 /* NetworkRequest.swift */; };
@@ -41,6 +42,7 @@
 		7279EF91236EC623005ECC81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B00115ED2386E6F2003A5E83 /* NanumBarunGothicBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = NanumBarunGothicBold.ttf; path = "/Users/iiwiigen/Desktop/Morningbees-iOS/Morningbees-iOS/NanumBarunGothicBold.ttf"; sourceTree = "<absolute>"; };
 		B00115EE2387DAD9003A5E83 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		B020492323D73E2F00B41003 /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
 		B0449EAA23B5D41E0079D816 /* VaildNickname.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaildNickname.swift; sourceTree = "<group>"; };
 		B0747AA823AA349000100858 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B0747AAB23AA642C00100858 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			children = (
 				B0449EAA23B5D41E0079D816 /* VaildNickname.swift */,
 				B08EB50D23BB124300FE411F /* ServerError.swift */,
+				B020492323D73E2F00B41003 /* SignIn.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 				7254BF4B23A913940036D24D /* Logger.swift in Sources */,
 				7279EF84236EC61D005ECC81 /* AppDelegate.swift in Sources */,
 				B0CC67AD23C9958C0083A012 /* CustomAlert.swift in Sources */,
+				B020492423D73E2F00B41003 /* SignIn.swift in Sources */,
 				B00115EF2387DAD9003A5E83 /* SignUpViewController.swift in Sources */,
 				7254BF4F23B658C00036D24D /* UIViewController+Extension.swift in Sources */,
 				CE432C212390098F0005F257 /* UIApplication+Extension.swift in Sources */,
@@ -483,6 +487,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VR3562V4X6;
 				INFOPLIST_FILE = "Morningbees-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -502,6 +507,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VR3562V4X6;
 				INFOPLIST_FILE = "Morningbees-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

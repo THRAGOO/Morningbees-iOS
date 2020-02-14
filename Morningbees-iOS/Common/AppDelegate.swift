@@ -75,7 +75,6 @@ extension AppDelegate: GIDSignInDelegate {
         print("[Error] :", error.localizedDescription)
             return
         }
-        print("[Success] : SignIn with Google")
 
         //TODO: We have to manage the storyboard separately. (Enum)
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -85,8 +84,37 @@ extension AppDelegate: GIDSignInDelegate {
                 withIdentifier: "\(SignUpViewController.self)") as? SignUpViewController else {
                     fatalError("Not found the SignUpViewController")
         }
-
-        signInViewController.navigationController?.pushViewController(signUpViewController, animated: true)
+        
+        guard let accessToken = user.authentication.idToken else {
+            signInViewController.presentOneBtnAlert(title: "Error!", message: "Couldn't get accessToken.")
+            return
+        }
+        let reqModel = SignInModel()
+        let request = RequestSet(method: reqModel.method, path: reqModel.path)
+        let param: [String: String] = [
+            "socialAccessToken": accessToken,
+            "provider": SignInProvider.google.rawValue
+        ]
+        let signInReq = Request<SignIn>()
+        signInReq.request(req: request, param: param) { (signIn, error)  in
+            if let error = error {
+                signInViewController.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+            }
+            guard let signIn = signIn else {
+                return
+            }
+            if signIn.type == 0 {
+                DispatchQueue.main.async {
+                    signInViewController.navigationController?.pushViewController(signUpViewController,
+                                                                                  animated: true)
+                }
+            } else if signIn.type == 1 {
+                // move to main view.
+            } else {
+                signInViewController.presentOneBtnAlert(title: "Error!", message: "Invalid Value.")
+            }
+            return
+        }
     }
 
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
@@ -94,13 +122,11 @@ extension AppDelegate: GIDSignInDelegate {
             print("[Error] :", error.localizedDescription)
             return
         }
-        print("[Success] : Disconnect with Google")
 
         guard let navigationController =
             UIApplication.shared.keyWindow?.rootViewController as? UINavigationController else {
                 fatalError("Not found the navigationController")
         }
-
         navigationController.popViewController(animated: true)
     }
 }

@@ -35,12 +35,14 @@ final class SignInViewController: UIViewController {
 extension SignInViewController {
 
     private func pushToSignUpViewController() {
-        guard let signUpViewController = self.storyboard?.instantiateViewController(
-            identifier: "SignUpViewController") as? SignUpViewController else {
-                fatalError("Missing ViewController")
+        DispatchQueue.main.async {
+            guard let signUpViewController = self.storyboard?.instantiateViewController(
+                identifier: "SignUpViewController") as? SignUpViewController else {
+                    print(String(describing: SignUpViewController.self))
+                    return
+            }
+            self.navigationController?.pushViewController(signUpViewController, animated: true)
         }
-
-        navigationController?.pushViewController(signUpViewController, animated: true)
     }
 }
 
@@ -49,13 +51,41 @@ extension SignInViewController {
 extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
 
     func oauth20ConnectionDidFinishRequestACTokenWithAuthCode() {
-        print("[Success] : SignIn with Naver")
-        pushToSignUpViewController()
+        naverSignInRequest()
     }
 
     func oauth20ConnectionDidFinishRequestACTokenWithRefreshToken() {
-        print("[Success] : refresh token")
-        pushToSignUpViewController()
+        naverSignInRequest()
+    }
+    
+    func naverSignInRequest() {
+        guard let accessToken = naverSignInInstance?.accessToken else {
+            self.presentOneBtnAlert(title: "Error!", message: "")
+            return
+        }
+        let reqModel = SignInModel()
+        let request = RequestSet(method: reqModel.method, path: reqModel.path)
+        let param: [String: String] = [
+            "socialAccessToken": accessToken,
+            "provider": SignInProvider.naver.rawValue
+        ]
+        let signInReq = Request<SignIn>()
+        signInReq.request(req: request, param: param) { (signIn, error)  in
+            if let error = error {
+                self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+            }
+            guard let signIn = signIn else {
+                return
+            }
+            if signIn.type == 0 {
+                self.pushToSignUpViewController()
+            } else if signIn.type == 1 {
+                // move to main view.
+            } else {
+                self.presentOneBtnAlert(title: "Error!", message: "Invalid Value.")
+            }
+            return
+        }
     }
 
     func oauth20ConnectionDidFinishDeleteToken() {
@@ -75,7 +105,7 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
 
 //MARK:- SignIn with Google
 
-extension SignInViewController {
+extension SignInViewController: CustomAlert {
 
     //MARK: Action
 

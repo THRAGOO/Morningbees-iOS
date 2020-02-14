@@ -3,6 +3,8 @@ disabled_rules:
 - unused_optional_binding
 - mark
 - todo
+- trailing_whitespace
+- redundant_string_enum_value
 
 included:
 
