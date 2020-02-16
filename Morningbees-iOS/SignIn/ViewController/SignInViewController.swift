@@ -44,6 +44,17 @@ extension SignInViewController {
             self.navigationController?.pushViewController(signUpViewController, animated: true)
         }
     }
+    
+    private func pushToBeeViewController() {
+        DispatchQueue.main.async {
+            guard let beeViewController = self.storyboard?.instantiateViewController(
+                identifier: "BeeViewController") as? BeeViewController else {
+                    print(String(describing: BeeViewController.self))
+                    return
+            }
+            self.navigationController?.pushViewController(beeViewController, animated: true)
+        }
+    }
 }
 
 //MARK:- SignIn with Naver
@@ -78,11 +89,43 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
                 return
             }
             if signIn.type == 0 {
+                SignUpViewController.provider = "naver"
                 self.pushToSignUpViewController()
             } else if signIn.type == 1 {
-                // move to main view.
+                
+                //MARK: KeyChain
+                
+                let queryToDelete: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
+                                            kSecAttrServer as String: Path.base.rawValue]
+                let deleteStatus = SecItemDelete(queryToDelete as CFDictionary)
+                guard deleteStatus == errSecSuccess ||
+                    deleteStatus == errSecItemNotFound else {
+                        self.presentOneBtnAlert(
+                            title: "Error!",
+                            message: KeychainError.unhandledError(status: deleteStatus).localizedDescription)
+                        return
+                }
+                
+                let credentials = Credentials.init(accessToken: signIn.accessToken, refreshToken: signIn.refreshToken)
+                guard let accessTokenData = credentials.accessToken.data(using: String.Encoding.utf8),
+                    let refreshTokenData = credentials.refreshToken.data(using: String.Encoding.utf8) else {
+                        self.presentOneBtnAlert(title: "Error!", message: "Couldn't encode Token.")
+                        return
+                }
+                let attributes: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
+                                                 kSecAttrServer as String: Path.base.rawValue,
+                                                 kSecAttrAccount as String: refreshTokenData,
+                                                 kSecValueData as String: accessTokenData]
+                let addStatus = SecItemAdd(attributes as CFDictionary, nil)
+                guard addStatus == errSecSuccess else {
+                    self.presentOneBtnAlert(
+                        title: "Error!",
+                        message: KeychainError.unhandledError(status: addStatus).localizedDescription)
+                    return
+                }
+                self.pushToBeeViewController()
             } else {
-                self.presentOneBtnAlert(title: "Error!", message: "Invalid Value.")
+                self.presentOneBtnAlert(title: "Error!", message: "Invalid Value(Type).")
             }
             return
         }
@@ -92,7 +135,7 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
     }
 
     func oauth20Connection(_ oauthConnection: NaverThirdPartyLoginConnection!, didFailWithError error: Error!) {
-        print("[Error] :", error.localizedDescription)
+        presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
     }
 
     //MARK: Action

@@ -24,6 +24,9 @@
 		B0747AAC23AA642C00100858 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0747AAB23AA642C00100858 /* NetworkRequest.swift */; };
 		B08EB50E23BB124300FE411F /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B08EB50D23BB124300FE411F /* ServerError.swift */; };
 		B0CC67AD23C9958C0083A012 /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC67AC23C9958C0083A012 /* CustomAlert.swift */; };
+		B0CC882C23F6A33500B3131E /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC882B23F6A33500B3131E /* SignUp.swift */; };
+		B0CC882F23F81B8700B3131E /* KeychainItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC882E23F81B8700B3131E /* KeychainItems.swift */; };
+		B0CC883323F827DD00B3131E /* BeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC883223F827DD00B3131E /* BeeViewController.swift */; };
 		CE432C212390098F0005F257 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE432C202390098F0005F257 /* UIApplication+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +51,9 @@
 		B0747AAB23AA642C00100858 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		B08EB50D23BB124300FE411F /* ServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
 		B0CC67AC23C9958C0083A012 /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
+		B0CC882B23F6A33500B3131E /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
+		B0CC882E23F81B8700B3131E /* KeychainItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItems.swift; sourceTree = "<group>"; };
+		B0CC883223F827DD00B3131E /* BeeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeViewController.swift; sourceTree = "<group>"; };
 		B8A9D1B64CFCC0291249B172 /* Pods-Morningbees-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.release.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		CE432C202390098F0005F257 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		E6D244607548017DCD414837 /* Pods-Morningbees-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -105,6 +111,8 @@
 		7279EF82236EC61D005ECC81 /* Morningbees-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				B0CC883023F8279200B3131E /* Main */,
+				B0CC882D23F81B6C00B3131E /* Keychain */,
 				B0449EA923B5D3C00079D816 /* Model */,
 				B0747AAA23AA63CF00100858 /* Network */,
 				CE432C2223900DFE0005F257 /* SignIn */,
@@ -125,6 +133,7 @@
 				B0449EAA23B5D41E0079D816 /* VaildNickname.swift */,
 				B08EB50D23BB124300FE411F /* ServerError.swift */,
 				B020492323D73E2F00B41003 /* SignIn.swift */,
+				B0CC882B23F6A33500B3131E /* SignUp.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -142,6 +151,30 @@
 			children = (
 				7279EF87236EC61D005ECC81 /* SignInViewController.swift */,
 				B00115EE2387DAD9003A5E83 /* SignUpViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		B0CC882D23F81B6C00B3131E /* Keychain */ = {
+			isa = PBXGroup;
+			children = (
+				B0CC882E23F81B8700B3131E /* KeychainItems.swift */,
+			);
+			path = Keychain;
+			sourceTree = "<group>";
+		};
+		B0CC883023F8279200B3131E /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				B0CC883123F827A600B3131E /* ViewController */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		B0CC883123F827A600B3131E /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B0CC883223F827DD00B3131E /* BeeViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -328,6 +361,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0CC882F23F81B8700B3131E /* KeychainItems.swift in Sources */,
 				7279EF88236EC61D005ECC81 /* SignInViewController.swift in Sources */,
 				7254BF4B23A913940036D24D /* Logger.swift in Sources */,
 				7279EF84236EC61D005ECC81 /* AppDelegate.swift in Sources */,
@@ -339,6 +373,8 @@
 				B0747AAC23AA642C00100858 /* NetworkRequest.swift in Sources */,
 				B08EB50E23BB124300FE411F /* ServerError.swift in Sources */,
 				7279EF86236EC61D005ECC81 /* SceneDelegate.swift in Sources */,
+				B0CC882C23F6A33500B3131E /* SignUp.swift in Sources */,
+				B0CC883323F827DD00B3131E /* BeeViewController.swift in Sources */,
 				B0449EAB23B5D41E0079D816 /* VaildNickname.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -81,7 +81,9 @@ extension AppDelegate: GIDSignInDelegate {
         guard let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController,
             let signInViewController = navigationController.topViewController as? SignInViewController,
             let signUpViewController = mainStoryboard.instantiateViewController(
-                withIdentifier: "\(SignUpViewController.self)") as? SignUpViewController else {
+                withIdentifier: "\(SignUpViewController.self)") as? SignUpViewController,
+            let beeViewController = mainStoryboard.instantiateViewController(
+                withIdentifier: "\(BeeViewController.self)") as? BeeViewController else {
                     fatalError("Not found the SignUpViewController")
         }
         
@@ -105,28 +107,59 @@ extension AppDelegate: GIDSignInDelegate {
             }
             if signIn.type == 0 {
                 DispatchQueue.main.async {
+                    SignUpViewController.provider = "google"
                     signInViewController.navigationController?.pushViewController(signUpViewController,
                                                                                   animated: true)
                 }
             } else if signIn.type == 1 {
-                // move to main view.
-            } else {
-                signInViewController.presentOneBtnAlert(title: "Error!", message: "Invalid Value.")
+                
+                //MARK: KeyChain
+                    
+                let queryToDelete: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
+                                                    kSecAttrServer as String: Path.base.rawValue]
+                let deleteStatus = SecItemDelete(queryToDelete as CFDictionary)
+                guard deleteStatus == errSecSuccess ||
+                    deleteStatus == errSecItemNotFound else {
+                        signInViewController.presentOneBtnAlert(
+                            title: "Error!",
+                            message: KeychainError.unhandledError(status: deleteStatus).localizedDescription)
+                        return
+                }
+                
+                let credentials = Credentials.init(accessToken: signIn.accessToken, refreshToken: signIn.refreshToken)
+                guard let accessTokenData = credentials.accessToken.data(using: String.Encoding.utf8),
+                    let refreshTokenData = credentials.refreshToken.data(using: String.Encoding.utf8) else {
+                        signInViewController.presentOneBtnAlert(title: "Error!", message: "Couldn't encode Token.")
+                        return
+                }
+                let tokenQuery: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
+                                                 kSecAttrServer as String: Path.base.rawValue,
+                                                 kSecAttrAccount as String: refreshTokenData,
+                                                 kSecValueData as String: accessTokenData]
+                let addStatus = SecItemAdd(tokenQuery as CFDictionary, nil)
+                guard addStatus == errSecSuccess else {
+                    signInViewController.presentOneBtnAlert(
+                        title: "Error!", message: KeychainError.unhandledError(status: addStatus).localizedDescription)
+                    return
+                }
+                DispatchQueue.main.async {
+                    signInViewController.navigationController?.pushViewController(beeViewController, animated: true)
+                }
             }
-            return
         }
     }
 
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController,
+            let signUpViewController = mainStoryboard.instantiateViewController(
+                withIdentifier: "\(SignUpViewController.self)") as? SignUpViewController else {
+                    fatalError("Not found the SignUpViewController")
+        }
         if let error = error {
-            print("[Error] :", error.localizedDescription)
+            signUpViewController.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
             return
         }
-
-        guard let navigationController =
-            UIApplication.shared.keyWindow?.rootViewController as? UINavigationController else {
-                fatalError("Not found the navigationController")
-        }
-        navigationController.popViewController(animated: true)
+        navigationController.popToRootViewController(animated: true)
     }
 }

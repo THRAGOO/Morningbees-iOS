@@ -16,6 +16,8 @@ final class SignUpViewController: UIViewController {
 //MARK:- Properties
 
     private let naverSignInInstance = NaverThirdPartyLoginConnection.getSharedInstance()
+    static var provider: String = ""
+    
     @IBOutlet private weak var nickname: UITextField!
     @IBOutlet private weak var startBtn: UIButton!
     @IBOutlet private weak var validComment: UITextView!
@@ -33,61 +35,7 @@ final class SignUpViewController: UIViewController {
     }
 }
 
-//MARK:- Navigation Control
-
 extension SignUpViewController {
-
-    private func popToSignInViewContoller() {
-        navigationController?.popViewController(animated: true)
-    }
-}
-
-//MARK:- SignOut Naver
-
-extension SignUpViewController: NaverThirdPartyLoginConnectionDelegate {
-    func oauth20ConnectionDidFinishRequestACTokenWithAuthCode() {
-    }
-
-    func oauth20ConnectionDidFinishRequestACTokenWithRefreshToken() {
-    }
-
-    func oauth20ConnectionDidFinishDeleteToken() {
-        print("[Success] : Disconnect with Naver")
-        popToSignInViewContoller()
-    }
-
-    func oauth20Connection(_ oauthConnection: NaverThirdPartyLoginConnection!, didFailWithError error: Error!) {
-        print("[Error] :", error.localizedDescription)
-    }
-
-    //MARK: Action
-
-    @IBAction private func touchUpSignOutNaver(_ sender: UIButton) {
-        naverSignInInstance?.delegate = self
-        naverSignInInstance?.resetToken()
-        popToSignInViewContoller()
-    }
-
-    @IBAction private func touchUpDisconnectNaver(_ sender: UIButton) {
-        naverSignInInstance?.delegate = self
-        naverSignInInstance?.requestDeleteToken()
-    }
-}
-
-//MARK:- SignOut Google
-
-extension SignUpViewController {
-
-    //MARK: Action
-
-    @IBAction private func touchUpSignOutGoogle(_ sender: UIButton) {
-        GIDSignIn.sharedInstance()?.signOut()
-        popToSignInViewContoller()
-    }
-
-    @IBAction private func touchUpDisconnectGoogle(_ sender: UIButton) {
-        GIDSignIn.sharedInstance()?.disconnect()
-    }
 
     //MARK: Request Action
     
@@ -191,5 +139,85 @@ extension SignUpViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         nicknameAvailableSet(false)
+    }
+}
+
+//MARK:- SignUp Request
+
+extension SignUpViewController {
+    
+    private func signUpRequest(_ socialAccessToken: String, _ provider: String) {
+        guard let nickname = nickname.text else {
+            self.presentOneBtnAlert(title: "Error!", message: "Couldn't get nickname")
+            return
+        }
+        let reqModel = SignUpModel()
+        let request = RequestSet(method: reqModel.method, path: reqModel.path)
+        let param: [String: String] = [
+            "socialAccessToken": socialAccessToken,
+            "provider": provider,
+            "nickname": nickname
+        ]
+        let signUpReq = Request<SignUp>()
+        signUpReq.request(req: request, param: param) { (signUp, error)  in
+            if let error = error {
+                self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+            }
+            guard let signUp = signUp else {
+                return
+            }
+            
+            //MARK: KeyChain
+            
+            let credentials = Credentials.init(accessToken: signUp.accessToken, refreshToken: signUp.refreshToken)
+            guard let accessTokenData = credentials.accessToken.data(using: String.Encoding.utf8),
+                let refreshTokenData = credentials.refreshToken.data(using: String.Encoding.utf8) else {
+                    return
+            }
+            let tokenQuery: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
+                                        kSecAttrServer as String: Path.base.rawValue,
+                                        kSecAttrAccount as String: refreshTokenData,
+                                        kSecValueData as String: accessTokenData]
+            let addStatus = SecItemAdd(tokenQuery as CFDictionary, nil)
+            guard addStatus == errSecSuccess else {
+                self.presentOneBtnAlert(title: "Error",
+                                        message: KeychainError.unhandledError(status: addStatus).localizedDescription)
+                return
+            }
+        }
+        pushToBeeViewController()
+    }
+    
+    @IBAction private func touchUpStartBtn(_ sender: UIButton) {
+        switch SignUpViewController.provider {
+        case "naver":
+            guard let naverAccessToken = naverSignInInstance?.accessToken else {
+                return
+            }
+            signUpRequest(naverAccessToken, "naver")
+        case "google":
+            guard let googleAccessToken = GIDSignIn.sharedInstance()?.currentUser.authentication.idToken else {
+                return
+            }
+            signUpRequest(googleAccessToken, "google")
+        default:
+            presentOneBtnAlert(title: "Error", message: "fail on getting provider")
+        }
+    }
+}
+
+//MARK:- Navigation Control
+
+extension SignUpViewController {
+    
+    private func pushToBeeViewController() {
+        DispatchQueue.main.async {
+            guard let beeViewController = self.storyboard?.instantiateViewController(
+                identifier: "BeeViewController") as? BeeViewController else {
+                    print(String(describing: BeeViewController.self))
+                    return
+            }
+            self.navigationController?.pushViewController(beeViewController, animated: true)
+        }
     }
 }
