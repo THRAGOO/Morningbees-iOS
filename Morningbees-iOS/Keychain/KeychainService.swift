@@ -58,7 +58,7 @@ final class KeychainService {
     
     static func deleteKeychainToken(completion: @escaping (Error?) -> Void) {
         let queryToDelete: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
-                                    kSecAttrServer as String: Path.base.rawValue]
+                                            kSecAttrServer as String: Path.base.rawValue]
         let deleteStatus = SecItemDelete(queryToDelete as CFDictionary)
         guard deleteStatus == errSecSuccess ||
             deleteStatus == errSecItemNotFound else {

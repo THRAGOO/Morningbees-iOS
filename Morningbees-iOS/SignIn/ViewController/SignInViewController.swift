@@ -41,8 +41,8 @@ extension SignInViewController {
                     print(String(describing: SignUpViewController.self))
                     return
             }
-            self.navigationController?.pushViewController(signUpViewController, animated: true)
             signUpViewController.provider = SignInProvider.naver.rawValue
+            self.navigationController?.pushViewController(signUpViewController, animated: true)
         }
     }
     
