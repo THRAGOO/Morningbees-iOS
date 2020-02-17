@@ -122,8 +122,11 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="25"/>
                                 <state key="normal" title="시작하기">
-                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="touchUpStartBtn:" destination="am7-bX-keQ" eventType="touchUpInside" id="DtO-ze-qEk"/>
+                                </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="닉네임을 입력하세요." textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1T0-m1-IHG">
                                 <rect key="frame" x="40" y="310" width="205" height="37"/>
@@ -135,24 +138,6 @@
                                 <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="22"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tfp-Kp-SR7">
-                                <rect key="frame" x="152.66666666666666" y="549" width="70" height="36"/>
-                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
-                                <state key="normal" title="로그아웃"/>
-                                <connections>
-                                    <action selector="touchUpSignOutGoogle:" destination="am7-bX-keQ" eventType="touchUpInside" id="XN6-fp-ale"/>
-                                    <action selector="touchUpSignOutNaver:" destination="am7-bX-keQ" eventType="touchUpInside" id="hH6-fS-8bQ"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="njd-f2-RR1">
-                                <rect key="frame" x="150" y="605" width="75" height="36"/>
-                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
-                                <state key="normal" title="회원 탈퇴"/>
-                                <connections>
-                                    <action selector="touchUpDisconnectGoogle:" destination="am7-bX-keQ" eventType="touchUpInside" id="w0W-KM-zAd"/>
-                                    <action selector="touchUpDisconnectNaver:" destination="am7-bX-keQ" eventType="touchUpInside" id="sdw-C7-YIQ"/>
-                                </connections>
-                            </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="2-10자 (한글, 영어, 숫자)" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iiR-1p-4HM">
                                 <rect key="frame" x="40" y="407" width="132" height="30.333333333333314"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -186,13 +171,9 @@
                             <constraint firstItem="yrq-Cc-Zfp" firstAttribute="leading" secondItem="6Ro-bh-pGP" secondAttribute="trailing" constant="8" id="HRH-5h-dqb"/>
                             <constraint firstItem="1T0-m1-IHG" firstAttribute="top" secondItem="VXl-cK-XyP" secondAttribute="bottom" constant="20" id="HZN-B4-Gil"/>
                             <constraint firstItem="juU-Uj-SwR" firstAttribute="bottom" secondItem="FdP-xl-Obj" secondAttribute="bottom" constant="12" id="IzD-0A-TjW"/>
-                            <constraint firstItem="njd-f2-RR1" firstAttribute="centerX" secondItem="7W7-8M-LH3" secondAttribute="centerX" id="MMG-a3-gMr"/>
-                            <constraint firstItem="Tfp-Kp-SR7" firstAttribute="top" secondItem="6Ro-bh-pGP" secondAttribute="bottom" constant="150" id="Qde-Qc-tVu"/>
                             <constraint firstItem="FdP-xl-Obj" firstAttribute="trailing" secondItem="juU-Uj-SwR" secondAttribute="trailing" id="Uyu-RG-45t"/>
                             <constraint firstItem="6Ro-bh-pGP" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" constant="40" id="V8k-3i-pqG"/>
                             <constraint firstItem="yrq-Cc-Zfp" firstAttribute="height" secondItem="6Ro-bh-pGP" secondAttribute="height" id="Vh4-40-qUv"/>
-                            <constraint firstItem="Tfp-Kp-SR7" firstAttribute="centerX" secondItem="7W7-8M-LH3" secondAttribute="centerX" id="Wz9-MA-m5C"/>
-                            <constraint firstItem="njd-f2-RR1" firstAttribute="top" secondItem="Tfp-Kp-SR7" secondAttribute="bottom" constant="20" id="gB3-lV-w1d"/>
                             <constraint firstItem="FpY-ls-KxV" firstAttribute="top" secondItem="iiR-1p-4HM" secondAttribute="bottom" constant="8" id="ixo-TZ-xz0"/>
                             <constraint firstItem="iiR-1p-4HM" firstAttribute="top" secondItem="6Ro-bh-pGP" secondAttribute="bottom" constant="8" id="joZ-fz-w2p"/>
                             <constraint firstItem="yrq-Cc-Zfp" firstAttribute="top" secondItem="VXl-cK-XyP" secondAttribute="bottom" constant="70" id="kJN-np-ShM"/>
@@ -233,6 +214,97 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ft4-ir-Qus" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1319" y="137"/>
+        </scene>
+        <!--Bee View Controller-->
+        <scene sceneID="iap-E1-LYW">
+            <objects>
+                <viewController storyboardIdentifier="BeeViewController" id="H7T-eX-N3b" customClass="BeeViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1XS-8L-pQQ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wgX-xh-BDC">
+                                <rect key="frame" x="152.66666666666666" y="642" width="70" height="36"/>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
+                                <state key="normal" title="로그아웃"/>
+                                <connections>
+                                    <action selector="touchUpSignOutGoogle:" destination="H7T-eX-N3b" eventType="touchUpInside" id="Gd7-rT-0Jc"/>
+                                    <action selector="touchUpSignOutNaver:" destination="H7T-eX-N3b" eventType="touchUpInside" id="Dnd-qS-KO8"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="This View is going to be Main View." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="uKi-YE-mC3">
+                                <rect key="frame" x="20" y="134" width="235" height="118"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="235" id="tPj-q9-GMV"/>
+                                    <constraint firstAttribute="height" constant="118" id="xOq-n8-j0i"/>
+                                </constraints>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="29"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cC9-NB-MlI">
+                                <rect key="frame" x="70" y="301" width="235" height="118"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="118" id="Jdg-dm-cnv"/>
+                                    <constraint firstAttribute="width" constant="235" id="OHn-je-vq1"/>
+                                </constraints>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="10"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="xg7-cN-j1b">
+                                <rect key="frame" x="70" y="456" width="235" height="118"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="118" id="NhG-jw-wfk"/>
+                                    <constraint firstAttribute="width" constant="235" id="Zs3-Zl-myy"/>
+                                </constraints>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="10"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AccessToken" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7qb-eH-zHK">
+                                <rect key="frame" x="70" y="272" width="100" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RefreshToken" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v9b-W4-No5">
+                                <rect key="frame" x="70" y="427" width="104" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="det-oh-XxK" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="v9b-W4-No5" secondAttribute="trailing" id="3YB-ar-bdx"/>
+                            <constraint firstItem="cC9-NB-MlI" firstAttribute="centerX" secondItem="1XS-8L-pQQ" secondAttribute="centerX" id="4Nm-M3-pMr"/>
+                            <constraint firstItem="wgX-xh-BDC" firstAttribute="centerX" secondItem="1XS-8L-pQQ" secondAttribute="centerX" id="4r1-T1-vPl"/>
+                            <constraint firstItem="v9b-W4-No5" firstAttribute="top" secondItem="cC9-NB-MlI" secondAttribute="bottom" constant="8" id="IUC-qL-r9B"/>
+                            <constraint firstItem="uKi-YE-mC3" firstAttribute="top" secondItem="det-oh-XxK" secondAttribute="top" constant="90" id="K9S-Of-DCd"/>
+                            <constraint firstItem="xg7-cN-j1b" firstAttribute="centerX" secondItem="1XS-8L-pQQ" secondAttribute="centerX" id="Ml7-Dc-sBs"/>
+                            <constraint firstItem="v9b-W4-No5" firstAttribute="leading" secondItem="det-oh-XxK" secondAttribute="leading" constant="70" id="Swg-wQ-4wZ"/>
+                            <constraint firstItem="cC9-NB-MlI" firstAttribute="top" secondItem="7qb-eH-zHK" secondAttribute="bottom" constant="8" id="XJW-dd-pb8"/>
+                            <constraint firstItem="det-oh-XxK" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7qb-eH-zHK" secondAttribute="trailing" id="YVJ-6l-0Wh"/>
+                            <constraint firstItem="7qb-eH-zHK" firstAttribute="leading" secondItem="det-oh-XxK" secondAttribute="leading" constant="70" id="YjS-S7-PIS"/>
+                            <constraint firstItem="xg7-cN-j1b" firstAttribute="top" secondItem="v9b-W4-No5" secondAttribute="bottom" constant="8" id="cJT-Kf-ZKb"/>
+                            <constraint firstItem="det-oh-XxK" firstAttribute="bottom" secondItem="wgX-xh-BDC" secondAttribute="bottom" constant="100" id="fjd-Wb-hwm"/>
+                            <constraint firstItem="7qb-eH-zHK" firstAttribute="top" secondItem="uKi-YE-mC3" secondAttribute="bottom" constant="20" id="sWU-sI-9jM"/>
+                            <constraint firstItem="uKi-YE-mC3" firstAttribute="leading" secondItem="det-oh-XxK" secondAttribute="leading" constant="20" id="tF6-8l-fzV"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="det-oh-XxK"/>
+                    </view>
+                    <connections>
+                        <outlet property="accessTokenTextView" destination="cC9-NB-MlI" id="za6-r1-Q87"/>
+                        <outlet property="refreshTokenTextView" destination="xg7-cN-j1b" id="XlO-dB-uRY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="knA-BS-Z6L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1684" y="804.67980295566508"/>
         </scene>
     </scenes>
     <resources>

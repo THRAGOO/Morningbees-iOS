@@ -81,7 +81,9 @@ extension AppDelegate: GIDSignInDelegate {
         guard let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController,
             let signInViewController = navigationController.topViewController as? SignInViewController,
             let signUpViewController = mainStoryboard.instantiateViewController(
-                withIdentifier: "\(SignUpViewController.self)") as? SignUpViewController else {
+                withIdentifier: "\(SignUpViewController.self)") as? SignUpViewController,
+            let beeViewController = mainStoryboard.instantiateViewController(
+                withIdentifier: "\(BeeViewController.self)") as? BeeViewController else {
                     fatalError("Not found the SignUpViewController")
         }
         
@@ -107,26 +109,40 @@ extension AppDelegate: GIDSignInDelegate {
                 DispatchQueue.main.async {
                     signInViewController.navigationController?.pushViewController(signUpViewController,
                                                                                   animated: true)
+                    signUpViewController.provider = SignInProvider.google.rawValue
                 }
             } else if signIn.type == 1 {
-                // move to main view.
-            } else {
-                signInViewController.presentOneBtnAlert(title: "Error!", message: "Invalid Value.")
+                
+                //MARK: KeyChain
+                    
+                KeychainService.deleteKeychainToken { (error) in
+                    if let error = error {
+                        signInViewController.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                    }
+                }
+                KeychainService.addKeychainToken(signIn.accessToken, signIn.refreshToken) { (error) in
+                    if let error = error {
+                        signInViewController.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                    }
+                }
+                DispatchQueue.main.async {
+                    signInViewController.navigationController?.pushViewController(beeViewController, animated: true)
+                }
             }
-            return
         }
     }
 
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController,
+            let signUpViewController = mainStoryboard.instantiateViewController(
+                withIdentifier: "\(SignUpViewController.self)") as? SignUpViewController else {
+                    fatalError("Not found the SignUpViewController")
+        }
         if let error = error {
-            print("[Error] :", error.localizedDescription)
+            signUpViewController.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
             return
         }
-
-        guard let navigationController =
-            UIApplication.shared.keyWindow?.rootViewController as? UINavigationController else {
-                fatalError("Not found the navigationController")
-        }
-        navigationController.popViewController(animated: true)
+        navigationController.popToRootViewController(animated: true)
     }
 }

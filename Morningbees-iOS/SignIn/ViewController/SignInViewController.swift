@@ -41,7 +41,19 @@ extension SignInViewController {
                     print(String(describing: SignUpViewController.self))
                     return
             }
+            signUpViewController.provider = SignInProvider.naver.rawValue
             self.navigationController?.pushViewController(signUpViewController, animated: true)
+        }
+    }
+    
+    private func pushToBeeViewController() {
+        DispatchQueue.main.async {
+            guard let beeViewController = self.storyboard?.instantiateViewController(
+                identifier: "BeeViewController") as? BeeViewController else {
+                    print(String(describing: BeeViewController.self))
+                    return
+            }
+            self.navigationController?.pushViewController(beeViewController, animated: true)
         }
     }
 }
@@ -65,10 +77,8 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
         }
         let reqModel = SignInModel()
         let request = RequestSet(method: reqModel.method, path: reqModel.path)
-        let param: [String: String] = [
-            "socialAccessToken": accessToken,
-            "provider": SignInProvider.naver.rawValue
-        ]
+        let param: [String: String] = ["socialAccessToken": accessToken,
+                                       "provider": SignInProvider.naver.rawValue]
         let signInReq = Request<SignIn>()
         signInReq.request(req: request, param: param) { (signIn, error)  in
             if let error = error {
@@ -80,11 +90,23 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
             if signIn.type == 0 {
                 self.pushToSignUpViewController()
             } else if signIn.type == 1 {
-                // move to main view.
+                
+                //MARK: KeyChain
+                
+                KeychainService.deleteKeychainToken { (error) in
+                    if let error = error {
+                        self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                    }
+                }
+                KeychainService.addKeychainToken(signIn.accessToken, signIn.refreshToken) { (error) in
+                    if let error = error {
+                        self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                    }
+                }
+                self.pushToBeeViewController()
             } else {
-                self.presentOneBtnAlert(title: "Error!", message: "Invalid Value.")
+                self.presentOneBtnAlert(title: "Error!", message: "Invalid Value(Type).")
             }
-            return
         }
     }
 
@@ -92,7 +114,7 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
     }
 
     func oauth20Connection(_ oauthConnection: NaverThirdPartyLoginConnection!, didFailWithError error: Error!) {
-        print("[Error] :", error.localizedDescription)
+        presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
     }
 
     //MARK: Action

@@ -5,6 +5,7 @@ disabled_rules:
 - todo
 - trailing_whitespace
 - redundant_string_enum_value
+- function_body_length
 
 included:
 
