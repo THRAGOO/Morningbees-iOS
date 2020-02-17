@@ -107,7 +107,7 @@ extension AppDelegate: GIDSignInDelegate {
             }
             if signIn.type == 0 {
                 DispatchQueue.main.async {
-                    SignUpViewController.provider = "google"
+                    SignUpViewController.provider = SignInProvider.google.rawValue
                     signInViewController.navigationController?.pushViewController(signUpViewController,
                                                                                   animated: true)
                 }
@@ -115,32 +115,15 @@ extension AppDelegate: GIDSignInDelegate {
                 
                 //MARK: KeyChain
                     
-                let queryToDelete: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
-                                                    kSecAttrServer as String: Path.base.rawValue]
-                let deleteStatus = SecItemDelete(queryToDelete as CFDictionary)
-                guard deleteStatus == errSecSuccess ||
-                    deleteStatus == errSecItemNotFound else {
-                        signInViewController.presentOneBtnAlert(
-                            title: "Error!",
-                            message: KeychainError.unhandledError(status: deleteStatus).localizedDescription)
-                        return
+                KeychainService.deleteKeychainToken { (error) in
+                    if let error = error {
+                        signInViewController.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                    }
                 }
-                
-                let credentials = Credentials.init(accessToken: signIn.accessToken, refreshToken: signIn.refreshToken)
-                guard let accessTokenData = credentials.accessToken.data(using: String.Encoding.utf8),
-                    let refreshTokenData = credentials.refreshToken.data(using: String.Encoding.utf8) else {
-                        signInViewController.presentOneBtnAlert(title: "Error!", message: "Couldn't encode Token.")
-                        return
-                }
-                let tokenQuery: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
-                                                 kSecAttrServer as String: Path.base.rawValue,
-                                                 kSecAttrAccount as String: refreshTokenData,
-                                                 kSecValueData as String: accessTokenData]
-                let addStatus = SecItemAdd(tokenQuery as CFDictionary, nil)
-                guard addStatus == errSecSuccess else {
-                    signInViewController.presentOneBtnAlert(
-                        title: "Error!", message: KeychainError.unhandledError(status: addStatus).localizedDescription)
-                    return
+                KeychainService.addKeychainToken(signIn.accessToken, signIn.refreshToken) { (error) in
+                    if let error = error {
+                        signInViewController.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                    }
                 }
                 DispatchQueue.main.async {
                     signInViewController.navigationController?.pushViewController(beeViewController, animated: true)

@@ -169,20 +169,10 @@ extension SignUpViewController {
             
             //MARK: KeyChain
             
-            let credentials = Credentials.init(accessToken: signUp.accessToken, refreshToken: signUp.refreshToken)
-            guard let accessTokenData = credentials.accessToken.data(using: String.Encoding.utf8),
-                let refreshTokenData = credentials.refreshToken.data(using: String.Encoding.utf8) else {
-                    return
-            }
-            let tokenQuery: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
-                                        kSecAttrServer as String: Path.base.rawValue,
-                                        kSecAttrAccount as String: refreshTokenData,
-                                        kSecValueData as String: accessTokenData]
-            let addStatus = SecItemAdd(tokenQuery as CFDictionary, nil)
-            guard addStatus == errSecSuccess else {
-                self.presentOneBtnAlert(title: "Error",
-                                        message: KeychainError.unhandledError(status: addStatus).localizedDescription)
-                return
+            KeychainService.addKeychainToken(signUp.accessToken, signUp.refreshToken) { (error) in
+                if let error = error {
+                    self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                }
             }
         }
         pushToBeeViewController()

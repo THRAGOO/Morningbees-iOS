@@ -10,7 +10,7 @@ import UIKit
 import GoogleSignIn
 import NaverThirdPartyLogin
 
-class BeeViewController: UIViewController {
+final class BeeViewController: UIViewController, CustomAlert {
     
 //MARK:- Properties
     
@@ -22,7 +22,13 @@ class BeeViewController: UIViewController {
 //MARK:- Life Cycle
     
     override func viewDidLoad() {
-        extractToken()
+        KeychainService.extractKeyChainToken { (accessToken, refreshToken, error) in
+            if let error = error {
+                self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+            }
+            self.accessTokenTextView.text = accessToken
+            self.refreshTokenTextView.text = refreshToken
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,41 +91,5 @@ extension BeeViewController {
     private func popToSignInViewContoller() {
 //        navigationController?.popViewController(animated: false)
         navigationController?.popToRootViewController(animated: true)
-    }
-}
-
-//MARK:- Testing Extract Token
-
-extension BeeViewController: CustomAlert {
-    
-    func extractToken() {
-        let tokenQuery: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
-                                    kSecAttrServer as String: Path.base.rawValue,
-                                    kSecMatchLimit as String: kSecMatchLimitOne,
-                                    kSecReturnAttributes as String: true,
-                                    kSecReturnData as String: true]
-        var tokenItem: CFTypeRef?
-        let matchStatus = SecItemCopyMatching(tokenQuery as CFDictionary, &tokenItem)
-        guard matchStatus != errSecItemNotFound else {
-            presentOneBtnAlert(title: "Error!", message: KeychainError.noToken.localizedDescription)
-            return
-        }
-        guard matchStatus == errSecSuccess else {
-            presentOneBtnAlert(title: "Error!",
-                               message: KeychainError.unhandledError(status: matchStatus).localizedDescription)
-            return
-        }
-        guard let existingItem = tokenItem as? [String: Any],
-            let accessTokenData = existingItem[kSecValueData as String] as? Data,
-            let accessToken = String(data: accessTokenData, encoding: String.Encoding.utf8),
-            let refreshTokenData = existingItem[kSecAttrAccount as String] as? Data,
-            let refreshToken = String(data: refreshTokenData, encoding: String.Encoding.utf8)
-        else {
-            presentOneBtnAlert(title: "Error!", message: KeychainError.unexpectedTokenData.localizedDescription)
-            return
-        }
-        let credentials = Credentials(accessToken: accessToken, refreshToken: refreshToken)
-        self.accessTokenTextView.text = credentials.accessToken
-        self.refreshTokenTextView.text = credentials.refreshToken
     }
 }

@@ -89,45 +89,26 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
                 return
             }
             if signIn.type == 0 {
-                SignUpViewController.provider = "naver"
+                SignUpViewController.provider = SignInProvider.naver.rawValue
                 self.pushToSignUpViewController()
             } else if signIn.type == 1 {
                 
                 //MARK: KeyChain
                 
-                let queryToDelete: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
-                                            kSecAttrServer as String: Path.base.rawValue]
-                let deleteStatus = SecItemDelete(queryToDelete as CFDictionary)
-                guard deleteStatus == errSecSuccess ||
-                    deleteStatus == errSecItemNotFound else {
-                        self.presentOneBtnAlert(
-                            title: "Error!",
-                            message: KeychainError.unhandledError(status: deleteStatus).localizedDescription)
-                        return
+                KeychainService.deleteKeychainToken { (error) in
+                    if let error = error {
+                        self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                    }
                 }
-                
-                let credentials = Credentials.init(accessToken: signIn.accessToken, refreshToken: signIn.refreshToken)
-                guard let accessTokenData = credentials.accessToken.data(using: String.Encoding.utf8),
-                    let refreshTokenData = credentials.refreshToken.data(using: String.Encoding.utf8) else {
-                        self.presentOneBtnAlert(title: "Error!", message: "Couldn't encode Token.")
-                        return
-                }
-                let attributes: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
-                                                 kSecAttrServer as String: Path.base.rawValue,
-                                                 kSecAttrAccount as String: refreshTokenData,
-                                                 kSecValueData as String: accessTokenData]
-                let addStatus = SecItemAdd(attributes as CFDictionary, nil)
-                guard addStatus == errSecSuccess else {
-                    self.presentOneBtnAlert(
-                        title: "Error!",
-                        message: KeychainError.unhandledError(status: addStatus).localizedDescription)
-                    return
+                KeychainService.addKeychainToken(signIn.accessToken, signIn.refreshToken) { (error) in
+                    if let error = error {
+                        self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                    }
                 }
                 self.pushToBeeViewController()
             } else {
                 self.presentOneBtnAlert(title: "Error!", message: "Invalid Value(Type).")
             }
-            return
         }
     }
 
