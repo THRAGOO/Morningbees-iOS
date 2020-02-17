@@ -19,9 +19,9 @@ final class KeychainService {
                 return
         }
         let tokenQuery: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
-                                    kSecAttrServer as String: Path.base.rawValue,
-                                    kSecAttrAccount as String: refreshTokenData,
-                                    kSecValueData as String: accessTokenData]
+                                         kSecAttrServer as String: Path.base.rawValue,
+                                         kSecAttrAccount as String: refreshTokenData,
+                                         kSecValueData as String: accessTokenData]
         let addStatus = SecItemAdd(tokenQuery as CFDictionary, nil)
         guard addStatus == errSecSuccess else {
             completion(KeychainError.unhandledError(status: addStatus))
@@ -34,7 +34,7 @@ final class KeychainService {
                                     _ refreshToken: String,
                                     completion: @escaping (Error?) -> Void) {
         let queryToFind: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
-                                            kSecAttrServer as String: Path.base.rawValue]
+                                          kSecAttrServer as String: Path.base.rawValue]
         let findStatus = SecItemDelete(queryToFind as CFDictionary)
                 guard findStatus == errSecSuccess ||
                     findStatus == errSecItemNotFound else {
@@ -70,10 +70,10 @@ final class KeychainService {
     
     static func extractKeyChainToken(completion: @escaping (String?, String?, Error?) -> Void) {
         let tokenQuery: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
-                                    kSecAttrServer as String: Path.base.rawValue,
-                                    kSecMatchLimit as String: kSecMatchLimitOne,
-                                    kSecReturnAttributes as String: true,
-                                    kSecReturnData as String: true]
+                                         kSecAttrServer as String: Path.base.rawValue,
+                                         kSecMatchLimit as String: kSecMatchLimitOne,
+                                         kSecReturnAttributes as String: true,
+                                         kSecReturnData as String: true]
         var tokenItem: CFTypeRef?
         let matchStatus = SecItemCopyMatching(tokenQuery as CFDictionary, &tokenItem)
         guard matchStatus != errSecItemNotFound else {

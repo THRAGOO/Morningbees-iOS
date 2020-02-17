@@ -16,7 +16,7 @@ final class SignUpViewController: UIViewController {
 //MARK:- Properties
 
     private let naverSignInInstance = NaverThirdPartyLoginConnection.getSharedInstance()
-    static var provider: String = ""
+    public var provider: String = ""
     
     @IBOutlet private weak var nickname: UITextField!
     @IBOutlet private weak var startBtn: UIButton!
@@ -153,11 +153,9 @@ extension SignUpViewController {
         }
         let reqModel = SignUpModel()
         let request = RequestSet(method: reqModel.method, path: reqModel.path)
-        let param: [String: String] = [
-            "socialAccessToken": socialAccessToken,
-            "provider": provider,
-            "nickname": nickname
-        ]
+        let param: [String: String] = ["socialAccessToken": socialAccessToken,
+                                       "provider": provider,
+                                       "nickname": nickname]
         let signUpReq = Request<SignUp>()
         signUpReq.request(req: request, param: param) { (signUp, error)  in
             if let error = error {
@@ -179,13 +177,13 @@ extension SignUpViewController {
     }
     
     @IBAction private func touchUpStartBtn(_ sender: UIButton) {
-        switch SignUpViewController.provider {
-        case "naver":
+        switch provider {
+        case SignInProvider.naver.rawValue:
             guard let naverAccessToken = naverSignInInstance?.accessToken else {
                 return
             }
             signUpRequest(naverAccessToken, "naver")
-        case "google":
+        case SignInProvider.google.rawValue:
             guard let googleAccessToken = GIDSignIn.sharedInstance()?.currentUser.authentication.idToken else {
                 return
             }

@@ -532,7 +532,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leejun.Morningbees-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Koo.Morningbees-iOS";
 				PRODUCT_NAME = Morningbees;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -552,7 +552,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leejun.Morningbees-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Koo.Morningbees-iOS";
 				PRODUCT_NAME = Morningbees;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

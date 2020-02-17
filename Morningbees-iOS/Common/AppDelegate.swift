@@ -107,9 +107,9 @@ extension AppDelegate: GIDSignInDelegate {
             }
             if signIn.type == 0 {
                 DispatchQueue.main.async {
-                    SignUpViewController.provider = SignInProvider.google.rawValue
                     signInViewController.navigationController?.pushViewController(signUpViewController,
                                                                                   animated: true)
+                    signUpViewController.provider = SignInProvider.google.rawValue
                 }
             } else if signIn.type == 1 {
                 

@@ -89,7 +89,6 @@ extension BeeViewController {
 extension BeeViewController {
 
     private func popToSignInViewContoller() {
-//        navigationController?.popViewController(animated: false)
         navigationController?.popToRootViewController(animated: true)
     }
 }

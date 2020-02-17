@@ -42,6 +42,7 @@ extension SignInViewController {
                     return
             }
             self.navigationController?.pushViewController(signUpViewController, animated: true)
+            signUpViewController.provider = SignInProvider.naver.rawValue
         }
     }
     
@@ -76,10 +77,8 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
         }
         let reqModel = SignInModel()
         let request = RequestSet(method: reqModel.method, path: reqModel.path)
-        let param: [String: String] = [
-            "socialAccessToken": accessToken,
-            "provider": SignInProvider.naver.rawValue
-        ]
+        let param: [String: String] = ["socialAccessToken": accessToken,
+                                       "provider": SignInProvider.naver.rawValue]
         let signInReq = Request<SignIn>()
         signInReq.request(req: request, param: param) { (signIn, error)  in
             if let error = error {
@@ -89,7 +88,6 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
                 return
             }
             if signIn.type == 0 {
-                SignUpViewController.provider = SignInProvider.naver.rawValue
                 self.pushToSignUpViewController()
             } else if signIn.type == 1 {
                 
