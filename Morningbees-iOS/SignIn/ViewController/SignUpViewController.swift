@@ -35,22 +35,18 @@ final class SignUpViewController: UIViewController {
     }
 }
 
-extension SignUpViewController {
+//MARK:- Navigation Control
 
-    //MARK: Request Action
+extension SignUpViewController {
     
-    @IBAction private func touchUpVaildCheckButton(_ sender: UIButton) {
-        guard let nickname = nickname.text else {
-            return
-        }
-        if nickname.count > 1 {
-            if inspecNicknameReg(originText: nickname) == true {
-                isValidNicknameServer()
-            } else {
-                self.presentOneBtnAlert(title: "Sorry", message: "nickname contains inappropriate value.")
+    private func pushToBeeViewController() {
+        DispatchQueue.main.async {
+            guard let beeViewController = self.storyboard?.instantiateViewController(
+                identifier: "BeeViewController") as? BeeViewController else {
+                    print(String(describing: BeeViewController.self))
+                    return
             }
-        } else {
-            self.presentOneBtnAlert(title: "Sorry", message: "nickname is too short!")
+            self.navigationController?.pushViewController(beeViewController, animated: true)
         }
     }
 }
@@ -122,6 +118,23 @@ extension SignUpViewController: CustomAlert {
         self.startBtn.isHidden = !state
         self.validComment.isHidden = state
     }
+    
+    //MARK: Valid Request Action
+    
+    @IBAction private func touchUpVaildCheckButton(_ sender: UIButton) {
+        guard let nickname = nickname.text else {
+            return
+        }
+        if nickname.count > 1 {
+            if inspecNicknameReg(originText: nickname) == true {
+                isValidNicknameServer()
+            } else {
+                self.presentOneBtnAlert(title: "Sorry", message: "nickname contains inappropriate value.")
+            }
+        } else {
+            self.presentOneBtnAlert(title: "Sorry", message: "nickname is too short!")
+        }
+    }
 }
 
 //MARK: TextField length limit
@@ -176,6 +189,8 @@ extension SignUpViewController {
         pushToBeeViewController()
     }
     
+    //MARK: Start Button Action
+    
     @IBAction private func touchUpStartBtn(_ sender: UIButton) {
         switch provider {
         case SignInProvider.naver.rawValue:
@@ -190,22 +205,6 @@ extension SignUpViewController {
             signUpRequest(googleAccessToken, "google")
         default:
             presentOneBtnAlert(title: "Error", message: "fail on getting provider")
-        }
-    }
-}
-
-//MARK:- Navigation Control
-
-extension SignUpViewController {
-    
-    private func pushToBeeViewController() {
-        DispatchQueue.main.async {
-            guard let beeViewController = self.storyboard?.instantiateViewController(
-                identifier: "BeeViewController") as? BeeViewController else {
-                    print(String(describing: BeeViewController.self))
-                    return
-            }
-            self.navigationController?.pushViewController(beeViewController, animated: true)
         }
     }
 }
