@@ -6,6 +6,7 @@
 //  Copyright © 2019 JUN LEE. All rights reserved.
 //
 
+import AuthenticationServices
 import Firebase
 import GoogleSignIn
 import NaverThirdPartyLogin
@@ -34,7 +35,7 @@ final class SignInViewController: UIViewController {
 
 extension SignInViewController {
 
-    private func pushToSignUpViewController() {
+    private func pushToSignUpViewControllerFromNaver() {
         DispatchQueue.main.async {
             guard let signUpViewController = self.storyboard?.instantiateViewController(
                 identifier: "SignUpViewController") as? SignUpViewController else {
@@ -42,6 +43,18 @@ extension SignInViewController {
                     return
             }
             signUpViewController.provider = SignInProvider.naver.rawValue
+            self.navigationController?.pushViewController(signUpViewController, animated: true)
+        }
+    }
+    
+    private func pushToSignUpViewControllerFromApple() {
+        DispatchQueue.main.async {
+            guard let signUpViewController = self.storyboard?.instantiateViewController(
+                identifier: "SignUpViewController") as? SignUpViewController else {
+                    print(String(describing: SignUpViewController.self))
+                    return
+            }
+            signUpViewController.provider = SignInProvider.apple.rawValue
             self.navigationController?.pushViewController(signUpViewController, animated: true)
         }
     }
@@ -88,7 +101,7 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
                 return
             }
             if signIn.type == 0 {
-                self.pushToSignUpViewController()
+                self.pushToSignUpViewControllerFromNaver()
             } else if signIn.type == 1 {
                 
                 //MARK: KeyChain
@@ -137,5 +150,89 @@ extension SignInViewController: CustomAlert {
         } else {
             GIDSignIn.sharedInstance()?.signIn()
         }
+    }
+}
+
+//MARK:- SignIn with Apple
+
+extension SignInViewController: ASAuthorizationControllerDelegate {
+    
+    //MARK: TouchUp SignIn with Apple Action
+    
+    @IBAction private func touchUpSignInApple(_ sender: UIButton) {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.email]
+        
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+    
+    func authorizationController(controller: ASAuthorizationController,
+                                 didCompleteWithAuthorization authorization: ASAuthorization) {
+        switch authorization.credential {
+        case let appleIDCredential as ASAuthorizationAppleIDCredential:
+            guard let identityToken = appleIDCredential.identityToken else {
+                self.presentOneBtnAlert(title: "Error!", message: "Couldn't get Apple information")
+                return
+            }
+            let userID = appleIDCredential.user
+            let appleToken = String(decoding: identityToken, as: UTF8.self)
+            appleSignInRequest(userID, appleToken)
+        default:
+            break
+        }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        presentOneBtnAlert(title: "Alert", message: "The process has been canceled.")
+    }
+    
+    func appleSignInRequest(_ userID: String, _ accessToken: String) {
+        let reqModel = SignInModel()
+        let request = RequestSet(method: reqModel.method, path: reqModel.path)
+        let param: [String: String] = ["socialAccessToken": accessToken,
+                                       "provider": SignInProvider.apple.rawValue]
+        let signInReq = Request<SignIn>()
+        signInReq.request(req: request, param: param) { (signIn, error)  in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            guard let signIn = signIn else {
+                return
+            }
+            
+            //MARK: KeyChain
+            
+            KeychainService.deleteKeychainAppleInfo { (error) in
+                if let error = error {
+                    self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                }
+            }
+            KeychainService.addKeychainAppleInfo(userID, accessToken) { (error) in
+                if let error = error {
+                    self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                }
+            }
+            
+            if signIn.type == 0 {
+                self.pushToSignUpViewControllerFromApple()
+            } else if signIn.type == 1 {
+                self.pushToBeeViewController()
+            } else {
+                self.presentOneBtnAlert(title: "Error!", message: "Invalid Value(Type).")
+            }
+        }
+    }
+}
+
+//MARK:- Provide Presentation Anchor
+
+extension SignInViewController: ASAuthorizationControllerPresentationContextProviding {
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
     }
 }

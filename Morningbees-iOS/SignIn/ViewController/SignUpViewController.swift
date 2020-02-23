@@ -197,14 +197,25 @@ extension SignUpViewController {
             guard let naverAccessToken = naverSignInInstance?.accessToken else {
                 return
             }
-            signUpRequest(naverAccessToken, "naver")
+            signUpRequest(naverAccessToken, SignInProvider.naver.rawValue)
         case SignInProvider.google.rawValue:
             guard let googleAccessToken = GIDSignIn.sharedInstance()?.currentUser.authentication.idToken else {
                 return
             }
-            signUpRequest(googleAccessToken, "google")
+            signUpRequest(googleAccessToken, SignInProvider.google.rawValue)
+        case SignInProvider.apple.rawValue:
+            KeychainService.extractKeyChainAppleInfo { (_, idToken, error) in
+                if let error = error {
+                    self.presentOneBtnAlert(title: "Error", message: error.localizedDescription)
+                }
+                guard let idToken = idToken else {
+                    self.presentOneBtnAlert(title: "Error!", message: "Couldn't get IdentityToken.")
+                    return
+                }
+                self.signUpRequest(idToken, SignInProvider.apple.rawValue)
+            }
         default:
-            presentOneBtnAlert(title: "Error", message: "fail on getting provider")
+            presentOneBtnAlert(title: "Error", message: "fail on request.")
         }
     }
 }

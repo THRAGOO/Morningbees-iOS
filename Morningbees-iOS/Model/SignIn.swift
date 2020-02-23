@@ -11,6 +11,7 @@ import Foundation
 enum SignInProvider: String {
     case naver = "naver"
     case google = "google"
+    case apple = "apple"
 }
 
 struct SignInModel: RequestModel {

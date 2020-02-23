@@ -14,7 +14,17 @@ enum KeychainError: Error {
     case unhandledError(status: OSStatus)
 }
 
+enum KeychainServer: String {
+    case morningbeesAuth = "https://api-morningbees.thragoo.com/auth"
+    case appleSignAuth = "https://appleid.apple.com/auth/"
+}
+
 struct Credentials {
     var accessToken: String
     var refreshToken: String
+}
+
+struct AppleCredentials {
+    var userID: String
+    var identityToken: String
 }
