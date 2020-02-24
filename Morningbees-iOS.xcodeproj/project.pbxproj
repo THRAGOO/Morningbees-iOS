@@ -58,6 +58,7 @@
 		B0CC883223F827DD00B3131E /* BeeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeViewController.swift; sourceTree = "<group>"; };
 		B8A9D1B64CFCC0291249B172 /* Pods-Morningbees-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.release.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		CE432C202390098F0005F257 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
+		D5D5BC8623FE6B6000F59DA0 /* Morningbees.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Morningbees.entitlements; sourceTree = "<group>"; };
 		E6D244607548017DCD414837 /* Pods-Morningbees-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -113,6 +114,7 @@
 		7279EF82236EC61D005ECC81 /* Morningbees-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				D5D5BC8623FE6B6000F59DA0 /* Morningbees.entitlements */,
 				B0CC883023F8279200B3131E /* Main */,
 				B0CC882D23F81B6C00B3131E /* Keychain */,
 				B0449EA923B5D3C00079D816 /* Model */,
@@ -524,15 +526,16 @@
 			baseConfigurationReference = E6D244607548017DCD414837 /* Pods-Morningbees-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Morningbees-iOS/Morningbees.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VR3562V4X6;
+				DEVELOPMENT_TEAM = 836DYQVDP8;
 				INFOPLIST_FILE = "Morningbees-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Koo.Morningbees-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Morningbees-iOS";
 				PRODUCT_NAME = Morningbees;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -544,15 +547,16 @@
 			baseConfigurationReference = B8A9D1B64CFCC0291249B172 /* Pods-Morningbees-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Morningbees-iOS/Morningbees.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VR3562V4X6;
+				DEVELOPMENT_TEAM = 836DYQVDP8;
 				INFOPLIST_FILE = "Morningbees-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Koo.Morningbees-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Morningbees-iOS";
 				PRODUCT_NAME = Morningbees;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

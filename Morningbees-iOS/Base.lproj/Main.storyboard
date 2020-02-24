@@ -24,49 +24,84 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="morningbeesPic" translatesAutoresizingMaskIntoConstraints="NO" id="YnH-ru-yWK">
-                                <rect key="frame" x="10" y="148" width="355" height="380"/>
+                                <rect key="frame" x="10" y="228" width="355" height="355"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="355" id="ggy-AJ-ahM"/>
+                                </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ukd-it-K4E">
-                                <rect key="frame" x="40" y="528" width="295" height="50"/>
-                                <color key="backgroundColor" red="0.11764705882352941" green="0.78431372549019607" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <rect key="frame" x="24" y="605" width="327" height="45"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="5IE-Ma-eTP"/>
+                                    <constraint firstAttribute="height" constant="45" id="rIL-Oh-TEK"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="NanumBarunGothicBold" family="NanumBarunGothic" pointSize="17"/>
-                                <state key="normal" title="NAVER 로 시작하기">
+                                <state key="normal" title="APPLE 로 시작하기">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="touchUpSignInNaver:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ky6-7a-BcR"/>
+                                    <action selector="touchUpSignInApple:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vF9-Rm-KHk"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eJr-ob-OA2">
-                                <rect key="frame" x="40" y="598" width="295" height="50"/>
+                                <rect key="frame" x="24" y="719" width="327" height="45"/>
                                 <color key="backgroundColor" red="0.25882352941176467" green="0.52156862745098043" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="yoC-E4-VGz"/>
+                                    <constraint firstAttribute="height" constant="45" id="Yx9-La-WNT"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="17"/>
-                                <state key="normal" title="Google 로 시작하기">
+                                <state key="normal" title="GOOGLE 로 시작하기">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
                                     <action selector="touchUpSignInGoogle:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SE7-WI-Oce"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z76-7I-Ny6">
+                                <rect key="frame" x="24" y="662" width="327" height="45"/>
+                                <color key="backgroundColor" red="0.1176470588" green="0.7843137255" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="tce-o0-xXG"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="NanumBarunGothicBold" family="NanumBarunGothic" pointSize="17"/>
+                                <state key="normal" title="NAVER 로 시작하기">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="touchUpSignInNaver:" destination="BYZ-38-t0r" eventType="touchUpInside" id="iil-Iu-C9w"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wake-up Mission" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cqj-7B-X88">
+                                <rect key="frame" x="62.666666666666671" y="122" width="249.66666666666663" height="41"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="30"/>
+                                <color key="textColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Along with your Friends!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yKP-kO-T9M">
+                                <rect key="frame" x="8" y="171" width="359.33333333333331" height="41"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="30"/>
+                                <color key="textColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="eJr-ob-OA2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="Efj-iS-hyU"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="eJr-ob-OA2" secondAttribute="bottom" constant="130" id="PMM-9g-DxV"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eJr-ob-OA2" secondAttribute="trailing" constant="40" id="VX0-lG-qwf"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Ukd-it-K4E" secondAttribute="trailing" constant="40" id="f72-NU-Cfx"/>
-                            <constraint firstItem="YnH-ru-yWK" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="60" id="ryw-Fz-uHh"/>
-                            <constraint firstItem="Ukd-it-K4E" firstAttribute="top" secondItem="YnH-ru-yWK" secondAttribute="bottom" id="sUM-P6-mR9"/>
-                            <constraint firstItem="eJr-ob-OA2" firstAttribute="top" secondItem="Ukd-it-K4E" secondAttribute="bottom" constant="20" id="sge-KY-aSG"/>
-                            <constraint firstItem="Ukd-it-K4E" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="tMu-lo-0bB"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YnH-ru-yWK" secondAttribute="trailing" constant="10" id="w3Z-Rf-DAI"/>
-                            <constraint firstItem="YnH-ru-yWK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="wbK-k4-EcO"/>
+                            <constraint firstItem="yKP-kO-T9M" firstAttribute="top" secondItem="Cqj-7B-X88" secondAttribute="bottom" constant="8" id="12Z-KU-34s"/>
+                            <constraint firstItem="eJr-ob-OA2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="2vX-SY-Hfe"/>
+                            <constraint firstItem="Ukd-it-K4E" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="6cu-3d-DFq"/>
+                            <constraint firstItem="Ukd-it-K4E" firstAttribute="top" secondItem="YnH-ru-yWK" secondAttribute="bottom" constant="22" id="7DV-Xh-120"/>
+                            <constraint firstItem="YnH-ru-yWK" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="140" id="BPZ-WY-ayH"/>
+                            <constraint firstItem="Z76-7I-Ny6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="JMe-Vo-1yG"/>
+                            <constraint firstItem="YnH-ru-yWK" firstAttribute="top" secondItem="yKP-kO-T9M" secondAttribute="bottom" constant="16" id="R0Z-3d-XTT"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Ukd-it-K4E" secondAttribute="trailing" constant="24" id="UUT-3x-b6h"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YnH-ru-yWK" secondAttribute="trailing" constant="10" id="VZv-1Y-ujG"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Z76-7I-Ny6" secondAttribute="trailing" constant="24" id="XXt-vX-0hj"/>
+                            <constraint firstItem="eJr-ob-OA2" firstAttribute="top" secondItem="Z76-7I-Ny6" secondAttribute="bottom" constant="12" id="e9B-Fg-JLA"/>
+                            <constraint firstItem="Cqj-7B-X88" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lP6-IE-seJ"/>
+                            <constraint firstItem="yKP-kO-T9M" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="oVm-VN-u6B"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eJr-ob-OA2" secondAttribute="trailing" constant="24" id="pOB-tV-56M"/>
+                            <constraint firstItem="Z76-7I-Ny6" firstAttribute="top" secondItem="Ukd-it-K4E" secondAttribute="bottom" constant="12" id="rMX-DO-uOQ"/>
+                            <constraint firstItem="YnH-ru-yWK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="xlB-W7-rlg"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -98,10 +133,9 @@
                                 <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="25"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6Ro-bh-pGP">
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="2-10자 (한글, 영어, 숫자)" minimumFontSize="20" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6Ro-bh-pGP">
                                 <rect key="frame" x="40" y="359" width="223" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="223" id="AEM-hI-qeb"/>
                                     <constraint firstAttribute="height" constant="40" id="SXz-ma-P6Q"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
@@ -138,24 +172,11 @@
                                 <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="22"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="2-10자 (한글, 영어, 숫자)" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iiR-1p-4HM">
-                                <rect key="frame" x="40" y="407" width="132" height="30.333333333333314"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30.329999999999998" id="PJU-dO-gkf"/>
-                                    <constraint firstAttribute="width" constant="132" id="WFH-hQ-DJJ"/>
-                                </constraints>
-                                <color key="textColor" red="0.46274834869999998" green="0.4627391696" blue="0.46274536849999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="12"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="중복 확인을 해주세요!" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FpY-ls-KxV">
-                                <rect key="frame" x="40" y="445.33333333333331" width="132" height="37"/>
+                                <rect key="frame" x="40" y="407" width="133" height="37"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32.670000000000002" id="GEu-Af-pQa"/>
-                                    <constraint firstAttribute="height" constant="37" id="IWF-7D-2Em"/>
-                                    <constraint firstAttribute="width" constant="132" id="m5g-fs-zc6"/>
+                                    <constraint firstAttribute="height" constant="37" id="rBo-0P-G8T"/>
                                 </constraints>
                                 <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="14"/>
@@ -166,23 +187,22 @@
                         <constraints>
                             <constraint firstItem="6Ro-bh-pGP" firstAttribute="top" secondItem="1T0-m1-IHG" secondAttribute="bottom" constant="12" id="0c7-9f-LeJ"/>
                             <constraint firstItem="VXl-cK-XyP" firstAttribute="top" secondItem="juU-Uj-SwR" secondAttribute="top" constant="111" id="6SQ-KO-Pei"/>
-                            <constraint firstItem="iiR-1p-4HM" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" constant="40" id="Apm-Es-YYv"/>
+                            <constraint firstItem="FpY-ls-KxV" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" constant="40" id="9u6-Q5-ApH"/>
                             <constraint firstItem="juU-Uj-SwR" firstAttribute="trailing" secondItem="yrq-Cc-Zfp" secondAttribute="trailing" constant="40" id="CgI-oQ-sFP"/>
+                            <constraint firstItem="juU-Uj-SwR" firstAttribute="trailing" secondItem="FpY-ls-KxV" secondAttribute="trailing" constant="202" id="Gi5-nD-cMc"/>
                             <constraint firstItem="yrq-Cc-Zfp" firstAttribute="leading" secondItem="6Ro-bh-pGP" secondAttribute="trailing" constant="8" id="HRH-5h-dqb"/>
                             <constraint firstItem="1T0-m1-IHG" firstAttribute="top" secondItem="VXl-cK-XyP" secondAttribute="bottom" constant="20" id="HZN-B4-Gil"/>
                             <constraint firstItem="juU-Uj-SwR" firstAttribute="bottom" secondItem="FdP-xl-Obj" secondAttribute="bottom" constant="12" id="IzD-0A-TjW"/>
+                            <constraint firstItem="FpY-ls-KxV" firstAttribute="top" secondItem="6Ro-bh-pGP" secondAttribute="bottom" constant="8" id="Njq-WI-Jud"/>
                             <constraint firstItem="FdP-xl-Obj" firstAttribute="trailing" secondItem="juU-Uj-SwR" secondAttribute="trailing" id="Uyu-RG-45t"/>
                             <constraint firstItem="6Ro-bh-pGP" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" constant="40" id="V8k-3i-pqG"/>
                             <constraint firstItem="yrq-Cc-Zfp" firstAttribute="height" secondItem="6Ro-bh-pGP" secondAttribute="height" id="Vh4-40-qUv"/>
-                            <constraint firstItem="FpY-ls-KxV" firstAttribute="top" secondItem="iiR-1p-4HM" secondAttribute="bottom" constant="8" id="ixo-TZ-xz0"/>
-                            <constraint firstItem="iiR-1p-4HM" firstAttribute="top" secondItem="6Ro-bh-pGP" secondAttribute="bottom" constant="8" id="joZ-fz-w2p"/>
                             <constraint firstItem="yrq-Cc-Zfp" firstAttribute="top" secondItem="VXl-cK-XyP" secondAttribute="bottom" constant="70" id="kJN-np-ShM"/>
                             <constraint firstItem="FdP-xl-Obj" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" id="p65-g5-Q1v"/>
                             <constraint firstItem="juU-Uj-SwR" firstAttribute="trailing" secondItem="VXl-cK-XyP" secondAttribute="trailing" constant="40" id="pH3-UM-FfB"/>
                             <constraint firstItem="1T0-m1-IHG" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" constant="40" id="rqY-Oa-uVk"/>
                             <constraint firstItem="VXl-cK-XyP" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" constant="40" id="xQh-l1-DmE"/>
                             <constraint firstItem="juU-Uj-SwR" firstAttribute="trailing" secondItem="1T0-m1-IHG" secondAttribute="trailing" constant="130" id="y0U-He-cXz"/>
-                            <constraint firstItem="FpY-ls-KxV" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" constant="40" id="ysX-of-Zjw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="juU-Uj-SwR"/>
                     </view>
