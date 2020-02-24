@@ -221,6 +221,9 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
 extension SignInViewController: ASAuthorizationControllerPresentationContextProviding {
     
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        return self.view.window!
+        guard let presentView = self.view.window else {
+            fatalError("Not found the SignIn View")
+        }
+        return presentView
     }
 }
