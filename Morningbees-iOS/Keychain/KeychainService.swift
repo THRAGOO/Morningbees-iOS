@@ -42,10 +42,9 @@ extension KeychainService {
         let queryToFind: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
                                           kSecAttrServer as String: KeychainServer.morningbeesAuth.rawValue]
         let findStatus = SecItemDelete(queryToFind as CFDictionary)
-                guard findStatus == errSecSuccess ||
-                    findStatus == errSecItemNotFound else {
-                        completion(KeychainError.unhandledError(status: findStatus))
-                        return
+        guard findStatus == errSecSuccess || findStatus == errSecItemNotFound else {
+            completion(KeychainError.unhandledError(status: findStatus))
+            return
         }
         let credentials = Credentials.init(accessToken: accessToken, refreshToken: refreshToken)
         guard let accessTokenData = credentials.accessToken.data(using: String.Encoding.utf8),
@@ -66,10 +65,9 @@ extension KeychainService {
         let queryToDelete: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
                                             kSecAttrServer as String: KeychainServer.morningbeesAuth.rawValue]
         let deleteStatus = SecItemDelete(queryToDelete as CFDictionary)
-        guard deleteStatus == errSecSuccess ||
-            deleteStatus == errSecItemNotFound else {
-                completion(KeychainError.unhandledError(status: deleteStatus))
-                return
+        guard deleteStatus == errSecSuccess || deleteStatus == errSecItemNotFound else {
+            completion(KeychainError.unhandledError(status: deleteStatus))
+            return
         }
         completion(nil)
     }
@@ -134,8 +132,7 @@ extension KeychainService {
         let queryToFind: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
                                           kSecAttrServer as String: KeychainServer.appleSignAuth.rawValue]
         let findStatus = SecItemDelete(queryToFind as CFDictionary)
-                guard findStatus == errSecSuccess ||
-                    findStatus == errSecItemNotFound else {
+        guard findStatus == errSecSuccess || findStatus == errSecItemNotFound else {
                         completion(KeychainError.unhandledError(status: findStatus))
                         return
         }
@@ -157,8 +154,7 @@ extension KeychainService {
         let queryToDelete: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
                                             kSecAttrServer as String: KeychainServer.appleSignAuth.rawValue]
         let deleteStatus = SecItemDelete(queryToDelete as CFDictionary)
-        guard deleteStatus == errSecSuccess ||
-            deleteStatus == errSecItemNotFound else {
+        guard deleteStatus == errSecSuccess || deleteStatus == errSecItemNotFound else {
                 completion(KeychainError.unhandledError(status: deleteStatus))
                 return
         }

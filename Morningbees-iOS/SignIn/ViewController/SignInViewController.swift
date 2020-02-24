@@ -35,26 +35,14 @@ final class SignInViewController: UIViewController {
 
 extension SignInViewController {
 
-    private func pushToSignUpViewControllerFromNaver() {
+    private func pushToSignUpViewController(from provider: SignInProvider) {
         DispatchQueue.main.async {
             guard let signUpViewController = self.storyboard?.instantiateViewController(
                 identifier: "SignUpViewController") as? SignUpViewController else {
                     print(String(describing: SignUpViewController.self))
                     return
             }
-            signUpViewController.provider = SignInProvider.naver.rawValue
-            self.navigationController?.pushViewController(signUpViewController, animated: true)
-        }
-    }
-    
-    private func pushToSignUpViewControllerFromApple() {
-        DispatchQueue.main.async {
-            guard let signUpViewController = self.storyboard?.instantiateViewController(
-                identifier: "SignUpViewController") as? SignUpViewController else {
-                    print(String(describing: SignUpViewController.self))
-                    return
-            }
-            signUpViewController.provider = SignInProvider.apple.rawValue
+            signUpViewController.provider = provider.rawValue
             self.navigationController?.pushViewController(signUpViewController, animated: true)
         }
     }
@@ -101,7 +89,7 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
                 return
             }
             if signIn.type == 0 {
-                self.pushToSignUpViewControllerFromNaver()
+                self.pushToSignUpViewController(from: .naver)
             } else if signIn.type == 1 {
                 
                 //MARK: KeyChain
@@ -218,7 +206,7 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
             }
             
             if signIn.type == 0 {
-                self.pushToSignUpViewControllerFromApple()
+                self.pushToSignUpViewController(from: .apple)
             } else if signIn.type == 1 {
                 self.pushToBeeViewController()
             } else {
