@@ -7,9 +7,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="NanumBarunGothicBold.ttf">
-            <string>NanumBarunGothicBold</string>
-        </array>
         <array key="Roboto-Bold.ttf">
             <string>Roboto-Bold</string>
         </array>
@@ -22,87 +19,7 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="morningbeesPic" translatesAutoresizingMaskIntoConstraints="NO" id="YnH-ru-yWK">
-                                <rect key="frame" x="10" y="228" width="355" height="355"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="355" id="ggy-AJ-ahM"/>
-                                </constraints>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ukd-it-K4E">
-                                <rect key="frame" x="24" y="605" width="327" height="45"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="rIL-Oh-TEK"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="NanumBarunGothicBold" family="NanumBarunGothic" pointSize="17"/>
-                                <state key="normal" title="APPLE 로 시작하기">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="touchUpSignInApple:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vF9-Rm-KHk"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eJr-ob-OA2">
-                                <rect key="frame" x="24" y="719" width="327" height="45"/>
-                                <color key="backgroundColor" red="0.25882352941176467" green="0.52156862745098043" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="Yx9-La-WNT"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="17"/>
-                                <state key="normal" title="GOOGLE 로 시작하기">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="touchUpSignInGoogle:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SE7-WI-Oce"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z76-7I-Ny6">
-                                <rect key="frame" x="24" y="662" width="327" height="45"/>
-                                <color key="backgroundColor" red="0.1176470588" green="0.7843137255" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="tce-o0-xXG"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="NanumBarunGothicBold" family="NanumBarunGothic" pointSize="17"/>
-                                <state key="normal" title="NAVER 로 시작하기">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="touchUpSignInNaver:" destination="BYZ-38-t0r" eventType="touchUpInside" id="iil-Iu-C9w"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wake-up Mission" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cqj-7B-X88">
-                                <rect key="frame" x="62.666666666666671" y="122" width="249.66666666666663" height="41"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="30"/>
-                                <color key="textColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Along with your Friends!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yKP-kO-T9M">
-                                <rect key="frame" x="8" y="171" width="359.33333333333331" height="41"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="30"/>
-                                <color key="textColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="yKP-kO-T9M" firstAttribute="top" secondItem="Cqj-7B-X88" secondAttribute="bottom" constant="8" id="12Z-KU-34s"/>
-                            <constraint firstItem="eJr-ob-OA2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="2vX-SY-Hfe"/>
-                            <constraint firstItem="Ukd-it-K4E" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="6cu-3d-DFq"/>
-                            <constraint firstItem="Ukd-it-K4E" firstAttribute="top" secondItem="YnH-ru-yWK" secondAttribute="bottom" constant="22" id="7DV-Xh-120"/>
-                            <constraint firstItem="YnH-ru-yWK" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="140" id="BPZ-WY-ayH"/>
-                            <constraint firstItem="Z76-7I-Ny6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="JMe-Vo-1yG"/>
-                            <constraint firstItem="YnH-ru-yWK" firstAttribute="top" secondItem="yKP-kO-T9M" secondAttribute="bottom" constant="16" id="R0Z-3d-XTT"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Ukd-it-K4E" secondAttribute="trailing" constant="24" id="UUT-3x-b6h"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YnH-ru-yWK" secondAttribute="trailing" constant="10" id="VZv-1Y-ujG"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Z76-7I-Ny6" secondAttribute="trailing" constant="24" id="XXt-vX-0hj"/>
-                            <constraint firstItem="eJr-ob-OA2" firstAttribute="top" secondItem="Z76-7I-Ny6" secondAttribute="bottom" constant="12" id="e9B-Fg-JLA"/>
-                            <constraint firstItem="Cqj-7B-X88" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lP6-IE-seJ"/>
-                            <constraint firstItem="yKP-kO-T9M" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="oVm-VN-u6B"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eJr-ob-OA2" secondAttribute="trailing" constant="24" id="pOB-tV-56M"/>
-                            <constraint firstItem="Z76-7I-Ny6" firstAttribute="top" secondItem="Ukd-it-K4E" secondAttribute="bottom" constant="12" id="rMX-DO-uOQ"/>
-                            <constraint firstItem="YnH-ru-yWK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="xlB-W7-rlg"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="Cxb-Og-enM"/>
@@ -154,7 +71,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="tTc-C4-GyF"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="25"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                 <state key="normal" title="시작하기">
                                     <color key="titleColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -327,7 +244,4 @@
             <point key="canvasLocation" x="1684" y="804.67980295566508"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="morningbeesPic" width="780" height="780"/>
-    </resources>
 </document>
