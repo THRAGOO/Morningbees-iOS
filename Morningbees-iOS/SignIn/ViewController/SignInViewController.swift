@@ -83,7 +83,7 @@ final class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         GIDSignIn.sharedInstance()?.presentingViewController = self
-        self.setupDesign()
+        setupDesign()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -149,7 +149,7 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
     
     func naverSignInRequest() {
         guard let accessToken = naverSignInInstance?.accessToken else {
-            self.presentOneBtnAlert(title: "Error!", message: "")
+            presentOneBtnAlert(title: "Error!", message: "")
             return
         }
         let reqModel = SignInModel()
@@ -239,7 +239,7 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
         switch authorization.credential {
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
             guard let identityToken = appleIDCredential.identityToken else {
-                self.presentOneBtnAlert(title: "Error!", message: "Couldn't get Apple information")
+                presentOneBtnAlert(title: "Error!", message: "Couldn't get Apple information")
                 return
             }
             let userID = appleIDCredential.user
@@ -297,7 +297,7 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
 extension SignInViewController: ASAuthorizationControllerPresentationContextProviding {
     
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        guard let presentView = self.view.window else {
+        guard let presentView = view.window else {
             fatalError("Not found the SignIn View")
         }
         return presentView
@@ -310,19 +310,19 @@ extension SignInViewController {
     
     private func setupDesign() {
         
-        self.view.addSubview(backgroundYellowImg)
-        self.view.addSubview(backgroundWhiteImg)
-        self.view.addSubview(logoTitleImg)
-        self.view.addSubview(subtitleLabel)
-        self.view.addSubview(beeImgSuperView)
+        view.addSubview(backgroundYellowImg)
+        view.addSubview(backgroundWhiteImg)
+        view.addSubview(logoTitleImg)
+        view.addSubview(subtitleLabel)
+        view.addSubview(beeImgSuperView)
         beeImgSuperView.addSubview(beeImgView)
-        self.view.addSubview(appleSignInBtn)
+        view.addSubview(appleSignInBtn)
         appleSignInBtn.addSubview(appleLogoImg)
         appleSignInBtn.addSubview(appleSignInTitle)
-        self.view.addSubview(naverSignInBtn)
+        view.addSubview(naverSignInBtn)
         naverSignInBtn.addSubview(naverLogoImg)
         naverSignInBtn.addSubview(naverSignInTitle)
-        self.view.addSubview(googleSignInBtn)
+        view.addSubview(googleSignInBtn)
         googleSignInBtn.addSubview(googleLogoImg)
         googleSignInBtn.addSubview(googleSignInTitle)
         
