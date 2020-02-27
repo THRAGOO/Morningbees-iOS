@@ -63,31 +63,4 @@ extension DesignSet {
             $0.width.equalTo((width / StandardDevice.width.rawValue) * frameWidth)
         }
     }
-    
-    static func constraints(view: UIImageView, top: Double, leading: Double, height: Double, width: Double) {
-        view.snp.makeConstraints {
-            $0.top.equalTo((top / StandardDevice.height.rawValue) * frameHeight)
-            $0.leading.equalTo((leading / StandardDevice.width.rawValue) * frameWidth)
-            $0.height.equalTo((height / StandardDevice.height.rawValue) * frameHeight)
-            $0.width.equalTo((width / StandardDevice.width.rawValue) * frameWidth)
-        }
-    }
-    
-    static func constraints(view: UIButton, top: Double, leading: Double, height: Double, width: Double) {
-        view.snp.makeConstraints {
-            $0.top.equalTo((top / StandardDevice.height.rawValue) * frameHeight)
-            $0.leading.equalTo((leading / StandardDevice.width.rawValue) * frameWidth)
-            $0.height.equalTo((height / StandardDevice.height.rawValue) * frameHeight)
-            $0.width.equalTo((width / StandardDevice.width.rawValue) * frameWidth)
-        }
-    }
-    
-    static func constraints(view: UILabel, top: Double, leading: Double, height: Double, width: Double) {
-        view.snp.makeConstraints {
-            $0.top.equalTo((top / StandardDevice.height.rawValue) * frameHeight)
-            $0.leading.equalTo((leading / StandardDevice.width.rawValue) * frameWidth)
-            $0.height.equalTo((height / StandardDevice.height.rawValue) * frameHeight)
-            $0.width.equalTo((width / StandardDevice.width.rawValue) * frameWidth)
-        }
-    }
 }

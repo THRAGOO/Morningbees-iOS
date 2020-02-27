@@ -101,7 +101,7 @@ final class SignInViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        self.beeImgSuperView.snp.makeConstraints {
+        beeImgSuperView.snp.makeConstraints {
             $0.top.equalTo((400.9 / StandardDevice.height.rawValue) * DesignSet.frameHeight)
         }
     }
