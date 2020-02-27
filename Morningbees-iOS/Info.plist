@@ -99,5 +99,10 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>NanumBarunGothicBold</string>
+		<string>Roboto-Medium</string>
+	</array>
 </dict>
 </plist>

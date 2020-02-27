@@ -10,6 +10,7 @@ import AuthenticationServices
 import Firebase
 import GoogleSignIn
 import NaverThirdPartyLogin
+import SnapKit
 import UIKit
 
 final class SignInViewController: UIViewController {
@@ -17,17 +18,92 @@ final class SignInViewController: UIViewController {
 //MARK:- Properties
 
     private let naverSignInInstance = NaverThirdPartyLoginConnection.getSharedInstance()
+    
+    private let backgroundYellowImg = DesignSet.initImageView(imgName: "bgSignin")
+    private let backgroundWhiteImg = DesignSet.initImageView(imgName: "bgSignInWhite")
+    private let logoTitleImg = DesignSet.initImageView(imgName: "logoTitle")
+    private let beeImgSuperView = UIView()
+    private let beeImgView = DesignSet.initImageView(imgName: "bee")
+    private let appleLogoImg = DesignSet.initImageView(imgName: "appleLogo")
+    private let naverLogoImg = DesignSet.initImageView(imgName: "logoNaver")
+    private let googleLogoImg = DesignSet.initImageView(imgName: "logoGoogle")
+    
+    private let subtitleLabel: UILabel = {
+        let label = DesignSet.initLabel(text: "친구들과 함께하는 기상미션")
+        label.textColor = DesignSet.colorSet(red: 68, green: 68, blue: 68)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        return label
+    }()
+    private let appleSignInTitle: UILabel = {
+        let label = DesignSet.initLabel(text: "Apple 계정으로 로그인")
+        label.textColor = DesignSet.colorSet(red: 255, green: 255, blue: 255)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        return label
+    }()
+    private let naverSignInTitle: UILabel = {
+        let label = DesignSet.initLabel(text: "Naver 계정으로 로그인")
+        label.textColor = DesignSet.colorSet(red: 255, green: 255, blue: 255)
+        label.font = UIFont(name: TextFonts.naverFont.rawValue, size: 20)
+        return label
+    }()
+    
+    private let googleSignInTitle: UILabel = {
+        let label = DesignSet.initLabel(text: "Google 계정으로 로그인")
+        label.textColor = DesignSet.colorSet(red: 119, green: 119, blue: 119)
+        label.font = UIFont(name: TextFonts.googleFont.rawValue, size: 20)
+        return label
+    }()
+    
+    private let appleSignInBtn: UIButton = {
+       let button = UIButton()
+        button.backgroundColor = DesignSet.colorSet(red: 0, green: 0, blue: 0)
+        button.layer.cornerRadius = 4
+        button.addTarget(self, action: #selector(touchUpSignInApple), for: .touchUpInside)
+        return button
+    }()
+    private let naverSignInBtn: UIButton = {
+       let button = UIButton()
+        button.backgroundColor = DesignSet.colorSet(red: 30, green: 200, blue: 0)
+        button.layer.cornerRadius = 4
+        button.addTarget(self, action: #selector(touchUpSignInNaver), for: .touchUpInside)
+        return button
+    }()
+    private let googleSignInBtn: UIButton = {
+       let button = UIButton()
+        button.backgroundColor = DesignSet.colorSet(red: 255, green: 255, blue: 255)
+        button.layer.borderColor = DesignSet.colorSet(red: 204, green: 204, blue: 204).cgColor
+        button.layer.cornerRadius = 4
+        button.layer.borderWidth = 0.8
+        button.addTarget(self, action: #selector(touchUpSignInGoogle), for: .touchUpInside)
+        return  button
+    }()
 
 //MARK:- Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         GIDSignIn.sharedInstance()?.presentingViewController = self
+        setupDesign()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.animate(withDuration: 0.5) {
+            self.beeImgSuperView.center = CGPoint(x: DesignSet.frameWidth / 2,
+                                                  y: (369 / StandardDevice.height.rawValue) * DesignSet.frameHeight)
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        beeImgSuperView.snp.makeConstraints {
+            $0.top.equalTo((400.9 / StandardDevice.height.rawValue) * DesignSet.frameHeight)
+        }
     }
 }
 
@@ -73,7 +149,7 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
     
     func naverSignInRequest() {
         guard let accessToken = naverSignInInstance?.accessToken else {
-            self.presentOneBtnAlert(title: "Error!", message: "")
+            presentOneBtnAlert(title: "Error!", message: "")
             return
         }
         let reqModel = SignInModel()
@@ -120,7 +196,7 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
 
     //MARK: Action
 
-    @IBAction private func touchUpSignInNaver(_ sender: UIButton) {
+    @objc private func touchUpSignInNaver(_ sender: UIButton) {
         naverSignInInstance?.delegate = self
         naverSignInInstance?.requestThirdPartyLogin()
     }
@@ -132,7 +208,7 @@ extension SignInViewController: CustomAlert {
 
     //MARK: Action
 
-    @IBAction private func touchUpSignInGoogle(_ sender: UIButton) {
+    @objc private func touchUpSignInGoogle(_ sender: UIButton) {
         if GIDSignIn.sharedInstance()?.hasPreviousSignIn() ?? false {
             GIDSignIn.sharedInstance()?.restorePreviousSignIn()
         } else {
@@ -147,7 +223,7 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
     
     //MARK: TouchUp SignIn with Apple Action
     
-    @IBAction private func touchUpSignInApple(_ sender: UIButton) {
+    @objc private func touchUpSignInApple(_ sender: UIButton) {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.email]
@@ -163,7 +239,7 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
         switch authorization.credential {
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
             guard let identityToken = appleIDCredential.identityToken else {
-                self.presentOneBtnAlert(title: "Error!", message: "Couldn't get Apple information")
+                presentOneBtnAlert(title: "Error!", message: "Couldn't get Apple information")
                 return
             }
             let userID = appleIDCredential.user
@@ -221,9 +297,63 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
 extension SignInViewController: ASAuthorizationControllerPresentationContextProviding {
     
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        guard let presentView = self.view.window else {
+        guard let presentView = view.window else {
             fatalError("Not found the SignIn View")
         }
         return presentView
+    }
+}
+
+//MARK:- View Design
+
+extension SignInViewController {
+    
+    private func setupDesign() {
+        
+        view.addSubview(backgroundYellowImg)
+        view.addSubview(backgroundWhiteImg)
+        view.addSubview(logoTitleImg)
+        view.addSubview(subtitleLabel)
+        view.addSubview(beeImgSuperView)
+        beeImgSuperView.addSubview(beeImgView)
+        view.addSubview(appleSignInBtn)
+        appleSignInBtn.addSubview(appleLogoImg)
+        appleSignInBtn.addSubview(appleSignInTitle)
+        view.addSubview(naverSignInBtn)
+        naverSignInBtn.addSubview(naverLogoImg)
+        naverSignInBtn.addSubview(naverSignInTitle)
+        view.addSubview(googleSignInBtn)
+        googleSignInBtn.addSubview(googleLogoImg)
+        googleSignInBtn.addSubview(googleSignInTitle)
+        
+        backgroundYellowImg.layer.zPosition = 0
+        logoTitleImg.layer.zPosition = 1
+        subtitleLabel.layer.zPosition = 1
+        beeImgSuperView.layer.zPosition = 1
+        backgroundWhiteImg.layer.zPosition = 2
+        appleSignInBtn.layer.zPosition = 3
+        naverSignInBtn.layer.zPosition = 3
+        googleSignInBtn.layer.zPosition = 3
+        
+        DesignSet.constraints(view: backgroundYellowImg, top: 0, leading: 0, height: 462, width: 375)
+        DesignSet.constraints(view: backgroundWhiteImg, top: 387, leading: 0, height: 280, width: 375)
+        
+        DesignSet.constraints(view: logoTitleImg, top: 148, leading: 89, height: 69, width: 198)
+        DesignSet.constraints(view: subtitleLabel, top: 114, leading: 99, height: 22, width: 177)
+        
+        DesignSet.constraints(view: beeImgSuperView, top: 400.9, leading: 102, height: 188, width: 172)
+        DesignSet.constraints(view: beeImgView, top: 0, leading: 0, height: 188, width: 172)
+        
+        DesignSet.constraints(view: appleSignInBtn, top: 484, leading: 24, height: 45, width: 327)
+        DesignSet.constraints(view: appleLogoImg, top: 12, leading: 82, height: 19, width: 16)
+        DesignSet.constraints(view: appleSignInTitle, top: 14, leading: 120, height: 17, width: 126)
+        
+        DesignSet.constraints(view: naverSignInBtn, top: 541, leading: 24, height: 45, width: 327)
+        DesignSet.constraints(view: naverLogoImg, top: 15, leading: 80, height: 16, width: 18)
+        DesignSet.constraints(view: naverSignInTitle, top: 15, leading: 118, height: 16, width: 128)
+        
+        DesignSet.constraints(view: googleSignInBtn, top: 598, leading: 24, height: 45, width: 327)
+        DesignSet.constraints(view: googleLogoImg, top: 4, leading: 67.5, height: 37, width: 37)
+        DesignSet.constraints(view: googleSignInTitle, top: 14, leading: 116, height: 17, width: 134)
     }
 }

@@ -67,7 +67,7 @@ extension SignUpViewController: CustomAlert {
     //MARK: Nickname Validation Check on Server
 
     func isValidNicknameServer() {
-        guard let nickname = self.nickname.text else {
+        guard let nickname = nickname.text else {
             return
         }
         let reqModel = ValidNicknameModel()
@@ -115,8 +115,8 @@ extension SignUpViewController: CustomAlert {
     //MARK: Nickname Validation Status
     
     private func nicknameAvailableSet(_ state: Bool) {
-        self.startBtn.isHidden = !state
-        self.validComment.isHidden = state
+        startBtn.isHidden = !state
+        validComment.isHidden = state
     }
     
     //MARK: Valid Request Action
@@ -129,10 +129,10 @@ extension SignUpViewController: CustomAlert {
             if inspecNicknameReg(originText: nickname) == true {
                 isValidNicknameServer()
             } else {
-                self.presentOneBtnAlert(title: "Sorry", message: "nickname contains inappropriate value.")
+                presentOneBtnAlert(title: "Sorry", message: "nickname contains inappropriate value.")
             }
         } else {
-            self.presentOneBtnAlert(title: "Sorry", message: "nickname is too short!")
+            presentOneBtnAlert(title: "Sorry", message: "nickname is too short!")
         }
     }
 }
@@ -161,7 +161,7 @@ extension SignUpViewController {
     
     private func signUpRequest(_ socialAccessToken: String, _ provider: String) {
         guard let nickname = nickname.text else {
-            self.presentOneBtnAlert(title: "Error!", message: "Couldn't get nickname")
+            presentOneBtnAlert(title: "Error!", message: "Couldn't get nickname")
             return
         }
         let reqModel = SignUpModel()
