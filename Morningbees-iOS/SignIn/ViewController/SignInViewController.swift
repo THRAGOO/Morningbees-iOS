@@ -29,28 +29,31 @@ final class SignInViewController: UIViewController {
     private let googleLogoImg = DesignSet.initImageView(imgName: "logoGoogle")
     
     private let subtitleLabel: UILabel = {
-        let label = DesignSet.initLabel(text: "친구들과 함께하는 기상미션")
+        let label = DesignSet.initLabel(text: "친구들과 함께하는 기상미션", letterSpacing: -0.2)
         label.textColor = DesignSet.colorSet(red: 68, green: 68, blue: 68)
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 16)
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     private let appleSignInTitle: UILabel = {
-        let label = DesignSet.initLabel(text: "Apple 계정으로 로그인")
+        let label = DesignSet.initLabel(text: "Apple 계정으로 로그인", letterSpacing: -0.3)
         label.textColor = DesignSet.colorSet(red: 255, green: 255, blue: 255)
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 14)
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     private let naverSignInTitle: UILabel = {
-        let label = DesignSet.initLabel(text: "Naver 계정으로 로그인")
+        let label = DesignSet.initLabel(text: "Naver 계정으로 로그인", letterSpacing: -0.3)
         label.textColor = DesignSet.colorSet(red: 255, green: 255, blue: 255)
-        label.font = UIFont(name: TextFonts.naverFont.rawValue, size: 20)
+        label.font = DesignSet.fontSet(name: TextFonts.naverFont.rawValue, size: 14)
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
-    
     private let googleSignInTitle: UILabel = {
-        let label = DesignSet.initLabel(text: "Google 계정으로 로그인")
+        let label = DesignSet.initLabel(text: "Google 계정으로 로그인", letterSpacing: -0.2)
         label.textColor = DesignSet.colorSet(red: 119, green: 119, blue: 119)
-        label.font = UIFont(name: TextFonts.googleFont.rawValue, size: 20)
+        label.font = DesignSet.fontSet(name: TextFonts.googleFont.rawValue, size: 14)
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -338,8 +341,8 @@ extension SignInViewController {
         DesignSet.constraints(view: backgroundYellowImg, top: 0, leading: 0, height: 462, width: 375)
         DesignSet.constraints(view: backgroundWhiteImg, top: 387, leading: 0, height: 280, width: 375)
         
-        DesignSet.constraints(view: logoTitleImg, top: 148, leading: 89, height: 69, width: 198)
-        DesignSet.constraints(view: subtitleLabel, top: 114, leading: 99, height: 22, width: 177)
+        DesignSet.constraints(view: logoTitleImg, top: 144, leading: 89, height: 69, width: 198)
+        DesignSet.constraints(view: subtitleLabel, top: 112, leading: 102, height: 19, width: 172)
         
         DesignSet.constraints(view: beeImgSuperView, top: 400.9, leading: 102, height: 188, width: 172)
         DesignSet.constraints(view: beeImgView, top: 0, leading: 0, height: 188, width: 172)
@@ -350,7 +353,7 @@ extension SignInViewController {
         
         DesignSet.constraints(view: naverSignInBtn, top: 541, leading: 24, height: 45, width: 327)
         DesignSet.constraints(view: naverLogoImg, top: 15, leading: 80, height: 16, width: 18)
-        DesignSet.constraints(view: naverSignInTitle, top: 15, leading: 118, height: 16, width: 128)
+        DesignSet.constraints(view: naverSignInTitle, top: 16, leading: 118, height: 16, width: 128)
         
         DesignSet.constraints(view: googleSignInBtn, top: 598, leading: 24, height: 45, width: 327)
         DesignSet.constraints(view: googleLogoImg, top: 4, leading: 67.5, height: 37, width: 37)
