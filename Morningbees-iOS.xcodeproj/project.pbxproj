@@ -29,8 +29,10 @@
 		B0CC882F23F81B8700B3131E /* KeychainItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC882E23F81B8700B3131E /* KeychainItems.swift */; };
 		B0CC883323F827DD00B3131E /* BeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC883223F827DD00B3131E /* BeeViewController.swift */; };
 		CE432C212390098F0005F257 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE432C202390098F0005F257 /* UIApplication+Extension.swift */; };
-		D531A7A024065FB100506666 /* NanumBarunGothicBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D531A79F24065FB100506666 /* NanumBarunGothicBold.ttf */; };
-		D531A7A22406614200506666 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D531A7A12406614200506666 /* Roboto-Medium.ttf */; };
+		D5580D672408269F008F16F5 /* SFProDisplay-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5580D642408269F008F16F5 /* SFProDisplay-Black.ttf */; };
+		D5580D682408269F008F16F5 /* NanumBarunGothicBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5580D652408269F008F16F5 /* NanumBarunGothicBold.ttf */; };
+		D5580D692408269F008F16F5 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5580D662408269F008F16F5 /* Roboto-Medium.ttf */; };
+		D5580D6B240960BC008F16F5 /* AppleSDGothicNeo.ttc in Resources */ = {isa = PBXBuildFile; fileRef = D5580D6A240960BC008F16F5 /* AppleSDGothicNeo.ttc */; };
 		D57B830C2405A761001DB1FF /* ViewDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57B830B2405A761001DB1FF /* ViewDesign.swift */; };
 /* End PBXBuildFile section */
 
@@ -60,8 +62,10 @@
 		B0CC883223F827DD00B3131E /* BeeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeViewController.swift; sourceTree = "<group>"; };
 		B8A9D1B64CFCC0291249B172 /* Pods-Morningbees-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.release.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		CE432C202390098F0005F257 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
-		D531A79F24065FB100506666 /* NanumBarunGothicBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumBarunGothicBold.ttf; sourceTree = "<group>"; };
-		D531A7A12406614200506666 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		D5580D642408269F008F16F5 /* SFProDisplay-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProDisplay-Black.ttf"; sourceTree = "<group>"; };
+		D5580D652408269F008F16F5 /* NanumBarunGothicBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumBarunGothicBold.ttf; sourceTree = "<group>"; };
+		D5580D662408269F008F16F5 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		D5580D6A240960BC008F16F5 /* AppleSDGothicNeo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleSDGothicNeo.ttc; sourceTree = "<group>"; };
 		D57B830B2405A761001DB1FF /* ViewDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDesign.swift; sourceTree = "<group>"; };
 		D5D5BC8623FE6B6000F59DA0 /* Morningbees.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Morningbees.entitlements; sourceTree = "<group>"; };
 		E6D244607548017DCD414837 /* Pods-Morningbees-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -119,7 +123,6 @@
 		7279EF82236EC61D005ECC81 /* Morningbees-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				D531A79E24065F7B00506666 /* Fonts */,
 				D5D5BC8623FE6B6000F59DA0 /* Morningbees.entitlements */,
 				D57B830A2405A747001DB1FF /* Design */,
 				B0CC883023F8279200B3131E /* Main */,
@@ -133,6 +136,7 @@
 				7279EF89236EC61D005ECC81 /* Main.storyboard */,
 				7279EF8E236EC623005ECC81 /* LaunchScreen.storyboard */,
 				7279EF91236EC623005ECC81 /* Info.plist */,
+				D5580D6324082684008F16F5 /* Fonts */,
 			);
 			path = "Morningbees-iOS";
 			sourceTree = "<group>";
@@ -218,11 +222,13 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		D531A79E24065F7B00506666 /* Fonts */ = {
+		D5580D6324082684008F16F5 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				D531A7A12406614200506666 /* Roboto-Medium.ttf */,
-				D531A79F24065FB100506666 /* NanumBarunGothicBold.ttf */,
+				D5580D6A240960BC008F16F5 /* AppleSDGothicNeo.ttc */,
+				D5580D652408269F008F16F5 /* NanumBarunGothicBold.ttf */,
+				D5580D662408269F008F16F5 /* Roboto-Medium.ttf */,
+				D5580D642408269F008F16F5 /* SFProDisplay-Black.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -297,10 +303,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D531A7A024065FB100506666 /* NanumBarunGothicBold.ttf in Resources */,
+				D5580D692408269F008F16F5 /* Roboto-Medium.ttf in Resources */,
+				D5580D682408269F008F16F5 /* NanumBarunGothicBold.ttf in Resources */,
+				D5580D672408269F008F16F5 /* SFProDisplay-Black.ttf in Resources */,
 				7254BF4923A66AA10036D24D /* .swiftlint.yml in Resources */,
+				D5580D6B240960BC008F16F5 /* AppleSDGothicNeo.ttc in Resources */,
 				7279EF90236EC623005ECC81 /* LaunchScreen.storyboard in Resources */,
-				D531A7A22406614200506666 /* Roboto-Medium.ttf in Resources */,
 				B0747AA923AA349000100858 /* GoogleService-Info.plist in Resources */,
 				7279EF8D236EC623005ECC81 /* Assets.xcassets in Resources */,
 				7279EF8B236EC61D005ECC81 /* Main.storyboard in Resources */,
