@@ -35,100 +35,10 @@
                     <view key="view" contentMode="scaleToFill" id="7W7-8M-LH3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VXl-cK-XyP">
-                                <rect key="frame" x="40" y="155" width="295" height="135"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="135" id="WS3-lw-IYO"/>
-                                </constraints>
-                                <string key="text">Morningbees
-에 오신 것을 환영합니다.
-닉네임을 만들고
-아침미션에 참가하세요!</string>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="25"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="2-10자 (한글, 영어, 숫자)" minimumFontSize="20" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6Ro-bh-pGP">
-                                <rect key="frame" x="40" y="359" width="223" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="SXz-ma-P6Q"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yrq-Cc-Zfp">
-                                <rect key="frame" x="271" y="360" width="64" height="40"/>
-                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="17"/>
-                                <state key="normal" title="중복 확인"/>
-                                <connections>
-                                    <action selector="touchUpVaildCheckButton:" destination="am7-bX-keQ" eventType="touchUpInside" id="T55-Bb-2yS"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FdP-xl-Obj">
-                                <rect key="frame" x="0.0" y="706" width="375" height="60"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="tTc-C4-GyF"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
-                                <state key="normal" title="시작하기">
-                                    <color key="titleColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="touchUpStartBtn:" destination="am7-bX-keQ" eventType="touchUpInside" id="DtO-ze-qEk"/>
-                                </connections>
-                            </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="닉네임을 입력하세요." textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1T0-m1-IHG">
-                                <rect key="frame" x="40" y="310" width="205" height="37"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="37" id="YlY-ar-7kh"/>
-                                </constraints>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="22"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="중복 확인을 해주세요!" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FpY-ls-KxV">
-                                <rect key="frame" x="40" y="407" width="133" height="37"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="37" id="rBo-0P-G8T"/>
-                                </constraints>
-                                <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="6Ro-bh-pGP" firstAttribute="top" secondItem="1T0-m1-IHG" secondAttribute="bottom" constant="12" id="0c7-9f-LeJ"/>
-                            <constraint firstItem="VXl-cK-XyP" firstAttribute="top" secondItem="juU-Uj-SwR" secondAttribute="top" constant="111" id="6SQ-KO-Pei"/>
-                            <constraint firstItem="FpY-ls-KxV" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" constant="40" id="9u6-Q5-ApH"/>
-                            <constraint firstItem="juU-Uj-SwR" firstAttribute="trailing" secondItem="yrq-Cc-Zfp" secondAttribute="trailing" constant="40" id="CgI-oQ-sFP"/>
-                            <constraint firstItem="juU-Uj-SwR" firstAttribute="trailing" secondItem="FpY-ls-KxV" secondAttribute="trailing" constant="202" id="Gi5-nD-cMc"/>
-                            <constraint firstItem="yrq-Cc-Zfp" firstAttribute="leading" secondItem="6Ro-bh-pGP" secondAttribute="trailing" constant="8" id="HRH-5h-dqb"/>
-                            <constraint firstItem="1T0-m1-IHG" firstAttribute="top" secondItem="VXl-cK-XyP" secondAttribute="bottom" constant="20" id="HZN-B4-Gil"/>
-                            <constraint firstItem="juU-Uj-SwR" firstAttribute="bottom" secondItem="FdP-xl-Obj" secondAttribute="bottom" constant="12" id="IzD-0A-TjW"/>
-                            <constraint firstItem="FpY-ls-KxV" firstAttribute="top" secondItem="6Ro-bh-pGP" secondAttribute="bottom" constant="8" id="Njq-WI-Jud"/>
-                            <constraint firstItem="FdP-xl-Obj" firstAttribute="trailing" secondItem="juU-Uj-SwR" secondAttribute="trailing" id="Uyu-RG-45t"/>
-                            <constraint firstItem="6Ro-bh-pGP" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" constant="40" id="V8k-3i-pqG"/>
-                            <constraint firstItem="yrq-Cc-Zfp" firstAttribute="height" secondItem="6Ro-bh-pGP" secondAttribute="height" id="Vh4-40-qUv"/>
-                            <constraint firstItem="yrq-Cc-Zfp" firstAttribute="top" secondItem="VXl-cK-XyP" secondAttribute="bottom" constant="70" id="kJN-np-ShM"/>
-                            <constraint firstItem="FdP-xl-Obj" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" id="p65-g5-Q1v"/>
-                            <constraint firstItem="juU-Uj-SwR" firstAttribute="trailing" secondItem="VXl-cK-XyP" secondAttribute="trailing" constant="40" id="pH3-UM-FfB"/>
-                            <constraint firstItem="1T0-m1-IHG" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" constant="40" id="rqY-Oa-uVk"/>
-                            <constraint firstItem="VXl-cK-XyP" firstAttribute="leading" secondItem="juU-Uj-SwR" secondAttribute="leading" constant="40" id="xQh-l1-DmE"/>
-                            <constraint firstItem="juU-Uj-SwR" firstAttribute="trailing" secondItem="1T0-m1-IHG" secondAttribute="trailing" constant="130" id="y0U-He-cXz"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="juU-Uj-SwR"/>
                     </view>
                     <navigationItem key="navigationItem" id="EzI-i2-6jK"/>
-                    <connections>
-                        <outlet property="nickname" destination="6Ro-bh-pGP" id="EOW-11-hlh"/>
-                        <outlet property="startBtn" destination="FdP-xl-Obj" id="pdA-jb-o5T"/>
-                        <outlet property="validComment" destination="FpY-ls-KxV" id="G3X-an-p9S"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aPz-0u-3s0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -169,7 +79,7 @@
                                     <action selector="touchUpSignOutNaver:" destination="H7T-eX-N3b" eventType="touchUpInside" id="Dnd-qS-KO8"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="This View is going to be Main View." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="uKi-YE-mC3">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="This View is going to be Main View." translatesAutoresizingMaskIntoConstraints="NO" id="uKi-YE-mC3">
                                 <rect key="frame" x="20" y="134" width="235" height="118"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
@@ -177,7 +87,7 @@
                                     <constraint firstAttribute="height" constant="118" id="xOq-n8-j0i"/>
                                 </constraints>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="29"/>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="31"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cC9-NB-MlI">
