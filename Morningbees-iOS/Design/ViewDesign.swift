@@ -17,6 +17,12 @@ enum StandardDevice: Double {
 enum TextFonts: String {
     case naverFont = "NanumBarunGothicBold"
     case googleFont = "Roboto-Medium"
+    case SFProDisplayBlack = "SFProDisplay-Black"
+    case appleSDGothicNeoBold = "AppleSDGothicNeo-Bold"
+    case appleSDGothicNeoSemiBold = "AppleSDGothicNeo-SemiBold"
+    case appleSDGothicNeoMedium = "AppleSDGothicNeo-Medium"
+    case appleSDGothicNeoRegular = "AppleSDGothicNeo-Regular"
+    case appleSDGothicNeoExtraBold = "AppleSDGothicNeo-ExtraBold"
 }
 
 final class DesignSet {
@@ -36,6 +42,14 @@ extension DesignSet {
                        alpha: CGFloat(1.0))
     }
     
+    static func fontSet(name: String, size: Double) -> UIFont {
+        guard let font = UIFont.init(name: name,
+                                     size: CGFloat((size / StandardDevice.height.rawValue) * frameHeight)) else {
+                                    fatalError("Failed to load the font.")
+        }
+        return font
+    }
+    
     //MARK: Initializer
     
     static func initImageView(imgName: String) -> UIImageView {
@@ -53,6 +67,17 @@ extension DesignSet {
         return label
     }
     
+    static func initLabel(text: String, letterSpacing: Double) -> UILabel {
+        let label = UILabel()
+        let attributedString = NSMutableAttributedString(string: text)
+        attributedString.addAttribute(NSAttributedString.Key.kern,
+                                      value: CGFloat((letterSpacing / StandardDevice.height.rawValue) * frameHeight),
+                                      range: NSRange.init(location: 0, length: attributedString.length))
+        label.attributedText = attributedString
+        label.isUserInteractionEnabled = false
+        return label
+    }
+    
     //MARK: Constraints
     
     static func constraints(view: UIView, top: Double, leading: Double, height: Double, width: Double) {
@@ -61,6 +86,15 @@ extension DesignSet {
             $0.leading.equalTo((leading / StandardDevice.width.rawValue) * frameWidth)
             $0.height.equalTo((height / StandardDevice.height.rawValue) * frameHeight)
             $0.width.equalTo((width / StandardDevice.width.rawValue) * frameWidth)
+        }
+    }
+    
+    static func flexibleConstraints(view: UIView, top: Double, leading: Double, height: Double, width: Double) {
+        view.snp.makeConstraints {
+            $0.top.equalTo((top / StandardDevice.height.rawValue) * frameHeight)
+            $0.leading.equalTo((leading / StandardDevice.width.rawValue) * frameWidth)
+            $0.height.equalTo((height / StandardDevice.height.rawValue) * frameHeight)
+            $0.width.greaterThanOrEqualTo((width / StandardDevice.width.rawValue) * frameWidth)
         }
     }
 }

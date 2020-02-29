@@ -101,8 +101,10 @@
 	<string>Light</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>NanumBarunGothicBold</string>
-		<string>Roboto-Medium</string>
+		<string>NanumBarunGothicBold.ttf</string>
+		<string>Roboto-Medium.ttf</string>
+		<string>SFProDisplay-Black.ttf</string>
+		<string>AppleSDGothicNeo.ttc</string>
 	</array>
 </dict>
 </plist>
