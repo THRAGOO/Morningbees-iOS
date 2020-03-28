@@ -18,6 +18,7 @@ final class BeeViewController: UIViewController, CustomAlert {
     
     @IBOutlet private weak var accessTokenTextView: UITextView!
     @IBOutlet private weak var refreshTokenTextView: UITextView!
+    @IBOutlet private weak var renewalBtn: UIButton!
     
 //MARK:- Life Cycle
     
@@ -65,6 +66,18 @@ extension BeeViewController: NaverThirdPartyLoginConnectionDelegate {
     @IBAction private func touchUpDisconnectNaver(_ sender: UIButton) {
         naverSignInInstance?.delegate = self
         naverSignInInstance?.requestDeleteToken()
+    }
+    
+    @IBAction private func touchUpRenewalBtn(_ sender: UIButton) {
+        RenewalToken.request(accessToken: accessTokenTextView.text,
+                             refreshToken: refreshTokenTextView.text)
+        KeychainService.extractKeyChainToken { (accessToken, refreshToken, error) in
+            if let error = error {
+                self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+            }
+            self.accessTokenTextView.text = accessToken
+            self.refreshTokenTextView.text = refreshToken
+        }
     }
 }
 

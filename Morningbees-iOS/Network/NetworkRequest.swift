@@ -14,6 +14,8 @@ enum Path: String {
     case signIn = "/api/auth/sign_in"
     case signUp = "/api/auth/sign_up"
     case validNickname = "/api/auth/valid_nickname"
+    
+    case renewal = "/api/auth/renewal"
 }
 
 enum HTTPMethod: String {
@@ -54,9 +56,10 @@ final class Request<Model> where Model: Decodable {
         return URLSession(configuration: config)
     }()
 
-    func request<T: Encodable>(req: RequestSet,
-                               param: T,
-                               completion: @escaping (Model?, Error?) -> Void) {
+    func request<T: Encodable, U>(req: RequestSet,
+                                  header: U,
+                                  param: T,
+                                  completion: @escaping (Model?, Error?) -> Void) {
         var urlComponents = URLComponents(string: Path.base.rawValue)
         urlComponents?.path = req.path.rawValue
         
@@ -74,6 +77,12 @@ final class Request<Model> where Model: Decodable {
         }
         var request = URLRequest(url: componentsURL)
         request.httpMethod = req.method.rawValue
+        
+        if let headerParams = header as? [String: String] {
+            for header in headerParams {
+                request.setValue(header.value, forHTTPHeaderField: header.key)
+            }
+        }
         
         if req.method == HTTPMethod.post {
             let encoder = JSONEncoder()
