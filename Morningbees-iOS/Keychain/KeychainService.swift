@@ -41,11 +41,6 @@ extension KeychainService {
                                     completion: @escaping (Error?) -> Void) {
         let queryToFind: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
                                           kSecAttrServer as String: KeychainServer.morningbeesAuth.rawValue]
-        let findStatus = SecItemDelete(queryToFind as CFDictionary)
-        guard findStatus == errSecSuccess || findStatus == errSecItemNotFound else {
-            completion(KeychainError.unhandledError(status: findStatus))
-            return
-        }
         let credentials = Credentials.init(accessToken: accessToken, refreshToken: refreshToken)
         guard let accessTokenData = credentials.accessToken.data(using: String.Encoding.utf8),
             let refreshTokenData = credentials.refreshToken.data(using: String.Encoding.utf8) else {
