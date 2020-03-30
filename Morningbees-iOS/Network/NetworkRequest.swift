@@ -28,7 +28,7 @@ enum ResponseError: Error {
     case badRequest
 }
 
-enum Headers: String {
+enum RequestHeader: String {
     case accessToken = "X-BEES-ACCESS-TOKEN"
     case refreshToken = "X-BEES-REFRESH-TOKEN"
 }
