@@ -98,7 +98,7 @@ extension AppDelegate: GIDSignInDelegate {
             "provider": SignInProvider.google.rawValue
         ]
         let signInReq = Request<SignIn>()
-        signInReq.request(req: request, header: "", param: param) { (signIn, error)  in
+        signInReq.request(req: request, header: nil, param: param) { (signIn, error)  in
             if let error = error {
                 signInViewController.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
             }

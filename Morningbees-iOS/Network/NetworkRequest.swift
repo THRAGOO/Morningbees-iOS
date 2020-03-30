@@ -28,6 +28,11 @@ enum ResponseError: Error {
     case badRequest
 }
 
+enum Headers: String {
+    case accessToken = "X-BEES-ACCESS-TOKEN"
+    case refreshToken = "X-BEES-REFRESH-TOKEN"
+}
+
 protocol RequestModel {
 
     associatedtype ModelType: Decodable
@@ -56,10 +61,10 @@ final class Request<Model> where Model: Decodable {
         return URLSession(configuration: config)
     }()
 
-    func request<T: Encodable, U>(req: RequestSet,
-                                  header: U,
-                                  param: T,
-                                  completion: @escaping (Model?, Error?) -> Void) {
+    func request<T: Encodable>(req: RequestSet,
+                               header: [String: String]?,
+                               param: T,
+                               completion: @escaping (Model?, Error?) -> Void) {
         var urlComponents = URLComponents(string: Path.base.rawValue)
         urlComponents?.path = req.path.rawValue
         
@@ -78,7 +83,7 @@ final class Request<Model> where Model: Decodable {
         var request = URLRequest(url: componentsURL)
         request.httpMethod = req.method.rawValue
         
-        if let headerParams = header as? [String: String] {
+        if let headerParams = header {
             for header in headerParams {
                 request.setValue(header.value, forHTTPHeaderField: header.key)
             }

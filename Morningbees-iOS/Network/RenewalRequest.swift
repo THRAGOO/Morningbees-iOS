@@ -16,8 +16,8 @@ extension RenewalToken {
         let reqModel = RenewalModel()
         let request = RequestSet(method: reqModel.method, path: reqModel.path)
         let renewalReq = Request<Renewal>()
-        let header: [String: String] = ["X-BEES-ACCESS-TOKEN": accessToken,
-                                        "X-BEES-REFRESH-TOKEN": refreshToken]
+        let header: [String: String] = [Headers.accessToken.rawValue: accessToken,
+                                        Headers.refreshToken.rawValue: refreshToken]
         renewalReq.request(req: request, header: header, param: "") { (renewal, error) in
             if let error = error {
                 print(error.localizedDescription)
