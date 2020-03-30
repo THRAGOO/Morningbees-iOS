@@ -34,6 +34,8 @@
 		D5580D692408269F008F16F5 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5580D662408269F008F16F5 /* Roboto-Medium.ttf */; };
 		D5580D6B240960BC008F16F5 /* AppleSDGothicNeo.ttc in Resources */ = {isa = PBXBuildFile; fileRef = D5580D6A240960BC008F16F5 /* AppleSDGothicNeo.ttc */; };
 		D57B830C2405A761001DB1FF /* ViewDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57B830B2405A761001DB1FF /* ViewDesign.swift */; };
+		D5D3DA2A2427623500EFB04B /* RenewalRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D3DA292427623500EFB04B /* RenewalRequest.swift */; };
+		D5D3DA2C2427644800EFB04B /* Renewal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D3DA2B2427644800EFB04B /* Renewal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +69,8 @@
 		D5580D662408269F008F16F5 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		D5580D6A240960BC008F16F5 /* AppleSDGothicNeo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleSDGothicNeo.ttc; sourceTree = "<group>"; };
 		D57B830B2405A761001DB1FF /* ViewDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDesign.swift; sourceTree = "<group>"; };
+		D5D3DA292427623500EFB04B /* RenewalRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenewalRequest.swift; sourceTree = "<group>"; };
+		D5D3DA2B2427644800EFB04B /* Renewal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renewal.swift; sourceTree = "<group>"; };
 		D5D5BC8623FE6B6000F59DA0 /* Morningbees.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Morningbees.entitlements; sourceTree = "<group>"; };
 		E6D244607548017DCD414837 /* Pods-Morningbees-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,6 +152,7 @@
 				B08EB50D23BB124300FE411F /* ServerError.swift */,
 				B020492323D73E2F00B41003 /* SignIn.swift */,
 				B0CC882B23F6A33500B3131E /* SignUp.swift */,
+				D5D3DA2B2427644800EFB04B /* Renewal.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -156,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				B0747AAB23AA642C00100858 /* NetworkRequest.swift */,
+				D5D3DA292427623500EFB04B /* RenewalRequest.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -412,9 +418,11 @@
 				B0747AAC23AA642C00100858 /* NetworkRequest.swift in Sources */,
 				B08EB50E23BB124300FE411F /* ServerError.swift in Sources */,
 				7279EF86236EC61D005ECC81 /* SceneDelegate.swift in Sources */,
+				D5D3DA2C2427644800EFB04B /* Renewal.swift in Sources */,
 				B0CC882C23F6A33500B3131E /* SignUp.swift in Sources */,
 				B0B3CDBA23FA42BF00CF4200 /* KeychainService.swift in Sources */,
 				B0CC883323F827DD00B3131E /* BeeViewController.swift in Sources */,
+				D5D3DA2A2427623500EFB04B /* RenewalRequest.swift in Sources */,
 				B0449EAB23B5D41E0079D816 /* VaildNickname.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

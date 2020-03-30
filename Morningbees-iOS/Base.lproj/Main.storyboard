@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PPN-b6-wYA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PPN-b6-wYA">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -124,6 +124,14 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dSY-cA-BFb">
+                                <rect key="frame" x="151.66666666666666" y="590" width="72" height="35"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <state key="normal" title="Renewal"/>
+                                <connections>
+                                    <action selector="touchUpRenewalBtn:" destination="H7T-eX-N3b" eventType="touchUpInside" id="guX-qV-vX6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -134,11 +142,13 @@
                             <constraint firstItem="uKi-YE-mC3" firstAttribute="top" secondItem="det-oh-XxK" secondAttribute="top" constant="90" id="K9S-Of-DCd"/>
                             <constraint firstItem="xg7-cN-j1b" firstAttribute="centerX" secondItem="1XS-8L-pQQ" secondAttribute="centerX" id="Ml7-Dc-sBs"/>
                             <constraint firstItem="v9b-W4-No5" firstAttribute="leading" secondItem="det-oh-XxK" secondAttribute="leading" constant="70" id="Swg-wQ-4wZ"/>
+                            <constraint firstItem="dSY-cA-BFb" firstAttribute="centerX" secondItem="1XS-8L-pQQ" secondAttribute="centerX" id="UmF-GO-mXS"/>
                             <constraint firstItem="cC9-NB-MlI" firstAttribute="top" secondItem="7qb-eH-zHK" secondAttribute="bottom" constant="8" id="XJW-dd-pb8"/>
                             <constraint firstItem="det-oh-XxK" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7qb-eH-zHK" secondAttribute="trailing" id="YVJ-6l-0Wh"/>
                             <constraint firstItem="7qb-eH-zHK" firstAttribute="leading" secondItem="det-oh-XxK" secondAttribute="leading" constant="70" id="YjS-S7-PIS"/>
                             <constraint firstItem="xg7-cN-j1b" firstAttribute="top" secondItem="v9b-W4-No5" secondAttribute="bottom" constant="8" id="cJT-Kf-ZKb"/>
                             <constraint firstItem="det-oh-XxK" firstAttribute="bottom" secondItem="wgX-xh-BDC" secondAttribute="bottom" constant="100" id="fjd-Wb-hwm"/>
+                            <constraint firstItem="wgX-xh-BDC" firstAttribute="top" secondItem="dSY-cA-BFb" secondAttribute="bottom" constant="17" id="lg6-3z-zoj"/>
                             <constraint firstItem="7qb-eH-zHK" firstAttribute="top" secondItem="uKi-YE-mC3" secondAttribute="bottom" constant="20" id="sWU-sI-9jM"/>
                             <constraint firstItem="uKi-YE-mC3" firstAttribute="leading" secondItem="det-oh-XxK" secondAttribute="leading" constant="20" id="tF6-8l-fzV"/>
                         </constraints>

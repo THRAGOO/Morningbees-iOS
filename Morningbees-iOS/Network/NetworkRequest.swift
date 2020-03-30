@@ -14,6 +14,8 @@ enum Path: String {
     case signIn = "/api/auth/sign_in"
     case signUp = "/api/auth/sign_up"
     case validNickname = "/api/auth/valid_nickname"
+    
+    case renewal = "/api/auth/renewal"
 }
 
 enum HTTPMethod: String {
@@ -24,6 +26,11 @@ enum HTTPMethod: String {
 enum ResponseError: Error {
     case unknown
     case badRequest
+}
+
+enum RequestHeader: String {
+    case accessToken = "X-BEES-ACCESS-TOKEN"
+    case refreshToken = "X-BEES-REFRESH-TOKEN"
 }
 
 protocol RequestModel {
@@ -55,6 +62,7 @@ final class Request<Model> where Model: Decodable {
     }()
 
     func request<T: Encodable>(req: RequestSet,
+                               header: [String: String]? = nil,
                                param: T,
                                completion: @escaping (Model?, Error?) -> Void) {
         var urlComponents = URLComponents(string: Path.base.rawValue)
@@ -74,6 +82,12 @@ final class Request<Model> where Model: Decodable {
         }
         var request = URLRequest(url: componentsURL)
         request.httpMethod = req.method.rawValue
+        
+        if let headerParams = header {
+            for header in headerParams {
+                request.setValue(header.value, forHTTPHeaderField: header.key)
+            }
+        }
         
         if req.method == HTTPMethod.post {
             let encoder = JSONEncoder()
