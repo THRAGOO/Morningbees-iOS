@@ -62,7 +62,7 @@ final class Request<Model> where Model: Decodable {
     }()
 
     func request<T: Encodable>(req: RequestSet,
-                               header: [String: String]?,
+                               header: [String: String]? = nil,
                                param: T,
                                completion: @escaping (Model?, Error?) -> Void) {
         var urlComponents = URLComponents(string: Path.base.rawValue)
