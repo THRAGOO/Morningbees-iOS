@@ -16,6 +16,7 @@ enum Path: String {
     case validNickname = "/api/auth/valid_nickname"
     
     case renewal = "/api/auth/renewal"
+    case me = "/api/auth/me"
 }
 
 enum HTTPMethod: String {
@@ -26,6 +27,11 @@ enum HTTPMethod: String {
 enum ResponseError: Error {
     case unknown
     case badRequest
+}
+
+enum ErrorCode: Int {
+    case expiredToken = 101
+    case badAccess = 110
 }
 
 enum RequestHeader: String {
@@ -60,7 +66,10 @@ final class Request<Model> where Model: Decodable {
         let config = URLSessionConfiguration.default
         return URLSession(configuration: config)
     }()
+}
 
+extension Request {
+    
     func request<T: Encodable>(req: RequestSet,
                                header: [String: String]? = nil,
                                param: T,
@@ -103,25 +112,31 @@ final class Request<Model> where Model: Decodable {
 
         let dataTask = session.dataTask(with: request) { (data, response, error) in
             if let error = error {
-                print("error: \(error)")
+                completion(nil, error)
             }
             guard let data = data,
                 let response = response as? HTTPURLResponse else {
                 completion(nil, ResponseError.unknown)
                 return
             }
-            if response.statusCode > 299 || response.statusCode < 200 {
-                if let result = String(data: data, encoding: .utf8) {
-                    print("Error: \(result)")
+            if response.statusCode < 200 || 299 < response.statusCode {
+                guard let failResult = try? JSONDecoder().decode(ServerError.self, from: data) else {
+                    completion(nil, ResponseError.unknown)
+                    return
+                }
+                if failResult.code == ErrorCode.expiredToken.rawValue {
+                    RenewalToken().request { (error) in
+                        completion(nil, error)
+                    }
                 }
                 completion(nil, ResponseError.badRequest)
-                return
+            } else {
+                guard let result = try? JSONDecoder().decode(Model.self, from: data) else {
+                    completion(nil, ResponseError.unknown)
+                    return
+                }
+                completion(result, nil)
             }
-            guard let result = try? JSONDecoder().decode(Model.self, from: data) else {
-                completion(nil, ResponseError.unknown)
-                return
-            }
-            completion(result, nil)
         }
         dataTask.resume()
     }

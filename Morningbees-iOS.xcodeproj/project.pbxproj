@@ -29,6 +29,8 @@
 		B0CC882F23F81B8700B3131E /* KeychainItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC882E23F81B8700B3131E /* KeychainItems.swift */; };
 		B0CC883323F827DD00B3131E /* BeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC883223F827DD00B3131E /* BeeViewController.swift */; };
 		CE432C212390098F0005F257 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE432C202390098F0005F257 /* UIApplication+Extension.swift */; };
+		D51951B72434D52900A61CA3 /* Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51951B62434D52900A61CA3 /* Me.swift */; };
+		D51951B92434D69100A61CA3 /* BeforeJoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51951B82434D69100A61CA3 /* BeforeJoinViewController.swift */; };
 		D5580D672408269F008F16F5 /* SFProDisplay-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5580D642408269F008F16F5 /* SFProDisplay-Black.ttf */; };
 		D5580D682408269F008F16F5 /* NanumBarunGothicBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5580D652408269F008F16F5 /* NanumBarunGothicBold.ttf */; };
 		D5580D692408269F008F16F5 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5580D662408269F008F16F5 /* Roboto-Medium.ttf */; };
@@ -36,6 +38,7 @@
 		D57B830C2405A761001DB1FF /* ViewDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57B830B2405A761001DB1FF /* ViewDesign.swift */; };
 		D5D3DA2A2427623500EFB04B /* RenewalRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D3DA292427623500EFB04B /* RenewalRequest.swift */; };
 		D5D3DA2C2427644800EFB04B /* Renewal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D3DA2B2427644800EFB04B /* Renewal.swift */; };
+		D5D9919C2438C7BE00BEFEE8 /* MeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D9919B2438C7BE00BEFEE8 /* MeRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +67,8 @@
 		B0CC883223F827DD00B3131E /* BeeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeViewController.swift; sourceTree = "<group>"; };
 		B8A9D1B64CFCC0291249B172 /* Pods-Morningbees-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.release.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		CE432C202390098F0005F257 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
+		D51951B62434D52900A61CA3 /* Me.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Me.swift; sourceTree = "<group>"; };
+		D51951B82434D69100A61CA3 /* BeforeJoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeJoinViewController.swift; sourceTree = "<group>"; };
 		D5580D642408269F008F16F5 /* SFProDisplay-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProDisplay-Black.ttf"; sourceTree = "<group>"; };
 		D5580D652408269F008F16F5 /* NanumBarunGothicBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumBarunGothicBold.ttf; sourceTree = "<group>"; };
 		D5580D662408269F008F16F5 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
@@ -72,6 +77,7 @@
 		D5D3DA292427623500EFB04B /* RenewalRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenewalRequest.swift; sourceTree = "<group>"; };
 		D5D3DA2B2427644800EFB04B /* Renewal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renewal.swift; sourceTree = "<group>"; };
 		D5D5BC8623FE6B6000F59DA0 /* Morningbees.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Morningbees.entitlements; sourceTree = "<group>"; };
+		D5D9919B2438C7BE00BEFEE8 /* MeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeRequest.swift; sourceTree = "<group>"; };
 		E6D244607548017DCD414837 /* Pods-Morningbees-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,6 +159,7 @@
 				B020492323D73E2F00B41003 /* SignIn.swift */,
 				B0CC882B23F6A33500B3131E /* SignUp.swift */,
 				D5D3DA2B2427644800EFB04B /* Renewal.swift */,
+				D51951B62434D52900A61CA3 /* Me.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -162,6 +169,7 @@
 			children = (
 				B0747AAB23AA642C00100858 /* NetworkRequest.swift */,
 				D5D3DA292427623500EFB04B /* RenewalRequest.swift */,
+				D5D9919B2438C7BE00BEFEE8 /* MeRequest.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -196,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				B0CC883223F827DD00B3131E /* BeeViewController.swift */,
+				D51951B82434D69100A61CA3 /* BeforeJoinViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -418,9 +427,12 @@
 				B0747AAC23AA642C00100858 /* NetworkRequest.swift in Sources */,
 				B08EB50E23BB124300FE411F /* ServerError.swift in Sources */,
 				7279EF86236EC61D005ECC81 /* SceneDelegate.swift in Sources */,
+				D51951B72434D52900A61CA3 /* Me.swift in Sources */,
 				D5D3DA2C2427644800EFB04B /* Renewal.swift in Sources */,
 				B0CC882C23F6A33500B3131E /* SignUp.swift in Sources */,
 				B0B3CDBA23FA42BF00CF4200 /* KeychainService.swift in Sources */,
+				D5D9919C2438C7BE00BEFEE8 /* MeRequest.swift in Sources */,
+				D51951B92434D69100A61CA3 /* BeforeJoinViewController.swift in Sources */,
 				B0CC883323F827DD00B3131E /* BeeViewController.swift in Sources */,
 				D5D3DA2A2427623500EFB04B /* RenewalRequest.swift in Sources */,
 				B0449EAB23B5D41E0079D816 /* VaildNickname.swift in Sources */,

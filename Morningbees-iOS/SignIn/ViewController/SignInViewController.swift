@@ -136,6 +136,17 @@ extension SignInViewController {
             self.navigationController?.pushViewController(beeViewController, animated: true)
         }
     }
+    
+    private func pushToBeforeJoinViewController() {
+        DispatchQueue.main.async {
+            guard let beforeJoinViewController = self.storyboard?.instantiateViewController(
+                identifier: "BeforeJoinViewController") as? BeforeJoinViewController else {
+                    print(String(describing: BeforeJoinViewController.self))
+                    return
+            }
+            self.navigationController?.pushViewController(beforeJoinViewController, animated: true)
+        }
+    }
 }
 
 //MARK:- SignIn with Naver
@@ -170,9 +181,6 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
             if signIn.type == 0 {
                 self.pushToSignUpViewController(from: .naver)
             } else if signIn.type == 1 {
-                
-                //MARK: KeyChain
-                
                 KeychainService.deleteKeychainToken { (error) in
                     if let error = error {
                         self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
@@ -183,7 +191,23 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
                         self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
                     }
                 }
-                self.pushToBeeViewController()
+                MeAPI().request { (alreadyJoinedBee, error) in
+                    if let error = error {
+                        self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                    }
+                    guard let alreadyJoinedBee = alreadyJoinedBee else {
+                        return
+                    }
+                    if alreadyJoinedBee {
+                        DispatchQueue.main.async {
+                            self.pushToBeeViewController()
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.pushToBeforeJoinViewController()
+                        }
+                    }
+                }
             } else {
                 self.presentOneBtnAlert(title: "Error!", message: "Invalid Value(Type).")
             }
@@ -270,9 +294,6 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
             guard let signIn = signIn else {
                 return
             }
-            
-            //MARK: KeyChain
-            
             KeychainService.deleteKeychainAppleInfo { (error) in
                 if let error = error {
                     self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
@@ -287,7 +308,23 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
             if signIn.type == 0 {
                 self.pushToSignUpViewController(from: .apple)
             } else if signIn.type == 1 {
-                self.pushToBeeViewController()
+                MeAPI().request { (alreadyJoinedBee, error) in
+                    if let error = error {
+                        self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                    }
+                    guard let alreadyJoinedBee = alreadyJoinedBee else {
+                        return
+                    }
+                    if alreadyJoinedBee {
+                        DispatchQueue.main.async {
+                            self.pushToBeeViewController()
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.pushToBeforeJoinViewController()
+                        }
+                    }
+                }
             } else {
                 self.presentOneBtnAlert(title: "Error!", message: "Invalid Value(Type).")
             }

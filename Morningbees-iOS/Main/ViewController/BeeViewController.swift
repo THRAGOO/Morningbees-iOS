@@ -69,8 +69,11 @@ extension BeeViewController: NaverThirdPartyLoginConnectionDelegate {
     }
     
     @IBAction private func touchUpRenewalBtn(_ sender: UIButton) {
-        RenewalToken.request(accessToken: accessTokenTextView.text,
-                             refreshToken: refreshTokenTextView.text)
+        RenewalToken().request { (error) in
+            if let error = error {
+                self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+            }
+        }
         KeychainService.extractKeyChainToken { (accessToken, refreshToken, error) in
             if let error = error {
                 self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
@@ -95,6 +98,24 @@ extension BeeViewController {
     @IBAction private func touchUpDisconnectGoogle(_ sender: UIButton) {
         GIDSignIn.sharedInstance()?.disconnect()
     }
+    
+    @IBAction private func touchUpMeRequestBtn(_ sender: UIButton) {
+        MeAPI().request { (alreadyJoinedBee, error) in
+                if let error = error {
+                    self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                }
+                guard let alreadyJoinedBee = alreadyJoinedBee else {
+                    return
+                }
+                if alreadyJoinedBee {
+                    self.presentOneBtnAlert(title: "Already Joined Bee", message: "HAHA~!")
+                } else {
+                DispatchQueue.main.async {
+                    self.pushToBeforeJoinViewController()
+                }
+            }
+        }
+    }
 }
 
 //MARK:- Navigation Control
@@ -103,5 +124,16 @@ extension BeeViewController {
 
     private func popToSignInViewContoller() {
         navigationController?.popToRootViewController(animated: true)
+    }
+    
+    private func pushToBeforeJoinViewController() {
+        DispatchQueue.main.async {
+            guard let beforeJoinViewController = self.storyboard?.instantiateViewController(
+                identifier: "BeforeJoinViewController") as? BeforeJoinViewController else {
+                    print(String(describing: BeforeJoinViewController.self))
+                    return
+            }
+            self.navigationController?.pushViewController(beforeJoinViewController, animated: true)
+        }
     }
 }

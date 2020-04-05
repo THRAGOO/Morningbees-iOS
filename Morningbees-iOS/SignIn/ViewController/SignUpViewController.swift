@@ -135,6 +135,17 @@ extension SignUpViewController {
             self.navigationController?.pushViewController(beeViewController, animated: true)
         }
     }
+    
+    private func pushToBeforeJoinViewController() {
+        DispatchQueue.main.async {
+            guard let beforeJoinViewController = self.storyboard?.instantiateViewController(
+                identifier: "BeforeJoinViewController") as? BeforeJoinViewController else {
+                    print(String(describing: BeforeJoinViewController.self))
+                    return
+            }
+            self.navigationController?.pushViewController(beforeJoinViewController, animated: true)
+        }
+    }
 }
 
 //MARK:- Touch Gesture Handling
@@ -281,7 +292,23 @@ extension SignUpViewController {
                 }
             }
         }
-        pushToBeeViewController()
+        MeAPI().request { (alreadyJoinedBee, error) in
+            if let error = error {
+                self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+            }
+            guard let alreadyJoinedBee = alreadyJoinedBee else {
+                return
+            }
+            if alreadyJoinedBee {
+                DispatchQueue.main.async {
+                    self.pushToBeeViewController()
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.pushToBeforeJoinViewController()
+                }
+            }
+        }
     }
     
     //MARK: Start Button Action
