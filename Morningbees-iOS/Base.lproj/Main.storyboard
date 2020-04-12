@@ -124,25 +124,9 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dSY-cA-BFb">
-                                <rect key="frame" x="151.66666666666666" y="590" width="72" height="35"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                <state key="normal" title="Renewal"/>
-                                <connections>
-                                    <action selector="touchUpRenewalBtn:" destination="H7T-eX-N3b" eventType="touchUpInside" id="guX-qV-vX6"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BNI-V2-phX">
                                 <rect key="frame" x="149.66666666666666" y="686" width="76" height="30"/>
                                 <state key="normal" title="disconnect"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LTk-FF-3HH">
-                                <rect key="frame" x="232" y="176" width="109" height="38"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <state key="normal" title="Me Request"/>
-                                <connections>
-                                    <action selector="touchUpMeRequestBtn:" destination="H7T-eX-N3b" eventType="touchUpInside" id="iGa-o8-AJk"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -150,23 +134,17 @@
                             <constraint firstItem="det-oh-XxK" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="v9b-W4-No5" secondAttribute="trailing" id="3YB-ar-bdx"/>
                             <constraint firstItem="cC9-NB-MlI" firstAttribute="centerX" secondItem="1XS-8L-pQQ" secondAttribute="centerX" id="4Nm-M3-pMr"/>
                             <constraint firstItem="wgX-xh-BDC" firstAttribute="centerX" secondItem="1XS-8L-pQQ" secondAttribute="centerX" id="4r1-T1-vPl"/>
-                            <constraint firstItem="det-oh-XxK" firstAttribute="trailing" secondItem="LTk-FF-3HH" secondAttribute="trailing" constant="34" id="FwD-Ym-77W"/>
                             <constraint firstItem="v9b-W4-No5" firstAttribute="top" secondItem="cC9-NB-MlI" secondAttribute="bottom" constant="8" id="IUC-qL-r9B"/>
                             <constraint firstItem="uKi-YE-mC3" firstAttribute="top" secondItem="det-oh-XxK" secondAttribute="top" constant="90" id="K9S-Of-DCd"/>
                             <constraint firstItem="xg7-cN-j1b" firstAttribute="centerX" secondItem="1XS-8L-pQQ" secondAttribute="centerX" id="Ml7-Dc-sBs"/>
-                            <constraint firstItem="LTk-FF-3HH" firstAttribute="top" secondItem="det-oh-XxK" secondAttribute="top" constant="132" id="Mvh-2H-Wbb"/>
                             <constraint firstItem="v9b-W4-No5" firstAttribute="leading" secondItem="det-oh-XxK" secondAttribute="leading" constant="70" id="Swg-wQ-4wZ"/>
-                            <constraint firstItem="cC9-NB-MlI" firstAttribute="top" secondItem="LTk-FF-3HH" secondAttribute="bottom" constant="87" id="TvH-7w-lzA"/>
-                            <constraint firstItem="dSY-cA-BFb" firstAttribute="centerX" secondItem="1XS-8L-pQQ" secondAttribute="centerX" id="UmF-GO-mXS"/>
                             <constraint firstItem="cC9-NB-MlI" firstAttribute="top" secondItem="7qb-eH-zHK" secondAttribute="bottom" constant="8" id="XJW-dd-pb8"/>
                             <constraint firstItem="det-oh-XxK" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7qb-eH-zHK" secondAttribute="trailing" id="YVJ-6l-0Wh"/>
                             <constraint firstItem="7qb-eH-zHK" firstAttribute="leading" secondItem="det-oh-XxK" secondAttribute="leading" constant="70" id="YjS-S7-PIS"/>
                             <constraint firstItem="BNI-V2-phX" firstAttribute="centerX" secondItem="1XS-8L-pQQ" secondAttribute="centerX" id="cEJ-0Z-1QU"/>
                             <constraint firstItem="xg7-cN-j1b" firstAttribute="top" secondItem="v9b-W4-No5" secondAttribute="bottom" constant="8" id="cJT-Kf-ZKb"/>
                             <constraint firstItem="det-oh-XxK" firstAttribute="bottom" secondItem="wgX-xh-BDC" secondAttribute="bottom" constant="100" id="fjd-Wb-hwm"/>
-                            <constraint firstItem="wgX-xh-BDC" firstAttribute="top" secondItem="dSY-cA-BFb" secondAttribute="bottom" constant="17" id="lg6-3z-zoj"/>
                             <constraint firstItem="BNI-V2-phX" firstAttribute="top" secondItem="wgX-xh-BDC" secondAttribute="bottom" constant="8" id="plt-Nt-Qz7"/>
-                            <constraint firstItem="LTk-FF-3HH" firstAttribute="leading" secondItem="det-oh-XxK" secondAttribute="leading" constant="232" id="rh7-hO-WhF"/>
                             <constraint firstItem="7qb-eH-zHK" firstAttribute="top" secondItem="uKi-YE-mC3" secondAttribute="bottom" constant="20" id="sWU-sI-9jM"/>
                             <constraint firstItem="uKi-YE-mC3" firstAttribute="leading" secondItem="det-oh-XxK" secondAttribute="leading" constant="20" id="tF6-8l-fzV"/>
                         </constraints>

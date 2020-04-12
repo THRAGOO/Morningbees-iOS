@@ -121,33 +121,6 @@ final class SignUpViewController: UIViewController {
     }
 }
 
-//MARK:- Navigation Control
-
-extension SignUpViewController {
-    
-    private func pushToBeeViewController() {
-        DispatchQueue.main.async {
-            guard let beeViewController = self.storyboard?.instantiateViewController(
-                identifier: "BeeViewController") as? BeeViewController else {
-                    print(String(describing: BeeViewController.self))
-                    return
-            }
-            self.navigationController?.pushViewController(beeViewController, animated: true)
-        }
-    }
-    
-    private func pushToBeforeJoinViewController() {
-        DispatchQueue.main.async {
-            guard let beforeJoinViewController = self.storyboard?.instantiateViewController(
-                identifier: "BeforeJoinViewController") as? BeforeJoinViewController else {
-                    print(String(describing: BeforeJoinViewController.self))
-                    return
-            }
-            self.navigationController?.pushViewController(beforeJoinViewController, animated: true)
-        }
-    }
-}
-
 //MARK:- Touch Gesture Handling
 
 extension SignUpViewController {
@@ -300,13 +273,9 @@ extension SignUpViewController {
                 return
             }
             if alreadyJoinedBee {
-                DispatchQueue.main.async {
-                    self.pushToBeeViewController()
-                }
+                NavigationControl().pushToBeeViewController()
             } else {
-                DispatchQueue.main.async {
-                    self.pushToBeforeJoinViewController()
-                }
+                NavigationControl().pushToBeforeJoinViewController()
             }
         }
     }

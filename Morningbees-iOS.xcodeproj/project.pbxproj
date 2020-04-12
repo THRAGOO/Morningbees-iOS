@@ -36,6 +36,8 @@
 		D5580D692408269F008F16F5 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5580D662408269F008F16F5 /* Roboto-Medium.ttf */; };
 		D5580D6B240960BC008F16F5 /* AppleSDGothicNeo.ttc in Resources */ = {isa = PBXBuildFile; fileRef = D5580D6A240960BC008F16F5 /* AppleSDGothicNeo.ttc */; };
 		D57B830C2405A761001DB1FF /* ViewDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57B830B2405A761001DB1FF /* ViewDesign.swift */; };
+		D5B2D1FE244326C7001C2466 /* NavigationControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B2D1FD244326C7001C2466 /* NavigationControl.swift */; };
+		D5B2D20024437807001C2466 /* NetworkItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B2D1FF24437807001C2466 /* NetworkItem.swift */; };
 		D5D3DA2A2427623500EFB04B /* RenewalRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D3DA292427623500EFB04B /* RenewalRequest.swift */; };
 		D5D3DA2C2427644800EFB04B /* Renewal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D3DA2B2427644800EFB04B /* Renewal.swift */; };
 		D5D9919C2438C7BE00BEFEE8 /* MeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D9919B2438C7BE00BEFEE8 /* MeRequest.swift */; };
@@ -74,6 +76,8 @@
 		D5580D662408269F008F16F5 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		D5580D6A240960BC008F16F5 /* AppleSDGothicNeo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleSDGothicNeo.ttc; sourceTree = "<group>"; };
 		D57B830B2405A761001DB1FF /* ViewDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDesign.swift; sourceTree = "<group>"; };
+		D5B2D1FD244326C7001C2466 /* NavigationControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControl.swift; sourceTree = "<group>"; };
+		D5B2D1FF24437807001C2466 /* NetworkItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkItem.swift; sourceTree = "<group>"; };
 		D5D3DA292427623500EFB04B /* RenewalRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenewalRequest.swift; sourceTree = "<group>"; };
 		D5D3DA2B2427644800EFB04B /* Renewal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renewal.swift; sourceTree = "<group>"; };
 		D5D5BC8623FE6B6000F59DA0 /* Morningbees.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Morningbees.entitlements; sourceTree = "<group>"; };
@@ -133,6 +137,7 @@
 		7279EF82236EC61D005ECC81 /* Morningbees-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				D5B2D1FA244324FE001C2466 /* NavigationControl */,
 				D5D5BC8623FE6B6000F59DA0 /* Morningbees.entitlements */,
 				D57B830A2405A747001DB1FF /* Design */,
 				B0CC883023F8279200B3131E /* Main */,
@@ -170,6 +175,7 @@
 				B0747AAB23AA642C00100858 /* NetworkRequest.swift */,
 				D5D3DA292427623500EFB04B /* RenewalRequest.swift */,
 				D5D9919B2438C7BE00BEFEE8 /* MeRequest.swift */,
+				D5B2D1FF24437807001C2466 /* NetworkItem.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -254,6 +260,14 @@
 				D57B830B2405A761001DB1FF /* ViewDesign.swift */,
 			);
 			path = Design;
+			sourceTree = "<group>";
+		};
+		D5B2D1FA244324FE001C2466 /* NavigationControl */ = {
+			isa = PBXGroup;
+			children = (
+				D5B2D1FD244326C7001C2466 /* NavigationControl.swift */,
+			);
+			path = NavigationControl;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -427,8 +441,10 @@
 				B0747AAC23AA642C00100858 /* NetworkRequest.swift in Sources */,
 				B08EB50E23BB124300FE411F /* ServerError.swift in Sources */,
 				7279EF86236EC61D005ECC81 /* SceneDelegate.swift in Sources */,
+				D5B2D20024437807001C2466 /* NetworkItem.swift in Sources */,
 				D51951B72434D52900A61CA3 /* Me.swift in Sources */,
 				D5D3DA2C2427644800EFB04B /* Renewal.swift in Sources */,
+				D5B2D1FE244326C7001C2466 /* NavigationControl.swift in Sources */,
 				B0CC882C23F6A33500B3131E /* SignUp.swift in Sources */,
 				B0B3CDBA23FA42BF00CF4200 /* KeychainService.swift in Sources */,
 				D5D9919C2438C7BE00BEFEE8 /* MeRequest.swift in Sources */,

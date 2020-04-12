@@ -110,45 +110,6 @@ final class SignInViewController: UIViewController {
     }
 }
 
-//MARK:- Navigation Control
-
-extension SignInViewController {
-
-    private func pushToSignUpViewController(from provider: SignInProvider) {
-        DispatchQueue.main.async {
-            guard let signUpViewController = self.storyboard?.instantiateViewController(
-                identifier: "SignUpViewController") as? SignUpViewController else {
-                    print(String(describing: SignUpViewController.self))
-                    return
-            }
-            signUpViewController.provider = provider.rawValue
-            self.navigationController?.pushViewController(signUpViewController, animated: true)
-        }
-    }
-    
-    private func pushToBeeViewController() {
-        DispatchQueue.main.async {
-            guard let beeViewController = self.storyboard?.instantiateViewController(
-                identifier: "BeeViewController") as? BeeViewController else {
-                    print(String(describing: BeeViewController.self))
-                    return
-            }
-            self.navigationController?.pushViewController(beeViewController, animated: true)
-        }
-    }
-    
-    private func pushToBeforeJoinViewController() {
-        DispatchQueue.main.async {
-            guard let beforeJoinViewController = self.storyboard?.instantiateViewController(
-                identifier: "BeforeJoinViewController") as? BeforeJoinViewController else {
-                    print(String(describing: BeforeJoinViewController.self))
-                    return
-            }
-            self.navigationController?.pushViewController(beforeJoinViewController, animated: true)
-        }
-    }
-}
-
 //MARK:- SignIn with Naver
 
 extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
@@ -179,7 +140,7 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
                 return
             }
             if signIn.type == 0 {
-                self.pushToSignUpViewController(from: .naver)
+                NavigationControl().pushToSignUpViewController(from: .naver)
             } else if signIn.type == 1 {
                 KeychainService.deleteKeychainToken { (error) in
                     if let error = error {
@@ -199,13 +160,9 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
                         return
                     }
                     if alreadyJoinedBee {
-                        DispatchQueue.main.async {
-                            self.pushToBeeViewController()
-                        }
+                        NavigationControl().pushToBeeViewController()
                     } else {
-                        DispatchQueue.main.async {
-                            self.pushToBeforeJoinViewController()
-                        }
+                        NavigationControl().pushToBeforeJoinViewController()
                     }
                 }
             } else {
@@ -306,7 +263,7 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
             }
             
             if signIn.type == 0 {
-                self.pushToSignUpViewController(from: .apple)
+                NavigationControl().pushToSignUpViewController(from: .apple)
             } else if signIn.type == 1 {
                 MeAPI().request { (alreadyJoinedBee, error) in
                     if let error = error {
@@ -316,13 +273,9 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
                         return
                     }
                     if alreadyJoinedBee {
-                        DispatchQueue.main.async {
-                            self.pushToBeeViewController()
-                        }
+                        NavigationControl().pushToBeeViewController()
                     } else {
-                        DispatchQueue.main.async {
-                            self.pushToBeforeJoinViewController()
-                        }
+                        NavigationControl().pushToBeforeJoinViewController()
                     }
                 }
             } else {

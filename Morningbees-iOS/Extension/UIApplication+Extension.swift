@@ -9,6 +9,7 @@
 import UIKit
 
 extension UIApplication {
+    
     var keyWindow: UIWindow? {
         for window in windows {
             if window.isKeyWindow {

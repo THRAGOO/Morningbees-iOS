@@ -13,7 +13,7 @@ enum ServerErrAlert: String {
 }
 
 struct ServerError: Decodable {
-    let timestamp: Int
+    let timestamp: String
     let status: Int
     let message: String
     let code: Int
