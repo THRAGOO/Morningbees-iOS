@@ -126,11 +126,6 @@ extension KeychainService {
                                         completion: @escaping (Error?) -> Void) {
         let queryToFind: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
                                           kSecAttrServer as String: KeychainServer.appleSignAuth.rawValue]
-        let findStatus = SecItemDelete(queryToFind as CFDictionary)
-        guard findStatus == errSecSuccess || findStatus == errSecItemNotFound else {
-                        completion(KeychainError.unhandledError(status: findStatus))
-                        return
-        }
         let appleCredentials = AppleCredentials(userID: userID, identityToken: identityToken)
         guard let identityTokenData = appleCredentials.identityToken.data(using: String.Encoding.utf8) else {
                 completion(KeychainError.unexpectedTokenData)

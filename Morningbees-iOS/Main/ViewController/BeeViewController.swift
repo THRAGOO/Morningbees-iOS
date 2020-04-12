@@ -35,6 +35,10 @@ final class BeeViewController: UIViewController, CustomAlert {
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
 }
 
 //MARK:- SignOut Naver
@@ -48,7 +52,7 @@ extension BeeViewController: NaverThirdPartyLoginConnectionDelegate {
     }
 
     func oauth20ConnectionDidFinishDeleteToken() {
-        popToSignInViewContoller()
+        NavigationControl().popToRootViewController()
     }
 
     func oauth20Connection(_ oauthConnection: NaverThirdPartyLoginConnection!, didFailWithError error: Error!) {
@@ -60,24 +64,12 @@ extension BeeViewController: NaverThirdPartyLoginConnectionDelegate {
     @IBAction private func touchUpSignOutNaver(_ sender: UIButton) {
         naverSignInInstance?.delegate = self
         naverSignInInstance?.resetToken()
-        popToSignInViewContoller()
+        NavigationControl().popToRootViewController()
     }
 
     @IBAction private func touchUpDisconnectNaver(_ sender: UIButton) {
         naverSignInInstance?.delegate = self
         naverSignInInstance?.requestDeleteToken()
-    }
-    
-    @IBAction private func touchUpRenewalBtn(_ sender: UIButton) {
-        RenewalToken.request(accessToken: accessTokenTextView.text,
-                             refreshToken: refreshTokenTextView.text)
-        KeychainService.extractKeyChainToken { (accessToken, refreshToken, error) in
-            if let error = error {
-                self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
-            }
-            self.accessTokenTextView.text = accessToken
-            self.refreshTokenTextView.text = refreshToken
-        }
     }
 }
 
@@ -89,19 +81,28 @@ extension BeeViewController {
 
     @IBAction private func touchUpSignOutGoogle(_ sender: UIButton) {
         GIDSignIn.sharedInstance()?.signOut()
-        popToSignInViewContoller()
+        NavigationControl().popToRootViewController()
     }
 
     @IBAction private func touchUpDisconnectGoogle(_ sender: UIButton) {
         GIDSignIn.sharedInstance()?.disconnect()
     }
-}
-
-//MARK:- Navigation Control
-
-extension BeeViewController {
-
-    private func popToSignInViewContoller() {
-        navigationController?.popToRootViewController(animated: true)
+    
+    @IBAction private func touchUpMeRequestBtn(_ sender: UIButton) {
+        MeAPI().request { (alreadyJoinedBee, error) in
+                if let error = error {
+                    self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                }
+                guard let alreadyJoinedBee = alreadyJoinedBee else {
+                    return
+                }
+                if alreadyJoinedBee {
+                    self.presentOneBtnAlert(title: "Already Joined Bee", message: "HAHA~!")
+                } else {
+                DispatchQueue.main.async {
+                    NavigationControl().pushToBeforeJoinViewController()
+                }
+            }
+        }
     }
 }

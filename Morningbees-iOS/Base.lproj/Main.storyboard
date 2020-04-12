@@ -15,7 +15,7 @@
         <!--Sign In View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="SignIn" id="BYZ-38-t0r" customClass="SignInViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignInViewController" id="BYZ-38-t0r" customClass="SignInViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -124,13 +124,9 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dSY-cA-BFb">
-                                <rect key="frame" x="151.66666666666666" y="590" width="72" height="35"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                <state key="normal" title="Renewal"/>
-                                <connections>
-                                    <action selector="touchUpRenewalBtn:" destination="H7T-eX-N3b" eventType="touchUpInside" id="guX-qV-vX6"/>
-                                </connections>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BNI-V2-phX">
+                                <rect key="frame" x="149.66666666666666" y="686" width="76" height="30"/>
+                                <state key="normal" title="disconnect"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -142,13 +138,13 @@
                             <constraint firstItem="uKi-YE-mC3" firstAttribute="top" secondItem="det-oh-XxK" secondAttribute="top" constant="90" id="K9S-Of-DCd"/>
                             <constraint firstItem="xg7-cN-j1b" firstAttribute="centerX" secondItem="1XS-8L-pQQ" secondAttribute="centerX" id="Ml7-Dc-sBs"/>
                             <constraint firstItem="v9b-W4-No5" firstAttribute="leading" secondItem="det-oh-XxK" secondAttribute="leading" constant="70" id="Swg-wQ-4wZ"/>
-                            <constraint firstItem="dSY-cA-BFb" firstAttribute="centerX" secondItem="1XS-8L-pQQ" secondAttribute="centerX" id="UmF-GO-mXS"/>
                             <constraint firstItem="cC9-NB-MlI" firstAttribute="top" secondItem="7qb-eH-zHK" secondAttribute="bottom" constant="8" id="XJW-dd-pb8"/>
                             <constraint firstItem="det-oh-XxK" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7qb-eH-zHK" secondAttribute="trailing" id="YVJ-6l-0Wh"/>
                             <constraint firstItem="7qb-eH-zHK" firstAttribute="leading" secondItem="det-oh-XxK" secondAttribute="leading" constant="70" id="YjS-S7-PIS"/>
+                            <constraint firstItem="BNI-V2-phX" firstAttribute="centerX" secondItem="1XS-8L-pQQ" secondAttribute="centerX" id="cEJ-0Z-1QU"/>
                             <constraint firstItem="xg7-cN-j1b" firstAttribute="top" secondItem="v9b-W4-No5" secondAttribute="bottom" constant="8" id="cJT-Kf-ZKb"/>
                             <constraint firstItem="det-oh-XxK" firstAttribute="bottom" secondItem="wgX-xh-BDC" secondAttribute="bottom" constant="100" id="fjd-Wb-hwm"/>
-                            <constraint firstItem="wgX-xh-BDC" firstAttribute="top" secondItem="dSY-cA-BFb" secondAttribute="bottom" constant="17" id="lg6-3z-zoj"/>
+                            <constraint firstItem="BNI-V2-phX" firstAttribute="top" secondItem="wgX-xh-BDC" secondAttribute="bottom" constant="8" id="plt-Nt-Qz7"/>
                             <constraint firstItem="7qb-eH-zHK" firstAttribute="top" secondItem="uKi-YE-mC3" secondAttribute="bottom" constant="20" id="sWU-sI-9jM"/>
                             <constraint firstItem="uKi-YE-mC3" firstAttribute="leading" secondItem="det-oh-XxK" secondAttribute="leading" constant="20" id="tF6-8l-fzV"/>
                         </constraints>
@@ -162,6 +158,33 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="knA-BS-Z6L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1684" y="804.67980295566508"/>
+        </scene>
+        <!--Before Join View Controller-->
+        <scene sceneID="ANq-jK-4iR">
+            <objects>
+                <viewController storyboardIdentifier="BeforeJoinViewController" id="fd4-z9-hPd" customClass="BeforeJoinViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LmX-Ta-xgC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="회원님은 모임에 소속되어있지 않습니다!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vjs-Te-0Aa">
+                                <rect key="frame" x="53" y="395.66666666666669" width="269" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Vjs-Te-0Aa" firstAttribute="centerX" secondItem="LmX-Ta-xgC" secondAttribute="centerX" id="Hpc-9a-qeL"/>
+                            <constraint firstItem="Vjs-Te-0Aa" firstAttribute="centerY" secondItem="LmX-Ta-xgC" secondAttribute="centerY" id="qt9-C1-jXU"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="IwF-Oj-4EY"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BgX-gi-QS1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2369" y="805"/>
         </scene>
     </scenes>
 </document>

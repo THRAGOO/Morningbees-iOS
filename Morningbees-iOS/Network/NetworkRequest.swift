@@ -8,31 +8,6 @@
 
 import Foundation
 
-enum Path: String {
-    case base = "https://api-morningbees.thragoo.com"
-    
-    case signIn = "/api/auth/sign_in"
-    case signUp = "/api/auth/sign_up"
-    case validNickname = "/api/auth/valid_nickname"
-    
-    case renewal = "/api/auth/renewal"
-}
-
-enum HTTPMethod: String {
-    case get = "GET"
-    case post = "POST"
-}
-
-enum ResponseError: Error {
-    case unknown
-    case badRequest
-}
-
-enum RequestHeader: String {
-    case accessToken = "X-BEES-ACCESS-TOKEN"
-    case refreshToken = "X-BEES-REFRESH-TOKEN"
-}
-
 protocol RequestModel {
 
     associatedtype ModelType: Decodable
@@ -60,14 +35,19 @@ final class Request<Model> where Model: Decodable {
         let config = URLSessionConfiguration.default
         return URLSession(configuration: config)
     }()
+}
 
+extension Request {
+    
     func request<T: Encodable>(req: RequestSet,
                                header: [String: String]? = nil,
                                param: T,
                                completion: @escaping (Model?, Error?) -> Void) {
+        
+        //MARK: Request Set Up
+        
         var urlComponents = URLComponents(string: Path.base.rawValue)
         urlComponents?.path = req.path.rawValue
-        
         if req.method == HTTPMethod.get {
             if let queryParams = param as? [String: String] {
                 urlComponents?.queryItems = queryParams.map({ (key, value) -> URLQueryItem in
@@ -75,14 +55,12 @@ final class Request<Model> where Model: Decodable {
                 })
             }
         }
-        
         guard let componentsURL = urlComponents?.url else {
             completion(nil, ResponseError.unknown)
             return
         }
         var request = URLRequest(url: componentsURL)
         request.httpMethod = req.method.rawValue
-        
         if let headerParams = header {
             for header in headerParams {
                 request.setValue(header.value, forHTTPHeaderField: header.key)
@@ -100,28 +78,70 @@ final class Request<Model> where Model: Decodable {
         }
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        //MARK: Data Task
 
         let dataTask = session.dataTask(with: request) { (data, response, error) in
             if let error = error {
-                print("error: \(error)")
+                completion(nil, error)
             }
             guard let data = data,
                 let response = response as? HTTPURLResponse else {
                 completion(nil, ResponseError.unknown)
                 return
             }
-            if response.statusCode > 299 || response.statusCode < 200 {
-                if let result = String(data: data, encoding: .utf8) {
-                    print("Error: \(result)")
+            
+            if response.statusCode < 200 || 299 < response.statusCode {
+                guard let failResult = try? JSONDecoder().decode(ServerError.self, from: data) else {
+                    completion(nil, ResponseError.unknown)
+                    return
                 }
-                completion(nil, ResponseError.badRequest)
-                return
+                
+                if failResult.code == ErrorCode.expiredToken.rawValue {
+                    RenewalToken().request { (success, error) in
+                        if let error = error {
+                            completion(nil, error)
+                            return
+                        }
+                        if let success = success {
+                            if success {
+                                KeychainService.extractKeyChainToken { (accessToken, _, error) in
+                                    if let error = error {
+                                        completion(nil, error)
+                                    }
+                                    guard let accessToken = accessToken,
+                                        var renewalHeader = header else {
+                                        return
+                                    }
+                                    renewalHeader.updateValue(accessToken, forKey: RequestHeader.accessToken.rawValue)
+                                
+                                    Request<Model>().request(req: req,
+                                                             header: renewalHeader,
+                                                             param: param) { (result, error) in
+                                        if let error = error {
+                                            completion(nil, error)
+                                        }
+                                        guard let result = result else {
+                                            return
+                                        }
+                                        completion(result, nil)
+                                    }
+                                }
+                            } else {
+                                NavigationControl().popToRootViewController()
+                                completion(nil, nil)
+                                return
+                            }
+                        }
+                    }
+                }
+            } else {
+                guard let result = try? JSONDecoder().decode(Model.self, from: data) else {
+                    completion(nil, ResponseError.unknown)
+                    return
+                }
+                completion(result, nil)
             }
-            guard let result = try? JSONDecoder().decode(Model.self, from: data) else {
-                completion(nil, ResponseError.unknown)
-                return
-            }
-            completion(result, nil)
         }
         dataTask.resume()
     }

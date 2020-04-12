@@ -121,22 +121,6 @@ final class SignUpViewController: UIViewController {
     }
 }
 
-//MARK:- Navigation Control
-
-extension SignUpViewController {
-    
-    private func pushToBeeViewController() {
-        DispatchQueue.main.async {
-            guard let beeViewController = self.storyboard?.instantiateViewController(
-                identifier: "BeeViewController") as? BeeViewController else {
-                    print(String(describing: BeeViewController.self))
-                    return
-            }
-            self.navigationController?.pushViewController(beeViewController, animated: true)
-        }
-    }
-}
-
 //MARK:- Touch Gesture Handling
 
 extension SignUpViewController {
@@ -281,7 +265,19 @@ extension SignUpViewController {
                 }
             }
         }
-        pushToBeeViewController()
+        MeAPI().request { (alreadyJoinedBee, error) in
+            if let error = error {
+                self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+            }
+            guard let alreadyJoinedBee = alreadyJoinedBee else {
+                return
+            }
+            if alreadyJoinedBee {
+                NavigationControl().pushToBeeViewController()
+            } else {
+                NavigationControl().pushToBeforeJoinViewController()
+            }
+        }
     }
     
     //MARK: Start Button Action

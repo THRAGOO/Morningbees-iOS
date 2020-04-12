@@ -83,7 +83,9 @@ extension AppDelegate: GIDSignInDelegate {
             let signUpViewController = mainStoryboard.instantiateViewController(
                 withIdentifier: "\(SignUpViewController.self)") as? SignUpViewController,
             let beeViewController = mainStoryboard.instantiateViewController(
-                withIdentifier: "\(BeeViewController.self)") as? BeeViewController else {
+                withIdentifier: "\(BeeViewController.self)") as? BeeViewController,
+            let beforeJoinViewController = mainStoryboard.instantiateViewController(
+                withIdentifier: "\(BeforeJoinViewController.self)") as? BeforeJoinViewController else {
                     fatalError("Not found the SignUpViewController")
         }
         
@@ -125,8 +127,24 @@ extension AppDelegate: GIDSignInDelegate {
                         signInViewController.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
                     }
                 }
-                DispatchQueue.main.async {
-                    signInViewController.navigationController?.pushViewController(beeViewController, animated: true)
+                MeAPI().request { (alreadyJoinedBee, error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }
+                    guard let alreadyJoinedBee = alreadyJoinedBee else {
+                        return
+                    }
+                    if alreadyJoinedBee {
+                        DispatchQueue.main.async {
+                            signInViewController.navigationController?.pushViewController(beeViewController,
+                                                                                          animated: true)
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            signInViewController.navigationController?.pushViewController(beforeJoinViewController,
+                                                                                          animated: true)
+                        }
+                    }
                 }
             }
         }

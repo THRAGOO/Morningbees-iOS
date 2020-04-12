@@ -110,34 +110,6 @@ final class SignInViewController: UIViewController {
     }
 }
 
-//MARK:- Navigation Control
-
-extension SignInViewController {
-
-    private func pushToSignUpViewController(from provider: SignInProvider) {
-        DispatchQueue.main.async {
-            guard let signUpViewController = self.storyboard?.instantiateViewController(
-                identifier: "SignUpViewController") as? SignUpViewController else {
-                    print(String(describing: SignUpViewController.self))
-                    return
-            }
-            signUpViewController.provider = provider.rawValue
-            self.navigationController?.pushViewController(signUpViewController, animated: true)
-        }
-    }
-    
-    private func pushToBeeViewController() {
-        DispatchQueue.main.async {
-            guard let beeViewController = self.storyboard?.instantiateViewController(
-                identifier: "BeeViewController") as? BeeViewController else {
-                    print(String(describing: BeeViewController.self))
-                    return
-            }
-            self.navigationController?.pushViewController(beeViewController, animated: true)
-        }
-    }
-}
-
 //MARK:- SignIn with Naver
 
 extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
@@ -168,11 +140,8 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
                 return
             }
             if signIn.type == 0 {
-                self.pushToSignUpViewController(from: .naver)
+                NavigationControl().pushToSignUpViewController(from: .naver)
             } else if signIn.type == 1 {
-                
-                //MARK: KeyChain
-                
                 KeychainService.deleteKeychainToken { (error) in
                     if let error = error {
                         self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
@@ -183,7 +152,19 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
                         self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
                     }
                 }
-                self.pushToBeeViewController()
+                MeAPI().request { (alreadyJoinedBee, error) in
+                    if let error = error {
+                        self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                    }
+                    guard let alreadyJoinedBee = alreadyJoinedBee else {
+                        return
+                    }
+                    if alreadyJoinedBee {
+                        NavigationControl().pushToBeeViewController()
+                    } else {
+                        NavigationControl().pushToBeforeJoinViewController()
+                    }
+                }
             } else {
                 self.presentOneBtnAlert(title: "Error!", message: "Invalid Value(Type).")
             }
@@ -270,9 +251,6 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
             guard let signIn = signIn else {
                 return
             }
-            
-            //MARK: KeyChain
-            
             KeychainService.deleteKeychainAppleInfo { (error) in
                 if let error = error {
                     self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
@@ -285,9 +263,21 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
             }
             
             if signIn.type == 0 {
-                self.pushToSignUpViewController(from: .apple)
+                NavigationControl().pushToSignUpViewController(from: .apple)
             } else if signIn.type == 1 {
-                self.pushToBeeViewController()
+                MeAPI().request { (alreadyJoinedBee, error) in
+                    if let error = error {
+                        self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                    }
+                    guard let alreadyJoinedBee = alreadyJoinedBee else {
+                        return
+                    }
+                    if alreadyJoinedBee {
+                        NavigationControl().pushToBeeViewController()
+                    } else {
+                        NavigationControl().pushToBeforeJoinViewController()
+                    }
+                }
             } else {
                 self.presentOneBtnAlert(title: "Error!", message: "Invalid Value(Type).")
             }
