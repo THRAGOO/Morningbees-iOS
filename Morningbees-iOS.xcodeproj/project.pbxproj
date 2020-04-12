@@ -137,21 +137,21 @@
 		7279EF82236EC61D005ECC81 /* Morningbees-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				D5B2D1FA244324FE001C2466 /* NavigationControl */,
 				D5D5BC8623FE6B6000F59DA0 /* Morningbees.entitlements */,
+				CE432C1F239009200005F257 /* Common */,
 				D57B830A2405A747001DB1FF /* Design */,
-				B0CC883023F8279200B3131E /* Main */,
+				CE432C2323900E170005F257 /* Extension */,
+				D5580D6324082684008F16F5 /* Fonts */,
 				B0CC882D23F81B6C00B3131E /* Keychain */,
+				B0CC883023F8279200B3131E /* Main */,
 				B0449EA923B5D3C00079D816 /* Model */,
+				D5B2D1FA244324FE001C2466 /* NavigationControl */,
 				B0747AAA23AA63CF00100858 /* Network */,
 				CE432C2223900DFE0005F257 /* SignIn */,
-				CE432C2323900E170005F257 /* Extension */,
-				CE432C1F239009200005F257 /* Common */,
 				7279EF8C236EC623005ECC81 /* Assets.xcassets */,
 				7279EF89236EC61D005ECC81 /* Main.storyboard */,
 				7279EF8E236EC623005ECC81 /* LaunchScreen.storyboard */,
 				7279EF91236EC623005ECC81 /* Info.plist */,
-				D5580D6324082684008F16F5 /* Fonts */,
 			);
 			path = "Morningbees-iOS";
 			sourceTree = "<group>";
@@ -173,9 +173,9 @@
 			isa = PBXGroup;
 			children = (
 				B0747AAB23AA642C00100858 /* NetworkRequest.swift */,
+				D5B2D1FF24437807001C2466 /* NetworkItem.swift */,
 				D5D3DA292427623500EFB04B /* RenewalRequest.swift */,
 				D5D9919B2438C7BE00BEFEE8 /* MeRequest.swift */,
-				D5B2D1FF24437807001C2466 /* NetworkItem.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";

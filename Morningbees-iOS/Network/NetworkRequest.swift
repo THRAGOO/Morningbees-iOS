@@ -101,13 +101,10 @@ extension Request {
                     RenewalToken().request { (success, error) in
                         if let error = error {
                             completion(nil, error)
+                            return
                         }
                         if let success = success {
-                            if success == false {
-                                NavigationControl().popToRootViewController()
-                                completion(nil, nil)
-                                return
-                            } else {
+                            if success {
                                 KeychainService.extractKeyChainToken { (accessToken, _, error) in
                                     if let error = error {
                                         completion(nil, error)
@@ -130,6 +127,10 @@ extension Request {
                                         completion(result, nil)
                                     }
                                 }
+                            } else {
+                                NavigationControl().popToRootViewController()
+                                completion(nil, nil)
+                                return
                             }
                         }
                     }
