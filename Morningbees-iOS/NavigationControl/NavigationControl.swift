@@ -21,6 +21,13 @@ extension NavigationControl {
         }
     }
     
+    func popToPrevViewController() {
+        DispatchQueue.main.async {
+            let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController
+            navigationController?.popViewController(animated: true)
+        }
+    }
+    
     func pushToSignUpViewController(from provider: SignInProvider) {
         DispatchQueue.main.async {
             let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController
@@ -55,6 +62,18 @@ extension NavigationControl {
                     return
             }
             navigationController?.pushViewController(beforeJoinViewController, animated: true)
+        }
+    }
+    
+    func pushToBCStepOneViewController() {
+        DispatchQueue.main.async {
+            let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController
+            guard let bcStepOneViewController = self.mainStoryboard.instantiateViewController(
+                identifier: "BCStepOneViewController") as? BCStepOneViewController else {
+                    print(String(describing: BCStepOneViewController.self))
+                    return
+            }
+            navigationController?.pushViewController(bcStepOneViewController, animated: true)
         }
     }
 }
