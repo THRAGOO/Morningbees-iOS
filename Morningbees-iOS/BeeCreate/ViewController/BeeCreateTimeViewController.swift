@@ -8,9 +8,9 @@
 
 import UIKit
 
-enum TimeButtonState: String {
-    case start = "Start"
-    case end = "End"
+enum TimeButtonState {
+    case start
+    case end
 }
 
 final class BeeCreateTimeViewController: UIViewController {
@@ -104,11 +104,11 @@ extension BeeCreateTimeViewController {
         }
     }
     
-    private func setupButtonLabel(_ state: String) {
+    private func setupButtonLabel(_ state: TimeButtonState) {
         buttonLabel.textColor = .white
-        if state == TimeButtonState.start.rawValue {
+        if state == .start {
             buttonLabel.text = "미션 시작시간을 선택해 주세요."
-        } else if state == TimeButtonState.end.rawValue {
+        } else if state == .end {
             buttonLabel.text = "미션 종료시간을 선택해 주세요."
         }
     }
@@ -128,9 +128,9 @@ extension BeeCreateTimeViewController {
             startTime = selectedTime
             timeButtonSelected(true, index)
             if startTime == 10 {
-                setupButtonLabel(TimeButtonState.start.rawValue)
+                setupButtonLabel(.start)
             } else {
-                setupButtonLabel(TimeButtonState.end.rawValue)
+                setupButtonLabel(.end)
             }
         } else if endTime == 0 && timeButtons[index].isSelected == false {
             endTime = selectedTime
@@ -138,13 +138,13 @@ extension BeeCreateTimeViewController {
         } else if startTime == selectedTime || endTime == selectedTime {
             if startTime == selectedTime {
                 startTime = 0
-                setupButtonLabel(TimeButtonState.start.rawValue)
+                setupButtonLabel(.start)
             } else {
                 endTime = 0
                 if startTime == 0 && endTime == 0 {
-                    setupButtonLabel(TimeButtonState.start.rawValue)
+                    setupButtonLabel(.start)
                 } else {
-                    setupButtonLabel(TimeButtonState.end.rawValue)
+                    setupButtonLabel(.end)
                 }
             }
             timeButtonSelected(false, index)
