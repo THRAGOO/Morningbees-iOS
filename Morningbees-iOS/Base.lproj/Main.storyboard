@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PPN-b6-wYA">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -44,10 +44,10 @@
             </objects>
             <point key="canvasLocation" x="2682.4000000000001" y="136.69950738916256"/>
         </scene>
-        <!--Step One View Controller-->
+        <!--Bee Create Name View Controller-->
         <scene sceneID="Z8B-bc-TZ3">
             <objects>
-                <viewController storyboardIdentifier="BCStepOneViewController" hidesBottomBarWhenPushed="YES" id="XiI-iA-FDM" customClass="BCStepOneViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BeeCreateNameViewController" hidesBottomBarWhenPushed="YES" id="XiI-iA-FDM" customClass="BeeCreateNameViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5U3-XZ-YRY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -119,18 +119,18 @@
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="beeNameTextView" destination="3wI-qy-xIh" id="RfV-F6-IOa"/>
-                        <segue destination="vii-ig-qB7" kind="show" identifier="pushToStepTwo" id="PEj-1B-kT8"/>
+                        <outlet property="beeNameTextField" destination="3wI-qy-xIh" id="I2L-Ab-gE0"/>
+                        <segue destination="vii-ig-qB7" kind="show" identifier="pushToStepTime" id="PEj-1B-kT8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SNp-yH-Ll9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3765.5999999999999" y="136.69950738916256"/>
         </scene>
-        <!--Step Two View Controller-->
+        <!--Bee Create Time View Controller-->
         <scene sceneID="iv5-fE-vWh">
             <objects>
-                <viewController storyboardIdentifier="BCStepTwoViewController" hidesBottomBarWhenPushed="YES" id="vii-ig-qB7" customClass="BCStepTwoViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BeeCreateTimeViewController" hidesBottomBarWhenPushed="YES" id="vii-ig-qB7" customClass="BeeCreateTimeViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kxj-tL-hJD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -200,17 +200,17 @@
                     <navigationItem key="navigationItem" id="Kxc-oZ-5Sb"/>
                     <connections>
                         <outlet property="beeNameLabel" destination="3pT-ph-qnJ" id="tgi-s8-Xza"/>
-                        <segue destination="8cl-pr-6MT" kind="show" identifier="pushToStepThr" id="8AY-Oh-pz8"/>
+                        <segue destination="8cl-pr-6MT" kind="show" identifier="pushToStepJelly" id="8AY-Oh-pz8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1uD-zN-Gse" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4460" y="136.69950738916256"/>
         </scene>
-        <!--Step Thr View Controller-->
+        <!--Bee Create Jelly View Controller-->
         <scene sceneID="uXE-TX-ots">
             <objects>
-                <viewController storyboardIdentifier="BCStepThrViewController" hidesBottomBarWhenPushed="YES" id="8cl-pr-6MT" customClass="BCStepThrViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BeeCreateJellyViewController" hidesBottomBarWhenPushed="YES" id="8cl-pr-6MT" customClass="BeeCreateJellyViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qgi-QZ-b5d">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
