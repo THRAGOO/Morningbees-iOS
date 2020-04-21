@@ -19,7 +19,7 @@ extension CustomAlert where Self: UIViewController {
 }
 
 extension CustomAlert {
-    func presentOneBtnAlert(title: String, message: String) {
+    func presentOneButtonAlert(title: String, message: String) {
         DispatchQueue.main.async {
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Confirm", style: .default, handler: nil))

@@ -124,7 +124,7 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
     
     func naverSignInRequest() {
         guard let accessToken = naverSignInInstance?.accessToken else {
-            presentOneBtnAlert(title: "Error!", message: "")
+            presentOneButtonAlert(title: "Error!", message: "")
             return
         }
         let reqModel = SignInModel()
@@ -134,7 +134,7 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
         let signInReq = Request<SignIn>()
         signInReq.request(req: request, param: param) { (signIn, error)  in
             if let error = error {
-                self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                self.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
             }
             guard let signIn = signIn else {
                 return
@@ -144,17 +144,17 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
             } else if signIn.type == 1 {
                 KeychainService.deleteKeychainToken { (error) in
                     if let error = error {
-                        self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                        self.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
                     }
                 }
                 KeychainService.addKeychainToken(signIn.accessToken, signIn.refreshToken) { (error) in
                     if let error = error {
-                        self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                        self.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
                     }
                 }
                 MeAPI().request { (alreadyJoinedBee, error) in
                     if let error = error {
-                        self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                        self.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
                     }
                     guard let alreadyJoinedBee = alreadyJoinedBee else {
                         return
@@ -166,7 +166,7 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
                     }
                 }
             } else {
-                self.presentOneBtnAlert(title: "Error!", message: "Invalid Value(Type).")
+                self.presentOneButtonAlert(title: "Error!", message: "Invalid Value(Type).")
             }
         }
     }
@@ -175,7 +175,7 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
     }
 
     func oauth20Connection(_ oauthConnection: NaverThirdPartyLoginConnection!, didFailWithError error: Error!) {
-        presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+        presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
     }
 
     //MARK: Action
@@ -223,7 +223,7 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
         switch authorization.credential {
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
             guard let identityToken = appleIDCredential.identityToken else {
-                presentOneBtnAlert(title: "Error!", message: "Couldn't get Apple information")
+                presentOneButtonAlert(title: "Error!", message: "Couldn't get Apple information")
                 return
             }
             let userID = appleIDCredential.user
@@ -235,7 +235,7 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        presentOneBtnAlert(title: "Alert", message: "The process has been canceled.")
+        presentOneButtonAlert(title: "Alert", message: "The process has been canceled.")
     }
     
     func appleSignInRequest(_ userID: String, _ accessToken: String) {
@@ -253,12 +253,12 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
             }
             KeychainService.deleteKeychainAppleInfo { (error) in
                 if let error = error {
-                    self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                    self.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
                 }
             }
             KeychainService.addKeychainAppleInfo(userID, accessToken) { (error) in
                 if let error = error {
-                    self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                    self.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
                 }
             }
             
@@ -267,7 +267,7 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
             } else if signIn.type == 1 {
                 MeAPI().request { (alreadyJoinedBee, error) in
                     if let error = error {
-                        self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                        self.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
                     }
                     guard let alreadyJoinedBee = alreadyJoinedBee else {
                         return
@@ -279,7 +279,7 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
                     }
                 }
             } else {
-                self.presentOneBtnAlert(title: "Error!", message: "Invalid Value(Type).")
+                self.presentOneButtonAlert(title: "Error!", message: "Invalid Value(Type).")
             }
         }
     }
