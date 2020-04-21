@@ -1,5 +1,5 @@
 //
-//  BCStepOneViewController.swift
+//  BeeCreateNameViewController.swift
 //  Morningbees-iOS
 //
 //  Created by Byeongjo Koo on 2020/04/13.
@@ -8,20 +8,20 @@
 
 import UIKit
 
-class BCStepOneViewController: UIViewController, UITextFieldDelegate {
+final class BeeCreateNameViewController: UIViewController, UITextFieldDelegate {
     
     //MARK:- Properties
     
-    @IBOutlet private weak var beeNameTextView: UITextField!
+    @IBOutlet private weak var beeNameTextField: UITextField!
 
-    private let nextBtn: UIButton = {
+    private let nextButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .lightGray
         button.isEnabled = false
-        button.addTarget(self, action: #selector(touchUpNextBtn), for: .touchUpInside)
+        button.addTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
         return button
     }()
-    private let btnLabel: UILabel = {
+    private let buttonLabel: UILabel = {
         let label = UILabel()
         label.text = "다음 1/3"
         label.textColor = .white
@@ -34,7 +34,7 @@ class BCStepOneViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupDesign()
-        beeNameTextView.delegate = self
+        beeNameTextField.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,17 +62,17 @@ class BCStepOneViewController: UIViewController, UITextFieldDelegate {
 
 //MARK:- Segue and Navigation
 
-extension BCStepOneViewController {
+extension BeeCreateNameViewController {
     
-    @objc private func touchUpNextBtn() {
-        performSegue(withIdentifier: "pushToStepTwo", sender: nil)
+    @objc private func touchUpNextButton() {
+        performSegue(withIdentifier: "pushToStepTime", sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard  let bcStepTwoViewController = segue.destination as? BCStepTwoViewController else {
+        guard  let beeCreateTimeViewController = segue.destination as? BeeCreateTimeViewController else {
             return
         }
-        bcStepTwoViewController.beeName = beeNameTextView.text ?? ""
+        beeCreateTimeViewController.beeName = beeNameTextField.text ?? ""
     }
     
     @IBAction private func popToPrevious(_ sender: UIButton) {
@@ -82,51 +82,51 @@ extension BCStepOneViewController {
 
 //MARK:- Touch Gesture Handling
 
-extension BCStepOneViewController {
+extension BeeCreateNameViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        beeNameTextView.endEditing(true)
+        beeNameTextField.endEditing(true)
     }
 }
 
 //MARK:- Keyboard Controll
 
-extension BCStepOneViewController {
+extension BeeCreateNameViewController {
     @objc private func keyboardWillShow(_ notification: Notification) {
          guard let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
              as? NSValue else {
              return
          }
-         nextBtn.transform = CGAffineTransform(translationX: 0, y: -keyboardFrame.cgRectValue.height)
+         nextButton.transform = CGAffineTransform(translationX: 0, y: -keyboardFrame.cgRectValue.height)
      }
        
      @objc private func keyboardWillHide(_ notification: Notification) {
-         nextBtn.transform = .identity
+         nextButton.transform = .identity
      }
     
     //MARK: Button Control
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        if beeNameTextView?.text != "" {
-            nextBtn.isEnabled = true
-            nextBtn.backgroundColor = .yellow
-            btnLabel.textColor = .black
+        if beeNameTextField?.text != "" {
+            nextButton.isEnabled = true
+            nextButton.backgroundColor = .yellow
+            buttonLabel.textColor = .black
         } else {
-            nextBtn.isEnabled = false
-            nextBtn.backgroundColor = .lightGray
-            btnLabel.textColor = .white
+            nextButton.isEnabled = false
+            nextButton.backgroundColor = .lightGray
+            buttonLabel.textColor = .white
         }
     }
 }
 
 //MARK:- Design
 
-extension BCStepOneViewController {
+extension BeeCreateNameViewController {
     
     private func setupDesign() {
-        view.addSubview(nextBtn)
-        nextBtn.addSubview(btnLabel)
+        view.addSubview(nextButton)
+        nextButton.addSubview(buttonLabel)
         
-        DesignSet.constraints(view: nextBtn, top: 611, leading: 0, height: 56, width: 375)
-        DesignSet.constraints(view: btnLabel, top: 19, leading: 88, height: 19, width: 200)
+        DesignSet.constraints(view: nextButton, top: 611, leading: 0, height: 56, width: 375)
+        DesignSet.constraints(view: buttonLabel, top: 19, leading: 88, height: 19, width: 200)
     }
 }

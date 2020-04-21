@@ -1,5 +1,5 @@
 //
-//  BCStepThrViewController.swift
+//  BeeCreateJellyViewController.swift
 //  Morningbees-iOS
 //
 //  Created by Byeongjo Koo on 2020/04/13.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BCStepThrViewController: UIViewController {
+class BeeCreateJellyViewController: UIViewController {
     
     //MARK:- Properties
     
@@ -41,14 +41,14 @@ class BCStepThrViewController: UIViewController {
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
-    private let nextBtn: UIButton = {
+    private let nextButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .lightGray
         button.isEnabled = false
-        button.addTarget(self, action: #selector(touchUpNextBtn), for: .touchUpInside)
+        button.addTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
         return button
     }()
-    private let btnLabel: UILabel = {
+    private let buttonLabel: UILabel = {
         let label = UILabel()
         label.text = "다음 3/3"
         label.textColor = .white
@@ -70,35 +70,23 @@ class BCStepThrViewController: UIViewController {
 
 //MARK:- Segmented Control
 
-extension BCStepThrViewController {
+extension BeeCreateJellyViewController {
     
     private func segmentValueSet(min: Bool, max: Bool, cur: Bool) {
-        if min {
-            minRoyalJellyLabel.textColor = .black
-            minRoyalJellyLabel.font = .boldSystemFont(ofSize: 16)
-        } else {
-            minRoyalJellyLabel.textColor = .lightGray
-            minRoyalJellyLabel.font = .none
-        }
-        if max {
-            maxRoyalJellyLabel.textColor = .black
-            maxRoyalJellyLabel.font = .boldSystemFont(ofSize: 16)
-        } else {
-            maxRoyalJellyLabel.textColor = .lightGray
-            maxRoyalJellyLabel.font = .none
-        }
-        if cur {
-            curRoyalJellyLabel.isHidden = false
-        } else {
-            curRoyalJellyLabel.isHidden = true
-        }
+        minRoyalJellyLabel.textColor = min ? .black : .lightGray
+        minRoyalJellyLabel.font = min ? .boldSystemFont(ofSize: 16) : .none
+        
+        maxRoyalJellyLabel.textColor = max ? .black : .lightGray
+        maxRoyalJellyLabel.font = max ? .boldSystemFont(ofSize: 16) : .none
+        
+        curRoyalJellyLabel.isHidden = cur ? false : true
     }
     
     @IBAction private func didSegControlChaged(_ sender: UISegmentedControl) {
-        nextBtn.isEnabled = true
-        nextBtn.backgroundColor = .yellow
-        btnLabel.text = "Bee 시작하기"
-        btnLabel.textColor = .black
+        nextButton.isEnabled = true
+        nextButton.backgroundColor = .yellow
+        buttonLabel.text = "Bee 시작하기"
+        buttonLabel.textColor = .black
         
         royalJelly = sender.selectedSegmentIndex + 2
         let count = sender.selectedSegmentIndex - 1
@@ -119,27 +107,28 @@ extension BCStepThrViewController {
 
 //MARK:- Bee Create Request
 
-extension BCStepThrViewController: CustomAlert {
+extension BeeCreateJellyViewController: CustomAlert {
     
     func beeCreateRequest() {
         let reqModel = CreateBeeModel()
         let request = RequestSet(method: reqModel.method, path: reqModel.path)
         let createBee = Request<CreateBee>()
+        let param = BeeCreateParam(title: self.beeName,
+                                   startTime: self.startTime,
+                                   endTime: self.endTime,
+                                   pay: self.royalJelly,
+                                   description: "")
         KeychainService.extractKeyChainToken { (accessToken, _, error) in
             if let error = error {
-                self.presentOneBtnAlert(title: "Token Error", message: error.localizedDescription)
+                self.presentOneButtonAlert(title: "Token Error", message: error.localizedDescription)
             }
             guard let accessToken = accessToken else {
                 return
             }
             let header: [String: String] = [RequestHeader.accessToken.rawValue: accessToken]
-            createBee.request(req: request, header: header, param: BeeCreateParam(title: self.beeName,
-                                                                                  startTime: self.startTime,
-                                                                                  endTime: self.endTime,
-                                                                                  pay: self.royalJelly,
-                                                                                  description: "")) { (_, error) in
+            createBee.request(req: request, header: header, param: param) { (_, error) in
                 if let error = error {
-                    self.presentOneBtnAlert(title: "BeeCreate", message: error.localizedDescription)
+                    self.presentOneButtonAlert(title: "BeeCreate", message: error.localizedDescription)
                     return
                 }
                                                                                     
@@ -151,9 +140,9 @@ extension BCStepThrViewController: CustomAlert {
 
 //MARK:- Navigation Control
 
-extension BCStepThrViewController {
+extension BeeCreateJellyViewController {
     
-    @objc private func touchUpNextBtn(_ sender: UIButton) {
+    @objc private func touchUpNextButton(_ sender: UIButton) {
         beeCreateRequest()
     }
     
@@ -164,19 +153,19 @@ extension BCStepThrViewController {
 
 //MARK:- Design Set
 
-extension BCStepThrViewController {
+extension BeeCreateJellyViewController {
     
     private func setupDesign() {
         view.addSubview(minRoyalJellyLabel)
         view.addSubview(maxRoyalJellyLabel)
         view.addSubview(curRoyalJellyLabel)
-        view.addSubview(nextBtn)
-        nextBtn.addSubview(btnLabel)
+        view.addSubview(nextButton)
+        nextButton.addSubview(buttonLabel)
         
         DesignSet.constraints(view: minRoyalJellyLabel, top: 285, leading: 20, height: 16, width: 35)
         DesignSet.constraints(view: maxRoyalJellyLabel, top: 285, leading: 317, height: 16, width: 41)
         DesignSet.constraints(view: curRoyalJellyLabel, top: 285, leading: 60, height: 16, width: 36)
-        DesignSet.constraints(view: nextBtn, top: 611, leading: 0, height: 56, width: 375)
-        DesignSet.constraints(view: btnLabel, top: 19, leading: 88, height: 19, width: 200)
+        DesignSet.constraints(view: nextButton, top: 611, leading: 0, height: 56, width: 375)
+        DesignSet.constraints(view: buttonLabel, top: 19, leading: 88, height: 19, width: 200)
     }
 }

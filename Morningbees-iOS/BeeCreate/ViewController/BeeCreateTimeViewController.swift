@@ -1,5 +1,5 @@
 //
-//  BCStepTwoViewController.swift
+//  BeeCreateTimeViewController.swift
 //  Morningbees-iOS
 //
 //  Created by Byeongjo Koo on 2020/04/13.
@@ -8,20 +8,20 @@
 
 import UIKit
 
-class BCStepTwoViewController: UIViewController {
+final class BeeCreateTimeViewController: UIViewController {
     
     //MARK:- Properties
     
     @IBOutlet private weak var beeNameLabel: UILabel!
     
-    private let nextBtn: UIButton = {
+    private let nextButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .lightGray
         button.isEnabled = false
-        button.addTarget(self, action: #selector(touchUpNextBtn), for: .touchUpInside)
+        button.addTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
         return button
     }()
-    private let btnLabel: UILabel = {
+    private let buttonLabel: UILabel = {
         let label = UILabel()
         label.text = "다음 2/3"
         label.textColor = .white
@@ -30,8 +30,8 @@ class BCStepTwoViewController: UIViewController {
         return label
     }()
     
-    private var timeBtn = [UIButton]()
-    private let timeSelect: UIStackView = {
+    private var timeButtons = [UIButton]()
+    private let timeSelectStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = 6
         return stackView
@@ -46,26 +46,26 @@ class BCStepTwoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setDesign()
-        setUpBtn()
+        setUpButton()
         beeNameLabel.text = beeName
     }
 }
 
 //MARK:- Segue and Navigation
 
-extension BCStepTwoViewController {
+extension BeeCreateTimeViewController {
     
-    @objc private func touchUpNextBtn() {
-        performSegue(withIdentifier: "pushToStepThr", sender: nil)
+    @objc private func touchUpNextButton() {
+        performSegue(withIdentifier: "pushToStepJelly", sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let bcStepThrViewController = segue.destination as? BCStepThrViewController else {
+        guard let beeCreateJellyViewController = segue.destination as? BeeCreateJellyViewController else {
             return
         }
-        bcStepThrViewController.beeName = self.beeName
-        bcStepThrViewController.startTime = self.startTime
-        bcStepThrViewController.endTime = self.endTime
+        beeCreateJellyViewController.beeName = self.beeName
+        beeCreateJellyViewController.startTime = self.startTime
+        beeCreateJellyViewController.endTime = self.endTime
     }
     
     @IBAction private func popToPrevious(_ sender: UIButton) {
@@ -75,15 +75,15 @@ extension BCStepTwoViewController {
 
 //MARK:- Mission Time Button Set
 
-extension BCStepTwoViewController {
+extension BeeCreateTimeViewController {
     
-    private func setUpBtn() {
+    private func setUpButton() {
         for idx in 0..<5 {
             let button = UIButton()
             button.backgroundColor = .lightGray
             button.layer.cornerRadius = 10
-            timeSelect.addArrangedSubview(button)
-            timeBtn.append(button)
+            timeSelectStackView.addArrangedSubview(button)
+            timeButtons.append(button)
             
             let label = UILabel()
             label.text = String(idx + 6)
@@ -99,55 +99,55 @@ extension BCStepTwoViewController {
         }
     }
     
-    private func setupBtnLable(_ state: String) {
-        btnLabel.textColor = .white
+    private func setupButtonLable(_ state: String) {
+        buttonLabel.textColor = .white
         if state == "Start" {
-            btnLabel.text = "미션 시작시간을 선택해 주세요."
+            buttonLabel.text = "미션 시작시간을 선택해 주세요."
         } else if state == "End" {
-            btnLabel.text = "미션 종료시간을 선택해 주세요."
+            buttonLabel.text = "미션 종료시간을 선택해 주세요."
         }
     }
     
-    private func timeBtnSelected(_ state: Bool, _ index: Int) {
+    private func timeButtonSelected(_ state: Bool, _ index: Int) {
         if state {
-            timeBtn[index].isSelected = true
-            timeBtn[index].backgroundColor = .yellow
+            timeButtons[index].isSelected = true
+            timeButtons[index].backgroundColor = .yellow
         } else {
-            timeBtn[index].isSelected = false
-            timeBtn[index].backgroundColor = .lightGray
+            timeButtons[index].isSelected = false
+            timeButtons[index].backgroundColor = .lightGray
         }
     }
     
     @objc private func ratingButtonTapped(button: UIButton) {
-        guard let index = timeBtn.firstIndex(of: button) else {
+        guard let index = timeButtons.firstIndex(of: button) else {
             return
         }
         let selectedTime = index + 6
         
-        if startTime == 0 && timeBtn[index].isSelected == false {
+        if startTime == 0 && timeButtons[index].isSelected == false {
             startTime = selectedTime
-            timeBtnSelected(true, index)
+            timeButtonSelected(true, index)
             if startTime == 10 {
-                setupBtnLable("Start")
+                setupButtonLable("Start")
             } else {
-                setupBtnLable("End")
+                setupButtonLable("End")
             }
-        } else if endTime == 0 && timeBtn[index].isSelected == false {
+        } else if endTime == 0 && timeButtons[index].isSelected == false {
             endTime = selectedTime
-            timeBtnSelected(true, index)
+            timeButtonSelected(true, index)
         } else if startTime == selectedTime || endTime == selectedTime {
             if startTime == selectedTime {
                 startTime = 0
-                setupBtnLable("Start")
+                setupButtonLable("Start")
             } else {
                 endTime = 0
                 if startTime == 0 && endTime == 0 {
-                    setupBtnLable("Start")
+                    setupButtonLable("Start")
                 } else {
-                    setupBtnLable("End")
+                    setupButtonLable("End")
                 }
             }
-            timeBtnSelected(false, index)
+            timeButtonSelected(false, index)
         }
         
         if startTime > endTime {
@@ -157,28 +157,28 @@ extension BCStepTwoViewController {
         }
         
         if startTime != 0 && endTime != 0 {
-            nextBtn.isEnabled = true
-            nextBtn.backgroundColor = .yellow
-            btnLabel.text = "다음 2/3"
-            btnLabel.textColor = .black
+            nextButton.isEnabled = true
+            nextButton.backgroundColor = .yellow
+            buttonLabel.text = "다음 2/3"
+            buttonLabel.textColor = .black
         } else {
-            nextBtn.isEnabled = false
-            nextBtn.backgroundColor = .lightGray
+            nextButton.isEnabled = false
+            nextButton.backgroundColor = .lightGray
         }
     }
 }
 
 //MARK:- Design
 
-extension BCStepTwoViewController {
+extension BeeCreateTimeViewController {
     
     func setDesign() {
-        view.addSubview(timeSelect)
-        view.addSubview(nextBtn)
-        nextBtn.addSubview(btnLabel)
+        view.addSubview(timeSelectStackView)
+        view.addSubview(nextButton)
+        nextButton.addSubview(buttonLabel)
         
-        DesignSet.constraints(view: timeSelect, top: 265, leading: 20, height: 54, width: 339)
-        DesignSet.constraints(view: nextBtn, top: 611, leading: 0, height: 56, width: 375)
-        DesignSet.constraints(view: btnLabel, top: 19, leading: 88, height: 19, width: 200)
+        DesignSet.constraints(view: timeSelectStackView, top: 265, leading: 20, height: 54, width: 339)
+        DesignSet.constraints(view: nextButton, top: 611, leading: 0, height: 56, width: 375)
+        DesignSet.constraints(view: buttonLabel, top: 19, leading: 88, height: 19, width: 200)
     }
 }

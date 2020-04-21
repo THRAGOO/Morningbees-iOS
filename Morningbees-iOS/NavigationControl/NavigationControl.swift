@@ -69,8 +69,8 @@ extension NavigationControl {
         DispatchQueue.main.async {
             let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController
             guard let bcStepOneViewController = self.mainStoryboard.instantiateViewController(
-                identifier: "BCStepOneViewController") as? BCStepOneViewController else {
-                    print(String(describing: BCStepOneViewController.self))
+                identifier: "BeeCreateNameViewController") as? BeeCreateNameViewController else {
+                    print(String(describing: BeeCreateNameViewController.self))
                     return
             }
             navigationController?.pushViewController(bcStepOneViewController, animated: true)
