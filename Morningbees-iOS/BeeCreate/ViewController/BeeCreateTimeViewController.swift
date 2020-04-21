@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum TimeButtonState: String {
+    case start = "Start"
+    case end = "End"
+}
+
 final class BeeCreateTimeViewController: UIViewController {
     
     //MARK:- Properties
@@ -99,23 +104,18 @@ extension BeeCreateTimeViewController {
         }
     }
     
-    private func setupButtonLable(_ state: String) {
+    private func setupButtonLabel(_ state: String) {
         buttonLabel.textColor = .white
-        if state == "Start" {
+        if state == TimeButtonState.start.rawValue {
             buttonLabel.text = "미션 시작시간을 선택해 주세요."
-        } else if state == "End" {
+        } else if state == TimeButtonState.end.rawValue {
             buttonLabel.text = "미션 종료시간을 선택해 주세요."
         }
     }
     
     private func timeButtonSelected(_ state: Bool, _ index: Int) {
-        if state {
-            timeButtons[index].isSelected = true
-            timeButtons[index].backgroundColor = .yellow
-        } else {
-            timeButtons[index].isSelected = false
-            timeButtons[index].backgroundColor = .lightGray
-        }
+        timeButtons[index].isSelected = state ? true : false
+        timeButtons[index].backgroundColor = state ? .yellow : .lightGray
     }
     
     @objc private func ratingButtonTapped(button: UIButton) {
@@ -128,9 +128,9 @@ extension BeeCreateTimeViewController {
             startTime = selectedTime
             timeButtonSelected(true, index)
             if startTime == 10 {
-                setupButtonLable("Start")
+                setupButtonLabel(TimeButtonState.start.rawValue)
             } else {
-                setupButtonLable("End")
+                setupButtonLabel(TimeButtonState.end.rawValue)
             }
         } else if endTime == 0 && timeButtons[index].isSelected == false {
             endTime = selectedTime
@@ -138,13 +138,13 @@ extension BeeCreateTimeViewController {
         } else if startTime == selectedTime || endTime == selectedTime {
             if startTime == selectedTime {
                 startTime = 0
-                setupButtonLable("Start")
+                setupButtonLabel(TimeButtonState.start.rawValue)
             } else {
                 endTime = 0
                 if startTime == 0 && endTime == 0 {
-                    setupButtonLable("Start")
+                    setupButtonLabel(TimeButtonState.start.rawValue)
                 } else {
-                    setupButtonLable("End")
+                    setupButtonLabel(TimeButtonState.end.rawValue)
                 }
             }
             timeButtonSelected(false, index)
