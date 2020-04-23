@@ -90,7 +90,7 @@ extension AppDelegate: GIDSignInDelegate {
         }
         
         guard let accessToken = user.authentication.idToken else {
-            signInViewController.presentOneBtnAlert(title: "Error!", message: "Couldn't get accessToken.")
+            signInViewController.presentOneButtonAlert(title: "Error!", message: "Couldn't get accessToken.")
             return
         }
         let reqModel = SignInModel()
@@ -102,7 +102,7 @@ extension AppDelegate: GIDSignInDelegate {
         let signInReq = Request<SignIn>()
         signInReq.request(req: request, param: param) { (signIn, error)  in
             if let error = error {
-                signInViewController.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                signInViewController.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
             }
             guard let signIn = signIn else {
                 return
@@ -119,12 +119,12 @@ extension AppDelegate: GIDSignInDelegate {
                     
                 KeychainService.deleteKeychainToken { (error) in
                     if let error = error {
-                        signInViewController.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                        signInViewController.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
                     }
                 }
                 KeychainService.addKeychainToken(signIn.accessToken, signIn.refreshToken) { (error) in
                     if let error = error {
-                        signInViewController.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                        signInViewController.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
                     }
                 }
                 MeAPI().request { (alreadyJoinedBee, error) in
@@ -158,7 +158,7 @@ extension AppDelegate: GIDSignInDelegate {
                     fatalError("Not found the SignUpViewController")
         }
         if let error = error {
-            signUpViewController.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+            signUpViewController.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
             return
         }
         navigationController.popToRootViewController(animated: true)

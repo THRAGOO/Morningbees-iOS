@@ -148,21 +148,21 @@ extension SignUpViewController: CustomAlert {
             DispatchQueue.main.async {
                 guard let error = error else {
                     guard let validNickname = validNickname else {
-                        self.presentOneBtnAlert(title: "Sorry", message: "Error ouccured! Please try again.")
+                        self.presentOneButtonAlert(title: "Sorry", message: "Error ouccured! Please try again.")
                         self.nicknameAvailableSet(false)
                         return
                     }
                     if validNickname.isValid == true {
-                        self.presentOneBtnAlert(title: "Valid!", message: "You can use that nickname.")
+                        self.presentOneButtonAlert(title: "Valid!", message: "You can use that nickname.")
                         self.nicknameTextField.endEditing(true)
                         self.nicknameAvailableSet(true)
                     } else {
-                        self.presentOneBtnAlert(title: "Not valid!", message: "Please type another nickname.")
+                        self.presentOneButtonAlert(title: "Not valid!", message: "Please type another nickname.")
                         self.nicknameAvailableSet(false)
                     }
                     return
                 }
-                self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                self.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
                 self.nicknameAvailableSet(false)
             }
         }
@@ -208,10 +208,10 @@ extension SignUpViewController: CustomAlert {
             if inspecNicknameReg(originText: nickname) == true {
                 isValidNicknameServer()
             } else {
-                presentOneBtnAlert(title: "Sorry", message: "nickname contains inappropriate value.")
+                presentOneButtonAlert(title: "Sorry", message: "nickname contains inappropriate value.")
             }
         } else {
-            presentOneBtnAlert(title: "Sorry", message: "nickname is too short!")
+            presentOneButtonAlert(title: "Sorry", message: "nickname is too short!")
         }
     }
 }
@@ -240,7 +240,7 @@ extension SignUpViewController {
     
     private func signUpRequest(_ socialAccessToken: String, _ provider: String) {
         guard let nickname = nicknameTextField.text else {
-            presentOneBtnAlert(title: "Error!", message: "Couldn't get nickname")
+            presentOneButtonAlert(title: "Error!", message: "Couldn't get nickname")
             return
         }
         let reqModel = SignUpModel()
@@ -251,7 +251,7 @@ extension SignUpViewController {
         let signUpReq = Request<SignUp>()
         signUpReq.request(req: request, param: param) { (signUp, error)  in
             if let error = error {
-                self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                self.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
             }
             guard let signUp = signUp else {
                 return
@@ -261,13 +261,13 @@ extension SignUpViewController {
             
             KeychainService.addKeychainToken(signUp.accessToken, signUp.refreshToken) { (error) in
                 if let error = error {
-                    self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                    self.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
                 }
             }
         }
         MeAPI().request { (alreadyJoinedBee, error) in
             if let error = error {
-                self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                self.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
             }
             guard let alreadyJoinedBee = alreadyJoinedBee else {
                 return
@@ -297,16 +297,16 @@ extension SignUpViewController {
         case SignInProvider.apple.rawValue:
             KeychainService.extractKeyChainAppleInfo { (_, idToken, error) in
                 if let error = error {
-                    self.presentOneBtnAlert(title: "Error", message: error.localizedDescription)
+                    self.presentOneButtonAlert(title: "Error", message: error.localizedDescription)
                 }
                 guard let idToken = idToken else {
-                    self.presentOneBtnAlert(title: "Error!", message: "Couldn't get IdentityToken.")
+                    self.presentOneButtonAlert(title: "Error!", message: "Couldn't get IdentityToken.")
                     return
                 }
                 self.signUpRequest(idToken, SignInProvider.apple.rawValue)
             }
         default:
-            presentOneBtnAlert(title: "Error", message: "fail on request.")
+            presentOneButtonAlert(title: "Error", message: "fail on request.")
         }
     }
 }

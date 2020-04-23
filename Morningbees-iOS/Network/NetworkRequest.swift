@@ -135,6 +135,8 @@ extension Request {
                         }
                     }
                 }
+            } else if response.statusCode == 201 {
+                completion(nil, nil)
             } else {
                 guard let result = try? JSONDecoder().decode(Model.self, from: data) else {
                     completion(nil, ResponseError.unknown)

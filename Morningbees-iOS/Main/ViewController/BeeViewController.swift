@@ -25,7 +25,7 @@ final class BeeViewController: UIViewController, CustomAlert {
     override func viewDidLoad() {
         KeychainService.extractKeyChainToken { (accessToken, refreshToken, error) in
             if let error = error {
-                self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                self.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
             }
             self.accessTokenTextView.text = accessToken
             self.refreshTokenTextView.text = refreshToken
@@ -56,7 +56,7 @@ extension BeeViewController: NaverThirdPartyLoginConnectionDelegate {
     }
 
     func oauth20Connection(_ oauthConnection: NaverThirdPartyLoginConnection!, didFailWithError error: Error!) {
-        presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+        presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
     }
 
     //MARK: Action
@@ -91,13 +91,13 @@ extension BeeViewController {
     @IBAction private func touchUpMeRequestBtn(_ sender: UIButton) {
         MeAPI().request { (alreadyJoinedBee, error) in
                 if let error = error {
-                    self.presentOneBtnAlert(title: "Error!", message: error.localizedDescription)
+                    self.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
                 }
                 guard let alreadyJoinedBee = alreadyJoinedBee else {
                     return
                 }
                 if alreadyJoinedBee {
-                    self.presentOneBtnAlert(title: "Already Joined Bee", message: "HAHA~!")
+                    self.presentOneButtonAlert(title: "Already Joined Bee", message: "HAHA~!")
                 } else {
                 DispatchQueue.main.async {
                     NavigationControl().pushToBeforeJoinViewController()

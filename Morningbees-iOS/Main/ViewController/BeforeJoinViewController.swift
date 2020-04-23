@@ -9,7 +9,15 @@
 import UIKit
 
 class BeforeJoinViewController: UIViewController {
+    
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+    }
+}
+
+extension BeforeJoinViewController {
+    
+    @IBAction func touchupBeeCreateBtn(_ sender: UIButton) {
+        NavigationControl().pushToBCStepOneViewController()
     }
 }

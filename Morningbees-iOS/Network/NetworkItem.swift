@@ -17,6 +17,8 @@ enum Path: String {
     
     case renewal = "/api/auth/renewal"
     case me = "/api/auth/me"
+    
+    case createBee = "/api/bees"
 }
 
 enum HTTPMethod: String {
