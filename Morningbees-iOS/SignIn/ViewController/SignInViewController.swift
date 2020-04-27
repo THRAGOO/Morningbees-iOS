@@ -97,15 +97,15 @@ final class SignInViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         UIView.animate(withDuration: 0.5) {
-            self.beeImgSuperView.center = CGPoint(x: DesignSet.frameWidth / 2,
-                                                  y: (369 / StandardDevice.height.rawValue) * DesignSet.frameHeight)
+            self.beeImgSuperView.center = CGPoint(x: Double(self.view.frame.width) / 2,
+                                                  y: 369 * DesignSet.frameHeightRatio)
         }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         beeImgSuperView.snp.makeConstraints {
-            $0.top.equalTo((400.9 / StandardDevice.height.rawValue) * DesignSet.frameHeight)
+            $0.top.equalTo(400.9 * DesignSet.frameHeightRatio)
         }
     }
 }

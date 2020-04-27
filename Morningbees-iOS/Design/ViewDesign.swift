@@ -29,8 +29,8 @@ final class DesignSet {
     
 //MARK:- Properties
     
-    static let frameHeight = Double(UIViewController().view.frame.height)
-    static let frameWidth = Double(UIViewController().view.frame.width)
+    static let frameHeightRatio = Double(UIViewController().view.frame.height) / StandardDevice.height.rawValue
+    static let frameWidthRatio = Double(UIViewController().view.frame.width) / StandardDevice.width.rawValue
 }
 
 extension DesignSet {
@@ -43,9 +43,8 @@ extension DesignSet {
     }
     
     static func fontSet(name: String, size: Double) -> UIFont {
-        guard let font = UIFont.init(name: name,
-                                     size: CGFloat((size / StandardDevice.height.rawValue) * frameHeight)) else {
-                                    fatalError("Failed to load the font.")
+        guard let font = UIFont.init(name: name, size: CGFloat(size * frameHeightRatio)) else {
+            fatalError("Failed to load the font.")
         }
         return font
     }
@@ -71,7 +70,7 @@ extension DesignSet {
         let label = UILabel()
         let attributedString = NSMutableAttributedString(string: text)
         attributedString.addAttribute(NSAttributedString.Key.kern,
-                                      value: CGFloat((letterSpacing / StandardDevice.height.rawValue) * frameHeight),
+                                      value: CGFloat(letterSpacing * frameHeightRatio),
                                       range: NSRange.init(location: 0, length: attributedString.length))
         label.attributedText = attributedString
         label.isUserInteractionEnabled = false
@@ -82,19 +81,28 @@ extension DesignSet {
     
     static func constraints(view: UIView, top: Double, leading: Double, height: Double, width: Double) {
         view.snp.makeConstraints {
-            $0.top.equalTo((top / StandardDevice.height.rawValue) * frameHeight)
-            $0.leading.equalTo((leading / StandardDevice.width.rawValue) * frameWidth)
-            $0.height.equalTo((height / StandardDevice.height.rawValue) * frameHeight)
-            $0.width.equalTo((width / StandardDevice.width.rawValue) * frameWidth)
+            $0.top.equalTo(top * frameHeightRatio)
+            $0.leading.equalTo(leading * frameWidthRatio)
+            $0.height.equalTo(height * frameHeightRatio)
+            $0.width.equalTo(width * frameWidthRatio)
         }
     }
     
     static func flexibleConstraints(view: UIView, top: Double, leading: Double, height: Double, width: Double) {
         view.snp.makeConstraints {
-            $0.top.equalTo((top / StandardDevice.height.rawValue) * frameHeight)
-            $0.leading.equalTo((leading / StandardDevice.width.rawValue) * frameWidth)
-            $0.height.equalTo((height / StandardDevice.height.rawValue) * frameHeight)
-            $0.width.greaterThanOrEqualTo((width / StandardDevice.width.rawValue) * frameWidth)
+            $0.top.equalTo(top * frameHeightRatio)
+            $0.leading.equalTo(leading * frameWidthRatio)
+            $0.height.equalTo(height * frameHeightRatio)
+            $0.width.greaterThanOrEqualTo(width * frameWidthRatio)
+        }
+    }
+    
+    static func squareConstraints(view: UIView, top: Double, leading: Double, height: Double, width: Double) {
+        view.snp.makeConstraints {
+            $0.top.equalTo(top * frameHeightRatio)
+            $0.leading.equalTo(leading * frameWidthRatio)
+            $0.height.equalTo(height * frameWidthRatio)
+            $0.width.greaterThanOrEqualTo(width * frameWidthRatio)
         }
     }
 }
