@@ -136,7 +136,7 @@ extension BeeCreateJellyViewController {
         for _ in 0..<9 {
             let button = UIButton.init(type: .system)
             button.setTitle("•", for: .normal)
-            button.titleLabel?.font = .systemFont(ofSize: 20    )
+            button.titleLabel?.font = .systemFont(ofSize: 20)
             button.setTitleColor(DesignSet.colorSet(red: 220, green: 220, blue: 220), for: .normal)
             button.titleLabel?.textAlignment = .center
             button.addTarget(self, action: #selector(didSegControlTapped), for: .touchUpInside)
@@ -180,10 +180,11 @@ extension BeeCreateJellyViewController {
         nextButton.backgroundColor = beeYellow
         nextButton.setTitle("Bee 시작하기", for: .normal)
         nextButton.setTitleColor(DesignSet.colorSet(red: 34, green: 34, blue: 34), for: .normal)
-        guard let jellyIdx = jellyButtons.firstIndex(of: sender) else {
+        guard let jellyIndex = jellyButtons.firstIndex(of: sender) else {
             return
         }
-        royalJelly = (jellyIdx + 2)
+        // 2천원부터 시작이니까 +2
+        royalJelly = (jellyIndex + 2)
         if royalJelly == 2 {
             segmentValueSet(min: true, max: false, cur: false)
         } else if royalJelly == 10 {
@@ -197,7 +198,8 @@ extension BeeCreateJellyViewController {
             if btn == sender {
                 let width = customSegmentedControl.frame.width
                 let selectorStartPosition = width / CGFloat(jellyButtons.count) * CGFloat(buttonIndex)
-                let jellyStartPosition = CGFloat(Double(36 * jellyIdx) * DesignSet.frameWidthRatio)
+                // 컨트롤 밑에 숫자 움직이는 거 컨트롤!
+                let jellyStartPosition = CGFloat(Double(36 * jellyIndex) * DesignSet.frameWidthRatio)
                 if jellySelectImg.isHidden {
                     selector.frame.origin.x = selectorStartPosition
                     self.curRoyalJellyLabel.transform = CGAffineTransform(translationX: +jellyStartPosition, y: 0)
