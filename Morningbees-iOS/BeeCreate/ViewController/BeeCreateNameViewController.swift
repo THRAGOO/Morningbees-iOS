@@ -12,21 +12,73 @@ final class BeeCreateNameViewController: UIViewController, UITextFieldDelegate {
     
     //MARK:- Properties
     
-    @IBOutlet private weak var beeNameTextField: UITextField!
+    private let toPreviousButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "arrowLeft"), for: .normal)
+        button.addTarget(self, action: #selector(popToPrevious), for: .touchUpInside)
+        return button
+    }()
+    private let helpButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "iconQuestionMark"), for: .normal)
+        return button
+    }()
+    
+    private let firstDescriptionLabel: UILabel = {
+        let label = DesignSet.initLabel(text: "생성할 Bee의", letterSpacing: -0.5)
+        label.textColor = DesignSet.colorSet(red: 34, green: 34, blue: 34)
+        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 24)
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    private let secondDescriptionLabel: UILabel = {
+        let label = DesignSet.initLabel(text: "이름을 정해주세요.", letterSpacing: -0.5)
+        label.textColor = DesignSet.colorSet(red: 34, green: 34, blue: 34)
+        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 24)
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
+    private let nameDescriptionLabel: UILabel = {
+        let label = DesignSet.initLabel(text: "Bee 이름", letterSpacing: 0)
+        label.textColor = DesignSet.colorSet(red: 119, green: 119, blue: 119)
+        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 14)
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    private let beeNameTextField: UITextField = {
+        let textField = UITextField()
+        textField.borderStyle = .none
+        textField.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 16)
+        textField.autocorrectionType = UITextAutocorrectionType.no
+        textField.clearButtonMode = .whileEditing
+        return textField
+    }()
+    private let lengthDescriptionLabel: UILabel = {
+        let label = DesignSet.initLabel(text: "X자 이내로 입력해주세요.", letterSpacing: -0.4)
+        label.textColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
+        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 13)
+        label.adjustsFontSizeToFitWidth = true
+        label.isHidden = true
+        return label
+    }()
+    private let bottomlineView: UIView = {
+        let view = UIView()
+        view.layer.borderWidth = 0.5
+        view.layer.borderColor = DesignSet.colorSet(red: 211, green: 211, blue: 211).cgColor
+        return view
+    }()
 
     private let nextButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .lightGray
+        button.backgroundColor = DesignSet.colorSet(red: 229, green: 229, blue: 229)
         button.isEnabled = false
+        button.setTitle("다음 1/3", for: .normal)
+        button.setTitleColor(DesignSet.colorSet(red: 255, green: 255, blue: 255), for: .normal)
+        button.titleLabel?.font =  DesignSet.fontSet(name: TextFonts.appleSDGothicNeoSemiBold.rawValue,
+                                                     size: 15)
         button.addTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
         return button
-    }()
-    private let buttonLabel: UILabel = {
-        let label = UILabel()
-        label.text = "다음 1/3"
-        label.textColor = .white
-        label.textAlignment = .center
-        return label
     }()
     
     //MARK:- Life Cycle
@@ -75,7 +127,7 @@ extension BeeCreateNameViewController {
         beeCreateTimeViewController.beeName = beeNameTextField.text ?? ""
     }
     
-    @IBAction private func popToPrevious(_ sender: UIButton) {
+    @objc private func popToPrevious(_ sender: UIButton) {
         NavigationControl().popToPrevViewController()
     }
 }
@@ -106,14 +158,15 @@ extension BeeCreateNameViewController {
     //MARK: Button Control
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        if beeNameTextField?.text != "" {
+        lengthDescriptionLabel.isHidden = false
+        if beeNameTextField.text != "" {
             nextButton.isEnabled = true
-            nextButton.backgroundColor = .yellow
-            buttonLabel.textColor = .black
+            nextButton.backgroundColor = DesignSet.colorSet(red: 255, green: 218, blue: 34)
+            nextButton.setTitleColor(DesignSet.colorSet(red: 34, green: 34, blue: 34), for: .normal)
         } else {
             nextButton.isEnabled = false
-            nextButton.backgroundColor = .lightGray
-            buttonLabel.textColor = .white
+            nextButton.backgroundColor = DesignSet.colorSet(red: 229, green: 229, blue: 229)
+            nextButton.setTitleColor(DesignSet.colorSet(red: 255, green: 255, blue: 255), for: .disabled)
         }
     }
 }
@@ -123,10 +176,29 @@ extension BeeCreateNameViewController {
 extension BeeCreateNameViewController {
     
     private func setupDesign() {
+        view.addSubview(toPreviousButton)
+        view.addSubview(helpButton)
+        view.addSubview(firstDescriptionLabel)
+        view.addSubview(secondDescriptionLabel)
+        
+        view.addSubview(nameDescriptionLabel)
+        view.addSubview(beeNameTextField)
+        view.addSubview(lengthDescriptionLabel)
+        view.addSubview(bottomlineView)
+        
         view.addSubview(nextButton)
-        nextButton.addSubview(buttonLabel)
+        
+        DesignSet.constraints(view: toPreviousButton, top: 32, leading: 11, height: 20, width: 12)
+        DesignSet.constraints(view: helpButton, top: 42, leading: 331, height: 20, width: 20)
+        
+        DesignSet.constraints(view: firstDescriptionLabel, top: 90, leading: 24, height: 33, width: 174)
+        DesignSet.constraints(view: secondDescriptionLabel, top: 123, leading: 24, height: 33, width: 214)
+        
+        DesignSet.constraints(view: nameDescriptionLabel, top: 223, leading: 24, height: 17, width: 51)
+        DesignSet.constraints(view: beeNameTextField, top: 257, leading: 24, height: 20, width: 327)
+        DesignSet.constraints(view: lengthDescriptionLabel, top: 304, leading: 24, height: 16, width: 145)
+        DesignSet.constraints(view: bottomlineView, top: 291, leading: 24, height: 1, width: 327)
         
         DesignSet.constraints(view: nextButton, top: 611, leading: 0, height: 56, width: 375)
-        DesignSet.constraints(view: buttonLabel, top: 19, leading: 88, height: 19, width: 200)
     }
 }

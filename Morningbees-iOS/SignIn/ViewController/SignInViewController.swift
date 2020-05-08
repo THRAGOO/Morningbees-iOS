@@ -57,21 +57,21 @@ final class SignInViewController: UIViewController {
         return label
     }()
     
-    private let appleSignInBtn: UIButton = {
+    private let appleSignInButton: UIButton = {
        let button = UIButton()
         button.backgroundColor = DesignSet.colorSet(red: 0, green: 0, blue: 0)
         button.layer.cornerRadius = 4
         button.addTarget(self, action: #selector(touchUpSignInApple), for: .touchUpInside)
         return button
     }()
-    private let naverSignInBtn: UIButton = {
+    private let naverSignInButton: UIButton = {
        let button = UIButton()
         button.backgroundColor = DesignSet.colorSet(red: 30, green: 200, blue: 0)
         button.layer.cornerRadius = 4
         button.addTarget(self, action: #selector(touchUpSignInNaver), for: .touchUpInside)
         return button
     }()
-    private let googleSignInBtn: UIButton = {
+    private let googleSignInButton: UIButton = {
        let button = UIButton()
         button.backgroundColor = DesignSet.colorSet(red: 255, green: 255, blue: 255)
         button.layer.borderColor = DesignSet.colorSet(red: 204, green: 204, blue: 204).cgColor
@@ -97,15 +97,15 @@ final class SignInViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         UIView.animate(withDuration: 0.5) {
-            self.beeImgSuperView.center = CGPoint(x: DesignSet.frameWidth / 2,
-                                                  y: (369 / StandardDevice.height.rawValue) * DesignSet.frameHeight)
+            self.beeImgSuperView.center = CGPoint(x: Double(self.view.frame.width) / 2,
+                                                  y: 369 * DesignSet.frameHeightRatio)
         }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         beeImgSuperView.snp.makeConstraints {
-            $0.top.equalTo((400.9 / StandardDevice.height.rawValue) * DesignSet.frameHeight)
+            $0.top.equalTo(400.9 * DesignSet.frameHeightRatio)
         }
     }
 }
@@ -309,24 +309,24 @@ extension SignInViewController {
         view.addSubview(subtitleLabel)
         view.addSubview(beeImgSuperView)
         beeImgSuperView.addSubview(beeImgView)
-        view.addSubview(appleSignInBtn)
-        appleSignInBtn.addSubview(appleLogoImg)
-        appleSignInBtn.addSubview(appleSignInTitle)
-        view.addSubview(naverSignInBtn)
-        naverSignInBtn.addSubview(naverLogoImg)
-        naverSignInBtn.addSubview(naverSignInTitle)
-        view.addSubview(googleSignInBtn)
-        googleSignInBtn.addSubview(googleLogoImg)
-        googleSignInBtn.addSubview(googleSignInTitle)
+        view.addSubview(appleSignInButton)
+        appleSignInButton.addSubview(appleLogoImg)
+        appleSignInButton.addSubview(appleSignInTitle)
+        view.addSubview(naverSignInButton)
+        naverSignInButton.addSubview(naverLogoImg)
+        naverSignInButton.addSubview(naverSignInTitle)
+        view.addSubview(googleSignInButton)
+        googleSignInButton.addSubview(googleLogoImg)
+        googleSignInButton.addSubview(googleSignInTitle)
         
         backgroundYellowImg.layer.zPosition = 0
         logoTitleImg.layer.zPosition = 1
         subtitleLabel.layer.zPosition = 1
         beeImgSuperView.layer.zPosition = 1
         backgroundWhiteImg.layer.zPosition = 2
-        appleSignInBtn.layer.zPosition = 3
-        naverSignInBtn.layer.zPosition = 3
-        googleSignInBtn.layer.zPosition = 3
+        appleSignInButton.layer.zPosition = 3
+        naverSignInButton.layer.zPosition = 3
+        googleSignInButton.layer.zPosition = 3
         
         DesignSet.constraints(view: backgroundYellowImg, top: 0, leading: 0, height: 462, width: 375)
         DesignSet.constraints(view: backgroundWhiteImg, top: 387, leading: 0, height: 280, width: 375)
@@ -337,15 +337,15 @@ extension SignInViewController {
         DesignSet.constraints(view: beeImgSuperView, top: 400.9, leading: 102, height: 188, width: 172)
         DesignSet.constraints(view: beeImgView, top: 0, leading: 0, height: 188, width: 172)
         
-        DesignSet.constraints(view: appleSignInBtn, top: 484, leading: 24, height: 45, width: 327)
+        DesignSet.constraints(view: appleSignInButton, top: 484, leading: 24, height: 45, width: 327)
         DesignSet.constraints(view: appleLogoImg, top: 12, leading: 82, height: 19, width: 16)
         DesignSet.constraints(view: appleSignInTitle, top: 14, leading: 120, height: 17, width: 126)
         
-        DesignSet.constraints(view: naverSignInBtn, top: 541, leading: 24, height: 45, width: 327)
+        DesignSet.constraints(view: naverSignInButton, top: 541, leading: 24, height: 45, width: 327)
         DesignSet.constraints(view: naverLogoImg, top: 15, leading: 80, height: 16, width: 18)
         DesignSet.constraints(view: naverSignInTitle, top: 16, leading: 118, height: 16, width: 128)
         
-        DesignSet.constraints(view: googleSignInBtn, top: 598, leading: 24, height: 45, width: 327)
+        DesignSet.constraints(view: googleSignInButton, top: 598, leading: 24, height: 45, width: 327)
         DesignSet.constraints(view: googleLogoImg, top: 4, leading: 67.5, height: 37, width: 37)
         DesignSet.constraints(view: googleSignInTitle, top: 14, leading: 116, height: 17, width: 134)
     }
