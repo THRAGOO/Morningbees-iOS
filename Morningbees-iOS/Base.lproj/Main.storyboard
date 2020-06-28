@@ -6,11 +6,6 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Roboto-Bold.ttf">
-            <string>Roboto-Bold</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Sign In View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -63,6 +58,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SNp-yH-Ll9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3765.5999999999999" y="136.69950738916256"/>
+        </scene>
+        <!--Mission Create View Controller-->
+        <scene sceneID="cI9-0A-bHX">
+            <objects>
+                <viewController storyboardIdentifier="MissionCreateViewController" id="d5R-HX-B0e" customClass="MissionCreateViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JeX-Yg-esC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="Vfs-C4-x0m"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dPf-fc-dgp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3766" y="805"/>
         </scene>
         <!--Bee Create Time View Controller-->
         <scene sceneID="iv5-fE-vWh">
@@ -117,102 +127,20 @@
             </objects>
             <point key="canvasLocation" x="1319" y="137"/>
         </scene>
-        <!--Bee View Controller-->
+        <!--Bee Main View Controller-->
         <scene sceneID="iap-E1-LYW">
             <objects>
-                <viewController storyboardIdentifier="BeeViewController" id="H7T-eX-N3b" customClass="BeeViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BeeMainViewController" id="H7T-eX-N3b" customClass="BeeMainViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1XS-8L-pQQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wgX-xh-BDC">
-                                <rect key="frame" x="152.66666666666666" y="642" width="70" height="36"/>
-                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
-                                <state key="normal" title="로그아웃"/>
-                                <connections>
-                                    <action selector="touchUpSignOutGoogle:" destination="H7T-eX-N3b" eventType="touchUpInside" id="Gd7-rT-0Jc"/>
-                                    <action selector="touchUpSignOutNaver:" destination="H7T-eX-N3b" eventType="touchUpInside" id="Dnd-qS-KO8"/>
-                                </connections>
-                            </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="This View is going to be Main View." translatesAutoresizingMaskIntoConstraints="NO" id="uKi-YE-mC3">
-                                <rect key="frame" x="20" y="134" width="235" height="118"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="235" id="tPj-q9-GMV"/>
-                                    <constraint firstAttribute="height" constant="118" id="xOq-n8-j0i"/>
-                                </constraints>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="31"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cC9-NB-MlI">
-                                <rect key="frame" x="70" y="301" width="235" height="118"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="118" id="Jdg-dm-cnv"/>
-                                    <constraint firstAttribute="width" constant="235" id="OHn-je-vq1"/>
-                                </constraints>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="10"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="xg7-cN-j1b">
-                                <rect key="frame" x="70" y="456" width="235" height="118"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="118" id="NhG-jw-wfk"/>
-                                    <constraint firstAttribute="width" constant="235" id="Zs3-Zl-myy"/>
-                                </constraints>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="10"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AccessToken" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7qb-eH-zHK">
-                                <rect key="frame" x="70" y="272" width="100" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RefreshToken" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v9b-W4-No5">
-                                <rect key="frame" x="70" y="427" width="104" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BNI-V2-phX">
-                                <rect key="frame" x="149.66666666666666" y="686" width="76" height="30"/>
-                                <state key="normal" title="disconnect"/>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="det-oh-XxK" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="v9b-W4-No5" secondAttribute="trailing" id="3YB-ar-bdx"/>
-                            <constraint firstItem="cC9-NB-MlI" firstAttribute="centerX" secondItem="1XS-8L-pQQ" secondAttribute="centerX" id="4Nm-M3-pMr"/>
-                            <constraint firstItem="wgX-xh-BDC" firstAttribute="centerX" secondItem="1XS-8L-pQQ" secondAttribute="centerX" id="4r1-T1-vPl"/>
-                            <constraint firstItem="v9b-W4-No5" firstAttribute="top" secondItem="cC9-NB-MlI" secondAttribute="bottom" constant="8" id="IUC-qL-r9B"/>
-                            <constraint firstItem="uKi-YE-mC3" firstAttribute="top" secondItem="det-oh-XxK" secondAttribute="top" constant="90" id="K9S-Of-DCd"/>
-                            <constraint firstItem="xg7-cN-j1b" firstAttribute="centerX" secondItem="1XS-8L-pQQ" secondAttribute="centerX" id="Ml7-Dc-sBs"/>
-                            <constraint firstItem="v9b-W4-No5" firstAttribute="leading" secondItem="det-oh-XxK" secondAttribute="leading" constant="70" id="Swg-wQ-4wZ"/>
-                            <constraint firstItem="cC9-NB-MlI" firstAttribute="top" secondItem="7qb-eH-zHK" secondAttribute="bottom" constant="8" id="XJW-dd-pb8"/>
-                            <constraint firstItem="det-oh-XxK" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7qb-eH-zHK" secondAttribute="trailing" id="YVJ-6l-0Wh"/>
-                            <constraint firstItem="7qb-eH-zHK" firstAttribute="leading" secondItem="det-oh-XxK" secondAttribute="leading" constant="70" id="YjS-S7-PIS"/>
-                            <constraint firstItem="BNI-V2-phX" firstAttribute="centerX" secondItem="1XS-8L-pQQ" secondAttribute="centerX" id="cEJ-0Z-1QU"/>
-                            <constraint firstItem="xg7-cN-j1b" firstAttribute="top" secondItem="v9b-W4-No5" secondAttribute="bottom" constant="8" id="cJT-Kf-ZKb"/>
-                            <constraint firstItem="det-oh-XxK" firstAttribute="bottom" secondItem="wgX-xh-BDC" secondAttribute="bottom" constant="100" id="fjd-Wb-hwm"/>
-                            <constraint firstItem="BNI-V2-phX" firstAttribute="top" secondItem="wgX-xh-BDC" secondAttribute="bottom" constant="8" id="plt-Nt-Qz7"/>
-                            <constraint firstItem="7qb-eH-zHK" firstAttribute="top" secondItem="uKi-YE-mC3" secondAttribute="bottom" constant="20" id="sWU-sI-9jM"/>
-                            <constraint firstItem="uKi-YE-mC3" firstAttribute="leading" secondItem="det-oh-XxK" secondAttribute="leading" constant="20" id="tF6-8l-fzV"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="det-oh-XxK"/>
                     </view>
-                    <connections>
-                        <outlet property="accessTokenTextView" destination="cC9-NB-MlI" id="za6-r1-Q87"/>
-                        <outlet property="refreshTokenTextView" destination="xg7-cN-j1b" id="XlO-dB-uRY"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="knA-BS-Z6L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1468" y="805"/>
+            <point key="canvasLocation" x="2023" y="805"/>
         </scene>
         <!--Before Join View Controller-->
         <scene sceneID="ANq-jK-4iR">
@@ -227,7 +155,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BgX-gi-QS1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2369" y="805"/>
+            <point key="canvasLocation" x="1318" y="805"/>
         </scene>
     </scenes>
 </document>

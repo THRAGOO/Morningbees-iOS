@@ -18,7 +18,10 @@ enum Path: String {
     case renewal = "/api/auth/renewal"
     case me = "/api/auth/me"
     
-    case createBee = "/api/bees"
+    case beeCreate = "/api/bees"
+    case missionCreate = "/api/missions"
+    
+    case beeInfo = "/api/my_bee"
 }
 
 enum HTTPMethod: String {
@@ -39,4 +42,7 @@ enum ErrorCode: Int {
 enum RequestHeader: String {
     case accessToken = "X-BEES-ACCESS-TOKEN"
     case refreshToken = "X-BEES-REFRESH-TOKEN"
+    
+    case contentType = "Content-Type"
+    case accept = "Accept"
 }

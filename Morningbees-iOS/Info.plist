@@ -51,7 +51,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.610657046696-p3saontd2oc0luhumuflrq3s3kth6ohm</string>
+				<string>com.googleusercontent.apps.804125796572-ht38hbar4maufe7i54o4ge2vo7tr9nrr</string>
 			</array>
 		</dict>
 	</array>
@@ -59,6 +59,17 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Allows you to add Photo from your Camera.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allows you to add Photo from your Library.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>NanumBarunGothicBold.ttf</string>
+		<string>Roboto-Medium.ttf</string>
+		<string>SFProDisplay-Black.ttf</string>
+		<string>AppleSDGothicNeo.ttc</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -99,12 +110,5 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>NanumBarunGothicBold.ttf</string>
-		<string>Roboto-Medium.ttf</string>
-		<string>SFProDisplay-Black.ttf</string>
-		<string>AppleSDGothicNeo.ttc</string>
-	</array>
 </dict>
 </plist>

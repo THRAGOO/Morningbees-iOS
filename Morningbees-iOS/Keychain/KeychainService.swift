@@ -179,3 +179,67 @@ extension KeychainService {
         completion(appleCredentials.userID, appleCredentials.identityToken, nil)
     }
 }
+
+//MARK:- BeeID Information
+
+extension KeychainService {
+    
+    static func addKeychainBeeIDInfo(_ beeID: Int, completion: @escaping (Error?) -> Void) {
+        let itemQuery: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
+                                        kSecAttrServer as String: KeychainServer.morningbees.rawValue,
+                                        kSecAttrAccount as String: beeID]
+        let addStatus = SecItemAdd(itemQuery as CFDictionary, nil)
+        guard addStatus == errSecSuccess else {
+            completion(KeychainError.unhandledError(status: addStatus))
+            return
+        }
+        completion(nil)
+    }
+    
+    static func updateKeychainBeeIDInfo(_ beeID: Int, completion: @escaping (Error?) -> Void) {
+        let queryToFind: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
+                                          kSecAttrServer as String: KeychainServer.morningbees.rawValue]
+        let queryToUpdate: [String: Any] = [kSecAttrAccount as String: beeID]
+        let updateStatus = SecItemUpdate(queryToFind as CFDictionary, queryToUpdate as CFDictionary)
+        guard updateStatus == errSecSuccess else {
+             completion(KeychainError.unhandledError(status: updateStatus))
+                    return
+        }
+    }
+    
+    static func deleteKeychainBeeIDInfo(completion: @escaping (Error?) -> Void) {
+        let queryToDelete: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
+                                            kSecAttrServer as String: KeychainServer.morningbees.rawValue]
+        let deleteStatus = SecItemDelete(queryToDelete as CFDictionary)
+        guard deleteStatus == errSecSuccess || deleteStatus == errSecItemNotFound else {
+            completion(KeychainError.unhandledError(status: deleteStatus))
+            return
+        }
+        completion(nil)
+    }
+    
+    static func extractKeyChainBeeIDInfo(completion: @escaping (Int?, Error?) -> Void) {
+           let tokenQuery: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
+                                            kSecAttrServer as String: KeychainServer.morningbees.rawValue,
+                                            kSecMatchLimit as String: kSecMatchLimitOne,
+                                            kSecReturnAttributes as String: true,
+                                            kSecReturnData as String: true]
+           var tokenItem: CFTypeRef?
+           let matchStatus = SecItemCopyMatching(tokenQuery as CFDictionary, &tokenItem)
+           guard matchStatus != errSecItemNotFound else {
+               completion(nil, KeychainError.noToken)
+               return
+           }
+           guard matchStatus == errSecSuccess else {
+               completion(nil, KeychainError.unhandledError(status: matchStatus))
+               return
+           }
+           guard let existingItem = tokenItem as? [String: Any],
+            let beeID = existingItem[kSecAttrAccount as String] as? Int
+           else {
+               completion(nil, KeychainError.unexpectedTokenData)
+               return
+           }
+           completion(beeID, nil)
+       }
+}

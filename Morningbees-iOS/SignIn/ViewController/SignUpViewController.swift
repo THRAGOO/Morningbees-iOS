@@ -111,7 +111,7 @@ final class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         nicknameTextField.delegate = self
-        setUpDesign()
+        setupDesign()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -273,7 +273,7 @@ extension SignUpViewController {
                 return
             }
             if alreadyJoinedBee {
-                NavigationControl().pushToBeeViewController()
+                NavigationControl().pushToBeeMainViewController()
             } else {
                 NavigationControl().pushToBeforeJoinViewController()
             }
@@ -315,7 +315,7 @@ extension SignUpViewController {
 
 extension SignUpViewController {
     
-    private func setUpDesign() {
+    private func setupDesign() {
         view.addSubview(iconImgView)
         view.addSubview(signUpTitleLabel)
         view.addSubview(highlightView)

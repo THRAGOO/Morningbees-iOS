@@ -7,12 +7,25 @@
 //
 
 import UIKit
+import GoogleSignIn
+import NaverThirdPartyLogin
 
-final class BeforeJoinViewController: UIViewController {
+final class BeforeJoinViewController: UIViewController, CustomAlert {
     
     //MARK:- Properties
+    
+    private let naverSignInInstance = NaverThirdPartyLoginConnection.getSharedInstance()
+    
     private let illustBeforeJoiningImg = DesignSet.initImageView(imgName: "illustBeforeJoining")
     
+    private let logOutButton: UIButton = {
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(systemName: "power"), for: .normal)
+        button.tintColor = .black
+        button.addTarget(self, action: #selector(touchUpSignOutNaver), for: .touchUpInside)
+        button.addTarget(self, action: #selector(touchUpSignOutGoogle), for: .touchUpInside)
+        return button
+    }()
     private let notificationButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "iconNotification"), for: .normal)
@@ -80,7 +93,46 @@ final class BeforeJoinViewController: UIViewController {
 extension BeforeJoinViewController {
     
     @objc private func touchupBeeCreateButton(_ sender: UIButton) {
-        NavigationControl().pushToBCStepOneViewController()
+        NavigationControl().pushToBeeCreateNameViewController()
+    }
+}
+
+//MARK:- SignOut Naver
+
+extension BeforeJoinViewController: NaverThirdPartyLoginConnectionDelegate {
+    
+    func oauth20ConnectionDidFinishRequestACTokenWithAuthCode() {
+    }
+
+    func oauth20ConnectionDidFinishRequestACTokenWithRefreshToken() {
+    }
+
+    func oauth20ConnectionDidFinishDeleteToken() {
+        NavigationControl().popToRootViewController()
+    }
+
+    func oauth20Connection(_ oauthConnection: NaverThirdPartyLoginConnection!, didFailWithError error: Error!) {
+        presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
+    }
+
+    //MARK: Action
+
+    @objc private func touchUpSignOutNaver(_ sender: UIButton) {
+        naverSignInInstance?.delegate = self
+        naverSignInInstance?.resetToken()
+        NavigationControl().popToRootViewController()
+    }
+}
+
+//MARK:- SignOut Google
+
+extension BeforeJoinViewController {
+
+    //MARK: Action
+
+    @objc private func touchUpSignOutGoogle(_ sender: UIButton) {
+        GIDSignIn.sharedInstance()?.signOut()
+        NavigationControl().popToRootViewController()
     }
 }
 
@@ -89,6 +141,7 @@ extension BeforeJoinViewController {
 extension BeforeJoinViewController {
     
     private func setupDesign() {
+        view.addSubview(logOutButton)
         view.addSubview(illustBeforeJoiningImg)
         view.addSubview(notificationButton)
         
@@ -99,6 +152,7 @@ extension BeforeJoinViewController {
         
         view.addSubview(createBeeButton)
         
+        DesignSet.squareConstraints(view: logOutButton, top: 49, leading: 20, height: 20, width: 20)
         DesignSet.constraints(view: illustBeforeJoiningImg, top: 83, leading: 69, height: 238, width: 238)
         DesignSet.constraints(view: notificationButton, top: 49, leading: 333, height: 20, width: 20)
         

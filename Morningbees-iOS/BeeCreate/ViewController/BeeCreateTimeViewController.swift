@@ -81,8 +81,8 @@ final class BeeCreateTimeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setDesign()
-        setUpButton()
+        setupDesign()
+        setupButton()
     }
 }
 
@@ -112,7 +112,7 @@ extension BeeCreateTimeViewController {
 
 extension BeeCreateTimeViewController {
     
-    private func setUpButton() {
+    private func setupButton() {
         for idx in 0..<5 {
             let button = UIButton()
             button.backgroundColor = timeButtonDisabled
@@ -215,7 +215,7 @@ extension BeeCreateTimeViewController {
 
 extension BeeCreateTimeViewController {
     
-    func setDesign() {
+    func setupDesign() {
         view.addSubview(toPreviousButton)
         view.addSubview(helpButton)
         
@@ -226,7 +226,7 @@ extension BeeCreateTimeViewController {
         view.addSubview(timeSelectStackView)
         view.addSubview(nextButton)
         
-        DesignSet.constraints(view: toPreviousButton, top: 32, leading: 11, height: 20, width: 12)
+        DesignSet.constraints(view: toPreviousButton, top: 42, leading: 24, height: 20, width: 12)
         DesignSet.constraints(view: helpButton, top: 42, leading: 331, height: 20, width: 20)
         
         DesignSet.constraints(view: firstDescriptionLabel, top: 90, leading: 24, height: 33, width: 174)

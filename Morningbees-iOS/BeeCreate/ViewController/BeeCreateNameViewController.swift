@@ -188,7 +188,7 @@ extension BeeCreateNameViewController {
         
         view.addSubview(nextButton)
         
-        DesignSet.constraints(view: toPreviousButton, top: 32, leading: 11, height: 20, width: 12)
+        DesignSet.constraints(view: toPreviousButton, top: 42, leading: 24, height: 20, width: 12)
         DesignSet.constraints(view: helpButton, top: 42, leading: 331, height: 20, width: 20)
         
         DesignSet.constraints(view: firstDescriptionLabel, top: 90, leading: 24, height: 33, width: 174)

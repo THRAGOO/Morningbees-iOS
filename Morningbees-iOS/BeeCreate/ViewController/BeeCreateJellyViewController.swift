@@ -221,9 +221,9 @@ extension BeeCreateJellyViewController {
 extension BeeCreateJellyViewController: CustomAlert {
     
     func beeCreateRequest() {
-        let reqModel = CreateBeeModel()
+        let reqModel = BeeCreateModel()
         let request = RequestSet(method: reqModel.method, path: reqModel.path)
-        let createBee = Request<CreateBee>()
+        let beeCreate = Request<BeeCreate>()
         let param = BeeCreateParam(title: self.beeName,
                                    startTime: self.startTime,
                                    endTime: self.endTime,
@@ -237,13 +237,25 @@ extension BeeCreateJellyViewController: CustomAlert {
                 return
             }
             let header: [String: String] = [RequestHeader.accessToken.rawValue: accessToken]
-            createBee.request(req: request, header: header, param: param) { (_, error) in
+            beeCreate.request(req: request, header: header, param: param) { (_, error) in
                 if let error = error {
                     self.presentOneButtonAlert(title: "BeeCreate", message: error.localizedDescription)
                     return
                 }
-                                                                                    
-                NavigationControl().pushToBeeViewController()
+                MeAPI().request { (alreadyJoinBee, error) in
+                    if let error = error {
+                        self.presentOneButtonAlert(title: "BeeCreate", message: error.localizedDescription)
+                        return
+                    }
+                    guard let alreadyJoinBee = alreadyJoinBee else {
+                        return
+                    }
+                    if alreadyJoinBee {
+                        NavigationControl().pushToBeeMainViewController()
+                    } else {
+                        NavigationControl().pushToBeforeJoinViewController()
+                    }
+                }
             }
         }
     }
@@ -271,7 +283,7 @@ extension BeeCreateJellyViewController {
         
         view.addSubview(nextButton)
         
-        DesignSet.constraints(view: toPreviousButton, top: 32, leading: 11, height: 20, width: 12)
+        DesignSet.constraints(view: toPreviousButton, top: 42, leading: 24, height: 20, width: 12)
         DesignSet.constraints(view: helpButton, top: 42, leading: 331, height: 20, width: 20)
         
         DesignSet.constraints(view: firstDescriptionLabel, top: 90, leading: 24, height: 33, width: 153)
