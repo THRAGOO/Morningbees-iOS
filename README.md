@@ -11,7 +11,7 @@ Missions are voted for success or failure and fines are raised.
 
 미션은 투표를 통해서 성공여부가 정해지고 실패 시 벌금이 쌓입니다.
 
-<img src="/ImageForReadMe/SignInView.png" width="120" height="230"> <img src="/ImageForReadMe/MainView.png" width="120" height="230">
+<img src="/ImageForReadMe/SignInView.png" width="120" height="215"> <img src="/ImageForReadMe/MainView.png" width="120" height="215">
 
 ## Implemented by below tech.
 * SignIn with Social Media(Google, Naver, Apple(iOS))
