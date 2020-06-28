@@ -160,7 +160,7 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
                         return
                     }
                     if alreadyJoinedBee {
-                        NavigationControl().pushToBeeViewController()
+                        NavigationControl().pushToBeeMainViewController()
                     } else {
                         NavigationControl().pushToBeforeJoinViewController()
                     }
@@ -273,7 +273,7 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
                         return
                     }
                     if alreadyJoinedBee {
-                        NavigationControl().pushToBeeViewController()
+                        NavigationControl().pushToBeeMainViewController()
                     } else {
                         NavigationControl().pushToBeforeJoinViewController()
                     }

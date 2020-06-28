@@ -8,13 +8,13 @@
 
 import Foundation
 
-struct CreateBeeModel: RequestModel {
-    typealias ModelType = CreateBee
+struct BeeCreateModel: RequestModel {
+    typealias ModelType = BeeCreate
     var method: HTTPMethod = .post
-    var path: Path = .createBee
+    var path: Path = .beeCreate
 }
 
-struct CreateBee: Codable {
+struct BeeCreate: Codable {
 }
 
 struct BeeCreateParam: Encodable {

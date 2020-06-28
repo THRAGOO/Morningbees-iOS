@@ -17,4 +17,5 @@ struct MeModel: RequestModel {
 struct Me: Codable {
     let nickname: String
     let alreadyJoin: Bool
+    let beeId: Int
 }

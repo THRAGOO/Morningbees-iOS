@@ -41,15 +41,15 @@ extension NavigationControl {
         }
     }
     
-    func pushToBeeViewController() {
+    func pushToBeeMainViewController() {
         DispatchQueue.main.async {
             let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController
-            guard let beeViewController = self.mainStoryboard.instantiateViewController(
-                identifier: "BeeViewController") as? BeeViewController else {
-                    print(String(describing: BeeViewController.self))
+            guard let beeMainViewController = self.mainStoryboard.instantiateViewController(
+                identifier: "BeeMainViewController") as? BeeMainViewController else {
+                    print(String(describing: BeeMainViewController.self))
                     return
             }
-            navigationController?.pushViewController(beeViewController, animated: true)
+            navigationController?.pushViewController(beeMainViewController, animated: true)
         }
     }
     
@@ -65,15 +65,27 @@ extension NavigationControl {
         }
     }
     
-    func pushToBCStepOneViewController() {
+    func pushToBeeCreateNameViewController() {
         DispatchQueue.main.async {
             let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController
-            guard let bcStepOneViewController = self.mainStoryboard.instantiateViewController(
+            guard let beeCreateNameViewController = self.mainStoryboard.instantiateViewController(
                 identifier: "BeeCreateNameViewController") as? BeeCreateNameViewController else {
                     print(String(describing: BeeCreateNameViewController.self))
                     return
             }
-            navigationController?.pushViewController(bcStepOneViewController, animated: true)
+            navigationController?.pushViewController(beeCreateNameViewController, animated: true)
+        }
+    }
+    
+    func pushToMissionCreateViewController() {
+        DispatchQueue.main.async {
+            let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController
+            guard let missionCreateViewController = self.mainStoryboard.instantiateViewController(
+                identifier: "MissionCreateViewController") as? MissionCreateViewController else {
+                    print(String(describing: MissionCreateViewController.self))
+                    return
+            }
+            navigationController?.pushViewController(missionCreateViewController, animated: true)
         }
     }
 }

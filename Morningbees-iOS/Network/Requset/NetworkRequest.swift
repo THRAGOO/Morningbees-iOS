@@ -61,6 +61,10 @@ extension Request {
         }
         var request = URLRequest(url: componentsURL)
         request.httpMethod = req.method.rawValue
+        
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
         if let headerParams = header {
             for header in headerParams {
                 request.setValue(header.value, forHTTPHeaderField: header.key)
@@ -76,8 +80,6 @@ extension Request {
             }
             request.httpBody = httpBody
         }
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         //MARK: Data Task
 

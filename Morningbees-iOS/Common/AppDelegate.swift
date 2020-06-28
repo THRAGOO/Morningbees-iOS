@@ -83,7 +83,7 @@ extension AppDelegate: GIDSignInDelegate {
             let signUpViewController = mainStoryboard.instantiateViewController(
                 withIdentifier: "\(SignUpViewController.self)") as? SignUpViewController,
             let beeViewController = mainStoryboard.instantiateViewController(
-                withIdentifier: "\(BeeViewController.self)") as? BeeViewController,
+                withIdentifier: "\(BeeMainViewController.self)") as? BeeMainViewController,
             let beforeJoinViewController = mainStoryboard.instantiateViewController(
                 withIdentifier: "\(BeforeJoinViewController.self)") as? BeforeJoinViewController else {
                     fatalError("Not found the SignUpViewController")
