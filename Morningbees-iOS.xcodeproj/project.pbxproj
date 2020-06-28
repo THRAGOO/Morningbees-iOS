@@ -27,7 +27,7 @@
 		B0CC67AD23C9958C0083A012 /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC67AC23C9958C0083A012 /* CustomAlert.swift */; };
 		B0CC882C23F6A33500B3131E /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC882B23F6A33500B3131E /* SignUp.swift */; };
 		B0CC882F23F81B8700B3131E /* KeychainItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC882E23F81B8700B3131E /* KeychainItems.swift */; };
-		B0CC883323F827DD00B3131E /* BeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC883223F827DD00B3131E /* BeeViewController.swift */; };
+		B0CC883323F827DD00B3131E /* BeeMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC883223F827DD00B3131E /* BeeMainViewController.swift */; };
 		CE432C212390098F0005F257 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE432C202390098F0005F257 /* UIApplication+Extension.swift */; };
 		D51951B72434D52900A61CA3 /* Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51951B62434D52900A61CA3 /* Me.swift */; };
 		D51951B92434D69100A61CA3 /* BeforeJoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51951B82434D69100A61CA3 /* BeforeJoinViewController.swift */; };
@@ -40,11 +40,14 @@
 		D5580D692408269F008F16F5 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5580D662408269F008F16F5 /* Roboto-Medium.ttf */; };
 		D5580D6B240960BC008F16F5 /* AppleSDGothicNeo.ttc in Resources */ = {isa = PBXBuildFile; fileRef = D5580D6A240960BC008F16F5 /* AppleSDGothicNeo.ttc */; };
 		D57B830C2405A761001DB1FF /* ViewDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57B830B2405A761001DB1FF /* ViewDesign.swift */; };
+		D5AEB5B424654EC80084831E /* BeeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5AEB5B324654EC80084831E /* BeeInfo.swift */; };
+		D5AEB5B92465D63A0084831E /* MissionCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5AEB5B82465D63A0084831E /* MissionCreateViewController.swift */; };
 		D5B2D1FE244326C7001C2466 /* NavigationControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B2D1FD244326C7001C2466 /* NavigationControl.swift */; };
 		D5B2D20024437807001C2466 /* NetworkItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B2D1FF24437807001C2466 /* NetworkItem.swift */; };
 		D5D3DA2A2427623500EFB04B /* RenewalRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D3DA292427623500EFB04B /* RenewalRequest.swift */; };
 		D5D3DA2C2427644800EFB04B /* Renewal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D3DA2B2427644800EFB04B /* Renewal.swift */; };
 		D5D9919C2438C7BE00BEFEE8 /* MeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D9919B2438C7BE00BEFEE8 /* MeRequest.swift */; };
+		D5E50AB9246EB8AA003E8AB7 /* MissionCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E50AB8246EB8AA003E8AB7 /* MissionCreate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,7 +73,7 @@
 		B0CC67AC23C9958C0083A012 /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
 		B0CC882B23F6A33500B3131E /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
 		B0CC882E23F81B8700B3131E /* KeychainItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItems.swift; sourceTree = "<group>"; };
-		B0CC883223F827DD00B3131E /* BeeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeViewController.swift; sourceTree = "<group>"; };
+		B0CC883223F827DD00B3131E /* BeeMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeMainViewController.swift; sourceTree = "<group>"; };
 		B8A9D1B64CFCC0291249B172 /* Pods-Morningbees-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.release.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		CE432C202390098F0005F257 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		D51951B62434D52900A61CA3 /* Me.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Me.swift; sourceTree = "<group>"; };
@@ -84,12 +87,15 @@
 		D5580D662408269F008F16F5 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		D5580D6A240960BC008F16F5 /* AppleSDGothicNeo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleSDGothicNeo.ttc; sourceTree = "<group>"; };
 		D57B830B2405A761001DB1FF /* ViewDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDesign.swift; sourceTree = "<group>"; };
+		D5AEB5B324654EC80084831E /* BeeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeInfo.swift; sourceTree = "<group>"; };
+		D5AEB5B82465D63A0084831E /* MissionCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionCreateViewController.swift; sourceTree = "<group>"; };
 		D5B2D1FD244326C7001C2466 /* NavigationControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControl.swift; sourceTree = "<group>"; };
 		D5B2D1FF24437807001C2466 /* NetworkItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkItem.swift; sourceTree = "<group>"; };
 		D5D3DA292427623500EFB04B /* RenewalRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenewalRequest.swift; sourceTree = "<group>"; };
 		D5D3DA2B2427644800EFB04B /* Renewal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renewal.swift; sourceTree = "<group>"; };
 		D5D5BC8623FE6B6000F59DA0 /* Morningbees.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Morningbees.entitlements; sourceTree = "<group>"; };
 		D5D9919B2438C7BE00BEFEE8 /* MeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeRequest.swift; sourceTree = "<group>"; };
+		D5E50AB8246EB8AA003E8AB7 /* MissionCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionCreate.swift; sourceTree = "<group>"; };
 		E6D244607548017DCD414837 /* Pods-Morningbees-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,7 +159,7 @@
 				D5580D6324082684008F16F5 /* Fonts */,
 				B0CC882D23F81B6C00B3131E /* Keychain */,
 				B0CC883023F8279200B3131E /* Main */,
-				B0449EA923B5D3C00079D816 /* Model */,
+				D5AEB5B52465D5FF0084831E /* MissionCreate */,
 				D5B2D1FA244324FE001C2466 /* NavigationControl */,
 				B0747AAA23AA63CF00100858 /* Network */,
 				CE432C2223900DFE0005F257 /* SignIn */,
@@ -168,13 +174,9 @@
 		B0449EA923B5D3C00079D816 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D526E525244886A500892387 /* CreateBee.swift */,
 				D51951B62434D52900A61CA3 /* Me.swift */,
 				B08EB50D23BB124300FE411F /* ServerError.swift */,
-				B020492323D73E2F00B41003 /* SignIn.swift */,
-				B0CC882B23F6A33500B3131E /* SignUp.swift */,
 				D5D3DA2B2427644800EFB04B /* Renewal.swift */,
-				B0449EAA23B5D41E0079D816 /* VaildNickname.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -182,10 +184,9 @@
 		B0747AAA23AA63CF00100858 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				B0747AAB23AA642C00100858 /* NetworkRequest.swift */,
+				D5AEB5B124654B290084831E /* Requset */,
+				B0449EA923B5D3C00079D816 /* Model */,
 				D5B2D1FF24437807001C2466 /* NetworkItem.swift */,
-				D5D3DA292427623500EFB04B /* RenewalRequest.swift */,
-				D5D9919B2438C7BE00BEFEE8 /* MeRequest.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -211,6 +212,7 @@
 		B0CC883023F8279200B3131E /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				D5AEB5B224654D500084831E /* Model */,
 				B0CC883123F827A600B3131E /* ViewController */,
 			);
 			path = Main;
@@ -219,7 +221,7 @@
 		B0CC883123F827A600B3131E /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				B0CC883223F827DD00B3131E /* BeeViewController.swift */,
+				B0CC883223F827DD00B3131E /* BeeMainViewController.swift */,
 				D51951B82434D69100A61CA3 /* BeforeJoinViewController.swift */,
 			);
 			path = ViewController;
@@ -239,6 +241,7 @@
 		CE432C2223900DFE0005F257 /* SignIn */ = {
 			isa = PBXGroup;
 			children = (
+				D5AEB5AF246547980084831E /* Model */,
 				B078DFCE2389835700B31DBB /* ViewController */,
 			);
 			path = SignIn;
@@ -256,6 +259,7 @@
 		D5337C1124445C3800D7A079 /* BeeCreate */ = {
 			isa = PBXGroup;
 			children = (
+				D5AEB5B0246548E10084831E /* Model */,
 				D5337C1224445C5200D7A079 /* ViewController */,
 			);
 			path = BeeCreate;
@@ -290,12 +294,73 @@
 			path = Design;
 			sourceTree = "<group>";
 		};
+		D5AEB5AF246547980084831E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B020492323D73E2F00B41003 /* SignIn.swift */,
+				B0CC882B23F6A33500B3131E /* SignUp.swift */,
+				B0449EAA23B5D41E0079D816 /* VaildNickname.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D5AEB5B0246548E10084831E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D526E525244886A500892387 /* CreateBee.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D5AEB5B124654B290084831E /* Requset */ = {
+			isa = PBXGroup;
+			children = (
+				D5D3DA292427623500EFB04B /* RenewalRequest.swift */,
+				D5D9919B2438C7BE00BEFEE8 /* MeRequest.swift */,
+				B0747AAB23AA642C00100858 /* NetworkRequest.swift */,
+			);
+			path = Requset;
+			sourceTree = "<group>";
+		};
+		D5AEB5B224654D500084831E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D5AEB5B324654EC80084831E /* BeeInfo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D5AEB5B52465D5FF0084831E /* MissionCreate */ = {
+			isa = PBXGroup;
+			children = (
+				D5E50AB7246EB879003E8AB7 /* Model */,
+				D5AEB5B62465D61B0084831E /* ViewController */,
+			);
+			path = MissionCreate;
+			sourceTree = "<group>";
+		};
+		D5AEB5B62465D61B0084831E /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				D5AEB5B82465D63A0084831E /* MissionCreateViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		D5B2D1FA244324FE001C2466 /* NavigationControl */ = {
 			isa = PBXGroup;
 			children = (
 				D5B2D1FD244326C7001C2466 /* NavigationControl.swift */,
 			);
 			path = NavigationControl;
+			sourceTree = "<group>";
+		};
+		D5E50AB7246EB879003E8AB7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D5E50AB8246EB8AA003E8AB7 /* MissionCreate.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -463,9 +528,12 @@
 				7279EF88236EC61D005ECC81 /* SignInViewController.swift in Sources */,
 				7254BF4B23A913940036D24D /* Logger.swift in Sources */,
 				7279EF84236EC61D005ECC81 /* AppDelegate.swift in Sources */,
+				D5AEB5B92465D63A0084831E /* MissionCreateViewController.swift in Sources */,
 				B0CC67AD23C9958C0083A012 /* CustomAlert.swift in Sources */,
 				B020492423D73E2F00B41003 /* SignIn.swift in Sources */,
 				B00115EF2387DAD9003A5E83 /* SignUpViewController.swift in Sources */,
+				D5E50AB9246EB8AA003E8AB7 /* MissionCreate.swift in Sources */,
+				D5AEB5B424654EC80084831E /* BeeInfo.swift in Sources */,
 				7254BF4F23B658C00036D24D /* UIViewController+Extension.swift in Sources */,
 				CE432C212390098F0005F257 /* UIApplication+Extension.swift in Sources */,
 				B0747AAC23AA642C00100858 /* NetworkRequest.swift in Sources */,
@@ -480,7 +548,7 @@
 				B0B3CDBA23FA42BF00CF4200 /* KeychainService.swift in Sources */,
 				D5D9919C2438C7BE00BEFEE8 /* MeRequest.swift in Sources */,
 				D51951B92434D69100A61CA3 /* BeforeJoinViewController.swift in Sources */,
-				B0CC883323F827DD00B3131E /* BeeViewController.swift in Sources */,
+				B0CC883323F827DD00B3131E /* BeeMainViewController.swift in Sources */,
 				D5D3DA2A2427623500EFB04B /* RenewalRequest.swift in Sources */,
 				D526E526244886A500892387 /* CreateBee.swift in Sources */,
 				B0449EAB23B5D41E0079D816 /* VaildNickname.swift in Sources */,
