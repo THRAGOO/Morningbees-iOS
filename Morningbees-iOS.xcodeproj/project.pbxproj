@@ -20,7 +20,6 @@
 		B00115EF2387DAD9003A5E83 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00115EE2387DAD9003A5E83 /* SignUpViewController.swift */; };
 		B020492423D73E2F00B41003 /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B020492323D73E2F00B41003 /* SignIn.swift */; };
 		B0449EAB23B5D41E0079D816 /* VaildNickname.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0449EAA23B5D41E0079D816 /* VaildNickname.swift */; };
-		B0747AA923AA349000100858 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B0747AA823AA349000100858 /* GoogleService-Info.plist */; };
 		B0747AAC23AA642C00100858 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0747AAB23AA642C00100858 /* NetworkRequest.swift */; };
 		B08EB50E23BB124300FE411F /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B08EB50D23BB124300FE411F /* ServerError.swift */; };
 		B0B3CDBA23FA42BF00CF4200 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B3CDB923FA42BF00CF4200 /* KeychainService.swift */; };
@@ -32,6 +31,7 @@
 		D51951B72434D52900A61CA3 /* Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51951B62434D52900A61CA3 /* Me.swift */; };
 		D51951B92434D69100A61CA3 /* BeforeJoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51951B82434D69100A61CA3 /* BeforeJoinViewController.swift */; };
 		D526E526244886A500892387 /* CreateBee.swift in Sources */ = {isa = PBXBuildFile; fileRef = D526E525244886A500892387 /* CreateBee.swift */; };
+		D532B6EA24C452BD002D54A5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D532B6E924C452BD002D54A5 /* GoogleService-Info.plist */; };
 		D5337C1424445C6700D7A079 /* BeeCreateNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5337C1324445C6700D7A079 /* BeeCreateNameViewController.swift */; };
 		D5337C16244469B100D7A079 /* BeeCreateTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5337C15244469B100D7A079 /* BeeCreateTimeViewController.swift */; };
 		D5337C18244469E300D7A079 /* BeeCreateJellyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5337C17244469E300D7A079 /* BeeCreateJellyViewController.swift */; };
@@ -66,7 +66,6 @@
 		B00115EE2387DAD9003A5E83 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		B020492323D73E2F00B41003 /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
 		B0449EAA23B5D41E0079D816 /* VaildNickname.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaildNickname.swift; sourceTree = "<group>"; };
-		B0747AA823AA349000100858 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B0747AAB23AA642C00100858 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		B08EB50D23BB124300FE411F /* ServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
 		B0B3CDB923FA42BF00CF4200 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
@@ -79,6 +78,7 @@
 		D51951B62434D52900A61CA3 /* Me.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Me.swift; sourceTree = "<group>"; };
 		D51951B82434D69100A61CA3 /* BeforeJoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeJoinViewController.swift; sourceTree = "<group>"; };
 		D526E525244886A500892387 /* CreateBee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBee.swift; sourceTree = "<group>"; };
+		D532B6E924C452BD002D54A5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D5337C1324445C6700D7A079 /* BeeCreateNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeCreateNameViewController.swift; sourceTree = "<group>"; };
 		D5337C15244469B100D7A079 /* BeeCreateTimeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeCreateTimeViewController.swift; sourceTree = "<group>"; };
 		D5337C17244469E300D7A079 /* BeeCreateJellyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeCreateJellyViewController.swift; sourceTree = "<group>"; };
@@ -131,8 +131,8 @@
 		7279EF77236EC61D005ECC81 = {
 			isa = PBXGroup;
 			children = (
+				D532B6E924C452BD002D54A5 /* GoogleService-Info.plist */,
 				7254BF4823A66AA10036D24D /* .swiftlint.yml */,
-				B0747AA823AA349000100858 /* GoogleService-Info.plist */,
 				7279EF82236EC61D005ECC81 /* Morningbees-iOS */,
 				7279EF81236EC61D005ECC81 /* Products */,
 				0A7E79114FB64218C0D90A1E /* Pods */,
@@ -427,11 +427,11 @@
 			files = (
 				D5580D692408269F008F16F5 /* Roboto-Medium.ttf in Resources */,
 				D5580D682408269F008F16F5 /* NanumBarunGothicBold.ttf in Resources */,
+				D532B6EA24C452BD002D54A5 /* GoogleService-Info.plist in Resources */,
 				D5580D672408269F008F16F5 /* SFProDisplay-Black.ttf in Resources */,
 				7254BF4923A66AA10036D24D /* .swiftlint.yml in Resources */,
 				D5580D6B240960BC008F16F5 /* AppleSDGothicNeo.ttc in Resources */,
 				7279EF90236EC623005ECC81 /* LaunchScreen.storyboard in Resources */,
-				B0747AA923AA349000100858 /* GoogleService-Info.plist in Resources */,
 				7279EF8D236EC623005ECC81 /* Assets.xcassets in Resources */,
 				7279EF8B236EC61D005ECC81 /* Main.storyboard in Resources */,
 			);
