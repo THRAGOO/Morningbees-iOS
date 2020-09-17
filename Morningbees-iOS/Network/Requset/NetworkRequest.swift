@@ -72,13 +72,17 @@ extension Request {
         }
         
         if req.method == HTTPMethod.post {
-            let encoder = JSONEncoder()
-            encoder.dateEncodingStrategy = .iso8601
-            guard let httpBody = try? encoder.encode(param) else {
-                completion(nil, ResponseError.unknown)
-                return
+            if request.value(forHTTPHeaderField: "Content-Type")?.contains("multipart/form-data") ?? false {
+                request.httpBody = param as? Data
+            } else {
+                let encoder = JSONEncoder()
+                encoder.dateEncodingStrategy = .iso8601
+                guard let httpBody = try? encoder.encode(param) else {
+                    completion(nil, ResponseError.unknown)
+                    return
+                }
+                request.httpBody = httpBody
             }
-            request.httpBody = httpBody
         }
         
         //MARK: Data Task
