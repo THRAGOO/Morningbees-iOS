@@ -40,9 +40,14 @@ public class FileDestination: BaseDestination {
 
     override public var defaultHashValue: Int {return 2}
     let fileManager = FileManager.default
-    var fileHandle: FileHandle?
 
-    public override init() {
+    public init(logFileURL: URL? = nil) {
+        if let logFileURL = logFileURL {
+            self.logFileURL = logFileURL
+            super.init()
+            return
+        }
+
         // platform-dependent logfile directory default
         var baseURL: URL?
         #if os(OSX)
@@ -73,7 +78,7 @@ public class FileDestination: BaseDestination {
         #endif
 
         if let baseURL = baseURL {
-            logFileURL = baseURL.appendingPathComponent("swiftybeaver.log", isDirectory: false)
+            self.logFileURL = baseURL.appendingPathComponent("swiftybeaver.log", isDirectory: false)
         }
         super.init()
     }
@@ -89,61 +94,62 @@ public class FileDestination: BaseDestination {
         return formattedString
     }
 
-    deinit {
-        // close file handle if set
-        if let fileHandle = fileHandle {
-            fileHandle.closeFile()
-        }
-    }
-
     /// appends a string as line to a file.
     /// returns boolean about success
     func saveToFile(str: String) -> Bool {
         guard let url = logFileURL else { return false }
-        do {
-            if fileManager.fileExists(atPath: url.path) == false {
-                
-                let directoryURL = url.deletingLastPathComponent()
-                if fileManager.fileExists(atPath: directoryURL.path) == false {
-                    try fileManager.createDirectory(
-                        at: directoryURL,
-                        withIntermediateDirectories: true
-                    )
-                }
-                
-                // create file if not existing
-                let line = str + "\n"
-                try line.write(to: url, atomically: true, encoding: .utf8)
 
-                #if os(iOS) || os(watchOS)
-                if #available(iOS 10.0, watchOS 3.0, *) {
-                    var attributes = try fileManager.attributesOfItem(atPath: url.path)
-                    attributes[FileAttributeKey.protectionKey] = FileProtectionType.none
-                    try fileManager.setAttributes(attributes, ofItemAtPath: url.path)
-                }
-                #endif
-            } else {
-                // append to end of file
-                if fileHandle == nil {
-                    // initial setting of file handle
-                    fileHandle = try FileHandle(forWritingTo: url as URL)
-                }
-                if let fileHandle = fileHandle {
-                    _ = fileHandle.seekToEndOfFile()
-                    let line = str + "\n"
-                    if let data = line.data(using: String.Encoding.utf8) {
-                        fileHandle.write(data)
-                        if syncAfterEachWrite {
-                            fileHandle.synchronizeFile()
-                        }
+        let line = str + "\n"
+        guard let data = line.data(using: String.Encoding.utf8) else { return false }
+
+        return write(data: data, to: url)
+    }
+
+    private func write(data: Data, to url: URL) -> Bool {
+        var success = false
+        let coordinator = NSFileCoordinator(filePresenter: nil)
+        var error: NSError?
+        coordinator.coordinate(writingItemAt: url, error: &error) { url in
+            do {
+                if fileManager.fileExists(atPath: url.path) == false {
+
+                    let directoryURL = url.deletingLastPathComponent()
+                    if fileManager.fileExists(atPath: directoryURL.path) == false {
+                        try fileManager.createDirectory(
+                            at: directoryURL,
+                            withIntermediateDirectories: true
+                        )
                     }
+                    fileManager.createFile(atPath: url.path, contents: nil)
+
+                    #if os(iOS) || os(watchOS)
+                    if #available(iOS 10.0, watchOS 3.0, *) {
+                        var attributes = try fileManager.attributesOfItem(atPath: url.path)
+                        attributes[FileAttributeKey.protectionKey] = FileProtectionType.none
+                        try fileManager.setAttributes(attributes, ofItemAtPath: url.path)
+                    }
+                    #endif
                 }
+
+                let fileHandle = try FileHandle(forWritingTo: url)
+                fileHandle.seekToEndOfFile()
+                fileHandle.write(data)
+                if syncAfterEachWrite {
+                    fileHandle.synchronizeFile()
+                }
+                fileHandle.closeFile()
+                success = true
+            } catch {
+                print("SwiftyBeaver File Destination could not write to file \(url).")
             }
-            return true
-        } catch {
-            print("SwiftyBeaver File Destination could not write to file \(url).")
+        }
+
+        if let error = error {
+            print("Failed writing file with error: \(String(describing: error))")
             return false
         }
+
+        return success
     }
 
     /// deletes log file.
@@ -152,7 +158,6 @@ public class FileDestination: BaseDestination {
         guard let url = logFileURL, fileManager.fileExists(atPath: url.path) == true else { return true }
         do {
             try fileManager.removeItem(at: url)
-            fileHandle = nil
             return true
         } catch {
             print("SwiftyBeaver File Destination could not remove file \(url).")

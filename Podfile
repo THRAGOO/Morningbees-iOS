@@ -8,6 +8,8 @@ target 'Morningbees-iOS' do
   # Pods for Morningbees-iOS
 
   pod 'Firebase/Auth'
+  pod 'Firebase/DynamicLinks'
+  pod 'Firebase/Analytics'
   pod 'GoogleSignIn'
   pod 'naveridlogin-sdk-ios'
   pod 'Kingfisher', '~> 5.0'
