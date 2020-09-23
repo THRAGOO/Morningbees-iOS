@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>804125796572-b1pcjnlr3e3rskvaogvkr227pki00a3e.apps.googleusercontent.com</string>
+	<string>804125796572-nqrjt99grv42chi95uc15gmn76a6qeli.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.804125796572-b1pcjnlr3e3rskvaogvkr227pki00a3e</string>
+	<string>com.googleusercontent.apps.804125796572-nqrjt99grv42chi95uc15gmn76a6qeli</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBd7JuCYkkguXCBs-IMgYmToSOfQS8GSeM</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.Morningbees-iOS</string>
+	<string>com.thragoo.Morningbees-iOS</string>
 	<key>PROJECT_ID</key>
 	<string>thragoo-morningbees-278907</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:804125796572:ios:e6d0049e703854ba2e6c19</string>
+	<string>1:804125796572:ios:dfa658e4943659402e6c19</string>
 	<key>DATABASE_URL</key>
 	<string>https://thragoo-morningbees-278907.firebaseio.com</string>
 </dict>
