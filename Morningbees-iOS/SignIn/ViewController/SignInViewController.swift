@@ -31,14 +31,14 @@ final class SignInViewController: UIViewController {
     private let subtitleLabel: UILabel = {
         let label = DesignSet.initLabel(text: "친구들과 함께하는 기상미션", letterSpacing: -0.2)
         label.textColor = DesignSet.colorSet(red: 68, green: 68, blue: 68)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 16)
+        label.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 16)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
     private let appleSignInTitle: UILabel = {
         let label = DesignSet.initLabel(text: "Apple 계정으로 로그인", letterSpacing: -0.3)
         label.textColor = DesignSet.colorSet(red: 255, green: 255, blue: 255)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 14)
+        label.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 14)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -85,7 +85,15 @@ final class SignInViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         GIDSignIn.sharedInstance()?.presentingViewController = self
+        naverSignInInstance?.delegate = self
+        
+        if GIDSignIn.sharedInstance()?.hasPreviousSignIn() ?? false {
+            GIDSignIn.sharedInstance()?.restorePreviousSignIn()
+        } else if naverSignInInstance?.isValidAccessTokenExpireTimeNow() ?? false {
+            naverSignInInstance?.requestThirdPartyLogin()
+        }
         setupDesign()
     }
 
@@ -181,7 +189,6 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
     //MARK: Action
 
     @objc private func touchUpSignInNaver(_ sender: UIButton) {
-        naverSignInInstance?.delegate = self
         naverSignInInstance?.requestThirdPartyLogin()
     }
 }
@@ -193,11 +200,7 @@ extension SignInViewController: CustomAlert {
     //MARK: Action
 
     @objc private func touchUpSignInGoogle(_ sender: UIButton) {
-        if GIDSignIn.sharedInstance()?.hasPreviousSignIn() ?? false {
-            GIDSignIn.sharedInstance()?.restorePreviousSignIn()
-        } else {
-            GIDSignIn.sharedInstance()?.signIn()
-        }
+        GIDSignIn.sharedInstance()?.signIn()
     }
 }
 
