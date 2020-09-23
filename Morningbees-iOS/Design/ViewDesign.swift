@@ -18,11 +18,11 @@ enum TextFonts: String {
     case naverFont = "NanumBarunGothicBold"
     case googleFont = "Roboto-Medium"
     case SFProDisplayBlack = "SFProDisplay-Black"
-    case appleSDGothicNeoBold = "AppleSDGothicNeo-Bold"
-    case appleSDGothicNeoSemiBold = "AppleSDGothicNeo-SemiBold"
-    case appleSDGothicNeoMedium = "AppleSDGothicNeo-Medium"
-    case appleSDGothicNeoRegular = "AppleSDGothicNeo-Regular"
-    case appleSDGothicNeoExtraBold = "AppleSDGothicNeo-ExtraBold"
+    case systemBold = "AppleSDGothicNeo-Bold"
+    case systemSemiBold = "AppleSDGothicNeo-SemiBold"
+    case systemMedium = "AppleSDGothicNeo-Medium"
+    case systemRegular = "AppleSDGothicNeo-Regular"
+    case systemExtraBold = "AppleSDGothicNeo-ExtraBold"
 }
 
 final class DesignSet {
@@ -104,5 +104,23 @@ extension DesignSet {
             $0.height.equalTo(height * frameWidthRatio)
             $0.width.greaterThanOrEqualTo(width * frameWidthRatio)
         }
+    }
+}
+
+//MARK:- UIButton Backgroundcolor Set
+
+extension UIButton {
+    func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
+        UIGraphicsBeginImageContext(CGSize(width: 1.0, height: 1.0))
+        guard let context = UIGraphicsGetCurrentContext() else {
+            return
+        }
+        context.setFillColor(color.cgColor)
+        context.fill(CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0))
+        
+        let backgroundImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+         
+        self.setBackgroundImage(backgroundImage, for: state)
     }
 }

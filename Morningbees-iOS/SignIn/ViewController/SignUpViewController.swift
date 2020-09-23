@@ -41,32 +41,32 @@ final class SignUpViewController: UIViewController {
     private let firstCommentLabel: UILabel = {
         let label = DesignSet.initLabel(text: "모닝비즈에 오신 것을 환영합니다.", letterSpacing: -0.5)
         label.textColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoSemiBold.rawValue, size: 15)
+        label.font = DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue, size: 15)
         return label
     }()
     private let secondCommentLabel: UILabel = {
         let label = DesignSet.initLabel(text: "닉네임을 만들고", letterSpacing: -0.5)
         label.textColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoSemiBold.rawValue, size: 15)
+        label.font = DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue, size: 15)
         return label
     }()
     private let thirdCommentLabel: UILabel = {
         let label = DesignSet.initLabel(text: "기상미션에 참여하세요 :)", letterSpacing: -0.5)
         label.textColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoSemiBold.rawValue, size: 15)
+        label.font = DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue, size: 15)
         return label
     }()
     private let nicknameDescription: UILabel = {
         let label = DesignSet.initLabel(text: "사용할 닉네임", letterSpacing: -0.3)
         label.textColor = DesignSet.colorSet(red: 119, green: 119, blue: 119)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoSemiBold.rawValue, size: 14)
+        label.font = DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue, size: 14)
         return label
     }()
     
     private let nicknameTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .none
-        textField.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 15)
+        textField.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 15)
         textField.placeholder = "2~10자 이내로 입력해 주세요."
         let attributedString = NSMutableAttributedString(string: "2~10자 이내로 입력해 주세요.")
         attributedString.addAttribute(NSAttributedString.Key.kern,
@@ -80,7 +80,7 @@ final class SignUpViewController: UIViewController {
     private let validCheckLabel: UILabel = {
         let label = DesignSet.initLabel(text: "중복확인", letterSpacing: -0.3)
         label.textColor = DesignSet.colorSet(red: 68, green: 68, blue: 68)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoSemiBold.rawValue, size: 13)
+        label.font = DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue, size: 13)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -95,7 +95,7 @@ final class SignUpViewController: UIViewController {
     private let startLabel: UILabel = {
         let label = DesignSet.initLabel(text: "시작하기", letterSpacing: -0.3)
         label.textColor = DesignSet.colorSet(red: 255, green: 255, blue: 255)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoExtraBold.rawValue, size: 16)
+        label.font = DesignSet.fontSet(name: TextFonts.systemExtraBold.rawValue, size: 16)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
