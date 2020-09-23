@@ -13,6 +13,20 @@ import UIKit
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    func application(_ app: UIApplication,
+                     open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        NaverThirdPartyLoginConnection.getSharedInstance()?.application(app, open: url, options: options)
+        GIDSignIn.sharedInstance().handle(url)
+        
+        if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
+            self.handleDynamicLinks(dynamicLink)
+            return true
+        } else {
+            return false
+        }
+    }
 
     func application(
         _ application: UIApplication,
@@ -39,16 +53,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         GIDSignIn.sharedInstance()?.clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
-
-        return true
-    }
-
-    func application(
-        _ app: UIApplication,
-        open url: URL,
-        options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        NaverThirdPartyLoginConnection.getSharedInstance()?.application(app, open: url, options: options)
-        GIDSignIn.sharedInstance().handle(url)
 
         return true
     }
@@ -162,5 +166,14 @@ extension AppDelegate: GIDSignInDelegate {
             return
         }
         navigationController.popToRootViewController(animated: true)
+    }
+}
+
+//MARK:- DynamicLink Handling
+
+extension AppDelegate {
+    
+    private func handleDynamicLinks(_ dynamiclink: DynamicLink) {
+        // extra handling
     }
 }
