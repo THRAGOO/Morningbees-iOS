@@ -32,16 +32,7 @@ extension MeAPI {
                 guard let me = me else {
                     return
                 }
-                KeychainService.deleteKeychainBeeIDInfo { (error) in
-                    if let error = error {
-                        completion(nil, error)
-                    }
-                }
-                KeychainService.addKeychainBeeIDInfo(me.beeId) { (error) in
-                    if let error = error {
-                        completion(nil, error)
-                    }
-                }
+                UserDefaults.standard.set(me.beeId, forKey: "beeID")
                 completion(me.alreadyJoin, nil)
             }
         }
