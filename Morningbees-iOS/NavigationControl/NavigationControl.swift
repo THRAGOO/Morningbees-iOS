@@ -53,6 +53,30 @@ extension NavigationControl {
         }
     }
     
+    func pushToMemberViewController() {
+        DispatchQueue.main.async {
+            let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController
+            guard let memberViewController = self.mainStoryboard.instantiateViewController(
+                identifier: "MemberViewController") as? MemberViewController else {
+                    print(String(describing: MemberViewController.self))
+                    return
+            }
+            navigationController?.pushViewController(memberViewController, animated: true)
+        }
+    }
+    
+    func pushToCalenderViewController() {
+        DispatchQueue.main.async {
+            let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController
+            guard let calendarViewController = self.mainStoryboard.instantiateViewController(
+                identifier: "CalendarViewController") as? CalendarViewController else {
+                    print(String(describing: CalendarViewController.self))
+                    return
+            }
+            navigationController?.pushViewController(calendarViewController, animated: true)
+        }
+    }
+    
     func pushToBeforeJoinViewController() {
         DispatchQueue.main.async {
             let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController
@@ -86,6 +110,18 @@ extension NavigationControl {
                     return
             }
             navigationController?.pushViewController(missionCreateViewController, animated: true)
+        }
+    }
+    
+    func pushToInvitedViewController() {
+        DispatchQueue.main.async {
+            let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController
+            guard let invitedViewController = self.mainStoryboard.instantiateViewController(
+                identifier: "InvitedViewController") as? InvitedViewController else {
+                    print(String(describing: InvitedViewController.self))
+                    return
+            }
+            navigationController?.pushViewController(invitedViewController, animated: true)
         }
     }
 }

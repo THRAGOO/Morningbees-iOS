@@ -20,7 +20,7 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
     }()
     private let viewTitleLabel: UILabel = {
         let label = DesignSet.initLabel(text: "미션 등록", letterSpacing: -0.3)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoSemiBold.rawValue, size: 17)
+        label.font = DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue, size: 17)
         label.textColor = DesignSet.colorSet(red: 34, green: 34, blue: 34)
         label.textAlignment = .center
         return label
@@ -29,7 +29,7 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
         let button = UIButton()
         button.isEnabled = false
         button.setTitle("완료", for: .normal)
-        button.titleLabel?.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 17)
+        button.titleLabel?.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 17)
         button.setTitleColor(DesignSet.colorSet(red: 246, green: 205, blue: 0), for: .normal)
         button.setTitleColor(DesignSet.colorSet(red: 204, green: 204, blue: 204), for: .disabled)
         button.addTarget(self, action: #selector(missionCreateRequest), for: .touchUpInside)
@@ -38,13 +38,13 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
     
     private let missionTitleCommentLabel: UILabel = {
         let label = DesignSet.initLabel(text: "타이틀", letterSpacing: -0.6)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 15)
+        label.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 15)
         label.textColor = DesignSet.colorSet(red: 119, green: 119, blue: 119)
         return label
     }()
     private let missionTitleTextField: UITextField = {
         let textField = UITextField()
-        textField.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 17)
+        textField.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 17)
         textField.textColor = DesignSet.colorSet(red: 68, green: 68, blue: 68)
         return textField
     }()
@@ -57,14 +57,14 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
     
     private let missionPictureCommentLabel: UILabel = {
         let label = DesignSet.initLabel(text: "사진 업로드", letterSpacing: -0.6)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 15)
+        label.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 15)
         label.textColor = DesignSet.colorSet(red: 119, green: 119, blue: 119)
         return label
     }()
     private let takePictureButton: UIButton = {
         let button = UIButton()
         button.setTitle("사진찍기", for: .normal)
-        button.titleLabel?.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 15)
+        button.titleLabel?.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 15)
         button.setTitleColor(DesignSet.colorSet(red: 170, green: 170, blue: 170), for: .normal)
         button.backgroundColor = DesignSet.colorSet(red: 250, green: 250, blue: 250)
         button.layer.cornerRadius = 18
@@ -76,7 +76,7 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
         button.setTitle("갤러리에서\n" + "가져오기", for: .normal)
         button.titleLabel?.numberOfLines = 2
         button.titleLabel?.textAlignment = .center
-        button.titleLabel?.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 15)
+        button.titleLabel?.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 15)
         button.setTitleColor(DesignSet.colorSet(red: 170, green: 170, blue: 170), for: .normal)
         button.backgroundColor = DesignSet.colorSet(red: 250, green: 250, blue: 250)
         button.layer.cornerRadius = 18
@@ -103,7 +103,7 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
         let button = UIButton()
         button.setTitle("다시 올리기", for: .normal)
         button.setTitleColor(DesignSet.colorSet(red: 170, green: 170, blue: 170), for: .normal)
-        button.titleLabel?.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoSemiBold.rawValue, size: 14)
+        button.titleLabel?.font = DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue, size: 14)
         button.addTarget(self, action: #selector(touchUpReloadButton), for: .touchUpInside)
         button.isHidden = true
         return button
@@ -111,13 +111,13 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
     
     private let difficultyCommentLabel: UILabel = {
         let label = DesignSet.initLabel(text: "난이도 설정", letterSpacing: -0.6)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 15)
+        label.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 15)
         label.textColor = DesignSet.colorSet(red: 119, green: 119, blue: 119)
         return label
     }()
     private let difficultyDescriptionLabel: UILabel = {
         let label = DesignSet.initLabel(text: "설정값에 따라 벌금 액수가 달라집니다.", letterSpacing: -0.3)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 13)
+        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 13)
         label.textColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
         return label
     }()
@@ -172,62 +172,56 @@ extension MissionCreateViewController {
         let reqModel = MissionCreateModel()
         let request = RequestSet(method: reqModel.method, path: reqModel.path)
         let missionCreate = Request<MissionCreate>()
-        KeychainService.extractKeyChainBeeIDInfo { (beeID, error) in
+        
+        let beeID = UserDefaults.standard.integer(forKey: "beeID")
+        
+        // multipart/formdata wrapping!
+        
+        let missionData = MissionCreateParam(beeId: beeID,
+                                             description: "test",
+                                             type: 1,
+                                             difficulty: self.difficulty)
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        guard let httpBody = try? encoder.encode(missionData) else {
+            return
+        }
+        let boundaryConstant = UUID().uuidString
+        let boundaryStart = "--\(boundaryConstant)\r\n"
+        let boundaryEnd = "\r\n--\(boundaryConstant)--\r\n"
+        // image file의 이름 추출해야 하는데 여기도 잘 안됨. 305 줄에서 추출하려함.
+        let contentDispositionString =
+        "Content-Disposition: form-data; name=\"image\"; filename=\"\(self.selectedPictureView.image!)\"\r\n"
+        let contentTypeString = "image/jpeg\r\n\r\n"
+        
+        var param: Data = Data()
+        param.append(boundaryStart.data(using: .utf8)!)
+        param.append(contentDispositionString.data(using: .utf8)!)
+        param.append(contentTypeString.data(using: .utf8)!)
+        param.append(self.imageData)
+        param.append(boundaryConstant.data(using: .utf8)!)
+        param.append("\r\n".data(using: .utf8)!)
+        
+        param.append(httpBody)
+        param.append(boundaryEnd.data(using: .utf8)!)
+        
+        KeychainService.extractKeyChainToken { (accessToken, _, error) in
             if let error = error {
-                self.presentOneButtonAlert(title: "BeeID Error", message: error.localizedDescription)
+                self.presentOneButtonAlert(title: "Token Error", message: error.localizedDescription)
+            }
+            guard let accessToken = accessToken else {
                 return
             }
-            guard let beeID = beeID else {
-                return
-            }
-            
-            // multipart/formdata wrapping!
-            
-            let missionData = MissionCreateParam(beeId: beeID,
-                                                 description: "test",
-                                                 type: 1,
-                                                 difficulty: self.difficulty)
-            let encoder = JSONEncoder()
-            encoder.dateEncodingStrategy = .iso8601
-            guard let httpBody = try? encoder.encode(missionData) else {
-                return
-            }
-            let boundaryConstant = UUID().uuidString
-            let boundaryStart = "--\(boundaryConstant)\r\n"
-            let boundaryEnd = "\r\n--\(boundaryConstant)--\r\n"
-            // image file의 이름 추출해야 하는데 여기도 잘 안됨. 305 줄에서 추출하려함.
-            let contentDispositionString = "Content-Disposition: form-data; name=\"image\"; filename=\"\(self.selectedPictureView.image!)\"\r\n"
-            let contentTypeString = "image/jpeg\r\n\r\n"
-            
-            var param: Data = Data()
-            param.append(boundaryStart.data(using: .utf8)!)
-            param.append(contentDispositionString.data(using: .utf8)!)
-            param.append(contentTypeString.data(using: .utf8)!)
-            param.append(self.imageData)
-            param.append(boundaryConstant.data(using: .utf8)!)
-            param.append("\r\n".data(using: .utf8)!)
-            
-            param.append(httpBody)
-            param.append(boundaryEnd.data(using: .utf8)!)
-            
-            KeychainService.extractKeyChainToken { (accessToken, _, error) in
+            // 여기서 \r\n 넣으면 header setValue에서 적용이 안됨..
+            let contentType = "multipart/form-data; boundary=\(boundaryConstant)"
+            let header: [String: String] = [RequestHeader.accessToken.rawValue: accessToken,
+                                            RequestHeader.contentType.rawValue: contentType]
+            missionCreate.request(req: request, header: header, param: param) { (_, error) in
                 if let error = error {
-                    self.presentOneButtonAlert(title: "Token Error", message: error.localizedDescription)
-                }
-                guard let accessToken = accessToken else {
+                    self.presentOneButtonAlert(title: "MissionCreate", message: error.localizedDescription)
                     return
                 }
-                // 여기서 \r\n 넣으면 header setValue에서 적용이 안됨..
-                let contentType = "multipart/form-data; boundary=\(boundaryConstant)"
-                let header: [String: String] = [RequestHeader.accessToken.rawValue: accessToken,
-                                                RequestHeader.contentType.rawValue: contentType]
-                missionCreate.request(req: request, header: header, param: param) { (_, error) in
-                    if let error = error {
-                        self.presentOneButtonAlert(title: "MissionCreate", message: error.localizedDescription)
-                        return
-                    }
-                    NavigationControl().pushToBeeMainViewController()
-                }
+                NavigationControl().pushToBeeMainViewController()
             }
         }
     }

@@ -6,6 +6,7 @@
 //  Copyright © 2020 JUN LEE. All rights reserved.
 //
 
+import Firebase
 import UIKit
 import GoogleSignIn
 import NaverThirdPartyLogin
@@ -39,17 +40,30 @@ final class BeeMainViewController: UIViewController, CustomAlert {
         button.addTarget(self, action: #selector(touchUpSignOutGoogle), for: .touchUpInside)
         return button
     }()
+    private let notificationButton: UIButton = {
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(named: "iconNotificationDefault"), for: .normal)
+        button.tintColor = .black
+//        button.addTarget(self, action: #selector(), for: .touchUpInside)
+        return button
+    }()
+    private let settingButton: UIButton = {
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(named: "iconSettings"), for: .normal)
+        button.addTarget(self, action: #selector(touchupSettingButton), for: .touchUpInside)
+        return button
+    }()
     
     private let beeTitleLabel: UILabel = {
         let label = DesignSet.initLabel(text: "곰세마리가 한집에 있어 아빠곰 엄마곰 애기곰", letterSpacing: -0.6)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 26)
+        label.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 26)
         label.numberOfLines = 2
         return label
     }()
     private let memberCountLabel: UILabel = {
         let label = DesignSet.initLabel(text: "전체멤버 3", letterSpacing: -0.58)
         label.textColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoSemiBold.rawValue, size: 13)
+        label.font = DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue, size: 13)
         return label
     }()
     
@@ -61,19 +75,19 @@ final class BeeMainViewController: UIViewController, CustomAlert {
     }()
     private let jellyCommentLabel: UILabel = {
         let label = DesignSet.initLabel(text: "총 누적 젤리", letterSpacing: -0.5)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 14)
+        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 14)
         return label
     }()
     private let jelly: UILabel = {
         let label = DesignSet.initLabel(text: "120,000원", letterSpacing: -0.5)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 15)
+        label.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 15)
         return label
     }()
     private let jellyDetailButton: UIButton = {
         let button = UIButton()
         button.setTitle("내역 확인", for: .normal)
         button.setTitleColor(DesignSet.colorSet(red: 68, green: 68, blue: 68), for: .normal)
-        button.titleLabel?.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 12)
+        button.titleLabel?.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 12)
         button.layer.cornerRadius = 13.5
         button.layer.borderWidth = 1
         return button
@@ -82,7 +96,7 @@ final class BeeMainViewController: UIViewController, CustomAlert {
     private let missionTimeCommentLabel: UILabel = {
         let label = DesignSet.initLabel(text: "미션 시간", letterSpacing: -0.62)
         label.textColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 13)
+        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 13)
         return label
     }()
     private let missionTimeView: UIView = {
@@ -94,7 +108,7 @@ final class BeeMainViewController: UIViewController, CustomAlert {
     private let todaysBeeCommentLabel: UILabel = {
         let label = DesignSet.initLabel(text: "오늘의 꿀벌", letterSpacing: -0.62)
         label.textColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 13)
+        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 13)
         return label
     }()
     private let todaysBeeImgView: UIImageView = {
@@ -112,7 +126,7 @@ final class BeeMainViewController: UIViewController, CustomAlert {
     private let difficultyCommentLabel: UILabel = {
         let label = DesignSet.initLabel(text: "난이도", letterSpacing: -0.62)
         label.textColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 13)
+        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 13)
         return label
     }()
     private let difficultyImgView: UIImageView = {
@@ -125,9 +139,24 @@ final class BeeMainViewController: UIViewController, CustomAlert {
     private let todaysMissionCommentLabel: UILabel = {
         let label = DesignSet.initLabel(text: "오늘의 미션 사진", letterSpacing: -0.6)
         label.textColor = DesignSet.colorSet(red: 68, green: 68, blue: 68)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 20)
+        label.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 20)
         return label
     }()
+    
+    static let dateLabel: UILabel = {
+        let label = DesignSet.initLabel(text: "", letterSpacing: 0.0)
+        label.textColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
+        label.font = DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue, size: 13)
+        return label
+    }()
+    private let calendarButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "iconCalendar"), for: .normal)
+        button.tintColor = DesignSet.colorSet(red: 160, green: 160, blue: 160)
+        button.addTarget(self, action: #selector(touchupCalendarButton), for: .touchUpInside)
+        return button
+    }()
+    
     private let missionImgView: UIImageView = {
         let view = UIImageView()
         view.layer.cornerRadius = 30
@@ -145,7 +174,7 @@ final class BeeMainViewController: UIViewController, CustomAlert {
     private let missionPictureCommentLabel: UILabel = {
         let label = DesignSet.initLabel(text: "미션 참여사진", letterSpacing: -0.6)
         label.textColor = DesignSet.colorSet(red: 68, green: 68, blue: 68)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 20)
+        label.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 20)
         return label
     }()
     private let firstParticipateImgView: UIImageView = {
@@ -171,6 +200,12 @@ final class BeeMainViewController: UIViewController, CustomAlert {
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        
+        let calendar = Calendar(identifier: .gregorian)
+        let year = calendar.component(.year, from: Date())
+        let month = calendar.component(.month, from: Date())
+        let day = calendar.component(.day, from: Date())
+        BeeMainViewController.dateLabel.text = "\(year)-\(month)-\(day)"
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -184,6 +219,42 @@ extension BeeMainViewController {
     
     @objc private func touchupParticipateMissionButton(_ sender: UIButton) {
         NavigationControl().pushToMissionCreateViewController()
+    }
+    
+    @objc private func touchupSettingButton(_ sender: UIButton) {
+        NavigationControl().pushToMemberViewController()
+    }
+    
+    //MARK: Calendar
+    
+    @objc private func touchupCalendarButton(_ sender: UIButton) {
+        guard let calendarViewController = self.storyboard?.instantiateViewController(
+            withIdentifier: "CalendarViewController") else {
+                return
+        }
+        calendarViewController.modalPresentationStyle = .popover
+        calendarViewController.preferredContentSize = CGSize(width: 327 * DesignSet.frameWidthRatio,
+                                                             height: 346 * DesignSet.frameHeightRatio)
+        calendarViewController.popoverPresentationController?.sourceView = sender
+        calendarViewController.popoverPresentationController?.sourceRect = sender.bounds
+        calendarViewController.popoverPresentationController?.permittedArrowDirections = .right
+        calendarViewController.popoverPresentationController?.delegate = self
+        present(calendarViewController, animated: true, completion: nil)
+    }
+    
+    static func updateDateLabel() {
+        if let date = UserDefaults.standard.object(forKey: "missionDate") as? String {
+            dateLabel.text = date
+        }
+    }
+}
+
+//MARK:- PopoverPresentaion Set
+
+extension BeeMainViewController: UIPopoverPresentationControllerDelegate {
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
     }
 }
 
@@ -266,6 +337,9 @@ extension BeeMainViewController {
         
         mainView.addSubview(mainBackgroundImg)
         mainView.addSubview(logOutButton)
+        mainView.addSubview(notificationButton)
+        mainView.addSubview(settingButton)
+        
         mainView.addSubview(beeTitleLabel)
         mainView.addSubview(memberCountLabel)
         mainView.addSubview(mainSubView)
@@ -284,6 +358,10 @@ extension BeeMainViewController {
         mainSubView.addSubview(difficultyImgView)
         
         mainSubView.addSubview(todaysMissionCommentLabel)
+        
+        mainSubView.addSubview(BeeMainViewController.dateLabel)
+        mainSubView.addSubview(calendarButton)
+        
         mainSubView.addSubview(missionImgView)
         mainSubView.addSubview(participateMissionButton)
         
@@ -301,7 +379,10 @@ extension BeeMainViewController {
         DesignSet.constraints(view: mainView, top: -40, leading: 0, height: 1300, width: 375)
         
         DesignSet.constraints(view: mainBackgroundImg, top: 20, leading: 0, height: 429, width: 375)
-        DesignSet.squareConstraints(view: logOutButton, top: 69, leading: 20, height: 20, width: 20)
+        DesignSet.squareConstraints(view: logOutButton, top: 48, leading: 20, height: 20, width: 20)
+        DesignSet.squareConstraints(view: notificationButton, top: 48, leading: 288, height: 18, width: 18)
+        DesignSet.squareConstraints(view: settingButton, top: 48, leading: 333, height: 18, width: 18)
+        
         DesignSet.constraints(view: beeTitleLabel, top: 166, leading: 24, height: 68, width: 290)
         DesignSet.constraints(view: memberCountLabel, top: 245, leading: 24, height: 16, width: 70)
         DesignSet.constraints(view: mainSubView, top: 331, leading: 0, height: 1009, width: 375)
@@ -324,6 +405,14 @@ extension BeeMainViewController {
         DesignSet.squareConstraints(view: difficultyImgView, top: 105, leading: 280, height: 54, width: 54)
         
         DesignSet.flexibleConstraints(view: todaysMissionCommentLabel, top: 205, leading: 24, height: 24, width: 122)
+        
+        BeeMainViewController.dateLabel.snp.makeConstraints {
+            $0.centerY.equalTo(calendarButton.snp.centerY)
+            $0.trailing.equalTo(calendarButton.snp.leading).offset(-12 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(21 * DesignSet.frameHeightRatio)
+        }
+        DesignSet.squareConstraints(view: calendarButton, top: 209, leading: 333, height: 18, width: 18)
+        
         DesignSet.constraints(view: missionImgView, top: 252, leading: 24, height: 407, width: 327)
         DesignSet.squareConstraints(view: participateMissionButton, top: 544, leading: 238, height: 100, width: 100)
         

@@ -32,21 +32,21 @@ final class BeeCreateTimeViewController: UIViewController {
     private let firstDescriptionLabel: UILabel = {
         let label = DesignSet.initLabel(text: "미션 수행 시간을", letterSpacing: -0.5)
         label.textColor = DesignSet.colorSet(red: 34, green: 34, blue: 34)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 24)
+        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 24)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
     private let secondDescriptionLabel: UILabel = {
         let label = DesignSet.initLabel(text: "선택해 주세요.", letterSpacing: -0.5)
         label.textColor = DesignSet.colorSet(red: 34, green: 34, blue: 34)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 24)
+        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 24)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
     private let timeDescriptionLabel: UILabel = {
         let label = DesignSet.initLabel(text: "시작 및 종료 시간", letterSpacing: 0)
         label.textColor = DesignSet.colorSet(red: 119, green: 119, blue: 119)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 14)
+        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 14)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -57,7 +57,7 @@ final class BeeCreateTimeViewController: UIViewController {
         button.isEnabled = false
         button.setTitle("다음 2/3", for: .normal)
         button.setTitleColor(DesignSet.colorSet(red: 255, green: 255, blue: 255), for: .normal)
-        button.titleLabel?.font =  DesignSet.fontSet(name: TextFonts.appleSDGothicNeoSemiBold.rawValue, size: 15)
+        button.titleLabel?.font =  DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue, size: 15)
         button.addTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
         return button
     }()
@@ -124,7 +124,7 @@ extension BeeCreateTimeViewController {
             
             button.setTitle(String(idx + 6), for: .normal)
             button.setTitleColor(DesignSet.colorSet(red: 68, green: 68, blue: 68), for: .normal)
-            button.titleLabel?.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoSemiBold.rawValue, size: 16)
+            button.titleLabel?.font = DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue, size: 16)
             button.addTarget(self, action: #selector(ratingButtonTapped), for: .touchUpInside)
         }
     }

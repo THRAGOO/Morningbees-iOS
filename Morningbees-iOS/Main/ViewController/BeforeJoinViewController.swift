@@ -34,7 +34,7 @@ final class BeforeJoinViewController: UIViewController, CustomAlert {
     private let firstStatusLabel: UILabel = {
         let label = DesignSet.initLabel(text: "회원님은 Bee에", letterSpacing: -0.6)
         label.textColor = DesignSet.colorSet(red: 34, green: 34, blue: 34)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 22)
+        label.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 22)
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .center
         return label
@@ -42,7 +42,7 @@ final class BeforeJoinViewController: UIViewController, CustomAlert {
     private let secondStatusLabel: UILabel = {
         let label = DesignSet.initLabel(text: "소속되어 있지 않습니다.", letterSpacing: -0.6)
         label.textColor = DesignSet.colorSet(red: 34, green: 34, blue: 34)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 22)
+        label.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 22)
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .center
         return label
@@ -50,7 +50,7 @@ final class BeforeJoinViewController: UIViewController, CustomAlert {
     private let firstAdviceLabel: UILabel = {
         let label = DesignSet.initLabel(text: "Bee(모임)를 만들어 여왕벌이 되거나", letterSpacing: -0.3)
         label.textColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 16)
+        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 16)
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .center
         return label
@@ -58,7 +58,7 @@ final class BeforeJoinViewController: UIViewController, CustomAlert {
     private let secondAdviceLabel: UILabel = {
         let label = DesignSet.initLabel(text: "여왕벌에게 초대를 부탁하세요!", letterSpacing: -0.3)
         label.textColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 16)
+        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 16)
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .center
         return label
@@ -71,7 +71,7 @@ final class BeforeJoinViewController: UIViewController, CustomAlert {
         button.addTarget(self, action: #selector(touchupBeeCreateButton), for: .touchUpInside)
         button.setTitle("BEE 만들기", for: .normal)
         button.setTitleColor(DesignSet.colorSet(red: 34, green: 34, blue: 34), for: .normal)
-        button.titleLabel?.font =  DesignSet.fontSet(name: TextFonts.appleSDGothicNeoSemiBold.rawValue,
+        button.titleLabel?.font =  DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue,
                                                      size: 14)
         return button
     }()

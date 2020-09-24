@@ -20,23 +20,33 @@ class BeeCreateJellyViewController: UIViewController {
         button.addTarget(self, action: #selector(popToPrevious), for: .touchUpInside)
         return button
     }()
-    private let helpButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "iconQuestionMark"), for: .normal)
-        return button
-    }()
     
     private let firstDescriptionLabel: UILabel = {
         let label = DesignSet.initLabel(text: "로얄 젤리를", letterSpacing: -0.5)
         label.textColor = DesignSet.colorSet(red: 34, green: 34, blue: 34)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 24)
+        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 24)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
     private let secondDescriptionLabel: UILabel = {
         let label = DesignSet.initLabel(text: "설정해 주세요.", letterSpacing: -0.5)
         label.textColor = DesignSet.colorSet(red: 34, green: 34, blue: 34)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 24)
+        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 24)
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
+    private let firstDetailDescriptionLabel: UILabel = {
+        let label = DesignSet.initLabel(text: "'로열젤리'는 모닝비즈 내 벌금이에요.", letterSpacing: -0.5)
+        label.textColor = DesignSet.colorSet(red: 204, green: 204, blue: 204)
+        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 13)
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    private let secondDetailDescriptionLabel: UILabel = {
+        let label = DesignSet.initLabel(text: "매일 진행되는 미션을 수행하지 못한 꿀벌에게 부과해요.", letterSpacing: -0.5)
+        label.textColor = DesignSet.colorSet(red: 204, green: 204, blue: 204)
+        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 13)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -44,7 +54,7 @@ class BeeCreateJellyViewController: UIViewController {
     private let jellyDescriptionLabel: UILabel = {
         let label = DesignSet.initLabel(text: "로얄젤리 (최소2,000~최대 10,000원)", letterSpacing: 0)
         label.textColor = DesignSet.colorSet(red: 119, green: 119, blue: 119)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 14)
+        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 14)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -58,7 +68,7 @@ class BeeCreateJellyViewController: UIViewController {
     private let curRoyalJellyLabel: UILabel = {
         let label = UILabel()
         label.textColor = DesignSet.colorSet(red: 68, green: 68, blue: 68)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 13)
+        label.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 13)
         label.adjustsFontSizeToFitWidth = true
         label.isHidden = true
         return label
@@ -67,7 +77,7 @@ class BeeCreateJellyViewController: UIViewController {
         let label = UILabel()
         label.text = "2,000"
         label.textColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 13)
+        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 13)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -75,7 +85,7 @@ class BeeCreateJellyViewController: UIViewController {
         let label = UILabel()
         label.text = "10,000"
         label.textColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
-        label.font = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 13)
+        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 13)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -86,7 +96,7 @@ class BeeCreateJellyViewController: UIViewController {
         button.isEnabled = false
         button.setTitle("다음 3/3", for: .normal)
         button.setTitleColor(DesignSet.colorSet(red: 255, green: 255, blue: 255), for: .normal)
-        button.titleLabel?.font =  DesignSet.fontSet(name: TextFonts.appleSDGothicNeoSemiBold.rawValue, size: 15)
+        button.titleLabel?.font =  DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue, size: 15)
         button.addTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
         return button
     }()
@@ -98,8 +108,8 @@ class BeeCreateJellyViewController: UIViewController {
     private let selectedJellyColor = DesignSet.colorSet(red: 68, green: 68, blue: 68)
     private let notSelectedJellyColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
     
-    private let selectedJellyFont = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoBold.rawValue, size: 13)
-    private let notSelectedJellyFont = DesignSet.fontSet(name: TextFonts.appleSDGothicNeoMedium.rawValue, size: 13)
+    private let selectedJellyFont = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 13)
+    private let notSelectedJellyFont = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 13)
     
     var beeName: String = ""
     var startTime: Int = 0
@@ -267,7 +277,6 @@ extension BeeCreateJellyViewController {
     
     private func setupDesign() {
         view.addSubview(toPreviousButton)
-        view.addSubview(helpButton)
         
         view.addSubview(firstDescriptionLabel)
         view.addSubview(secondDescriptionLabel)
@@ -284,7 +293,6 @@ extension BeeCreateJellyViewController {
         view.addSubview(nextButton)
         
         DesignSet.constraints(view: toPreviousButton, top: 42, leading: 24, height: 20, width: 12)
-        DesignSet.constraints(view: helpButton, top: 42, leading: 331, height: 20, width: 20)
         
         DesignSet.constraints(view: firstDescriptionLabel, top: 90, leading: 24, height: 33, width: 153)
         DesignSet.constraints(view: secondDescriptionLabel, top: 123, leading: 24, height: 33, width: 153)
