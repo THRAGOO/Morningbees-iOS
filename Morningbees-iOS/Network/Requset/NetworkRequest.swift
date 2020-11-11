@@ -46,32 +46,42 @@ extension Request {
         
         //MARK: Request Set Up
         
-        var urlComponents = URLComponents(string: Path.base.rawValue)
-        urlComponents?.path = req.path.rawValue
-        if req.method == HTTPMethod.get {
-            if let queryParams = param as? [String: String] {
-                urlComponents?.queryItems = queryParams.map({ (key, value) -> URLQueryItem in
-                    URLQueryItem(name: key, value: value)
-                })
-            }
-        }
-        guard let componentsURL = urlComponents?.url else {
+        var urlComponents: URLComponents = {
+            var components = URLComponents()
+            components.scheme = Path.scheme.rawValue
+            components.host = Path.host.rawValue
+            components.path = req.path.rawValue
+            return components
+        }()
+        guard let requestURL = urlComponents.url else {
             completion(nil, ResponseError.unknown)
             return
         }
-        var request = URLRequest(url: componentsURL)
+        
+        var request = URLRequest(url: requestURL)
         request.httpMethod = req.method.rawValue
-        
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
         if let headerParams = header {
             for header in headerParams {
                 request.setValue(header.value, forHTTPHeaderField: header.key)
             }
         }
         
-        if req.method == HTTPMethod.post {
+        switch req.method {
+        case HTTPMethod.get:
+            if let queryParams = param as? [String: String] {
+                urlComponents.queryItems = queryParams.map({ (key, value) -> URLQueryItem in
+                    URLQueryItem(name: key, value: value)
+                })
+            }
+            guard let requestURL = urlComponents.url else {
+                completion(nil, ResponseError.unknown)
+                return
+            }
+            request.url = requestURL
+            
+        case HTTPMethod.post:
             if request.value(forHTTPHeaderField: "Content-Type")?.contains("multipart/form-data") ?? false {
                 request.httpBody = param as? Data
             } else {

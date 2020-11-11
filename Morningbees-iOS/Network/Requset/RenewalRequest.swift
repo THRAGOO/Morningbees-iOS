@@ -21,9 +21,14 @@ extension RenewalToken {
             let config = URLSessionConfiguration.default
             return URLSession(configuration: config)
         }()
-        var urlComponents = URLComponents(string: Path.base.rawValue)
-        let req = RequestSet(method: .post, path: .renewal)
-        urlComponents?.path = req.path.rawValue
+        
+        let urlComponents: URLComponents = {
+            var components = URLComponents()
+            components.scheme = Path.scheme.rawValue
+            components.host = Path.host.rawValue
+            components.path = Path.renewal.rawValue
+            return components
+        }()
         
         KeychainService.extractKeyChainToken { (accessToken, refreshToken, error) in
             if let error = error {
@@ -36,12 +41,12 @@ extension RenewalToken {
             }
             let headers: [String: String] = [RequestHeader.accessToken.rawValue: accessToken,
                                              RequestHeader.refreshToken.rawValue: refreshToken]
-            guard let componentsURL = urlComponents?.url else {
+            guard let requestURL = urlComponents.url else {
                 completion(nil, ResponseError.unknown)
                 return
             }
-            var request = URLRequest(url: componentsURL)
-            request.httpMethod = req.method.rawValue
+            var request = URLRequest(url: requestURL)
+            request.httpMethod = HTTPMethod.post.rawValue
             for header in headers {
                 request.setValue(header.value, forHTTPHeaderField: header.key)
             }

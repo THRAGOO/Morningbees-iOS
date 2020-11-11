@@ -9,7 +9,9 @@
 import Foundation
 
 enum Path: String {
-    case base = "https://api-morningbees.thragoo.com"
+    case scheme = "https"
+    case host = "api-morningbees.thragoo.com"
+    case linkHost = "thragoo.page.link"
     
     case signIn = "/api/auth/sign_in"
     case signUp = "/api/auth/sign_up"

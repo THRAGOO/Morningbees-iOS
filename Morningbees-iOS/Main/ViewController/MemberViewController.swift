@@ -86,8 +86,8 @@ extension MemberViewController {
     
     @objc private func touchupInviteButton(_ sender: UIButton) {
         var components = URLComponents()
-        components.scheme = "https"
-        components.host = "thragoo.page.link"
+        components.scheme = Path.scheme.rawValue
+        components.host = Path.linkHost.rawValue
         
         let param = Invite(beeID: UserDefaults.standard.integer(forKey: "beeID"), title: "아침사냥꾼")
         
