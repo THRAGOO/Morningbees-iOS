@@ -1,5 +1,4 @@
 PODS:
-  - Alamofire (5.4.1)
   - AppAuth (1.4.0):
     - AppAuth/Core (= 1.4.0)
     - AppAuth/ExternalUserAgent (= 1.4.0)
@@ -102,7 +101,6 @@ PODS:
   - SwiftyBeaver (1.9.3)
 
 DEPENDENCIES:
-  - Alamofire (~> 5.2)
   - Firebase/Analytics
   - Firebase/Auth
   - Firebase/DynamicLinks
@@ -115,7 +113,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - Alamofire
     - AppAuth
     - Firebase
     - FirebaseAnalytics
@@ -139,7 +136,6 @@ SPEC REPOS:
     - SwiftyBeaver
 
 SPEC CHECKSUMS:
-  Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   Firebase: 26223c695fe322633274198cb19dca8cb7e54416
   FirebaseAnalytics: 2580c2d62535ae7b644143d48941fcc239ea897a
@@ -162,6 +158,6 @@ SPEC CHECKSUMS:
   SwiftLint: 4fa9579c63416865179bc416f0a92d55f009600d
   SwiftyBeaver: 2e8acd6fc90c6d0a27055867a290794926d57c02
 
-PODFILE CHECKSUM: c8983127d98513b0d0345d84851e2d465b3ee678
+PODFILE CHECKSUM: 27dbf23ed6cb6dbf1de59ea0f427d0a2a557c531
 
 COCOAPODS: 1.10.0
