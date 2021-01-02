@@ -65,7 +65,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 }
 
-//MARK:- DynamicLink Handling
+// MARK:- DynamicLink Handling
 
 extension SceneDelegate {
     

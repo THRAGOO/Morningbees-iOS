@@ -15,7 +15,7 @@ import UIKit
 
 final class SignInViewController: UIViewController {
 
-//MARK:- Properties
+// MARK:- Properties
 
     private let naverSignInInstance = NaverThirdPartyLoginConnection.getSharedInstance()
     
@@ -81,7 +81,7 @@ final class SignInViewController: UIViewController {
         return  button
     }()
 
-//MARK:- Life Cycle
+// MARK:- Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,7 +118,7 @@ final class SignInViewController: UIViewController {
     }
 }
 
-//MARK:- SignIn with Naver
+// MARK:- SignIn with Naver
 
 extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
 
@@ -186,29 +186,29 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
         presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
     }
 
-    //MARK: Action
+    // MARK: Action
 
     @objc private func touchUpSignInNaver(_ sender: UIButton) {
         naverSignInInstance?.requestThirdPartyLogin()
     }
 }
 
-//MARK:- SignIn with Google
+// MARK:- SignIn with Google
 
 extension SignInViewController: CustomAlert {
 
-    //MARK: Action
+    // MARK: Action
 
     @objc private func touchUpSignInGoogle(_ sender: UIButton) {
         GIDSignIn.sharedInstance()?.signIn()
     }
 }
 
-//MARK:- SignIn with Apple
+// MARK:- SignIn with Apple
 
 extension SignInViewController: ASAuthorizationControllerDelegate {
     
-    //MARK: TouchUp SignIn with Apple Action
+    // MARK: TouchUp SignIn with Apple Action
     
     @objc private func touchUpSignInApple(_ sender: UIButton) {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
@@ -288,7 +288,7 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
     }
 }
 
-//MARK:- Provide Presentation Anchor
+// MARK:- Provide Presentation Anchor
 
 extension SignInViewController: ASAuthorizationControllerPresentationContextProviding {
     
@@ -300,7 +300,7 @@ extension SignInViewController: ASAuthorizationControllerPresentationContextProv
     }
 }
 
-//MARK:- View Design
+// MARK:- View Design
 
 extension SignInViewController {
     

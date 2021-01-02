@@ -13,7 +13,7 @@ import UIKit
 
 final class SignUpViewController: UIViewController {
 
-//MARK:- Properties
+// MARK:- Properties
 
     private let naverSignInInstance = NaverThirdPartyLoginConnection.getSharedInstance()
     public var provider: String = ""
@@ -106,7 +106,7 @@ final class SignUpViewController: UIViewController {
         return button
     }()
 
-//MARK:- Life Cycle
+// MARK:- Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,7 +121,7 @@ final class SignUpViewController: UIViewController {
     }
 }
 
-//MARK:- Touch Gesture Handling
+// MARK:- Touch Gesture Handling
 
 extension SignUpViewController {
 
@@ -130,11 +130,11 @@ extension SignUpViewController {
     }
 }
 
-//MARK:- Validation Request
+// MARK:- Validation Request
 
 extension SignUpViewController: CustomAlert {
 
-    //MARK: Nickname Validation Check on Server
+    // MARK: Nickname Validation Check on Server
 
     func isValidNicknameServer() {
         guard let nickname = nicknameTextField.text else {
@@ -168,7 +168,7 @@ extension SignUpViewController: CustomAlert {
         }
     }
 
-    //MARK: Nickname Regulation Inspection
+    // MARK: Nickname Regulation Inspection
 
     private func inspecNicknameReg(originText: String, filter: String = "[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ]") -> Bool {
         let regulation = try? NSRegularExpression(pattern: filter, options: [])
@@ -182,7 +182,7 @@ extension SignUpViewController: CustomAlert {
         return true
     }
     
-    //MARK: Nickname Validation Status
+    // MARK: Nickname Validation Status
     
     private func nicknameAvailableSet(_ state: Bool) {
         if state {
@@ -198,7 +198,7 @@ extension SignUpViewController: CustomAlert {
         }
     }
     
-    //MARK: Valid Request Action
+    // MARK: Valid Request Action
     
     @objc private func touchUpVaildCheckButton(_ sender: UIButton) {
         guard let nickname = nicknameTextField.text else {
@@ -216,7 +216,7 @@ extension SignUpViewController: CustomAlert {
     }
 }
 
-//MARK: TextField length limit
+// MARK: TextField length limit
 
 extension SignUpViewController: UITextFieldDelegate {
 
@@ -234,7 +234,7 @@ extension SignUpViewController: UITextFieldDelegate {
     }
 }
 
-//MARK:- SignUp Request
+// MARK:- SignUp Request
 
 extension SignUpViewController {
     
@@ -257,7 +257,7 @@ extension SignUpViewController {
                 return
             }
             
-            //MARK: KeyChain
+            // MARK: KeyChain
             
             KeychainService.addKeychainToken(signUp.accessToken, signUp.refreshToken) { (error) in
                 if let error = error {
@@ -280,7 +280,7 @@ extension SignUpViewController {
         }
     }
     
-    //MARK: Start Button Action
+    // MARK: Start Button Action
     
     @objc private func touchUpStartBtn(_ sender: UIButton) {
         switch provider {
@@ -311,7 +311,7 @@ extension SignUpViewController {
     }
 }
 
-//MARK:- View Design
+// MARK:- View Design
 
 extension SignUpViewController {
     

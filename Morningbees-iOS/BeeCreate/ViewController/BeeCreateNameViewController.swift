@@ -10,7 +10,7 @@ import UIKit
 
 final class BeeCreateNameViewController: UIViewController, UITextFieldDelegate {
     
-    //MARK:- Properties
+    // MARK:- Properties
     
     private let toPreviousButton: UIButton = {
         let button = UIButton()
@@ -77,7 +77,7 @@ final class BeeCreateNameViewController: UIViewController, UITextFieldDelegate {
         return button
     }()
     
-    //MARK:- Life Cycle
+    // MARK:- Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,7 +108,7 @@ final class BeeCreateNameViewController: UIViewController, UITextFieldDelegate {
     }
 }
 
-//MARK:- Segue and Navigation
+// MARK:- Segue and Navigation
 
 extension BeeCreateNameViewController {
     
@@ -128,7 +128,7 @@ extension BeeCreateNameViewController {
     }
 }
 
-//MARK:- Touch Gesture Handling
+// MARK:- Touch Gesture Handling
 
 extension BeeCreateNameViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -136,7 +136,7 @@ extension BeeCreateNameViewController {
     }
 }
 
-//MARK:- Keyboard Controll
+// MARK:- Keyboard Controll
 
 extension BeeCreateNameViewController {
     @objc private func keyboardWillShow(_ notification: Notification) {
@@ -151,7 +151,7 @@ extension BeeCreateNameViewController {
          nextButton.transform = .identity
      }
     
-    //MARK: Button Control
+    // MARK: Button Control
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
         lengthDescriptionLabel.isHidden = false
@@ -167,7 +167,7 @@ extension BeeCreateNameViewController {
     }
 }
 
-//MARK:- Design
+// MARK:- Design
 
 extension BeeCreateNameViewController {
     

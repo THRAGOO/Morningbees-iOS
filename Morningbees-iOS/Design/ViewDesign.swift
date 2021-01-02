@@ -27,7 +27,7 @@ enum TextFonts: String {
 
 final class DesignSet {
     
-//MARK:- Properties
+// MARK:- Properties
     
     static let frameHeightRatio = Double(UIViewController().view.frame.height) / StandardDevice.height.rawValue
     static let frameWidthRatio = Double(UIViewController().view.frame.width) / StandardDevice.width.rawValue
@@ -49,7 +49,7 @@ extension DesignSet {
         return font
     }
     
-    //MARK: Initializer
+    // MARK: Initializer
     
     static func initImageView(imgName: String) -> UIImageView {
         let imageView = UIImageView()
@@ -77,7 +77,7 @@ extension DesignSet {
         return label
     }
     
-    //MARK: Constraints
+    // MARK: Constraints
     
     static func constraints(view: UIView, top: Double, leading: Double, height: Double, width: Double) {
         view.snp.makeConstraints {
@@ -107,7 +107,7 @@ extension DesignSet {
     }
 }
 
-//MARK:- UIButton Backgroundcolor Set
+// MARK:- UIButton Backgroundcolor Set
 
 extension UIButton {
     func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {

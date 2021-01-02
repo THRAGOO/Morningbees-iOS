@@ -10,7 +10,7 @@ import UIKit
 
 final class CalendarViewController: UIViewController {
     
-//MARK:- Properties
+// MARK:- Properties
     
     private var MonthDays: [Int] = [ 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ]
     private let myCalendar: Calendar = {
@@ -64,7 +64,7 @@ final class CalendarViewController: UIViewController {
         return stackView
     }()
     
-//MARK:- Life Cycle
+// MARK:- Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +74,7 @@ final class CalendarViewController: UIViewController {
     }
 }
 
-//MARK:- Calendar
+// MARK:- Calendar
 
 extension CalendarViewController {
     
@@ -220,7 +220,7 @@ extension CalendarViewController {
     }
 }
 
-//MARK:- UX
+// MARK:- UX
 
 extension CalendarViewController {
     
@@ -234,7 +234,7 @@ extension CalendarViewController {
     }
 }
 
-//MARK:- View Design
+// MARK:- View Design
 
 extension CalendarViewController {
     

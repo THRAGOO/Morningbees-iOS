@@ -13,7 +13,7 @@ import NaverThirdPartyLogin
 
 final class BeeMainViewController: UIViewController, CustomAlert {
     
-//MARK:- Properties
+// MARK:- Properties
     
     private let naverSignInInstance = NaverThirdPartyLoginConnection.getSharedInstance()
     
@@ -190,11 +190,10 @@ final class BeeMainViewController: UIViewController, CustomAlert {
         return view
     }()
     
-//MARK:- Life Cycle
+// MARK:- Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        beeInfoRequest()
         setupDesign()
     }
     
@@ -205,7 +204,8 @@ final class BeeMainViewController: UIViewController, CustomAlert {
         let year = calendar.component(.year, from: Date())
         let month = calendar.component(.month, from: Date())
         let day = calendar.component(.day, from: Date())
-        BeeMainViewController.dateLabel.text = "\(year)-\(month)-\(day)"
+        BeeMainViewController.dateLabel.text = "\(year)-0\(month)-0\(day)"
+        mainRequest()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -213,7 +213,7 @@ final class BeeMainViewController: UIViewController, CustomAlert {
     }
 }
 
-//MARK:- Navigation Control
+// MARK:- Navigation Control
 
 extension BeeMainViewController {
     
@@ -225,7 +225,7 @@ extension BeeMainViewController {
         NavigationControl().pushToMemberViewController()
     }
     
-    //MARK: Calendar
+    // MARK: Calendar
     
     @objc private func touchupCalendarButton(_ sender: UIButton) {
         guard let calendarViewController = self.storyboard?.instantiateViewController(
@@ -249,7 +249,7 @@ extension BeeMainViewController {
     }
 }
 
-//MARK:- PopoverPresentaion Set
+// MARK:- PopoverPresentaion Set
 
 extension BeeMainViewController: UIPopoverPresentationControllerDelegate {
     
@@ -258,14 +258,14 @@ extension BeeMainViewController: UIPopoverPresentationControllerDelegate {
     }
 }
 
-//MARK:- BeeInfomation Request
+// MARK:- BeeInfomation Request
 
 extension BeeMainViewController {
     
-    private func beeInfoRequest() {
-        let reqModel = BeeInfoModel()
+    private func mainRequest() {
+        let reqModel = MainModel()
         let request = RequestSet(method: reqModel.method, path: reqModel.path)
-        let beeInfo = Request<BeeInfo>()
+        let beeInfo = Request<Main>()
         KeychainService.extractKeyChainToken { (accessToken, _, error) in
             if let error = error {
                 self.presentOneButtonAlert(title: "Token Error", message: error.localizedDescription)
@@ -273,22 +273,27 @@ extension BeeMainViewController {
             guard let accessToken = accessToken else {
                 return
             }
+            let param = ["targetDate": BeeMainViewController.dateLabel.text ?? "",
+                         "beeId": "\(UserDefaults.standard.integer(forKey: "beeID"))"]
+            
             let header: [String: String] = [RequestHeader.accessToken.rawValue: accessToken]
-            beeInfo.request(req: request, header: header, param: "") { (info, error) in
+            
+            beeInfo.request(req: request, header: header, param: param) { (main, error) in
                 if let error = error {
-                    self.presentOneButtonAlert(title: "BeeInfo", message: error.localizedDescription)
+                    self.presentOneButtonAlert(title: "Main", message: error.localizedDescription)
                     return
                 }
-                guard let info = info else {
+                guard let main = main else {
                     return
                 }
-                self.beeTitleLabel.text = info.title
+                self.beeTitleLabel.text = main.beeInfos[0].title
+                self.jelly.text = "\(main.beeInfos[0].totalPenalty)원"
             }
         }
     }
 }
 
-//MARK:- SignOut Naver
+// MARK:- SignOut Naver
 
 extension BeeMainViewController: NaverThirdPartyLoginConnectionDelegate {
     
@@ -306,7 +311,7 @@ extension BeeMainViewController: NaverThirdPartyLoginConnectionDelegate {
         presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
     }
 
-    //MARK: Action
+    // MARK: Action
 
     @objc private func touchUpSignOutNaver(_ sender: UIButton) {
         naverSignInInstance?.delegate = self
@@ -315,11 +320,11 @@ extension BeeMainViewController: NaverThirdPartyLoginConnectionDelegate {
     }
 }
 
-//MARK:- SignOut Google
+// MARK:- SignOut Google
 
 extension BeeMainViewController {
 
-    //MARK: Action
+    // MARK: Action
 
     @objc private func touchUpSignOutGoogle(_ sender: UIButton) {
         GIDSignIn.sharedInstance()?.signOut()
@@ -327,7 +332,7 @@ extension BeeMainViewController {
     }
 }
 
-//MARK:- View Design
+// MARK:- View Design
 
 extension BeeMainViewController {
     
