@@ -43,8 +43,10 @@
 		D5580D682408269F008F16F5 /* NanumBarunGothicBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5580D652408269F008F16F5 /* NanumBarunGothicBold.ttf */; };
 		D5580D692408269F008F16F5 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5580D662408269F008F16F5 /* Roboto-Medium.ttf */; };
 		D5580D6B240960BC008F16F5 /* AppleSDGothicNeo.ttc in Resources */ = {isa = PBXBuildFile; fileRef = D5580D6A240960BC008F16F5 /* AppleSDGothicNeo.ttc */; };
+		D56F18FB255C0B320049DF5D /* WithdrawalRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56F18FA255C0B320049DF5D /* WithdrawalRequest.swift */; };
+		D56F18FE255C0B9C0049DF5D /* Withdrawal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56F18FD255C0B9C0049DF5D /* Withdrawal.swift */; };
 		D57B830C2405A761001DB1FF /* ViewDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57B830B2405A761001DB1FF /* ViewDesign.swift */; };
-		D5AEB5B424654EC80084831E /* BeeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5AEB5B324654EC80084831E /* BeeInfo.swift */; };
+		D5AEB5B424654EC80084831E /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5AEB5B324654EC80084831E /* Main.swift */; };
 		D5AEB5B92465D63A0084831E /* MissionCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5AEB5B82465D63A0084831E /* MissionCreateViewController.swift */; };
 		D5B2D1FE244326C7001C2466 /* NavigationControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B2D1FD244326C7001C2466 /* NavigationControl.swift */; };
 		D5B2D20024437807001C2466 /* NetworkItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B2D1FF24437807001C2466 /* NetworkItem.swift */; };
@@ -95,8 +97,10 @@
 		D5580D652408269F008F16F5 /* NanumBarunGothicBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumBarunGothicBold.ttf; sourceTree = "<group>"; };
 		D5580D662408269F008F16F5 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		D5580D6A240960BC008F16F5 /* AppleSDGothicNeo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleSDGothicNeo.ttc; sourceTree = "<group>"; };
+		D56F18FA255C0B320049DF5D /* WithdrawalRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalRequest.swift; sourceTree = "<group>"; };
+		D56F18FD255C0B9C0049DF5D /* Withdrawal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Withdrawal.swift; sourceTree = "<group>"; };
 		D57B830B2405A761001DB1FF /* ViewDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDesign.swift; sourceTree = "<group>"; };
-		D5AEB5B324654EC80084831E /* BeeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeInfo.swift; sourceTree = "<group>"; };
+		D5AEB5B324654EC80084831E /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		D5AEB5B82465D63A0084831E /* MissionCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionCreateViewController.swift; sourceTree = "<group>"; };
 		D5B2D1FD244326C7001C2466 /* NavigationControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControl.swift; sourceTree = "<group>"; };
 		D5B2D1FF24437807001C2466 /* NetworkItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkItem.swift; sourceTree = "<group>"; };
@@ -185,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				D51951B62434D52900A61CA3 /* Me.swift */,
+				D56F18FD255C0B9C0049DF5D /* Withdrawal.swift */,
 				B08EB50D23BB124300FE411F /* ServerError.swift */,
 				D5D3DA2B2427644800EFB04B /* Renewal.swift */,
 			);
@@ -352,6 +357,7 @@
 			children = (
 				D5D3DA292427623500EFB04B /* RenewalRequest.swift */,
 				D5D9919B2438C7BE00BEFEE8 /* MeRequest.swift */,
+				D56F18FA255C0B320049DF5D /* WithdrawalRequest.swift */,
 				B0747AAB23AA642C00100858 /* NetworkRequest.swift */,
 			);
 			path = Requset;
@@ -360,7 +366,7 @@
 		D5AEB5B224654D500084831E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D5AEB5B324654EC80084831E /* BeeInfo.swift */,
+				D5AEB5B324654EC80084831E /* Main.swift */,
 				D50C18F524F69330008155F3 /* Invite.swift */,
 			);
 			path = Model;
@@ -565,6 +571,7 @@
 				D5337C18244469E300D7A079 /* BeeCreateJellyViewController.swift in Sources */,
 				7279EF88236EC61D005ECC81 /* SignInViewController.swift in Sources */,
 				7254BF4B23A913940036D24D /* Logger.swift in Sources */,
+				D56F18FE255C0B9C0049DF5D /* Withdrawal.swift in Sources */,
 				7279EF84236EC61D005ECC81 /* AppDelegate.swift in Sources */,
 				D50C18F424F65D48008155F3 /* MemberViewController.swift in Sources */,
 				D5AEB5B92465D63A0084831E /* MissionCreateViewController.swift in Sources */,
@@ -572,7 +579,7 @@
 				B020492423D73E2F00B41003 /* SignIn.swift in Sources */,
 				B00115EF2387DAD9003A5E83 /* SignUpViewController.swift in Sources */,
 				D5E50AB9246EB8AA003E8AB7 /* MissionCreate.swift in Sources */,
-				D5AEB5B424654EC80084831E /* BeeInfo.swift in Sources */,
+				D5AEB5B424654EC80084831E /* Main.swift in Sources */,
 				7254BF4F23B658C00036D24D /* UIViewController+Extension.swift in Sources */,
 				CE432C212390098F0005F257 /* UIApplication+Extension.swift in Sources */,
 				B0747AAC23AA642C00100858 /* NetworkRequest.swift in Sources */,
@@ -591,6 +598,7 @@
 				B0CC883323F827DD00B3131E /* BeeMainViewController.swift in Sources */,
 				D5D3DA2A2427623500EFB04B /* RenewalRequest.swift in Sources */,
 				D526E526244886A500892387 /* CreateBee.swift in Sources */,
+				D56F18FB255C0B320049DF5D /* WithdrawalRequest.swift in Sources */,
 				B0449EAB23B5D41E0079D816 /* VaildNickname.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

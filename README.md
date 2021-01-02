@@ -1,4 +1,4 @@
-# Morningbees-iOS(Release plan: July 2020)
+# Morningbees-iOS
 This is an application created to help people who want to be morning bird aka morning bees in this app. Let's create a bee(group) with friends and participate in the mission to make an early habits!
 
 Each mission day, the mission assignor(one of the members) sets the mission, and within that time, participants must upload the mission photo.
