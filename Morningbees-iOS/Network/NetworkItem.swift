@@ -23,12 +23,20 @@ enum Path: String {
     case beeCreate = "/api/bees"
     case missionCreate = "/api/missions"
     
-    case beeInfo = "/api/my_bee"
+    case main = "/api/main"
+    
+    case beeWithdrawal = "/api/bees/withdrawal"
 }
 
 enum HTTPMethod: String {
     case get = "GET"
     case post = "POST"
+    case delete = "DELETE"
+}
+
+enum ResponseCode: Int {
+    case success = 200
+    case created = 201
 }
 
 enum ResponseError: Error {
@@ -47,4 +55,25 @@ enum RequestHeader: String {
     
     case contentType = "Content-Type"
     case accept = "Accept"
+}
+
+protocol RequestModel {
+
+    associatedtype ModelType: Decodable
+    var method: HTTPMethod { get set }
+    var path: Path { get set }
+}
+
+final class RequestSet {
+
+    let method: HTTPMethod
+    let path: Path
+    
+    init(
+        method: HTTPMethod,
+        path: Path
+    ) {
+        self.method = method
+        self.path = path
+    }
 }

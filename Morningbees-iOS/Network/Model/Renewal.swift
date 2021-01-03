@@ -8,6 +8,12 @@
 
 import Foundation
 
+struct RenewalModel: RequestModel {
+    typealias ModelType = Renewal
+    var method: HTTPMethod = .post
+    var path: Path = .renewal
+}
+
 struct Renewal: Codable {
     let accessToken: String
 }
