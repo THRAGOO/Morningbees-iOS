@@ -10,7 +10,7 @@ import UIKit
 
 class BeeCreateJellyViewController: UIViewController {
     
-    //MARK:- Properties
+    // MARK:- Properties
     
     private let jellySelectImg = DesignSet.initImageView(imgName: "btnJellyStartPointSelect")
     
@@ -116,7 +116,7 @@ class BeeCreateJellyViewController: UIViewController {
     var endTime: Int = 0
     var royalJelly: Int = 0
     
-    //MARK:- Life Cycle
+    // MARK:- Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,7 +125,7 @@ class BeeCreateJellyViewController: UIViewController {
     }
 }
 
-//MARK:- Navigation Control
+// MARK:- Navigation Control
 
 extension BeeCreateJellyViewController {
     
@@ -138,7 +138,7 @@ extension BeeCreateJellyViewController {
     }
 }
 
-//MARK:- Segmented Control
+// MARK:- Segmented Control
 
 extension BeeCreateJellyViewController {
     
@@ -226,7 +226,7 @@ extension BeeCreateJellyViewController {
     }
 }
 
-//MARK:- Bee Create Request
+// MARK:- Bee Create Request
 
 extension BeeCreateJellyViewController: CustomAlert {
     
@@ -247,23 +247,27 @@ extension BeeCreateJellyViewController: CustomAlert {
                 return
             }
             let header: [String: String] = [RequestHeader.accessToken.rawValue: accessToken]
-            beeCreate.request(req: request, header: header, param: param) { (_, error) in
+            beeCreate.request(req: request, header: header, param: param) { (_, created, error) in
                 if let error = error {
                     self.presentOneButtonAlert(title: "BeeCreate", message: error.localizedDescription)
                     return
                 }
-                MeAPI().request { (alreadyJoinBee, error) in
-                    if let error = error {
-                        self.presentOneButtonAlert(title: "BeeCreate", message: error.localizedDescription)
-                        return
-                    }
-                    guard let alreadyJoinBee = alreadyJoinBee else {
-                        return
-                    }
-                    if alreadyJoinBee {
-                        NavigationControl().pushToBeeMainViewController()
-                    } else {
-                        NavigationControl().pushToBeforeJoinViewController()
+                if created {
+                    self.presentOneButtonAlert(title: "BeeCreate", message: "Successfully created bee!")
+                    
+                    MeAPI().request { (alreadyJoinBee, error) in
+                        if let error = error {
+                            self.presentOneButtonAlert(title: "BeeCreate", message: error.localizedDescription)
+                            return
+                        }
+                        guard let alreadyJoinBee = alreadyJoinBee else {
+                            return
+                        }
+                        if alreadyJoinBee {
+                            NavigationControl().pushToBeeMainViewController()
+                        } else {
+                            NavigationControl().pushToBeforeJoinViewController()
+                        }
                     }
                 }
             }
@@ -271,7 +275,7 @@ extension BeeCreateJellyViewController: CustomAlert {
     }
 }
 
-//MARK:- Design Set
+// MARK:- Design Set
 
 extension BeeCreateJellyViewController {
     

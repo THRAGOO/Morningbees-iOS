@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3D76C869E300031B61952D68 /* Pods_Morningbees_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 130FCFE820D2D5D7AA26E337 /* Pods_Morningbees_iOS.framework */; };
 		7254BF4923A66AA10036D24D /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 7254BF4823A66AA10036D24D /* .swiftlint.yml */; };
 		7254BF4B23A913940036D24D /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7254BF4A23A913940036D24D /* Logger.swift */; };
 		7254BF4F23B658C00036D24D /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7254BF4E23B658C00036D24D /* UIViewController+Extension.swift */; };
@@ -17,6 +16,7 @@
 		7279EF8B236EC61D005ECC81 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7279EF89236EC61D005ECC81 /* Main.storyboard */; };
 		7279EF8D236EC623005ECC81 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7279EF8C236EC623005ECC81 /* Assets.xcassets */; };
 		7279EF90236EC623005ECC81 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7279EF8E236EC623005ECC81 /* LaunchScreen.storyboard */; };
+		9E46418B517975FCF9F59839 /* Pods_Morningbees_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC602B95F8C685C67F327E52 /* Pods_Morningbees_iOS.framework */; };
 		B00115EF2387DAD9003A5E83 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00115EE2387DAD9003A5E83 /* SignUpViewController.swift */; };
 		B020492423D73E2F00B41003 /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B020492323D73E2F00B41003 /* SignIn.swift */; };
 		B0449EAB23B5D41E0079D816 /* VaildNickname.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0449EAA23B5D41E0079D816 /* VaildNickname.swift */; };
@@ -34,6 +34,7 @@
 		D50C18F624F69330008155F3 /* Invite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50C18F524F69330008155F3 /* Invite.swift */; };
 		D51951B72434D52900A61CA3 /* Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51951B62434D52900A61CA3 /* Me.swift */; };
 		D51951B92434D69100A61CA3 /* BeforeJoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51951B82434D69100A61CA3 /* BeforeJoinViewController.swift */; };
+		D51ACDF125A0532D004EA696 /* MultipartFormdataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51ACDF025A0532D004EA696 /* MultipartFormdataRequest.swift */; };
 		D526E526244886A500892387 /* CreateBee.swift in Sources */ = {isa = PBXBuildFile; fileRef = D526E525244886A500892387 /* CreateBee.swift */; };
 		D527AE8324DD691000849EDB /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D527AE8224DD691000849EDB /* CalendarViewController.swift */; };
 		D5337C1424445C6700D7A079 /* BeeCreateNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5337C1324445C6700D7A079 /* BeeCreateNameViewController.swift */; };
@@ -43,8 +44,10 @@
 		D5580D682408269F008F16F5 /* NanumBarunGothicBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5580D652408269F008F16F5 /* NanumBarunGothicBold.ttf */; };
 		D5580D692408269F008F16F5 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5580D662408269F008F16F5 /* Roboto-Medium.ttf */; };
 		D5580D6B240960BC008F16F5 /* AppleSDGothicNeo.ttc in Resources */ = {isa = PBXBuildFile; fileRef = D5580D6A240960BC008F16F5 /* AppleSDGothicNeo.ttc */; };
+		D56F18FB255C0B320049DF5D /* WithdrawalRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56F18FA255C0B320049DF5D /* WithdrawalRequest.swift */; };
+		D56F18FE255C0B9C0049DF5D /* Withdrawal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56F18FD255C0B9C0049DF5D /* Withdrawal.swift */; };
 		D57B830C2405A761001DB1FF /* ViewDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57B830B2405A761001DB1FF /* ViewDesign.swift */; };
-		D5AEB5B424654EC80084831E /* BeeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5AEB5B324654EC80084831E /* BeeInfo.swift */; };
+		D5AEB5B424654EC80084831E /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5AEB5B324654EC80084831E /* Main.swift */; };
 		D5AEB5B92465D63A0084831E /* MissionCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5AEB5B82465D63A0084831E /* MissionCreateViewController.swift */; };
 		D5B2D1FE244326C7001C2466 /* NavigationControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B2D1FD244326C7001C2466 /* NavigationControl.swift */; };
 		D5B2D20024437807001C2466 /* NetworkItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B2D1FF24437807001C2466 /* NetworkItem.swift */; };
@@ -55,8 +58,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		130FCFE820D2D5D7AA26E337 /* Pods_Morningbees_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Morningbees_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4A120E772A1AA14D7C6C9724 /* Pods-Morningbees-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		4F2CA881906DFBD6D4A11372 /* Pods-Morningbees-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.release.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		7254BF4823A66AA10036D24D /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		7254BF4A23A913940036D24D /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		7254BF4E23B658C00036D24D /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 		7279EF8C236EC623005ECC81 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7279EF8F236EC623005ECC81 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7279EF91236EC623005ECC81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A7C7C03D1A2BA2C05EFF387E /* Pods-Morningbees-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		B00115EE2387DAD9003A5E83 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		B020492323D73E2F00B41003 /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
 		B0449EAA23B5D41E0079D816 /* VaildNickname.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaildNickname.swift; sourceTree = "<group>"; };
@@ -78,7 +81,6 @@
 		B0CC882B23F6A33500B3131E /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
 		B0CC882E23F81B8700B3131E /* KeychainItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItems.swift; sourceTree = "<group>"; };
 		B0CC883223F827DD00B3131E /* BeeMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeMainViewController.swift; sourceTree = "<group>"; };
-		C0ED24CC52894DF6E5EDDDA1 /* Pods-Morningbees-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.release.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		CE432C202390098F0005F257 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		D50C18EB24F3D1DB008155F3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D50C18F124F6580C008155F3 /* InvitedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitedViewController.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 		D50C18F524F69330008155F3 /* Invite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invite.swift; sourceTree = "<group>"; };
 		D51951B62434D52900A61CA3 /* Me.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Me.swift; sourceTree = "<group>"; };
 		D51951B82434D69100A61CA3 /* BeforeJoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeJoinViewController.swift; sourceTree = "<group>"; };
+		D51ACDF025A0532D004EA696 /* MultipartFormdataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartFormdataRequest.swift; sourceTree = "<group>"; };
 		D526E525244886A500892387 /* CreateBee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBee.swift; sourceTree = "<group>"; };
 		D527AE8224DD691000849EDB /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		D5337C1324445C6700D7A079 /* BeeCreateNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeCreateNameViewController.swift; sourceTree = "<group>"; };
@@ -95,8 +98,10 @@
 		D5580D652408269F008F16F5 /* NanumBarunGothicBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumBarunGothicBold.ttf; sourceTree = "<group>"; };
 		D5580D662408269F008F16F5 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		D5580D6A240960BC008F16F5 /* AppleSDGothicNeo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleSDGothicNeo.ttc; sourceTree = "<group>"; };
+		D56F18FA255C0B320049DF5D /* WithdrawalRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalRequest.swift; sourceTree = "<group>"; };
+		D56F18FD255C0B9C0049DF5D /* Withdrawal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Withdrawal.swift; sourceTree = "<group>"; };
 		D57B830B2405A761001DB1FF /* ViewDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDesign.swift; sourceTree = "<group>"; };
-		D5AEB5B324654EC80084831E /* BeeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeInfo.swift; sourceTree = "<group>"; };
+		D5AEB5B324654EC80084831E /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		D5AEB5B82465D63A0084831E /* MissionCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionCreateViewController.swift; sourceTree = "<group>"; };
 		D5B2D1FD244326C7001C2466 /* NavigationControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControl.swift; sourceTree = "<group>"; };
 		D5B2D1FF24437807001C2466 /* NetworkItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkItem.swift; sourceTree = "<group>"; };
@@ -105,6 +110,7 @@
 		D5D5BC8623FE6B6000F59DA0 /* Morningbees.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Morningbees.entitlements; sourceTree = "<group>"; };
 		D5D9919B2438C7BE00BEFEE8 /* MeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeRequest.swift; sourceTree = "<group>"; };
 		D5E50AB8246EB8AA003E8AB7 /* MissionCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionCreate.swift; sourceTree = "<group>"; };
+		FC602B95F8C685C67F327E52 /* Pods_Morningbees_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Morningbees_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D76C869E300031B61952D68 /* Pods_Morningbees_iOS.framework in Frameworks */,
+				9E46418B517975FCF9F59839 /* Pods_Morningbees_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,10 +128,18 @@
 		0A7E79114FB64218C0D90A1E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				4A120E772A1AA14D7C6C9724 /* Pods-Morningbees-iOS.debug.xcconfig */,
-				C0ED24CC52894DF6E5EDDDA1 /* Pods-Morningbees-iOS.release.xcconfig */,
+				A7C7C03D1A2BA2C05EFF387E /* Pods-Morningbees-iOS.debug.xcconfig */,
+				4F2CA881906DFBD6D4A11372 /* Pods-Morningbees-iOS.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		106DD43C0FBC6D44A014C976 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FC602B95F8C685C67F327E52 /* Pods_Morningbees_iOS.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		7279EF77236EC61D005ECC81 = {
@@ -136,7 +150,7 @@
 				7279EF82236EC61D005ECC81 /* Morningbees-iOS */,
 				7279EF81236EC61D005ECC81 /* Products */,
 				0A7E79114FB64218C0D90A1E /* Pods */,
-				76538B8795EFF67D124CEB86 /* Frameworks */,
+				106DD43C0FBC6D44A014C976 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -173,18 +187,11 @@
 			path = "Morningbees-iOS";
 			sourceTree = "<group>";
 		};
-		76538B8795EFF67D124CEB86 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				130FCFE820D2D5D7AA26E337 /* Pods_Morningbees_iOS.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		B0449EA923B5D3C00079D816 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				D51951B62434D52900A61CA3 /* Me.swift */,
+				D56F18FD255C0B9C0049DF5D /* Withdrawal.swift */,
 				B08EB50D23BB124300FE411F /* ServerError.swift */,
 				D5D3DA2B2427644800EFB04B /* Renewal.swift */,
 			);
@@ -194,7 +201,7 @@
 		B0747AAA23AA63CF00100858 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				D5AEB5B124654B290084831E /* Requset */,
+				D5AEB5B124654B290084831E /* Request */,
 				B0449EA923B5D3C00079D816 /* Model */,
 				D5B2D1FF24437807001C2466 /* NetworkItem.swift */,
 			);
@@ -347,20 +354,22 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		D5AEB5B124654B290084831E /* Requset */ = {
+		D5AEB5B124654B290084831E /* Request */ = {
 			isa = PBXGroup;
 			children = (
 				D5D3DA292427623500EFB04B /* RenewalRequest.swift */,
 				D5D9919B2438C7BE00BEFEE8 /* MeRequest.swift */,
+				D56F18FA255C0B320049DF5D /* WithdrawalRequest.swift */,
 				B0747AAB23AA642C00100858 /* NetworkRequest.swift */,
+				D51ACDF025A0532D004EA696 /* MultipartFormdataRequest.swift */,
 			);
-			path = Requset;
+			path = Request;
 			sourceTree = "<group>";
 		};
 		D5AEB5B224654D500084831E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D5AEB5B324654EC80084831E /* BeeInfo.swift */,
+				D5AEB5B324654EC80084831E /* Main.swift */,
 				D50C18F524F69330008155F3 /* Invite.swift */,
 			);
 			path = Model;
@@ -406,13 +415,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7279EF94236EC623005ECC81 /* Build configuration list for PBXNativeTarget "Morningbees-iOS" */;
 			buildPhases = (
-				343DB0AD4EFDCADA9E6F9E17 /* [CP] Check Pods Manifest.lock */,
+				51C399F285FD50D2C6495BC5 /* [CP] Check Pods Manifest.lock */,
 				7279EF7C236EC61D005ECC81 /* Sources */,
 				7279EF7D236EC61D005ECC81 /* Frameworks */,
 				7279EF7E236EC61D005ECC81 /* Resources */,
 				7254BF4723A669D20036D24D /* SwiftLint Script */,
-				113B81C37F507F49F7645AF1 /* [CP] Embed Pods Frameworks */,
-				61D1315BB1B6355350C02315 /* [CP] Copy Pods Resources */,
+				D0A0680430515655B4CD52F6 /* [CP] Embed Pods Frameworks */,
+				FFA05D6D2F71375B42210FE2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -476,24 +485,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		113B81C37F507F49F7645AF1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		343DB0AD4EFDCADA9E6F9E17 /* [CP] Check Pods Manifest.lock */ = {
+		51C399F285FD50D2C6495BC5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -515,23 +507,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		61D1315BB1B6355350C02315 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		7254BF4723A669D20036D24D /* SwiftLint Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -550,6 +525,40 @@
 			shellPath = /bin/sh;
 			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
+		D0A0680430515655B4CD52F6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FFA05D6D2F71375B42210FE2 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -563,8 +572,10 @@
 				D50C18F224F6580C008155F3 /* InvitedViewController.swift in Sources */,
 				D5337C1424445C6700D7A079 /* BeeCreateNameViewController.swift in Sources */,
 				D5337C18244469E300D7A079 /* BeeCreateJellyViewController.swift in Sources */,
+				D51ACDF125A0532D004EA696 /* MultipartFormdataRequest.swift in Sources */,
 				7279EF88236EC61D005ECC81 /* SignInViewController.swift in Sources */,
 				7254BF4B23A913940036D24D /* Logger.swift in Sources */,
+				D56F18FE255C0B9C0049DF5D /* Withdrawal.swift in Sources */,
 				7279EF84236EC61D005ECC81 /* AppDelegate.swift in Sources */,
 				D50C18F424F65D48008155F3 /* MemberViewController.swift in Sources */,
 				D5AEB5B92465D63A0084831E /* MissionCreateViewController.swift in Sources */,
@@ -572,7 +583,7 @@
 				B020492423D73E2F00B41003 /* SignIn.swift in Sources */,
 				B00115EF2387DAD9003A5E83 /* SignUpViewController.swift in Sources */,
 				D5E50AB9246EB8AA003E8AB7 /* MissionCreate.swift in Sources */,
-				D5AEB5B424654EC80084831E /* BeeInfo.swift in Sources */,
+				D5AEB5B424654EC80084831E /* Main.swift in Sources */,
 				7254BF4F23B658C00036D24D /* UIViewController+Extension.swift in Sources */,
 				CE432C212390098F0005F257 /* UIApplication+Extension.swift in Sources */,
 				B0747AAC23AA642C00100858 /* NetworkRequest.swift in Sources */,
@@ -591,6 +602,7 @@
 				B0CC883323F827DD00B3131E /* BeeMainViewController.swift in Sources */,
 				D5D3DA2A2427623500EFB04B /* RenewalRequest.swift in Sources */,
 				D526E526244886A500892387 /* CreateBee.swift in Sources */,
+				D56F18FB255C0B320049DF5D /* WithdrawalRequest.swift in Sources */,
 				B0449EAB23B5D41E0079D816 /* VaildNickname.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -735,7 +747,7 @@
 		};
 		7279EF95236EC623005ECC81 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4A120E772A1AA14D7C6C9724 /* Pods-Morningbees-iOS.debug.xcconfig */;
+			baseConfigurationReference = A7C7C03D1A2BA2C05EFF387E /* Pods-Morningbees-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Morningbees-iOS/Morningbees.entitlements";
@@ -756,7 +768,7 @@
 		};
 		7279EF96236EC623005ECC81 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C0ED24CC52894DF6E5EDDDA1 /* Pods-Morningbees-iOS.release.xcconfig */;
+			baseConfigurationReference = 4F2CA881906DFBD6D4A11372 /* Pods-Morningbees-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Morningbees-iOS/Morningbees.entitlements";

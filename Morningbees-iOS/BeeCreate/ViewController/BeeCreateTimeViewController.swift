@@ -15,7 +15,7 @@ enum TimeButtonState {
 
 final class BeeCreateTimeViewController: UIViewController {
     
-    //MARK:- Properties
+    // MARK:- Properties
     
     private let toPreviousButton: UIButton = {
         let button = UIButton()
@@ -77,7 +77,7 @@ final class BeeCreateTimeViewController: UIViewController {
     private var endTime: Int = 0
     var beeName: String = ""
     
-    //MARK:- Life Cycle
+    // MARK:- Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,7 +86,7 @@ final class BeeCreateTimeViewController: UIViewController {
     }
 }
 
-//MARK:- Segue and Navigation
+// MARK:- Segue and Navigation
 
 extension BeeCreateTimeViewController {
     
@@ -108,7 +108,7 @@ extension BeeCreateTimeViewController {
     }
 }
 
-//MARK:- Mission Time Button Set
+// MARK:- Mission Time Button Set
 
 extension BeeCreateTimeViewController {
     
@@ -211,7 +211,7 @@ extension BeeCreateTimeViewController {
     }
 }
 
-//MARK:- Design
+// MARK:- Design
 
 extension BeeCreateTimeViewController {
     

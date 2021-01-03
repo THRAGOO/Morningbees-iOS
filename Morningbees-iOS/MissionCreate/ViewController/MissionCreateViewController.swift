@@ -10,7 +10,7 @@ import UIKit
 
 final class MissionCreateViewController: UIViewController, CustomAlert {
     
-//MARK:- Properties
+// MARK:- Properties
     
     private let toPreviousButton: UIButton = {
         let button = UIButton()
@@ -137,7 +137,6 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
         return view
     }()
     
-    private var imageData = Data()
     private var imageName: String = ""
     private var difficulty: Int = 0
     
@@ -145,7 +144,7 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
     private var isPictureSet: Bool = false
     private var isDifficulltySet: Bool = false
     
-//MARK:- Life Cycle
+// MARK:- Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -155,7 +154,7 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
     }
 }
 
-//MARK:- Navigation Control
+// MARK:- Navigation Control
 
 extension MissionCreateViewController {
     
@@ -164,46 +163,20 @@ extension MissionCreateViewController {
     }
 }
 
-//MARK:- MissionCreate Request
+// MARK:- MissionCreate Request
 
 extension MissionCreateViewController {
     
     @objc private func missionCreateRequest() {
-        let reqModel = MissionCreateModel()
-        let request = RequestSet(method: reqModel.method, path: reqModel.path)
-        let missionCreate = Request<MissionCreate>()
-        
         let beeID = UserDefaults.standard.integer(forKey: "beeID")
-        
-        // multipart/formdata wrapping!
-        
-        let missionData = MissionCreateParam(beeId: beeID,
-                                             description: "test",
-                                             type: 1,
-                                             difficulty: self.difficulty)
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
-        guard let httpBody = try? encoder.encode(missionData) else {
+        let missionData = ["beeId": "\(beeID)",
+                           "description": "test",
+                           "type": "1",
+                           "difficulty": "\(self.difficulty)"]
+        guard let image = selectedPictureView.image,
+              let imageData = image.jpegData(compressionQuality: 0.1) else {
             return
         }
-        let boundaryConstant = UUID().uuidString
-        let boundaryStart = "--\(boundaryConstant)\r\n"
-        let boundaryEnd = "\r\n--\(boundaryConstant)--\r\n"
-        // image file의 이름 추출해야 하는데 여기도 잘 안됨. 305 줄에서 추출하려함.
-        let contentDispositionString =
-        "Content-Disposition: form-data; name=\"image\"; filename=\"\(self.selectedPictureView.image!)\"\r\n"
-        let contentTypeString = "image/jpeg\r\n\r\n"
-        
-        var param: Data = Data()
-        param.append(boundaryStart.data(using: .utf8)!)
-        param.append(contentDispositionString.data(using: .utf8)!)
-        param.append(contentTypeString.data(using: .utf8)!)
-        param.append(self.imageData)
-        param.append(boundaryConstant.data(using: .utf8)!)
-        param.append("\r\n".data(using: .utf8)!)
-        
-        param.append(httpBody)
-        param.append(boundaryEnd.data(using: .utf8)!)
         
         KeychainService.extractKeyChainToken { (accessToken, _, error) in
             if let error = error {
@@ -212,22 +185,33 @@ extension MissionCreateViewController {
             guard let accessToken = accessToken else {
                 return
             }
-            // 여기서 \r\n 넣으면 header setValue에서 적용이 안됨..
-            let contentType = "multipart/form-data; boundary=\(boundaryConstant)"
-            let header: [String: String] = [RequestHeader.accessToken.rawValue: accessToken,
-                                            RequestHeader.contentType.rawValue: contentType]
-            missionCreate.request(req: request, header: header, param: param) { (_, error) in
+            
+            let requestSet = RequestSet(method: .post, path: .missionCreate)
+            let header = [RequestHeader.accessToken.rawValue: accessToken]
+            
+            MultipartFormdataRequest().request(parameters: missionData,
+                                               imageData: imageData,
+                                               requestSet: requestSet,
+                                               header: header) { (created, error) in
                 if let error = error {
-                    self.presentOneButtonAlert(title: "MissionCreate", message: error.localizedDescription)
-                    return
+                    self.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
                 }
-                NavigationControl().pushToBeeMainViewController()
+                if created {
+                    self.presentOneButtonAlert(title: "Success!", message: "Successfully Created Mission!") {
+                        NavigationControl().popToPrevViewController()
+                    }
+                } else {
+                    self.presentOneButtonAlert(title: "Failed!",
+                                               message: "Mission already created or Something went wrong!") {
+                        NavigationControl().popToPrevViewController()
+                    }
+                }
             }
         }
     }
 }
 
-//MARK:- Complete Button Control
+// MARK:- Complete Button Control
 
 extension MissionCreateViewController {
     
@@ -240,7 +224,7 @@ extension MissionCreateViewController {
     }
 }
 
-//MARK:- TextField Handling
+// MARK:- TextField Handling
 
 extension MissionCreateViewController: UITextFieldDelegate {
     
@@ -259,7 +243,7 @@ extension MissionCreateViewController: UITextFieldDelegate {
     }
 }
 
-//MARK:- Image Picker
+// MARK:- Image Picker
 
 extension MissionCreateViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -297,16 +281,8 @@ extension MissionCreateViewController: UIImagePickerControllerDelegate, UINaviga
         guard let selectedImage = info[.originalImage] as? UIImage else {
             fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
         }
-//        if let selectedImageName = info[.phAsset] as? PHAsset {
-//            if let imageName = selectedImageName.value(forKey: "filename") as? String {
-//                self.imageName = imageName
-//            }
-//        }
+
         selectedPictureView.image = selectedImage
-        guard let imageData = selectedImage.jpegData(compressionQuality: 0.1) else {
-            return
-        }
-        self.imageData = imageData
         isPictureSet = true
         completeButtonControl()
         hideImagePickerSection(true)
@@ -321,7 +297,7 @@ extension MissionCreateViewController: UIImagePickerControllerDelegate, UINaviga
     }
 }
 
-//MARK:- Segmented Control
+// MARK:- Segmented Control
 
 extension MissionCreateViewController {
     
@@ -380,7 +356,7 @@ extension MissionCreateViewController {
     }
 }
 
-//MARK:- View Design
+// MARK:- View Design
 
 extension MissionCreateViewController {
     

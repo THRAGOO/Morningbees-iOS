@@ -12,7 +12,7 @@ import NaverThirdPartyLogin
 
 final class BeforeJoinViewController: UIViewController, CustomAlert {
     
-    //MARK:- Properties
+    // MARK:- Properties
     
     private let naverSignInInstance = NaverThirdPartyLoginConnection.getSharedInstance()
     
@@ -76,7 +76,7 @@ final class BeforeJoinViewController: UIViewController, CustomAlert {
         return button
     }()
     
-    //MARK:- Life Cycle
+    // MARK:- Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,7 +88,7 @@ final class BeforeJoinViewController: UIViewController, CustomAlert {
     }
 }
 
-//MARK:- Navigation Control
+// MARK:- Navigation Control
 
 extension BeforeJoinViewController {
     
@@ -97,7 +97,7 @@ extension BeforeJoinViewController {
     }
 }
 
-//MARK:- SignOut Naver
+// MARK:- SignOut Naver
 
 extension BeforeJoinViewController: NaverThirdPartyLoginConnectionDelegate {
     
@@ -115,7 +115,7 @@ extension BeforeJoinViewController: NaverThirdPartyLoginConnectionDelegate {
         presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
     }
 
-    //MARK: Action
+    // MARK: Action
 
     @objc private func touchUpSignOutNaver(_ sender: UIButton) {
         naverSignInInstance?.delegate = self
@@ -124,11 +124,11 @@ extension BeforeJoinViewController: NaverThirdPartyLoginConnectionDelegate {
     }
 }
 
-//MARK:- SignOut Google
+// MARK:- SignOut Google
 
 extension BeforeJoinViewController {
 
-    //MARK: Action
+    // MARK: Action
 
     @objc private func touchUpSignOutGoogle(_ sender: UIButton) {
         GIDSignIn.sharedInstance()?.signOut()
@@ -136,7 +136,7 @@ extension BeforeJoinViewController {
     }
 }
 
-//MARK:- View Design
+// MARK:- View Design
 
 extension BeforeJoinViewController {
     

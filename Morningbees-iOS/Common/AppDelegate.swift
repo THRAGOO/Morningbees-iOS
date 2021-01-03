@@ -32,11 +32,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        //MARK: Swizzle
+        // MARK: Swizzle
 
         UIViewController.swizzle
 
-        //MARK: SetUp for SignIn with Naver
+        // MARK: SetUp for SignIn with Naver
 
         if let naverSignInInstance = NaverThirdPartyLoginConnection.getSharedInstance() {
             naverSignInInstance.isInAppOauthEnable = true
@@ -48,7 +48,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             naverSignInInstance.appName = kServiceAppName
         }
 
-        //MARK: SetUp for SignIn with Google
+        // MARK: SetUp for SignIn with Google
 
         FirebaseApp.configure()
         GIDSignIn.sharedInstance()?.clientID = FirebaseApp.app()?.options.clientID
@@ -57,7 +57,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    //MARK: UISceneSession Lifecycle
+    // MARK: UISceneSession Lifecycle
 
     func application(
         _ application: UIApplication,
@@ -70,7 +70,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
-//MARK:- Google SignIn
+// MARK:- Google SignIn
 
 extension AppDelegate: GIDSignInDelegate {
 
@@ -80,7 +80,7 @@ extension AppDelegate: GIDSignInDelegate {
             return
         }
 
-        //TODO: We have to manage the storyboard separately. (Enum)
+        // TODO: We have to manage the storyboard separately. (Enum)
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
         guard let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController,
             let signInViewController = navigationController.topViewController as? SignInViewController,
@@ -104,7 +104,7 @@ extension AppDelegate: GIDSignInDelegate {
             "provider": SignInProvider.google.rawValue
         ]
         let signInReq = Request<SignIn>()
-        signInReq.request(req: request, param: param) { (signIn, error)  in
+        signInReq.request(req: request, param: param) { (signIn, _, error)  in
             if let error = error {
                 signInViewController.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
             }
@@ -119,7 +119,7 @@ extension AppDelegate: GIDSignInDelegate {
                 }
             } else if signIn.type == 1 {
                 
-                //MARK: KeyChain
+                // MARK: KeyChain
                     
                 KeychainService.deleteKeychainToken { (error) in
                     if let error = error {
@@ -169,7 +169,7 @@ extension AppDelegate: GIDSignInDelegate {
     }
 }
 
-//MARK:- DynamicLink Handling
+// MARK:- DynamicLink Handling
 
 extension AppDelegate {
     
