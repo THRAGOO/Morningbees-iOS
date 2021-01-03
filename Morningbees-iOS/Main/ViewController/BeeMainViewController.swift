@@ -278,7 +278,7 @@ extension BeeMainViewController {
             
             let header: [String: String] = [RequestHeader.accessToken.rawValue: accessToken]
             
-            beeInfo.request(req: request, header: header, param: param) { (main, error) in
+            beeInfo.request(req: request, header: header, param: param) { (main, _, error) in
                 if let error = error {
                     self.presentOneButtonAlert(title: "Main", message: error.localizedDescription)
                     return

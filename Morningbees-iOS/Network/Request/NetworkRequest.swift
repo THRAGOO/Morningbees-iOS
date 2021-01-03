@@ -8,33 +8,9 @@
 
 import Foundation
 
-protocol RequestModel {
-
-    associatedtype ModelType: Decodable
-    var method: HTTPMethod { get set }
-    var path: Path { get set }
-}
-
-final class RequestSet {
-
-    let method: HTTPMethod
-    let path: Path
-    
-    init(
-        method: HTTPMethod,
-        path: Path
-    ) {
-        self.method = method
-        self.path = path
-    }
-}
-
 final class Request<Model> where Model: Decodable {
-
-    private let session: URLSession = {
-        let config = URLSessionConfiguration.default
-        return URLSession(configuration: config)
-    }()
+    
+    private let session = URLSession(configuration: .default)
 }
 
 extension Request {
@@ -42,10 +18,7 @@ extension Request {
     func request<T: Encodable>(req: RequestSet,
                                header: [String: String]? = nil,
                                param: T,
-                               completion: @escaping (Model?, Error?) -> Void) {
-        
-        //MARK: Request Set Up
-        
+                               completion: @escaping (Model?, _ created: Bool, Error?) -> Void) {
         var urlComponents: URLComponents = {
             var components = URLComponents()
             components.scheme = Path.scheme.rawValue
@@ -54,7 +27,7 @@ extension Request {
             return components
         }()
         guard let requestURL = urlComponents.url else {
-            completion(nil, ResponseError.unknown)
+            completion(nil, false, ResponseError.unknown)
             return
         }
         
@@ -69,96 +42,94 @@ extension Request {
         }
         
         switch req.method {
-        case HTTPMethod.get:
-            if let queryParams = param as? [String: String] {
+        case .get, .delete:
+            if let queryParams = param as? [String: Any] {
                 urlComponents.queryItems = queryParams.map({ (key, value) -> URLQueryItem in
-                    URLQueryItem(name: key, value: value)
+                    URLQueryItem(name: key, value: "\(value)")
                 })
             }
             guard let requestURL = urlComponents.url else {
-                completion(nil, ResponseError.unknown)
+                completion(nil, false, ResponseError.unknown)
                 return
             }
             request.url = requestURL
             
-        case HTTPMethod.post:
-            if request.value(forHTTPHeaderField: "Content-Type")?.contains("multipart/form-data") ?? false {
-                request.httpBody = param as? Data
-            } else {
-                let encoder = JSONEncoder()
-                encoder.dateEncodingStrategy = .iso8601
-                guard let httpBody = try? encoder.encode(param) else {
-                    completion(nil, ResponseError.unknown)
-                    return
-                }
-                request.httpBody = httpBody
+        case .post:
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            guard let httpBody = try? encoder.encode(param) else {
+                completion(nil, false, ResponseError.unknown)
+                return
             }
+            request.httpBody = httpBody
         }
         
-        //MARK: Data Task
-
         let dataTask = session.dataTask(with: request) { (data, response, error) in
             if let error = error {
-                completion(nil, error)
+                completion(nil, false, error)
             }
+            
             guard let data = data,
-                let response = response as? HTTPURLResponse else {
-                completion(nil, ResponseError.unknown)
+                  let response = response as? HTTPURLResponse else {
+                completion(nil, false, ResponseError.unknown)
                 return
             }
             
-            if response.statusCode < 200 || 299 < response.statusCode {
+            switch response.statusCode {
+            case ResponseCode.success.rawValue:
+                guard let result = try? JSONDecoder().decode(Model.self, from: data) else {
+                    completion(nil, false, ResponseError.unknown)
+                    return
+                }
+                completion(result, false, nil)
+                
+            case ResponseCode.created.rawValue:
+                completion(nil, true, nil)
+                
+            default:
                 guard let failResult = try? JSONDecoder().decode(ServerError.self, from: data) else {
-                    completion(nil, ResponseError.unknown)
+                    completion(nil, false, ResponseError.unknown)
                     return
                 }
                 
                 if failResult.code == ErrorCode.expiredToken.rawValue {
-                    RenewalToken().request { (success, error) in
+                    RenewalToken().request { (result, error) in
                         if let error = error {
-                            completion(nil, error)
+                            completion(nil, false, error)
                             return
                         }
-                        if let success = success {
+                        if let success = result {
                             if success {
                                 KeychainService.extractKeyChainToken { (accessToken, _, error) in
                                     if let error = error {
-                                        completion(nil, error)
+                                        completion(nil, false, error)
                                     }
                                     guard let accessToken = accessToken,
-                                        var renewalHeader = header else {
+                                          var renewalHeader = header else {
                                         return
                                     }
                                     renewalHeader.updateValue(accessToken, forKey: RequestHeader.accessToken.rawValue)
-                                
+                                    
                                     Request<Model>().request(req: req,
                                                              header: renewalHeader,
-                                                             param: param) { (result, error) in
+                                                             param: param) { (result, created, error)  in
                                         if let error = error {
-                                            completion(nil, error)
+                                            completion(nil, false, error)
                                         }
                                         guard let result = result else {
                                             return
                                         }
-                                        completion(result, nil)
+                                        completion(result, created, nil)
                                     }
                                 }
                             } else {
                                 NavigationControl().popToRootViewController()
-                                completion(nil, nil)
+                                completion(nil, false, nil)
                                 return
                             }
                         }
                     }
                 }
-            } else if response.statusCode == 201 {
-                completion(nil, nil)
-            } else {
-                guard let result = try? JSONDecoder().decode(Model.self, from: data) else {
-                    completion(nil, ResponseError.unknown)
-                    return
-                }
-                completion(result, nil)
             }
         }
         dataTask.resume()

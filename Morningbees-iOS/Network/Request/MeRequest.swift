@@ -1,22 +1,19 @@
 //
-//  WithdrawalRequest.swift
+//  MeRequest.swift
 //  Morningbees-iOS
 //
-//  Created by Byeongjo Koo on 2020/11/11.
-//  Copyright © 2020 THRAGOO. All rights reserved.
+//  Created by Byeongjo Koo on 2020/04/02.
+//  Copyright © 2020 JUN LEE. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-final class WithdrawalAPI {
-}
+final class MeAPI {
 
-extension WithdrawalAPI {
-    
     func request(completion: @escaping (Bool?, Error?) -> Void) {
-        let reqModel = WithdrawalModel()
+        let reqModel = MeModel()
         let request = RequestSet(method: reqModel.method, path: reqModel.path)
-        let withdrawalRequest = Request<Withdrawal>()
+        let meRequest = Request<Me>()
         KeychainService.extractKeyChainToken { (accessToken, _, error) in
             if let error = error {
                 print(error.localizedDescription)
@@ -25,12 +22,15 @@ extension WithdrawalAPI {
                 return
             }
             let headers: [String: String] = [RequestHeader.accessToken.rawValue: accessToken]
-            withdrawalRequest.request(req: request, header: headers, param: "") { (_, error) in
+            meRequest.request(req: request, header: headers, param: "") { (me, _, error) in
                 if let error = error {
                     completion(nil, error)
                 }
-                UserDefaults.standard.removeObject(forKey: "beeID")
-                completion(true, nil)
+                guard let me = me else {
+                    return
+                }
+                UserDefaults.standard.set(me.beeId, forKey: "beeID")
+                completion(me.alreadyJoin, nil)
             }
         }
     }

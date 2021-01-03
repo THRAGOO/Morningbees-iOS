@@ -32,7 +32,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        //MARK: Swizzle
+        // MARK: Swizzle
 
         UIViewController.swizzle
 
@@ -104,7 +104,7 @@ extension AppDelegate: GIDSignInDelegate {
             "provider": SignInProvider.google.rawValue
         ]
         let signInReq = Request<SignIn>()
-        signInReq.request(req: request, param: param) { (signIn, error)  in
+        signInReq.request(req: request, param: param) { (signIn, _, error)  in
             if let error = error {
                 signInViewController.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
             }
