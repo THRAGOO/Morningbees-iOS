@@ -140,7 +140,7 @@ extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
         let param: [String: String] = ["socialAccessToken": accessToken,
                                        "provider": SignInProvider.naver.rawValue]
         let signInReq = Request<SignIn>()
-        signInReq.request(req: request, param: param) { (signIn, error)  in
+        signInReq.request(req: request, param: param) { (signIn, _, error)  in
             if let error = error {
                 self.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
             }
@@ -247,7 +247,7 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
         let param: [String: String] = ["socialAccessToken": accessToken,
                                        "provider": SignInProvider.apple.rawValue]
         let signInReq = Request<SignIn>()
-        signInReq.request(req: request, param: param) { (signIn, error)  in
+        signInReq.request(req: request, param: param) { (signIn, _, error)  in
             if let error = error {
                 print(error.localizedDescription)
             }

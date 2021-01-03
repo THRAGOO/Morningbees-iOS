@@ -144,7 +144,7 @@ extension SignUpViewController: CustomAlert {
         let request = RequestSet(method: reqModel.method,
                                  path: reqModel.path)
         let validNick = Request<ValidNickname>()
-        validNick.request(req: request, param: ["nickname": nickname]) { (validNickname, error) in
+        validNick.request(req: request, param: ["nickname": nickname]) { (validNickname, _, error) in
             DispatchQueue.main.async {
                 guard let error = error else {
                     guard let validNickname = validNickname else {
@@ -249,7 +249,7 @@ extension SignUpViewController {
                                        "provider": provider,
                                        "nickname": nickname]
         let signUpReq = Request<SignUp>()
-        signUpReq.request(req: request, param: param) { (signUp, error)  in
+        signUpReq.request(req: request, param: param) { (signUp, _, error)  in
             if let error = error {
                 self.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
             }
