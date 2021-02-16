@@ -8,6 +8,12 @@
 
 import Foundation
 
+enum ViewPresentPeriod {
+    case past
+    case today
+    case tomorrow
+}
+
 struct MainModel: RequestModel {
     typealias ModelType = Main
     var method: HTTPMethod = .get
@@ -16,12 +22,13 @@ struct MainModel: RequestModel {
 
 struct Main: Codable {
     let missions: [Missions]
-    let beeInfos: [BeeInfos]
+    let beeInfo: BeeInfos
 }
 
 struct Missions: Codable {
-    let missionID: Int
-    let imageURL: String
+    let missionId: Int
+    let missionTitle: String
+    let imageUrl: String
     let nickname: String
     let type: Int
     let difficulty: Int
@@ -31,14 +38,21 @@ struct Missions: Codable {
 }
 
 struct BeeInfos: Codable {
-    let totalPenalty: Int
+    let title: String
     let memberCounts: Int
-    let todayQuestioner: String
-    let todayDifficulty: Int
+    let totalPenalty: Int
+    let todayDifficulty: Int?
     let startTime: Int
     let endTime: Int
-    let title: String
-    let nextQuestioner: String
+    let manager: Profile
+    let todayQuestioner: Profile
+    let nextQuestioner: Profile
+}
+
+struct Profile: Codable {
+    let id: Int
+    let nickname: String
+    let profileImage: String
 }
 
 struct MainParameter: Codable {
