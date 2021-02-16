@@ -12,19 +12,14 @@
 		7254BF4F23B658C00036D24D /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7254BF4E23B658C00036D24D /* UIViewController+Extension.swift */; };
 		7279EF84236EC61D005ECC81 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7279EF83236EC61D005ECC81 /* AppDelegate.swift */; };
 		7279EF86236EC61D005ECC81 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7279EF85236EC61D005ECC81 /* SceneDelegate.swift */; };
-		7279EF88236EC61D005ECC81 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7279EF87236EC61D005ECC81 /* SignInViewController.swift */; };
 		7279EF8B236EC61D005ECC81 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7279EF89236EC61D005ECC81 /* Main.storyboard */; };
 		7279EF8D236EC623005ECC81 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7279EF8C236EC623005ECC81 /* Assets.xcassets */; };
 		7279EF90236EC623005ECC81 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7279EF8E236EC623005ECC81 /* LaunchScreen.storyboard */; };
 		9E46418B517975FCF9F59839 /* Pods_Morningbees_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC602B95F8C685C67F327E52 /* Pods_Morningbees_iOS.framework */; };
-		B00115EF2387DAD9003A5E83 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00115EE2387DAD9003A5E83 /* SignUpViewController.swift */; };
-		B020492423D73E2F00B41003 /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B020492323D73E2F00B41003 /* SignIn.swift */; };
-		B0449EAB23B5D41E0079D816 /* VaildNickname.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0449EAA23B5D41E0079D816 /* VaildNickname.swift */; };
 		B0747AAC23AA642C00100858 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0747AAB23AA642C00100858 /* NetworkRequest.swift */; };
 		B08EB50E23BB124300FE411F /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B08EB50D23BB124300FE411F /* ServerError.swift */; };
 		B0B3CDBA23FA42BF00CF4200 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B3CDB923FA42BF00CF4200 /* KeychainService.swift */; };
 		B0CC67AD23C9958C0083A012 /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC67AC23C9958C0083A012 /* CustomAlert.swift */; };
-		B0CC882C23F6A33500B3131E /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC882B23F6A33500B3131E /* SignUp.swift */; };
 		B0CC882F23F81B8700B3131E /* KeychainItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC882E23F81B8700B3131E /* KeychainItems.swift */; };
 		B0CC883323F827DD00B3131E /* BeeMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC883223F827DD00B3131E /* BeeMainViewController.swift */; };
 		CE432C212390098F0005F257 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE432C202390098F0005F257 /* UIApplication+Extension.swift */; };
@@ -65,20 +60,15 @@
 		7279EF80236EC61D005ECC81 /* Morningbees.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Morningbees.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7279EF83236EC61D005ECC81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7279EF85236EC61D005ECC81 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		7279EF87236EC61D005ECC81 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		7279EF8A236EC61D005ECC81 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7279EF8C236EC623005ECC81 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7279EF8F236EC623005ECC81 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7279EF91236EC623005ECC81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A7C7C03D1A2BA2C05EFF387E /* Pods-Morningbees-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morningbees-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Morningbees-iOS/Pods-Morningbees-iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		B00115EE2387DAD9003A5E83 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
-		B020492323D73E2F00B41003 /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
-		B0449EAA23B5D41E0079D816 /* VaildNickname.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaildNickname.swift; sourceTree = "<group>"; };
 		B0747AAB23AA642C00100858 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		B08EB50D23BB124300FE411F /* ServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
 		B0B3CDB923FA42BF00CF4200 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		B0CC67AC23C9958C0083A012 /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
-		B0CC882B23F6A33500B3131E /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
 		B0CC882E23F81B8700B3131E /* KeychainItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItems.swift; sourceTree = "<group>"; };
 		B0CC883223F827DD00B3131E /* BeeMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeMainViewController.swift; sourceTree = "<group>"; };
 		CE432C202390098F0005F257 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
@@ -178,7 +168,6 @@
 				D5AEB5B52465D5FF0084831E /* MissionCreate */,
 				D5B2D1FA244324FE001C2466 /* NavigationControl */,
 				B0747AAA23AA63CF00100858 /* Network */,
-				CE432C2223900DFE0005F257 /* SignIn */,
 				7279EF8C236EC623005ECC81 /* Assets.xcassets */,
 				7279EF89236EC61D005ECC81 /* Main.storyboard */,
 				7279EF8E236EC623005ECC81 /* LaunchScreen.storyboard */,
@@ -206,15 +195,6 @@
 				D5B2D1FF24437807001C2466 /* NetworkItem.swift */,
 			);
 			path = Network;
-			sourceTree = "<group>";
-		};
-		B078DFCE2389835700B31DBB /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				7279EF87236EC61D005ECC81 /* SignInViewController.swift */,
-				B00115EE2387DAD9003A5E83 /* SignUpViewController.swift */,
-			);
-			path = ViewController;
 			sourceTree = "<group>";
 		};
 		B0CC882D23F81B6C00B3131E /* Keychain */ = {
@@ -254,15 +234,6 @@
 				B0CC67AC23C9958C0083A012 /* CustomAlert.swift */,
 			);
 			path = Common;
-			sourceTree = "<group>";
-		};
-		CE432C2223900DFE0005F257 /* SignIn */ = {
-			isa = PBXGroup;
-			children = (
-				D5AEB5AF246547980084831E /* Model */,
-				B078DFCE2389835700B31DBB /* ViewController */,
-			);
-			path = SignIn;
 			sourceTree = "<group>";
 		};
 		CE432C2323900E170005F257 /* Extension */ = {
@@ -334,16 +305,6 @@
 				D57B830B2405A761001DB1FF /* ViewDesign.swift */,
 			);
 			path = Design;
-			sourceTree = "<group>";
-		};
-		D5AEB5AF246547980084831E /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				B020492323D73E2F00B41003 /* SignIn.swift */,
-				B0CC882B23F6A33500B3131E /* SignUp.swift */,
-				B0449EAA23B5D41E0079D816 /* VaildNickname.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		D5AEB5B0246548E10084831E /* Model */ = {
@@ -573,15 +534,12 @@
 				D5337C1424445C6700D7A079 /* BeeCreateNameViewController.swift in Sources */,
 				D5337C18244469E300D7A079 /* BeeCreateJellyViewController.swift in Sources */,
 				D51ACDF125A0532D004EA696 /* MultipartFormdataRequest.swift in Sources */,
-				7279EF88236EC61D005ECC81 /* SignInViewController.swift in Sources */,
 				7254BF4B23A913940036D24D /* Logger.swift in Sources */,
 				D56F18FE255C0B9C0049DF5D /* Withdrawal.swift in Sources */,
 				7279EF84236EC61D005ECC81 /* AppDelegate.swift in Sources */,
 				D50C18F424F65D48008155F3 /* MemberViewController.swift in Sources */,
 				D5AEB5B92465D63A0084831E /* MissionCreateViewController.swift in Sources */,
 				B0CC67AD23C9958C0083A012 /* CustomAlert.swift in Sources */,
-				B020492423D73E2F00B41003 /* SignIn.swift in Sources */,
-				B00115EF2387DAD9003A5E83 /* SignUpViewController.swift in Sources */,
 				D5E50AB9246EB8AA003E8AB7 /* MissionCreate.swift in Sources */,
 				D5AEB5B424654EC80084831E /* Main.swift in Sources */,
 				7254BF4F23B658C00036D24D /* UIViewController+Extension.swift in Sources */,
@@ -595,7 +553,6 @@
 				D527AE8324DD691000849EDB /* CalendarViewController.swift in Sources */,
 				D5D3DA2C2427644800EFB04B /* Renewal.swift in Sources */,
 				D5B2D1FE244326C7001C2466 /* NavigationControl.swift in Sources */,
-				B0CC882C23F6A33500B3131E /* SignUp.swift in Sources */,
 				B0B3CDBA23FA42BF00CF4200 /* KeychainService.swift in Sources */,
 				D5D9919C2438C7BE00BEFEE8 /* MeRequest.swift in Sources */,
 				D51951B92434D69100A61CA3 /* BeforeJoinViewController.swift in Sources */,
@@ -603,7 +560,6 @@
 				D5D3DA2A2427623500EFB04B /* RenewalRequest.swift in Sources */,
 				D526E526244886A500892387 /* CreateBee.swift in Sources */,
 				D56F18FB255C0B320049DF5D /* WithdrawalRequest.swift in Sources */,
-				B0449EAB23B5D41E0079D816 /* VaildNickname.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
