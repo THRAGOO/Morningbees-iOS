@@ -89,6 +89,7 @@ PODS:
   - Kingfisher (5.15.8):
     - Kingfisher/Core (= 5.15.8)
   - Kingfisher/Core (5.15.8)
+  - lottie-ios (3.1.9)
   - nanopb (2.30906.0):
     - nanopb/decode (= 2.30906.0)
     - nanopb/encode (= 2.30906.0)
@@ -106,6 +107,7 @@ DEPENDENCIES:
   - Firebase/DynamicLinks
   - GoogleSignIn
   - Kingfisher (~> 5.0)
+  - lottie-ios
   - naveridlogin-sdk-ios
   - SnapKit (~> 5.0.0)
   - SwiftLint
@@ -128,6 +130,7 @@ SPEC REPOS:
     - GTMAppAuth
     - GTMSessionFetcher
     - Kingfisher
+    - lottie-ios
     - nanopb
     - naveridlogin-sdk-ios
     - PromisesObjC
@@ -151,6 +154,7 @@ SPEC CHECKSUMS:
   GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   Kingfisher: a3c03d702433fa6cfedabb2bddbe076fb8f2e902
+  lottie-ios: 3a3758ef5a008e762faec9c9d50a39842f26d124
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
   naveridlogin-sdk-ios: b9d7c20677981177ed994ecb1c8c2b49f223277d
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
@@ -158,6 +162,6 @@ SPEC CHECKSUMS:
   SwiftLint: 4fa9579c63416865179bc416f0a92d55f009600d
   SwiftyBeaver: 2e8acd6fc90c6d0a27055867a290794926d57c02
 
-PODFILE CHECKSUM: 27dbf23ed6cb6dbf1de59ea0f427d0a2a557c531
+PODFILE CHECKSUM: 1f2d5adf7f998226ec2e27ea7c4da525f5eba265
 
 COCOAPODS: 1.10.0
