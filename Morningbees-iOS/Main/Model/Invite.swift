@@ -9,6 +9,6 @@
 import Foundation
 
 struct Invite: Codable {
-    let beeID: Int
+    let beeId: Int
     let title: String
 }
