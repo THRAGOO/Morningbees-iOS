@@ -12,129 +12,175 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
     
 // MARK:- Properties
     
+<<<<<<< Updated upstream
+=======
+    private var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.color = .white
+        indicator.style = .large
+        indicator.backgroundColor = .black
+        indicator.alpha = 0.5
+        return indicator
+    }()
+    private let activityIndicatorImageView = UIImageView(imageName: "illustErrorPage")
+    private let activityIndicatorDescriptionLabel: UILabel = {
+        let label = UILabel(text: "미션 생성 요청 중...", letterSpacing: 0)
+        label.textColor = .white
+        label.font = UIFont(font: .systemBold, size: 24)
+        return label
+    }()
+    
+>>>>>>> Stashed changes
     private let toPreviousButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "arrowLeft"), for: .normal)
-        button.addTarget(self, action: #selector(popToPrevious), for: .touchUpInside)
+        button.addTarget(self, action: #selector(popToPreviousViewController), for: .touchUpInside)
         return button
     }()
     private let viewTitleLabel: UILabel = {
-        let label = DesignSet.initLabel(text: "미션 등록", letterSpacing: -0.3)
-        label.font = DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue, size: 17)
-        label.textColor = DesignSet.colorSet(red: 34, green: 34, blue: 34)
+        let label = UILabel(text: "미션 등록", letterSpacing: -0.3)
+        label.textColor = UIColor(red: 34, green: 34, blue: 34)
+        label.font = UIFont(font: .systemSemiBold, size: 17)
         label.textAlignment = .center
         return label
     }()
     private let completeButton: UIButton = {
         let button = UIButton()
-        button.isEnabled = false
         button.setTitle("완료", for: .normal)
-        button.titleLabel?.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 17)
-        button.setTitleColor(DesignSet.colorSet(red: 246, green: 205, blue: 0), for: .normal)
-        button.setTitleColor(DesignSet.colorSet(red: 204, green: 204, blue: 204), for: .disabled)
-        button.addTarget(self, action: #selector(missionCreateRequest), for: .touchUpInside)
+        button.setTitleColor(UIColor(red: 246, green: 205, blue: 0), for: .normal)
+        button.setTitleColor(UIColor(red: 204, green: 204, blue: 204), for: .disabled)
+        button.titleLabel?.font = UIFont(font: .systemBold, size: 17)
+        button.addTarget(self, action: #selector(requestMissionCreate), for: .touchUpInside)
+        button.isEnabled = false
         return button
-    }()
-    
-    private let missionTitleCommentLabel: UILabel = {
-        let label = DesignSet.initLabel(text: "타이틀", letterSpacing: -0.6)
-        label.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 15)
-        label.textColor = DesignSet.colorSet(red: 119, green: 119, blue: 119)
-        return label
-    }()
-    private let missionTitleTextField: UITextField = {
-        let textField = UITextField()
-        textField.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 17)
-        textField.textColor = DesignSet.colorSet(red: 68, green: 68, blue: 68)
-        return textField
     }()
     private let bottomlineView: UIView = {
         let view = UIView()
         view.layer.borderWidth = 0.5
-        view.layer.borderColor = DesignSet.colorSet(red: 211, green: 211, blue: 211).cgColor
+        view.layer.borderColor = UIColor(red: 229, green: 229, blue: 229).cgColor
         return view
     }()
     
-    private let missionPictureCommentLabel: UILabel = {
-        let label = DesignSet.initLabel(text: "사진 업로드", letterSpacing: -0.6)
-        label.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 15)
-        label.textColor = DesignSet.colorSet(red: 119, green: 119, blue: 119)
+    private let missionTitleDescriptionLabel: UILabel = {
+        let label = UILabel(text: "소개", letterSpacing: -0.6)
+        label.textColor = UIColor(red: 119, green: 119, blue: 119)
+        label.font = UIFont(font: .systemBold, size: 15)
         return label
     }()
-    private let takePictureButton: UIButton = {
+    private let missionDescriptionTextField: UITextField = {
+        let textField = UITextField()
+        textField.textColor = UIColor(red: 68, green: 68, blue: 68)
+        textField.font = UIFont(font: .systemMedium, size: 17)
+        textField.placeholder = "2~12자 이내로 입력해 주세요."
+        textField.addTarget(self, action: #selector(limitTextFieldLength), for: .editingChanged)
+        return textField
+    }()
+    private let textFieldBottomlineView: UIView = {
+        let view = UIView()
+        view.layer.borderWidth = 0.5
+        view.layer.borderColor = UIColor(red: 229, green: 229, blue: 229).cgColor
+        return view
+    }()
+    
+    private let missionPhotoDescriptionLabel: UILabel = {
+        let label = UILabel(text: "사진 업로드", letterSpacing: -0.6)
+        label.textColor = UIColor(red: 119, green: 119, blue: 119)
+        label.font = UIFont(font: .systemBold, size: 15)
+        return label
+    }()
+    private let takeFromCameraButton: UIButton = {
         let button = UIButton()
+        button.setImage(UIImage(named: "iconCamera"), for: .normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 50, bottom: 40, right: 0)
         button.setTitle("사진찍기", for: .normal)
-        button.titleLabel?.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 15)
-        button.setTitleColor(DesignSet.colorSet(red: 170, green: 170, blue: 170), for: .normal)
-        button.backgroundColor = DesignSet.colorSet(red: 250, green: 250, blue: 250)
-        button.layer.cornerRadius = 18
-        button.addTarget(self, action: #selector(selectImageFromCamera), for: .touchUpInside)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont(font: .systemBold, size: 15)
+        button.titleEdgeInsets = UIEdgeInsets(top: 40, left: 0, bottom: 0, right: 23)
+        button.backgroundColor = UIColor(red: 238, green: 238, blue: 238)
+        button.alpha = 0.3
+        button.setRatioCornerRadius(18)
+        button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(takePhotoFromCamera), for: .touchUpInside)
         return button
     }()
-    private let selectFromGalleryButton: UIButton = {
+    private let takeFromGalleryButton: UIButton = {
         let button = UIButton()
-        button.setTitle("갤러리에서\n" + "가져오기", for: .normal)
-        button.titleLabel?.numberOfLines = 2
+        button.setImage(UIImage(named: "iconPhoto"), for: .normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 60, bottom: 40, right: 0)
+        button.setTitle("갤러리에서\n가져오기", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont(font: .systemBold, size: 15)
         button.titleLabel?.textAlignment = .center
-        button.titleLabel?.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 15)
-        button.setTitleColor(DesignSet.colorSet(red: 170, green: 170, blue: 170), for: .normal)
-        button.backgroundColor = DesignSet.colorSet(red: 250, green: 250, blue: 250)
-        button.layer.cornerRadius = 18
-        button.addTarget(self, action: #selector(selectImageFromLibary), for: .touchUpInside)
+        button.titleLabel?.numberOfLines = 2
+        button.titleEdgeInsets = UIEdgeInsets(top: 40, left: 0, bottom: 0, right: 25)
+        button.backgroundColor = UIColor(red: 238, green: 238, blue: 238)
+        button.alpha = 0.3
+        button.setRatioCornerRadius(18)
+        button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(takePhotoFromLibary), for: .touchUpInside)
         return button
     }()
     private let selectedPictureView: UIImageView = {
         let imageView = UIImageView()
-        imageView.layer.cornerRadius = 18
-        imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
+        imageView.setRatioCornerRadius(18)
+        imageView.layer.masksToBounds = true
         imageView.isHidden = true
         return imageView
     }()
-    private let reloadIcon: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "iconReload")
-        imageView.contentMode = .scaleAspectFill
-        imageView.alpha = 0.3
-        imageView.isHidden = true
-        return imageView
-    }()
-    private let reloadPictureButton: UIButton = {
+    private let reloadPhotoButton: UIButton = {
         let button = UIButton()
+        button.setImage(UIImage(named: "iconReload"), for: .normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 5)
         button.setTitle("다시 올리기", for: .normal)
-        button.setTitleColor(DesignSet.colorSet(red: 170, green: 170, blue: 170), for: .normal)
-        button.titleLabel?.font = DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue, size: 14)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont(font: .systemSemiBold, size: 14)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
         button.addTarget(self, action: #selector(touchUpReloadButton), for: .touchUpInside)
+        button.alpha = 0.3
         button.isHidden = true
         return button
     }()
     
-    private let difficultyCommentLabel: UILabel = {
-        let label = DesignSet.initLabel(text: "난이도 설정", letterSpacing: -0.6)
-        label.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 15)
-        label.textColor = DesignSet.colorSet(red: 119, green: 119, blue: 119)
+    private let difficultyDescriptionLabel: UILabel = {
+        let label = UILabel(text: "난이도 설정", letterSpacing: -0.6)
+        label.textColor = UIColor(red: 119, green: 119, blue: 119)
+        label.font = UIFont(font: .systemBold, size: 15)
         return label
     }()
-    private let difficultyDescriptionLabel: UILabel = {
-        let label = DesignSet.initLabel(text: "설정값에 따라 벌금 액수가 달라집니다.", letterSpacing: -0.3)
-        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 13)
-        label.textColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
+    private let difficultyDescriptionDetailLabel: UILabel = {
+        let label = UILabel(text: "설정값에 따라 벌금 액수가 달라집니다.", letterSpacing: -0.3)
+        label.textColor = UIColor(red: 170, green: 170, blue: 170)
+        label.font = UIFont(font: .systemMedium, size: 13)
         return label
     }()
     private let customSegmentedControl: UIView = {
         let view = UIView()
-        view.backgroundColor = DesignSet.colorSet(red: 242, green: 242, blue: 242)
+        view.backgroundColor = .white
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor(red: 242, green: 242, blue: 242).cgColor
         view.layer.cornerRadius = 18
         return view
     }()
-    
     private var difficultyButtons = [UIButton]()
     private var selector: UIView = {
         let view = UIView()
-        view.backgroundColor = DesignSet.colorSet(red: 255, green: 218, blue: 34)
+        view.backgroundColor = UIColor(red: 255, green: 218, blue: 34)
+        view.setRatioCornerRadius(18)
+        view.layer.shadowColor = UIColor(red: 255, green: 212, blue: 104).cgColor
+        view.layer.shadowOpacity = 0.56
+        view.layer.shadowOffset = CGSize(width: 0, height: 7)
+        view.layer.shadowRadius = 18
         view.isHidden = true
-        view.layer.cornerRadius = 18
         return view
+    }()
+    
+    private let dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.timeZone = .current
+        dateFormatter.locale = .current
+        return dateFormatter
     }()
     
     private var imageName: String = ""
@@ -148,9 +194,14 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupDesign()
+        missionDescriptionTextField.delegate = self
+        setLayout()
         setupCustomSegmentedControlView()
-        missionTitleTextField.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
 }
 
@@ -158,8 +209,8 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
 
 extension MissionCreateViewController {
     
-    @objc private func popToPrevious(_ sender: UIButton) {
-        NavigationControl().popToPrevViewController()
+    @objc private func popToPreviousViewController(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
     }
 }
 
@@ -167,43 +218,71 @@ extension MissionCreateViewController {
 
 extension MissionCreateViewController {
     
-    @objc private func missionCreateRequest() {
-        let beeID = UserDefaults.standard.integer(forKey: "beeID")
-        let missionData = ["beeId": "\(beeID)",
-                           "description": "test",
-                           "type": "1",
-                           "difficulty": "\(self.difficulty)"]
-        guard let image = selectedPictureView.image,
-              let imageData = image.jpegData(compressionQuality: 0.1) else {
+    @objc private func requestMissionCreate() {
+        activityIndicator.startAnimating()
+        let requestModel = MissionCreateModel()
+        let requestSet = RequestSet(method: requestModel.method, path: requestModel.path)
+        let beeId = UserDefaults.standard.integer(forKey: UserDefaultsKey.beeId.rawValue)
+        guard let targetDate = UserDefaults.standard.object(forKey: UserDefaultsKey.targetDate.rawValue) as? Date,
+              let description = missionDescriptionTextField.text,
+              let image = selectedPictureView.image,
+              let imageData = image.jpegData(compressionQuality: 0.5) else {
+            activityIndicator.stopAnimating()
+            presentConfirmAlert(title: "미션 생성 요청 에러!", message: "")
             return
         }
-        
-        KeychainService.extractKeyChainToken { (accessToken, _, error) in
+        let targetDateString = dateFormatter.string(from: targetDate)
+        let parameter = ["beeId": "\(beeId)",
+                         "description": description,
+                         "type": "1",
+                         "difficulty": "\(difficulty)",
+                         "targetDate": targetDateString]
+        KeychainService.extractKeyChainToken { [self] (accessToken, _, error) in
             if let error = error {
-                self.presentOneButtonAlert(title: "Token Error", message: error.localizedDescription)
-            }
-            guard let accessToken = accessToken else {
+                DispatchQueue.main.async {
+                    activityIndicator.stopAnimating()
+                }
+                presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
                 return
             }
-            
-            let requestSet = RequestSet(method: .post, path: .missionCreate)
+            guard let accessToken = accessToken else {
+                DispatchQueue.main.async {
+                    activityIndicator.stopAnimating()
+                }
+                presentConfirmAlert(title: "토큰 에러!", message: "")
+                return
+            }
             let header = [RequestHeader.accessToken.rawValue: accessToken]
+<<<<<<< Updated upstream
             
             MultipartFormdataRequest().request(parameters: missionData,
                                                imageData: imageData,
                                                requestSet: requestSet,
                                                header: header) { (created, error) in
+=======
+            MultipartFormdataRequest().request(parameters: parameter,
+                                               imageData: imageData,
+                                               requestSet: requestSet,
+                                               header: header) { (created, error) in
+                DispatchQueue.main.async {
+                    activityIndicator.stopAnimating()
+                }
+>>>>>>> Stashed changes
                 if let error = error {
-                    self.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
+                    presentConfirmAlert(title: "미션 생성 요청 에러!", message: error.localizedDescription)
+                    return
                 }
                 if created {
-                    self.presentOneButtonAlert(title: "Success!", message: "Successfully Created Mission!") {
-                        NavigationControl().popToPrevViewController()
+                    presentConfirmAlert(title: "미션 등록!", message: "성공적으로 등록하였습니다!") { _ in
+                        NotificationCenter.default.post(name: Notification.Name.init("ReloadViewController"),
+                                                        object: nil)
+                        navigationController?.popViewController(animated: true)
                     }
                 } else {
-                    self.presentOneButtonAlert(title: "Failed!",
-                                               message: "Mission already created or Something went wrong!") {
-                        NavigationControl().popToPrevViewController()
+                    presentConfirmAlert(title: "미션 등록!", message: "등록에 실패하였습니다!" ) { _ in
+                        NotificationCenter.default.post(name: Notification.Name.init("ReloadViewController"),
+                                                        object: nil)
+                        navigationController?.popViewController(animated: true)
                     }
                 }
             }
@@ -215,12 +294,8 @@ extension MissionCreateViewController {
 
 extension MissionCreateViewController {
     
-    private func completeButtonControl() {
-        if isTitleSet && isPictureSet && isDifficulltySet {
-            completeButton.isEnabled = true
-        } else {
-            completeButton.isEnabled = false
-        }
+    private func controlCompleteButton() {
+        completeButton.isEnabled = isTitleSet && isPictureSet && isDifficulltySet
     }
 }
 
@@ -229,16 +304,26 @@ extension MissionCreateViewController {
 extension MissionCreateViewController: UITextFieldDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        missionTitleTextField.endEditing(true)
+        missionDescriptionTextField.endEditing(true)
     }
     
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        if missionTitleTextField.text != "" {
-            isTitleSet = true
-            completeButtonControl()
-        } else {
-            isTitleSet = false
-            completeButtonControl()
+    public func textField(_ textField: UITextField,
+                          shouldChangeCharactersIn range: NSRange,
+                          replacementString string: String) -> Bool {
+        return true
+    }
+    
+    public func textFieldDidChangeSelection(_ textField: UITextField) {
+        isTitleSet = 1 < missionDescriptionTextField.text?.count ?? 0
+        controlCompleteButton()
+    }
+    
+    @objc private func limitTextFieldLength(_ sender: UITextField) {
+        guard let text = sender.text else {
+            return
+        }
+        if 12 < text.count {
+            sender.text = String(text[..<text.index(text.startIndex, offsetBy: 12)])
         }
     }
 }
@@ -248,52 +333,53 @@ extension MissionCreateViewController: UITextFieldDelegate {
 extension MissionCreateViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     private func hideImagePickerSection(_ state: Bool) {
-        selectFromGalleryButton.isHidden = state
-        takePictureButton.isHidden = state
+        takeFromGalleryButton.isHidden = state
+        takeFromCameraButton.isHidden = state
         selectedPictureView.isHidden = !state
-        reloadPictureButton.isHidden = !state
-        reloadIcon.isHidden = !state
+        reloadPhotoButton.isHidden = !state
     }
     
-    @objc private func selectImageFromLibary() {
+    @objc private func takePhotoFromLibary() {
         let imagePickerController = UIImagePickerController()
-        imagePickerController.sourceType = .photoLibrary
         imagePickerController.delegate = self
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.allowsEditing = true
         present(imagePickerController, animated: true, completion: nil)
     }
     
-    @objc private func selectImageFromCamera() {
+    @objc private func takePhotoFromCamera() {
         let imagePickerController = UIImagePickerController()
-        imagePickerController.sourceType = .camera
         imagePickerController.delegate = self
+        imagePickerController.sourceType = .camera
+        imagePickerController.allowsEditing = true
         present(imagePickerController, animated: true, completion: nil)
     }
     
     internal func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         isPictureSet = false
         selectedPictureView.image = nil
-        completeButtonControl()
+        controlCompleteButton()
         dismiss(animated: true, completion: nil)
     }
     
     internal func imagePickerController(_ picker: UIImagePickerController,
                                         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        guard let selectedImage = info[.originalImage] as? UIImage else {
+        guard let selectedImage = info[.editedImage] as? UIImage else {
             fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
         }
 
         selectedPictureView.image = selectedImage
         isPictureSet = true
-        completeButtonControl()
+        controlCompleteButton()
         hideImagePickerSection(true)
         dismiss(animated: true, completion: nil)
     }
     
     @objc private func touchUpReloadButton(_ sender: UIButton) {
         hideImagePickerSection(false)
-        isPictureSet = false
         selectedPictureView.image = nil
-        completeButtonControl()
+        isPictureSet = false
+        controlCompleteButton()
     }
 }
 
@@ -306,11 +392,11 @@ extension MissionCreateViewController {
         button.setTitle(title, for: .normal)
         button.titleLabel?.numberOfLines = 2
         button.titleLabel?.font = .systemFont(ofSize: 16)
-        button.setTitleColor(DesignSet.colorSet(red: 204, green: 204, blue: 204), for: .normal)
-        button.setTitleColor(DesignSet.colorSet(red: 68, green: 68, blue: 68), for: .selected)
+        button.setTitleColor(UIColor(red: 204, green: 204, blue: 204), for: .normal)
+        button.setTitleColor(UIColor(red: 68, green: 68, blue: 68), for: .selected)
         button.tintColor = .clear
         button.titleLabel?.textAlignment = .center
-        button.addTarget(self, action: #selector(didSegControlTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapSegmentedControl), for: .touchUpInside)
         difficultyButtons.append(button)
     }
     
@@ -331,24 +417,24 @@ extension MissionCreateViewController {
         stackView.layer.zPosition = 2
     }
     
-    @objc private func didSegControlTapped(_ sender: UIButton) {
+    @objc private func didTapSegmentedControl(_ sender: UIButton) {
         guard let difficultyIndex = difficultyButtons.firstIndex(of: sender) else {
             return
         }
         difficulty = 2 - difficultyIndex
         isDifficulltySet = true
-        completeButtonControl()
-        for (buttonIndex, btn) in difficultyButtons.enumerated() {
-            btn.isSelected = false
-            if btn == sender {
-                btn.isSelected = true
+        controlCompleteButton()
+        for (buttonIndex, button) in difficultyButtons.enumerated() {
+            button.isSelected = false
+            if button == sender {
+                button.isSelected = true
                 let width = customSegmentedControl.frame.width
                 let selectorStartPosition = width / CGFloat(difficultyButtons.count) * CGFloat(buttonIndex)
                 if selector.isHidden {
                     selector.isHidden = false
                     self.selector.frame.origin.x = selectorStartPosition
                 }
-                UIView.animate(withDuration: 0.3, animations: {
+                UIView.animate(withDuration: 0.1, animations: {
                     self.selector.frame.origin.x = selectorStartPosition
                 })
             }
@@ -356,30 +442,142 @@ extension MissionCreateViewController {
     }
 }
 
-// MARK:- View Design
+// MARK:- Layout
 
 extension MissionCreateViewController {
     
+<<<<<<< Updated upstream
     private func setupDesign() {
+=======
+    private func setLayout() {
+        view.backgroundColor = .white
+        
+        view.addSubview(activityIndicator)
+        activityIndicator.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.height.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
+        activityIndicator.addSubview(activityIndicatorImageView)
+        activityIndicatorImageView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.height.equalTo(activityIndicator.snp.width)
+            $0.width.equalToSuperview()
+        }
+        activityIndicatorImageView.addSubview(activityIndicatorDescriptionLabel)
+        activityIndicatorDescriptionLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.height.equalTo(26 * DesignSet.frameHeightRatio)
+        }
+        
+>>>>>>> Stashed changes
         view.addSubview(toPreviousButton)
+        toPreviousButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(11 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.width.equalTo(12 * DesignSet.frameWidthRatio)
+        }
         view.addSubview(viewTitleLabel)
+        viewTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+        }
         view.addSubview(completeButton)
-        
-        view.addSubview(missionTitleCommentLabel)
-        view.addSubview(missionTitleTextField)
+        completeButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
+            $0.trailing.equalTo(-24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+        }
         view.addSubview(bottomlineView)
+        bottomlineView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(43 * DesignSet.frameHeightRatio)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(1)
+            $0.width.equalToSuperview()
+        }
         
-        view.addSubview(missionPictureCommentLabel)
-        view.addSubview(takePictureButton)
-        view.addSubview(selectFromGalleryButton)
+        view.addSubview(missionTitleDescriptionLabel)
+        missionTitleDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(71 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(19 * DesignSet.frameHeightRatio)
+        }
+        view.addSubview(missionDescriptionTextField)
+        missionDescriptionTextField.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(107 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+        }
+        view.addSubview(textFieldBottomlineView)
+        textFieldBottomlineView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(140 * DesignSet.frameHeightRatio)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(1)
+            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+        }
+        
+        view.addSubview(missionPhotoDescriptionLabel)
+        missionPhotoDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(195 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(19 * DesignSet.frameHeightRatio)
+        }
+        view.addSubview(takeFromCameraButton)
+        takeFromCameraButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(235 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(120 * DesignSet.frameHeightRatio)
+            $0.width.equalTo(153 * DesignSet.frameWidthRatio)
+        }
+        view.addSubview(takeFromGalleryButton)
+        takeFromGalleryButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(235 * DesignSet.frameHeightRatio)
+            $0.trailing.equalTo(-24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(120 * DesignSet.frameHeightRatio)
+            $0.width.equalTo(153 * DesignSet.frameWidthRatio)
+        }
         view.addSubview(selectedPictureView)
-        view.addSubview(reloadPictureButton)
-        view.addSubview(reloadIcon)
+        selectedPictureView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(235 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(120 * DesignSet.frameHeightRatio)
+            $0.width.equalTo(153 * DesignSet.frameWidthRatio)
+        }
+        view.addSubview(reloadPhotoButton)
+        reloadPhotoButton.snp.makeConstraints {
+            $0.bottom.equalTo(selectedPictureView.snp.bottom)
+            $0.leading.equalTo(selectedPictureView.snp.trailing).offset(15 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(18 * DesignSet.frameHeightRatio)
+            $0.width.equalTo(100 * DesignSet.frameWidthRatio)
+        }
         
-        view.addSubview(difficultyCommentLabel)
         view.addSubview(difficultyDescriptionLabel)
+        difficultyDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(418 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(19 * DesignSet.frameHeightRatio)
+        }
+        view.addSubview(difficultyDescriptionDetailLabel)
+        difficultyDescriptionDetailLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(443 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+        }
         view.addSubview(customSegmentedControl)
+        customSegmentedControl.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(477 * DesignSet.frameHeightRatio)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(96 * DesignSet.frameHeightRatio)
+            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+        }
         
+<<<<<<< Updated upstream
         DesignSet.constraints(view: toPreviousButton, top: 37, leading: 24, height: 20, width: 12)
         DesignSet.constraints(view: viewTitleLabel, top: 38, leading: 150, height: 20, width: 76)
         DesignSet.flexibleConstraints(view: completeButton, top: 38, leading: 319, height: 20, width: 35)
@@ -398,5 +596,8 @@ extension MissionCreateViewController {
         DesignSet.flexibleConstraints(view: difficultyCommentLabel, top: 439, leading: 24, height: 19, width: 66)
         DesignSet.flexibleConstraints(view: difficultyDescriptionLabel, top: 463, leading: 24, height: 16, width: 191)
         DesignSet.constraints(view: customSegmentedControl, top: 498, leading: 24, height: 96, width: 327)
+=======
+        activityIndicator.layer.zPosition = 1
+>>>>>>> Stashed changes
     }
 }
