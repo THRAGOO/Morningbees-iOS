@@ -8,6 +8,14 @@
 
 import Foundation
 
+enum NicknameValidationStatus {
+    case short
+    case invalidCharacter
+    case alreadyInUse
+    case possible
+    case get
+}
+
 struct SignUpModel: RequestModel {
     typealias ModelType = SignUp
     var method: HTTPMethod = .post
