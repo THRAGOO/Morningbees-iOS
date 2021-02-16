@@ -22,12 +22,15 @@ final class WithdrawalAPI {
                 return
             }
             let headers: [String: String] = [RequestHeader.accessToken.rawValue: accessToken]
-            withdrawalRequest.request(req: request, header: headers, param: "") { (_, _, error) in
-                if let error = error {
-                    completion(nil, error)
+            withdrawalRequest.request(request: request, header: headers, parameter: "") { (_, success, error) in
+                if success {
+                    UserDefaults.standard.removeObject(forKey: UserDefaultsKey.beeId.rawValue)
+                    completion(true, nil)
+                } else {
+                    if let error = error {
+                        completion(nil, error)
+                    }
                 }
-                UserDefaults.standard.removeObject(forKey: "beeID")
-                completion(true, nil)
             }
         }
     }

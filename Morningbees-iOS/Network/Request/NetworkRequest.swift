@@ -15,15 +15,18 @@ final class Request<Model> where Model: Decodable {
 
 extension Request {
     
-    func request<T: Encodable>(req: RequestSet,
+    func request<T: Encodable>(request: RequestSet,
                                header: [String: String]? = nil,
-                               param: T,
+                               parameter: T,
                                completion: @escaping (Model?, _ created: Bool, Error?) -> Void) {
         var urlComponents: URLComponents = {
             var components = URLComponents()
             components.scheme = Path.scheme.rawValue
             components.host = Path.host.rawValue
-            components.path = req.path.rawValue
+            let beeId = UserDefaults.standard.integer(forKey: UserDefaultsKey.beeId.rawValue)
+            let path = request.path.rawValue.replacingOccurrences(of: "{beeid}",
+                                                                  with: "\(beeId)")
+            components.path = path
             return components
         }()
         guard let requestURL = urlComponents.url else {
@@ -31,40 +34,40 @@ extension Request {
             return
         }
         
-        var request = URLRequest(url: requestURL)
-        request.httpMethod = req.method.rawValue
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        var urlRequest = URLRequest(url: requestURL)
+        urlRequest.httpMethod = request.method.rawValue
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
         if let headerParams = header {
             for header in headerParams {
-                request.setValue(header.value, forHTTPHeaderField: header.key)
+                urlRequest.setValue(header.value, forHTTPHeaderField: header.key)
             }
         }
         
-        switch req.method {
+        switch request.method {
         case .get, .delete:
-            if let queryParams = param as? [String: Any] {
+            if let queryParams = parameter as? [String: Any] {
                 urlComponents.queryItems = queryParams.map({ (key, value) -> URLQueryItem in
                     URLQueryItem(name: key, value: "\(value)")
                 })
             }
-            guard let requestURL = urlComponents.url else {
+            guard let requestUrl = urlComponents.url else {
                 completion(nil, false, ResponseError.unknown)
                 return
             }
-            request.url = requestURL
+            urlRequest.url = requestUrl
             
         case .post:
             let encoder = JSONEncoder()
             encoder.dateEncodingStrategy = .iso8601
-            guard let httpBody = try? encoder.encode(param) else {
+            guard let httpBody = try? encoder.encode(parameter) else {
                 completion(nil, false, ResponseError.unknown)
                 return
             }
-            request.httpBody = httpBody
+            urlRequest.httpBody = httpBody
         }
         
-        let dataTask = session.dataTask(with: request) { (data, response, error) in
+        let dataTask = session.dataTask(with: urlRequest) { (data, response, error) in
             if let error = error {
                 completion(nil, false, error)
             }
@@ -78,10 +81,10 @@ extension Request {
             switch response.statusCode {
             case ResponseCode.success.rawValue:
                 guard let result = try? JSONDecoder().decode(Model.self, from: data) else {
-                    completion(nil, false, ResponseError.unknown)
+                    completion(nil, true, ResponseError.unknown)
                     return
                 }
-                completion(result, false, nil)
+                completion(result, true, nil)
                 
             case ResponseCode.created.rawValue:
                 completion(nil, true, nil)
@@ -110,9 +113,9 @@ extension Request {
                                     }
                                     renewalHeader.updateValue(accessToken, forKey: RequestHeader.accessToken.rawValue)
                                     
-                                    Request<Model>().request(req: req,
+                                    Request<Model>().request(request: request,
                                                              header: renewalHeader,
-                                                             param: param) { (result, created, error)  in
+                                                             parameter: parameter) { (result, created, error)  in
                                         if let error = error {
                                             completion(nil, false, error)
                                         }
@@ -123,7 +126,7 @@ extension Request {
                                     }
                                 }
                             } else {
-                                NavigationControl().popToRootViewController()
+                                NavigationControl.popToRootViewController()
                                 completion(nil, false, nil)
                                 return
                             }

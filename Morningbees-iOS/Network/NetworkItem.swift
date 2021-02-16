@@ -9,6 +9,7 @@
 import Foundation
 
 enum Path: String {
+    
     case scheme = "https"
     case host = "api-morningbees.thragoo.com"
     case linkHost = "thragoo.page.link"
@@ -21,9 +22,14 @@ enum Path: String {
     case me = "/api/auth/me"
     
     case beeCreate = "/api/bees"
+    case joinBee = "/api/bees/join"
     case missionCreate = "/api/missions"
     
     case main = "/api/main"
+    case beeInfo = "/api/bees/{beeid}"
+    
+    case members = "/api/bees/{beeid}/members"
+    case beePenalty = "/api/bee_penalties/{beeid}"
     
     case beeWithdrawal = "/api/bees/withdrawal"
 }
@@ -68,6 +74,7 @@ final class RequestSet {
 
     let method: HTTPMethod
     let path: Path
+    let customPath: String = ""
     
     init(
         method: HTTPMethod,
