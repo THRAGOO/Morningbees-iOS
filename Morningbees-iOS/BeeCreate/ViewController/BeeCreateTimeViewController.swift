@@ -8,11 +8,6 @@
 
 import UIKit
 
-enum TimeButtonState {
-    case start
-    case end
-}
-
 final class BeeCreateTimeViewController: UIViewController {
     
     // MARK:- Properties
@@ -20,45 +15,35 @@ final class BeeCreateTimeViewController: UIViewController {
     private let toPreviousButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "arrowLeft"), for: .normal)
-        button.addTarget(self, action: #selector(popToPrevious), for: .touchUpInside)
-        return button
-    }()
-    private let helpButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "iconQuestionMark"), for: .normal)
+        button.addTarget(self, action: #selector(popToPreviousViewController), for: .touchUpInside)
         return button
     }()
     
-    private let firstDescriptionLabel: UILabel = {
-        let label = DesignSet.initLabel(text: "미션 수행 시간을", letterSpacing: -0.5)
-        label.textColor = DesignSet.colorSet(red: 34, green: 34, blue: 34)
-        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 24)
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }()
-    private let secondDescriptionLabel: UILabel = {
-        let label = DesignSet.initLabel(text: "선택해 주세요.", letterSpacing: -0.5)
-        label.textColor = DesignSet.colorSet(red: 34, green: 34, blue: 34)
-        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 24)
-        label.adjustsFontSizeToFitWidth = true
+    private let descriptionLabel: UILabel = {
+        let label = UILabel(text: "미션 수행 시간을\n선택해 주세요.", letterSpacing: -0.5)
+        label.textColor = UIColor(red: 34, green: 34, blue: 34)
+        label.font = UIFont(font: .systemMedium, size: 24)
+        label.numberOfLines = 2
         return label
     }()
     private let timeDescriptionLabel: UILabel = {
-        let label = DesignSet.initLabel(text: "시작 및 종료 시간", letterSpacing: 0)
-        label.textColor = DesignSet.colorSet(red: 119, green: 119, blue: 119)
-        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 14)
-        label.adjustsFontSizeToFitWidth = true
+        let label = UILabel(text: "시작 및 종료 시간", letterSpacing: 0)
+        label.textColor = UIColor(red: 119, green: 119, blue: 119)
+        label.font = UIFont(font: .systemMedium, size: 14)
         return label
     }()
     
     private let nextButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = DesignSet.colorSet(red: 229, green: 229, blue: 229)
-        button.isEnabled = false
+        button.setTitle("미션 시작시간을 선택해 주세요.", for: .disabled)
         button.setTitle("다음 2/3", for: .normal)
-        button.setTitleColor(DesignSet.colorSet(red: 255, green: 255, blue: 255), for: .normal)
-        button.titleLabel?.font =  DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue, size: 15)
+        button.setTitleColor(UIColor(red: 34, green: 34, blue: 34), for: .normal)
+        button.setTitleColor(.white, for: .disabled)
+        button.titleLabel?.font = UIFont(font: .systemSemiBold, size: 15)
+        button.setBackgroundColor(UIColor(red: 255, green: 218, blue: 34), for: .normal)
+        button.setBackgroundColor(UIColor(red: 229, green: 229, blue: 229), for: .disabled)
         button.addTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
+        button.isEnabled = false
         return button
     }()
     
@@ -70,19 +55,26 @@ final class BeeCreateTimeViewController: UIViewController {
         return stackView
     }()
     
-    private let beeYellow = DesignSet.colorSet(red: 255, green: 218, blue: 34)
-    private let timeButtonDisabled = DesignSet.colorSet(red: 249, green: 249, blue: 249)
-    
-    private var startTime: Int = 0
-    private var endTime: Int = 0
+    private var startTime: Int = .max
+    private var endTime: Int = .max
     var beeName: String = ""
+    
+    /// Home Indicator Control
+    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
+        return .bottom
+    }
     
     // MARK:- Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupDesign()
+        setLayout()
         setupButton()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
 }
 
@@ -103,8 +95,8 @@ extension BeeCreateTimeViewController {
         beeCreateJellyViewController.endTime = self.endTime
     }
     
-    @objc private func popToPrevious(_ sender: UIButton) {
-        NavigationControl().popToPrevViewController()
+    @objc private func popToPreviousViewController(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
     }
 }
 
@@ -115,125 +107,135 @@ extension BeeCreateTimeViewController {
     private func setupButton() {
         for idx in 0..<5 {
             let button = UIButton()
-            button.backgroundColor = timeButtonDisabled
+            button.backgroundColor = UIColor(red: 249, green: 249, blue: 249)
             button.setBackgroundImage(UIImage(named: "btnTimeOutline"), for: .normal)
             button.setBackgroundImage(UIImage(named: "btnTimeOutline"), for: .highlighted)
             button.setBackgroundImage(UIImage(named: "btnTimeOutline"), for: [.selected, .highlighted])
+            button.setTitle(String(idx + 6), for: .normal)
+            button.setTitleColor(UIColor(red: 68, green: 68, blue: 68), for: .normal)
+            button.titleLabel?.font = UIFont(font: .systemSemiBold, size: 16)
+            button.addTarget(self, action: #selector(didTapRatingButton), for: .touchUpInside)
             timeSelectStackView.addArrangedSubview(button)
             timeButtons.append(button)
-            
-            button.setTitle(String(idx + 6), for: .normal)
-            button.setTitleColor(DesignSet.colorSet(red: 68, green: 68, blue: 68), for: .normal)
-            button.titleLabel?.font = DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue, size: 16)
-            button.addTarget(self, action: #selector(ratingButtonTapped), for: .touchUpInside)
         }
     }
     
     private func setupButtonLabel(_ state: TimeButtonState) {
-        nextButton.setTitleColor(DesignSet.colorSet(red: 255, green: 255, blue: 255), for: .normal)
         if state == .start {
-            nextButton.setTitle("미션 시작시간을 선택해 주세요.", for: .normal)
+            nextButton.setTitle("미션 시작시간을 선택해 주세요.", for: .disabled)
         } else if state == .end {
-            nextButton.setTitle("미션 종료시간을 선택해 주세요.", for: .normal)
+            nextButton.setTitle("미션 종료시간을 선택해 주세요.", for: .disabled)
         }
     }
     
-    private func timeButtonSelected(_ state: Bool, _ index: Int) {
+    private func didSelectTimeButton(_ state: Bool, _ index: Int) {
         timeButtons[index].isSelected = state ? true : false
+        let disabledColor = UIColor(red: 249, green: 249, blue: 249)
         switch index {
         case 0:
-            let enableColor = DesignSet.colorSet(red: 255, green: 239, blue: 142)
-            timeButtons[index].backgroundColor = state ? enableColor : timeButtonDisabled
+            let enabledColor = UIColor(red: 255, green: 239, blue: 142)
+            timeButtons[index].backgroundColor = state ? enabledColor : disabledColor
         case 1:
-            let enableColor = DesignSet.colorSet(red: 255, green: 226, blue: 81)
-            timeButtons[index].backgroundColor = state ? enableColor : timeButtonDisabled
+            let enabledColor = UIColor(red: 255, green: 226, blue: 81)
+            timeButtons[index].backgroundColor = state ? enabledColor : disabledColor
         case 2:
-            let enableColor = DesignSet.colorSet(red: 251, green: 201, blue: 50)
-            timeButtons[index].backgroundColor = state ? enableColor : timeButtonDisabled
+            let enabledColor = UIColor(red: 251, green: 201, blue: 50)
+            timeButtons[index].backgroundColor = state ? enabledColor : disabledColor
         case 3:
-            let enableColor = DesignSet.colorSet(red: 242, green: 159, blue: 6)
-            timeButtons[index].backgroundColor = state ? enableColor : timeButtonDisabled
+            let enabledColor = UIColor(red: 242, green: 159, blue: 6)
+            timeButtons[index].backgroundColor = state ? enabledColor : disabledColor
         case 4:
-            let enableColor = DesignSet.colorSet(red: 238, green: 128, blue: 7)
-            timeButtons[index].backgroundColor = state ? enableColor : timeButtonDisabled
+            let enabledColor = UIColor(red: 238, green: 128, blue: 7)
+            timeButtons[index].backgroundColor = state ? enabledColor : disabledColor
         default:
             break
         }
     }
     
-    @objc private func ratingButtonTapped(button: UIButton) {
+    @objc private func didTapRatingButton(button: UIButton) {
         guard let index = timeButtons.firstIndex(of: button) else {
             return
         }
         let selectedTime = index + 6
         
-        if startTime == 0 && timeButtons[index].isSelected == false {
+        if startTime == .max && timeButtons[index].isSelected == false {
             startTime = selectedTime
-            timeButtonSelected(true, index)
+            didSelectTimeButton(true, index)
             if startTime == 10 {
                 setupButtonLabel(.start)
             } else {
                 setupButtonLabel(.end)
             }
-        } else if endTime == 0 && timeButtons[index].isSelected == false {
+        } else if endTime == .max && timeButtons[index].isSelected == false {
             endTime = selectedTime
-            timeButtonSelected(true, index)
+            didSelectTimeButton(true, index)
         } else if startTime == selectedTime || endTime == selectedTime {
             if startTime == selectedTime {
-                startTime = 0
+                startTime = .max
                 setupButtonLabel(.start)
             } else {
-                endTime = 0
-                if startTime == 0 && endTime == 0 {
+                endTime = .max
+                if startTime == .max && endTime == .max {
                     setupButtonLabel(.start)
                 } else {
                     setupButtonLabel(.end)
                 }
             }
-            timeButtonSelected(false, index)
+            didSelectTimeButton(false, index)
         }
         
         if startTime > endTime {
-            let tmp = startTime
-            startTime = endTime
-            endTime = tmp
+            swap(&startTime, &endTime)
         }
         
-        if startTime != 0 && endTime != 0 {
+        if startTime != .max && endTime != .max {
             nextButton.isEnabled = true
-            nextButton.backgroundColor = beeYellow
-            nextButton.setTitle("다음 2/3", for: .normal)
-            nextButton.setTitleColor(DesignSet.colorSet(red: 34, green: 34, blue: 34), for: .normal)
         } else {
             nextButton.isEnabled = false
-            nextButton.backgroundColor = DesignSet.colorSet(red: 229, green: 229, blue: 229)
         }
     }
 }
 
-// MARK:- Design
+// MARK:- Layout
 
 extension BeeCreateTimeViewController {
     
-    func setupDesign() {
+    func setLayout() {
         view.addSubview(toPreviousButton)
-        view.addSubview(helpButton)
+        toPreviousButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(12 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.width.equalTo(12 * DesignSet.frameWidthRatio)
+        }
         
-        view.addSubview(firstDescriptionLabel)
-        view.addSubview(secondDescriptionLabel)
+        view.addSubview(descriptionLabel)
+        descriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(70 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(66 * DesignSet.frameHeightRatio)
+        }
         
         view.addSubview(timeDescriptionLabel)
+        timeDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(203 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(17 * DesignSet.frameHeightRatio)
+        }
         view.addSubview(timeSelectStackView)
+        timeSelectStackView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(234 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(22 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(54 * DesignSet.frameWidthRatio)
+            $0.width.equalTo(290 * DesignSet.frameWidthRatio)
+        }
+        
         view.addSubview(nextButton)
-        
-        DesignSet.constraints(view: toPreviousButton, top: 42, leading: 24, height: 20, width: 12)
-        DesignSet.constraints(view: helpButton, top: 42, leading: 331, height: 20, width: 20)
-        
-        DesignSet.constraints(view: firstDescriptionLabel, top: 90, leading: 24, height: 33, width: 174)
-        DesignSet.constraints(view: secondDescriptionLabel, top: 123, leading: 24, height: 33, width: 174)
-        
-        DesignSet.constraints(view: timeDescriptionLabel, top: 223, leading: 24, height: 17, width: 96)
-        DesignSet.squareConstraints(view: timeSelectStackView, top: 255, leading: 20, height: 54, width: 290)
-        DesignSet.constraints(view: nextButton, top: 611, leading: 0, height: 56, width: 375)
+        nextButton.snp.makeConstraints {
+            $0.top.equalTo(view.snp.bottom).offset(-56 * DesignSet.frameHeightRatio)
+            $0.bottom.equalToSuperview()
+            $0.centerX.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
     }
 }
