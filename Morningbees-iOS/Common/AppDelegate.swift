@@ -19,13 +19,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                      options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         NaverThirdPartyLoginConnection.getSharedInstance()?.application(app, open: url, options: options)
         GIDSignIn.sharedInstance().handle(url)
-        
-        if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
-            self.handleDynamicLinks(dynamicLink)
-            return true
-        } else {
-            return false
-        }
+        return true
     }
 
     func application(
@@ -53,20 +47,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         GIDSignIn.sharedInstance()?.clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
-
         return true
-    }
-
-    // MARK: UISceneSession Lifecycle
-
-    func application(
-        _ application: UIApplication,
-        configurationForConnecting connectingSceneSession: UISceneSession,
-        options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-    }
-
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
     }
 }
 
@@ -93,45 +74,59 @@ extension AppDelegate: GIDSignInDelegate {
                     fatalError("Not found the SignUpViewController")
         }
         
+        signInViewController.activityIndicator.startAnimating()
         guard let accessToken = user.authentication.idToken else {
-            signInViewController.presentOneButtonAlert(title: "Error!", message: "Couldn't get accessToken.")
+            signInViewController.activityIndicator.stopAnimating()
+            signInViewController.presentConfirmAlert(title: "구글 토큰 에러!", message: "구글 토큰을 성공적으로 받아오지 못했습니다.")
             return
         }
-        let reqModel = SignInModel()
-        let request = RequestSet(method: reqModel.method, path: reqModel.path)
-        let param: [String: String] = [
-            "socialAccessToken": accessToken,
-            "provider": SignInProvider.google.rawValue
-        ]
-        let signInReq = Request<SignIn>()
-        signInReq.request(req: request, param: param) { (signIn, _, error)  in
+        let requestModel = SignInModel()
+        let request = RequestSet(method: requestModel.method, path: requestModel.path)
+        let param: [String: String] = ["socialAccessToken": accessToken,
+                                       "provider": SignInProvider.google.rawValue]
+        let signInRequest = Request<SignIn>()
+        signInRequest.request(request: request, parameter: param) { (signIn, _, error)  in
             if let error = error {
-                signInViewController.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
+                DispatchQueue.main.async {
+                    signInViewController.activityIndicator.stopAnimating()
+                }
+                signInViewController.presentConfirmAlert(title: "구글 로그인 에러!", message: error.localizedDescription)
             }
             guard let signIn = signIn else {
+                DispatchQueue.main.async {
+                    signInViewController.activityIndicator.stopAnimating()
+                }
+                signInViewController.presentConfirmAlert(title: "구글 로그인 에러!", message: "")
                 return
             }
             if signIn.type == 0 {
                 DispatchQueue.main.async {
-                    signUpViewController.provider = SignInProvider.google.rawValue
+                    signInViewController.activityIndicator.stopAnimating()
+                    signUpViewController.provider = .google
                     signInViewController.navigationController?.pushViewController(signUpViewController,
                                                                                   animated: true)
                 }
             } else if signIn.type == 1 {
-                
-                // MARK: KeyChain
-                    
                 KeychainService.deleteKeychainToken { (error) in
                     if let error = error {
-                        signInViewController.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
+                        DispatchQueue.main.async {
+                            signInViewController.activityIndicator.stopAnimating()
+                        }
+                        signInViewController.presentConfirmAlert(title: "키체인 에러!", message: error.localizedDescription)
                     }
                 }
                 KeychainService.addKeychainToken(signIn.accessToken, signIn.refreshToken) { (error) in
                     if let error = error {
-                        signInViewController.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
+                        DispatchQueue.main.async {
+                            signInViewController.activityIndicator.stopAnimating()
+                        }
+                        signInViewController.presentConfirmAlert(title: "키체인 에러!", message: error.localizedDescription)
                     }
                 }
                 MeAPI().request { (alreadyJoinedBee, error) in
+                    DispatchQueue.main.async {
+                        signInViewController.activityIndicator.stopAnimating()
+                    }
                     if let error = error {
                         print(error.localizedDescription)
                     }
@@ -162,18 +157,9 @@ extension AppDelegate: GIDSignInDelegate {
                     fatalError("Not found the SignUpViewController")
         }
         if let error = error {
-            signUpViewController.presentOneButtonAlert(title: "Error!", message: error.localizedDescription)
+            signUpViewController.presentConfirmAlert(title: "구글 로그아웃 에러!", message: error.localizedDescription)
             return
         }
         navigationController.popToRootViewController(animated: true)
-    }
-}
-
-// MARK:- DynamicLink Handling
-
-extension AppDelegate {
-    
-    private func handleDynamicLinks(_ dynamiclink: DynamicLink) {
-        // extra handling
     }
 }

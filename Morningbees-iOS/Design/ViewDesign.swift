@@ -6,6 +6,7 @@
 //  Copyright © 2020 JUN LEE. All rights reserved.
 //
 
+import Kingfisher
 import UIKit
 import SnapKit
 
@@ -35,48 +36,6 @@ final class DesignSet {
 
 extension DesignSet {
     
-    static func colorSet(red: Double, green: Double, blue: Double) -> UIColor {
-        return UIColor(red: CGFloat(red/255.0),
-                       green: CGFloat(green/255.0),
-                       blue: CGFloat(blue/255.0),
-                       alpha: CGFloat(1.0))
-    }
-    
-    static func fontSet(name: String, size: Double) -> UIFont {
-        guard let font = UIFont.init(name: name, size: CGFloat(size * frameHeightRatio)) else {
-            fatalError("Failed to load the font.")
-        }
-        return font
-    }
-    
-    // MARK: Initializer
-    
-    static func initImageView(imgName: String) -> UIImageView {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: imgName)
-        imageView.contentMode = .scaleAspectFill
-        return imageView
-    }
-    
-    static func initLabel(text: String) -> UILabel {
-        let label = UILabel()
-        label.text = text
-        label.textAlignment = .center
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }
-    
-    static func initLabel(text: String, letterSpacing: Double) -> UILabel {
-        let label = UILabel()
-        let attributedString = NSMutableAttributedString(string: text)
-        attributedString.addAttribute(NSAttributedString.Key.kern,
-                                      value: CGFloat(letterSpacing * frameHeightRatio),
-                                      range: NSRange.init(location: 0, length: attributedString.length))
-        label.attributedText = attributedString
-        label.isUserInteractionEnabled = false
-        return label
-    }
-    
     // MARK: Constraints
     
     static func constraints(view: UIView, top: Double, leading: Double, height: Double, width: Double) {
@@ -102,15 +61,15 @@ extension DesignSet {
             $0.top.equalTo(top * frameHeightRatio)
             $0.leading.equalTo(leading * frameWidthRatio)
             $0.height.equalTo(height * frameWidthRatio)
-            $0.width.greaterThanOrEqualTo(width * frameWidthRatio)
+            $0.width.equalTo(width * frameWidthRatio)
         }
     }
 }
 
-// MARK:- UIButton Backgroundcolor Set
+// MARK:- UIButton Backgroundcolor for status
 
 extension UIButton {
-    func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
+    public func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
         UIGraphicsBeginImageContext(CGSize(width: 1.0, height: 1.0))
         guard let context = UIGraphicsGetCurrentContext() else {
             return
@@ -122,5 +81,74 @@ extension UIButton {
         UIGraphicsEndImageContext()
          
         self.setBackgroundImage(backgroundImage, for: state)
+    }
+}
+
+// MARK:- UIColor Override
+
+extension UIColor {
+    
+    convenience init(red: Double, green: Double, blue: Double) {
+        self.init(red: CGFloat(red/255.0), green: CGFloat(green/255.0), blue: CGFloat(blue/255.0), alpha: 1)
+    }
+}
+
+// MARK:- UIFont Override
+
+extension UIFont {
+    convenience init?(font: TextFonts, size: CGFloat) {
+        self.init(name: font.rawValue, size: size)
+    }
+}
+
+extension UIView {
+    public func setRatioCornerRadius(_ value: Double) {
+        layer.cornerRadius = CGFloat(DesignSet.frameHeightRatio * value)
+    }
+}
+
+// MARK:- UIImageView Override
+
+extension UIImageView {
+    
+    convenience init(imageName: String) {
+        self.init(image: UIImage(named: imageName))
+        self.contentMode = .scaleAspectFill
+    }
+    
+    // MARK: Kingfisher Image Caching
+    
+    public func setImage(with imageUrlString: String) {
+        self.kf.indicatorType = .activity
+        ImageCache.default.retrieveImage(forKey: imageUrlString) { result in
+            switch result {
+            case .success(let cache):
+                if let image = cache.image {
+                    self.image = image
+                } else {
+                    guard let imageUrl = URL(string: imageUrlString) else {
+                        return
+                    }
+                    let source = ImageResource(downloadURL: imageUrl, cacheKey: imageUrlString)
+                    self.kf.setImage(with: source)
+                }
+            case .failure(let error):
+                print(error.errorDescription?.debugDescription ?? "")
+            }
+        }
+    }
+}
+
+// MARK:- UILabel Override
+
+extension UILabel {
+    
+    convenience init(text: String, letterSpacing: Double) {
+        self.init()
+        let attributedString = NSMutableAttributedString(string: text)
+        attributedString.addAttribute(NSAttributedString.Key.kern,
+                                      value: CGFloat(letterSpacing * DesignSet.frameHeightRatio),
+                                      range: NSRange.init(location: 0, length: attributedString.length))
+        self.attributedText = attributedString
     }
 }

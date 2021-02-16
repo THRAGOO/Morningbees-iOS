@@ -33,7 +33,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
     }
-    
+
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
         guard let incomingURL = userActivity.webpageURL else {
             return
@@ -48,20 +48,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
     }
-
-    func sceneDidDisconnect(_ scene: UIScene) {
-    }
-
-    func sceneDidBecomeActive(_ scene: UIScene) {
-    }
-
-    func sceneWillResignActive(_ scene: UIScene) {
-    }
-
-    func sceneWillEnterForeground(_ scene: UIScene) {
-    }
-
-    func sceneDidEnterBackground(_ scene: UIScene) {
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        NaverThirdPartyLoginConnection.getSharedInstance()?.receiveAccessToken(URLContexts.first?.url)
     }
 }
 
@@ -71,6 +60,7 @@ extension SceneDelegate {
     
     private func handleDynamicLinks(_ dynamiclink: DynamicLink) {
         
+<<<<<<< Updated upstream
         // login control needed
         
         guard let url = dynamiclink.url else {
@@ -78,11 +68,26 @@ extension SceneDelegate {
         }
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
             let queryItems = components.queryItems else {
+=======
+        if (GIDSignIn.sharedInstance()?.currentUser) != nil ||
+            NaverThirdPartyLoginConnection.getSharedInstance()?.accessToken != nil {
+            guard let url = dynamiclink.url else {
+>>>>>>> Stashed changes
                 return
+            }
+            if UserDefaults.standard.bool(forKey: UserDefaultsKey.alreadyJoin.rawValue) {
+                print("Already Joined another Bee!")
+            } else {
+                guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+                    let queryItems = components.queryItems else {
+                        return
+                }
+                for queryItem in queryItems {
+                    let value = queryItem.value?.replacingOccurrences(of: "+", with: " ")
+                    UserDefaults.standard.set(value ?? "", forKey: queryItem.name)
+                }
+                NavigationControl.pushToInvitedViewController()
+            }
         }
-        for queryItem in queryItems {
-            UserDefaults.standard.set(queryItem.value ?? "", forKey: queryItem.name)
-        }
-        NavigationControl().pushToInvitedViewController()
     }
 }
