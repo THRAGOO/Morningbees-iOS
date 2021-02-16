@@ -26,7 +26,7 @@ final class RenewalToken {
             }
             let headers: [String: String] = [RequestHeader.accessToken.rawValue: accessToken,
                                              RequestHeader.refreshToken.rawValue: refreshToken]
-            renewalRequest.request(req: request, header: headers, param: "") { (renewal, _, error) in
+            renewalRequest.request(request: request, header: headers, parameter: "") { (renewal, _, error) in
                 if let error = error {
                     completion(nil, error)
                     return

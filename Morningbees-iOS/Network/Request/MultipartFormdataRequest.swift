@@ -89,7 +89,6 @@ extension MultipartFormdataRequest {
                     completion(false, nil)
                     return
                 }
-                // check
                 print(failResult)
                 completion(false, nil)
             }
