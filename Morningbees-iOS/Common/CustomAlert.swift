@@ -9,25 +9,33 @@
 import UIKit
 
 protocol CustomAlert: NSObjectProtocol {
+    
     var viewController: UIViewController { get }
 }
 
 extension CustomAlert where Self: UIViewController {
+    
     var viewController: UIViewController {
         return self
     }
 }
 
 extension CustomAlert {
-    func presentOneButtonAlert(title: String, message: String, completion: (() -> Void)? = nil) {
+    
+    func presentConfirmAlert(title: String, message: String, handler: ((UIAlertAction) -> Void)? = nil) {
         DispatchQueue.main.async {
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "Confirm", style: .default, handler: nil))
-            guard let completion = completion else {
-                self.viewController.present(alertController, animated: true)
-                return
-            }
-            self.viewController.present(alertController, animated: true, completion: completion)
+            alertController.addAction(UIAlertAction(title: "확인", style: .default, handler: handler))
+            self.viewController.present(alertController, animated: true)
+        }
+    }
+    
+    func presentYesNoAlert(title: String, message: String, handler: ((UIAlertAction) -> Void)? = nil) {
+        DispatchQueue.main.async {
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "아니요", style: .destructive, handler: nil))
+            alertController.addAction(UIAlertAction(title: "네", style: .default, handler: handler))
+            self.viewController.present(alertController, animated: true)
         }
     }
 }
