@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum TimeButtonState {
+    case start
+    case end
+}
+
 struct BeeCreateModel: RequestModel {
     typealias ModelType = BeeCreate
     var method: HTTPMethod = .post
@@ -22,5 +27,5 @@ struct BeeCreateParam: Encodable {
     let startTime: Int
     let endTime: Int
     let pay: Int
-    let description: String
+    let description: String = ""
 }

@@ -8,120 +8,150 @@
 
 import UIKit
 
-class BeeCreateJellyViewController: UIViewController {
+final class BeeCreateJellyViewController: UIViewController {
     
     // MARK:- Properties
     
-    private let jellySelectImg = DesignSet.initImageView(imgName: "btnJellyStartPointSelect")
+    private var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.color = .white
+        indicator.style = .large
+        indicator.backgroundColor = .black
+        indicator.alpha = 0.5
+        return indicator
+    }()
+    private let activityIndicatorImageView = UIImageView(imageName: "illustErrorPage")
+    private let activityIndicatorDescriptionLabel: UILabel = {
+        let label = UILabel(text: "모임 생성 요청 중...", letterSpacing: 0)
+        label.textColor = .white
+        label.font = UIFont(font: .systemBold, size: 24)
+        return label
+    }()
     
     private let toPreviousButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "arrowLeft"), for: .normal)
-        button.addTarget(self, action: #selector(popToPrevious), for: .touchUpInside)
+        button.addTarget(self, action: #selector(popToPreviousViewController), for: .touchUpInside)
         return button
     }()
     
     private let firstDescriptionLabel: UILabel = {
-        let label = DesignSet.initLabel(text: "로얄 젤리를", letterSpacing: -0.5)
-        label.textColor = DesignSet.colorSet(red: 34, green: 34, blue: 34)
-        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 24)
-        label.adjustsFontSizeToFitWidth = true
+        let label = UILabel(text: "로얄 젤리를\n설정해주세요", letterSpacing: -0.5)
+        label.textColor = UIColor(red: 34, green: 34, blue: 34)
+        label.font = UIFont(font: .systemMedium, size: 24)
+        label.numberOfLines = 2
         return label
     }()
     private let secondDescriptionLabel: UILabel = {
-        let label = DesignSet.initLabel(text: "설정해 주세요.", letterSpacing: -0.5)
-        label.textColor = DesignSet.colorSet(red: 34, green: 34, blue: 34)
-        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 24)
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }()
-    
-    private let firstDetailDescriptionLabel: UILabel = {
-        let label = DesignSet.initLabel(text: "'로열젤리'는 모닝비즈 내 벌금이에요.", letterSpacing: -0.5)
-        label.textColor = DesignSet.colorSet(red: 204, green: 204, blue: 204)
-        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 13)
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }()
-    private let secondDetailDescriptionLabel: UILabel = {
-        let label = DesignSet.initLabel(text: "매일 진행되는 미션을 수행하지 못한 꿀벌에게 부과해요.", letterSpacing: -0.5)
-        label.textColor = DesignSet.colorSet(red: 204, green: 204, blue: 204)
-        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 13)
-        label.adjustsFontSizeToFitWidth = true
+        let label = UILabel(text: "", letterSpacing: -0.5)
+        label.text = """
+            '로열젤리'는 모닝비즈 내 벌금이에요.
+            매일 진행되는 미션을 수행하지 못한 꿀벌에게 부과해요.
+            """
+        label.textColor = UIColor(red: 204, green: 204, blue: 204)
+        label.font = UIFont(font: .systemMedium, size: 13)
+        label.numberOfLines = 2
         return label
     }()
     
     private let jellyDescriptionLabel: UILabel = {
-        let label = DesignSet.initLabel(text: "로얄젤리 (최소2,000~최대 10,000원)", letterSpacing: 0)
-        label.textColor = DesignSet.colorSet(red: 119, green: 119, blue: 119)
-        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 14)
-        label.adjustsFontSizeToFitWidth = true
+        let label = UILabel(text: "로얄젤리 (최소2,000~최대 10,000원)", letterSpacing: 0)
+        label.textColor = UIColor(red: 119, green: 119, blue: 119)
+        label.font = UIFont(font: .systemMedium, size: 14)
         return label
     }()
-    private let customSegmentedControl: UIView = {
-        let view = UIView()
-        view.backgroundColor = DesignSet.colorSet(red: 245, green: 245, blue: 245)
+    
+    private let royaljellySlider: UISlider = {
+        let slider = UISlider()
+        slider.setThumbImage(UIImage(named: "btnJellyStartPointSelect"), for: .normal)
+        slider.setThumbImage(UIImage(named: "royaljellySelctorChange"), for: .highlighted)
+        slider.maximumTrackTintColor = .clear
+        slider.minimumTrackTintColor = .clear
+        slider.maximumValue = 10000
+        slider.minimumValue = 2000
+        slider.value = 4000
+        slider.addTarget(self, action: #selector(didChangeSliderValue), for: .valueChanged)
+        return slider
+    }()
+    private let trackView: UIStackView = {
+        let view = UIStackView()
+        view.backgroundColor = UIColor(red: 242, green: 242, blue: 242)
         view.layer.cornerRadius = 9
+        view.axis = .horizontal
+        view.distribution = .equalCentering
+        for index in 0...8 {
+            let label = UILabel()
+            if index < 3 {
+                label.text = "   ●"
+            } else if index < 6 {
+                label.text = "●"
+            } else {
+                label.text = "●   "
+            }
+            label.textColor = UIColor(red: 119, green: 119, blue: 119)
+            label.font = UIFont(font: .systemMedium, size: 8)
+            label.alpha = 0.24
+            view.addArrangedSubview(label)
+        }
         return view
     }()
     
     private let curRoyalJellyLabel: UILabel = {
         let label = UILabel()
-        label.textColor = DesignSet.colorSet(red: 68, green: 68, blue: 68)
-        label.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 13)
-        label.adjustsFontSizeToFitWidth = true
+        label.textColor = UIColor(red: 68, green: 68, blue: 68)
+        label.font = UIFont(font: .systemBold, size: 13)
         label.isHidden = true
         return label
     }()
     private let minRoyalJellyLabel: UILabel = {
         let label = UILabel()
         label.text = "2,000"
-        label.textColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
-        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 13)
-        label.adjustsFontSizeToFitWidth = true
+        label.textColor = UIColor(red: 170, green: 170, blue: 170)
+        label.font = UIFont(font: .systemMedium, size: 13)
         return label
     }()
     private let maxRoyalJellyLabel: UILabel = {
         let label = UILabel()
         label.text = "10,000"
-        label.textColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
-        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 13)
-        label.adjustsFontSizeToFitWidth = true
+        label.textColor = UIColor(red: 170, green: 170, blue: 170)
+        label.font = UIFont(font: .systemMedium, size: 13)
         return label
     }()
     
     private let nextButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = DesignSet.colorSet(red: 229, green: 229, blue: 229)
         button.isEnabled = false
-        button.setTitle("다음 3/3", for: .normal)
-        button.setTitleColor(DesignSet.colorSet(red: 255, green: 255, blue: 255), for: .normal)
-        button.titleLabel?.font =  DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue, size: 15)
+        button.setTitle("Bee 시작하기", for: .normal)
+        button.setTitle("다음 3/3", for: .disabled)
+        button.setTitleColor(UIColor(red: 34, green: 34, blue: 34), for: .normal)
+        button.setTitleColor(UIColor(red: 170, green: 170, blue: 170), for: .disabled)
+        button.setBackgroundColor(UIColor(red: 255, green: 218, blue: 34), for: .normal)
+        button.setBackgroundColor(UIColor(red: 229, green: 229, blue: 229), for: .disabled)
+        button.titleLabel?.font = UIFont(font: .systemSemiBold, size: 15)
         button.addTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
         return button
     }()
-    
-    private var jellyButtons = [UIButton]()
-    private var selector = UIView()
-    
-    private let beeYellow = DesignSet.colorSet(red: 255, green: 218, blue: 34)
-    private let selectedJellyColor = DesignSet.colorSet(red: 68, green: 68, blue: 68)
-    private let notSelectedJellyColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
-    
-    private let selectedJellyFont = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 13)
-    private let notSelectedJellyFont = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 13)
     
     var beeName: String = ""
     var startTime: Int = 0
     var endTime: Int = 0
     var royalJelly: Int = 0
     
+    /// Home Indicator Control
+    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
+        return .bottom
+    }
+    
     // MARK:- Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupDesign()
-        setupCustomSegmentedControlView()
+        setLayout()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
 }
 
@@ -130,51 +160,24 @@ class BeeCreateJellyViewController: UIViewController {
 extension BeeCreateJellyViewController {
     
     @objc private func touchUpNextButton(_ sender: UIButton) {
-        beeCreateRequest()
+        requestBeeCreate()
     }
     
-    @objc private func popToPrevious(_ sender: UIButton) {
-        NavigationControl().popToPrevViewController()
+    @objc private func popToPreviousViewController(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
     }
 }
 
-// MARK:- Segmented Control
+// MARK:- Slider Control
 
 extension BeeCreateJellyViewController {
     
-    private func setupCustomSegmentedControlView() {
-        for _ in 0..<9 {
-            let button = UIButton.init(type: .system)
-            button.setTitle("•", for: .normal)
-            button.titleLabel?.font = .systemFont(ofSize: 20)
-            button.setTitleColor(DesignSet.colorSet(red: 220, green: 220, blue: 220), for: .normal)
-            button.titleLabel?.textAlignment = .center
-            button.addTarget(self, action: #selector(didSegControlTapped), for: .touchUpInside)
-            jellyButtons.append(button)
-        }
+    private func setSegmentValue(min: Bool, max: Bool, cur: Bool) {
+        let selectedJellyColor = UIColor(red: 68, green: 68, blue: 68)
+        let notSelectedJellyColor = UIColor(red: 170, green: 170, blue: 170)
         
-        let selectorWidth = customSegmentedControl.frame.width / CGFloat(9)
-        selector = UIView.init(frame: CGRect.init(x: 0,
-                                                  y: 0,
-                                                  width: selectorWidth,
-                                                  height: customSegmentedControl.frame.height))
-        customSegmentedControl.addSubview(selector)
-        selector.addSubview(jellySelectImg)
-        DesignSet.constraints(view: jellySelectImg, top: -3, leading: 6.5, height: 24, width: 24)
-        jellySelectImg.isHidden = true
-        
-        let stackView = UIStackView.init(arrangedSubviews: jellyButtons)
-        stackView.axis = .horizontal
-        stackView.alignment = .fill
-        stackView.distribution = .fillEqually
-        customSegmentedControl.addSubview(stackView)
-        DesignSet.constraints(view: stackView, top: 0, leading: 0, height: 18, width: 327)
-        
-        customSegmentedControl.layer.zPosition = 0
-        selector.layer.zPosition = 1
-    }
-    
-    private func segmentValueSet(min: Bool, max: Bool, cur: Bool) {
+        let selectedJellyFont = UIFont(font: .systemBold, size: 13)
+        let notSelectedJellyFont = UIFont(font: .systemMedium, size: 13)
         
         minRoyalJellyLabel.textColor = min ? selectedJellyColor : notSelectedJellyColor
         minRoyalJellyLabel.font = min ? selectedJellyFont : notSelectedJellyFont
@@ -185,44 +188,30 @@ extension BeeCreateJellyViewController {
         curRoyalJellyLabel.isHidden = cur ? false : true
     }
     
-    @objc private func didSegControlTapped(_ sender: UIButton) {
-        nextButton.isEnabled = true
-        nextButton.backgroundColor = beeYellow
-        nextButton.setTitle("Bee 시작하기", for: .normal)
-        nextButton.setTitleColor(DesignSet.colorSet(red: 34, green: 34, blue: 34), for: .normal)
-        guard let jellyIndex = jellyButtons.firstIndex(of: sender) else {
-            return
+    @objc private func didChangeSliderValue(_ sender: UISlider) {
+        royalJelly = Int(sender.value / 500)
+        if (royalJelly % 2) != 0 {
+            royalJelly += 1
         }
-        // 2천원부터 시작이니까 +2
-        royalJelly = (jellyIndex + 2)
-        if royalJelly == 2 {
-            segmentValueSet(min: true, max: false, cur: false)
-        } else if royalJelly == 10 {
-            segmentValueSet(min: false, max: true, cur: false)
+        royalJelly *= 500
+        sender.setValue(Float(royalJelly), animated: false)
+        
+        if royalJelly == 2000 {
+            setSegmentValue(min: true, max: false, cur: false)
+        } else if royalJelly == 10000 {
+            setSegmentValue(min: false, max: true, cur: false)
         } else {
-            segmentValueSet(min: false, max: false, cur: true)
-            curRoyalJellyLabel.text = String(royalJelly) + ",000"
+            setSegmentValue(min: false, max: false, cur: true)
+            curRoyalJellyLabel.text = "\(Int(sender.value))"
         }
-
-        for (buttonIndex, btn) in jellyButtons.enumerated() {
-            if btn == sender {
-                let width = customSegmentedControl.frame.width
-                let selectorStartPosition = width / CGFloat(jellyButtons.count) * CGFloat(buttonIndex)
-                // 컨트롤 밑에 숫자 움직이는 거 컨트롤!
-                let jellyStartPosition = CGFloat(Double(36 * jellyIndex) * DesignSet.frameWidthRatio)
-                if jellySelectImg.isHidden {
-                    selector.frame.origin.x = selectorStartPosition
-                    self.curRoyalJellyLabel.transform = CGAffineTransform(translationX: +jellyStartPosition, y: 0)
-                }
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.jellySelectImg.isHidden = false
-                    self.selector.frame.origin.x = selectorStartPosition
-                    self.curRoyalJellyLabel.transform = .identity
-                    self.curRoyalJellyLabel.transform = CGAffineTransform(translationX: +jellyStartPosition, y: 0)
-                })
-            }
+        
+        let jellyIndex = royalJelly / 1000 - 2
+        let jellyStartPosition = CGFloat(Double(36 * jellyIndex) * DesignSet.frameWidthRatio)
+        UIView.animate(withDuration: 0.1) {
+            self.curRoyalJellyLabel.transform = .identity
+            self.curRoyalJellyLabel.transform = CGAffineTransform(translationX: +jellyStartPosition, y: 0)
         }
-        royalJelly *= 1000
+        nextButton.isEnabled = true
     }
 }
 
@@ -230,43 +219,54 @@ extension BeeCreateJellyViewController {
 
 extension BeeCreateJellyViewController: CustomAlert {
     
-    func beeCreateRequest() {
-        let reqModel = BeeCreateModel()
-        let request = RequestSet(method: reqModel.method, path: reqModel.path)
+    private func requestBeeCreate() {
+        activityIndicator.startAnimating()
+        let requestModel = BeeCreateModel()
+        let request = RequestSet(method: requestModel.method, path: requestModel.path)
         let beeCreate = Request<BeeCreate>()
-        let param = BeeCreateParam(title: self.beeName,
-                                   startTime: self.startTime,
-                                   endTime: self.endTime,
-                                   pay: self.royalJelly,
-                                   description: "")
-        KeychainService.extractKeyChainToken { (accessToken, _, error) in
+        let parameter = BeeCreateParam(title: beeName, startTime: startTime, endTime: endTime, pay: royalJelly)
+        KeychainService.extractKeyChainToken { [self] (accessToken, _, error) in
             if let error = error {
-                self.presentOneButtonAlert(title: "Token Error", message: error.localizedDescription)
+                DispatchQueue.main.async {
+                    activityIndicator.stopAnimating()
+                }
+                presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
+                return
             }
             guard let accessToken = accessToken else {
+                DispatchQueue.main.async {
+                    activityIndicator.stopAnimating()
+                }
+                presentConfirmAlert(title: "토큰 에러!", message: "")
                 return
             }
             let header: [String: String] = [RequestHeader.accessToken.rawValue: accessToken]
-            beeCreate.request(req: request, header: header, param: param) { (_, created, error) in
+            beeCreate.request(request: request, header: header, parameter: parameter) { (_, created, error) in
                 if let error = error {
-                    self.presentOneButtonAlert(title: "BeeCreate", message: error.localizedDescription)
-                    return
+                    DispatchQueue.main.async {
+                        activityIndicator.stopAnimating()
+                    }
+                    presentConfirmAlert(title: "모임 생성 에러!", message: error.localizedDescription)
                 }
                 if created {
-                    self.presentOneButtonAlert(title: "BeeCreate", message: "Successfully created bee!")
-                    
-                    MeAPI().request { (alreadyJoinBee, error) in
-                        if let error = error {
-                            self.presentOneButtonAlert(title: "BeeCreate", message: error.localizedDescription)
-                            return
-                        }
-                        guard let alreadyJoinBee = alreadyJoinBee else {
-                            return
-                        }
-                        if alreadyJoinBee {
-                            NavigationControl().pushToBeeMainViewController()
-                        } else {
-                            NavigationControl().pushToBeforeJoinViewController()
+                    presentConfirmAlert(title: "", message: "성공적으로 모임을 생성하였습니다.") { _ in 
+                        MeAPI().request { [self] (alreadyJoinBee, error) in
+                            DispatchQueue.main.async {
+                                activityIndicator.stopAnimating()
+                            }
+                            if let error = error {
+                                presentConfirmAlert(title: "모임 생성 에러!", message: error.localizedDescription)
+                                return
+                            }
+                            guard let alreadyJoinBee = alreadyJoinBee else {
+                                presentConfirmAlert(title: "모임 생성 에러!", message: "")
+                                return
+                            }
+                            if alreadyJoinBee {
+                                navigationController?.pushViewController(BeeMainViewController(), animated: true)
+                            } else {
+                                navigationController?.pushViewController(BeforeJoinViewController(), animated: true)
+                            }
                         }
                     }
                 }
@@ -275,39 +275,103 @@ extension BeeCreateJellyViewController: CustomAlert {
     }
 }
 
-// MARK:- Design Set
+// MARK:- Layout
 
 extension BeeCreateJellyViewController {
     
-    private func setupDesign() {
+    private func setLayout() {
+        view.addSubview(activityIndicator)
+        activityIndicator.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.height.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
+        activityIndicator.addSubview(activityIndicatorImageView)
+        activityIndicatorImageView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.height.equalTo(activityIndicator.snp.width)
+            $0.width.equalToSuperview()
+        }
+        activityIndicatorImageView.addSubview(activityIndicatorDescriptionLabel)
+        activityIndicatorDescriptionLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.height.equalTo(26 * DesignSet.frameHeightRatio)
+        }
+        
         view.addSubview(toPreviousButton)
+        toPreviousButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(12 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.width.equalTo(12 * DesignSet.frameWidthRatio)
+        }
         
         view.addSubview(firstDescriptionLabel)
+        firstDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(70 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(66 * DesignSet.frameHeightRatio)
+        }
         view.addSubview(secondDescriptionLabel)
+        secondDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(151 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(36 * DesignSet.frameHeightRatio)
+        }
         
         view.addSubview(jellyDescriptionLabel)
-        view.addSubview(customSegmentedControl)
-        
-        view.addSubview(customSegmentedControl)
+        jellyDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(213 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(17 * DesignSet.frameHeightRatio)
+        }
+        view.addSubview(trackView)
+        trackView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(251 * DesignSet.frameHeightRatio)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(14 * DesignSet.frameHeightRatio)
+            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+        }
+        view.addSubview(royaljellySlider)
+        royaljellySlider.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(251 * DesignSet.frameHeightRatio)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(14 * DesignSet.frameHeightRatio)
+            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+        }
         
         view.addSubview(minRoyalJellyLabel)
+        minRoyalJellyLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(281 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(20 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+        }
         view.addSubview(maxRoyalJellyLabel)
+        maxRoyalJellyLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(281 * DesignSet.frameHeightRatio)
+            $0.trailing.equalTo(-20 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+        }
         view.addSubview(curRoyalJellyLabel)
+        curRoyalJellyLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(281 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(26 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+        }
         
         view.addSubview(nextButton)
+        nextButton.snp.makeConstraints {
+            $0.top.equalTo(view.snp.bottom).offset(-56 * DesignSet.frameHeightRatio)
+            $0.bottom.equalToSuperview()
+            $0.centerX.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
         
-        DesignSet.constraints(view: toPreviousButton, top: 42, leading: 24, height: 20, width: 12)
-        
-        DesignSet.constraints(view: firstDescriptionLabel, top: 90, leading: 24, height: 33, width: 153)
-        DesignSet.constraints(view: secondDescriptionLabel, top: 123, leading: 24, height: 33, width: 153)
-        
-        DesignSet.constraints(view: jellyDescriptionLabel, top: 223, leading: 24, height: 17, width: 235)
-        DesignSet.constraints(view: customSegmentedControl, top: 271, leading: 24, height: 18, width: 327)
-        
-        DesignSet.constraints(view: minRoyalJellyLabel, top: 301, leading: 20, height: 16, width: 35)
-        DesignSet.constraints(view: maxRoyalJellyLabel, top: 301, leading: 317, height: 16, width: 41)
-        DesignSet.constraints(view: curRoyalJellyLabel, top: 301, leading: 26, height: 16, width: 36)
-        
-        DesignSet.constraints(view: nextButton, top: 611, leading: 0, height: 56, width: 375)
+        trackView.layer.zPosition = 0
+        royaljellySlider.layer.zPosition = 1
+        activityIndicator.layer.zPosition = 2
     }
 }

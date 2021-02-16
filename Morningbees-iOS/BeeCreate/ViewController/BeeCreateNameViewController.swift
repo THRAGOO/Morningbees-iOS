@@ -8,91 +8,91 @@
 
 import UIKit
 
-final class BeeCreateNameViewController: UIViewController, UITextFieldDelegate {
+final class BeeCreateNameViewController: UIViewController {
     
     // MARK:- Properties
     
     private let toPreviousButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "arrowLeft"), for: .normal)
-        button.addTarget(self, action: #selector(popToPrevious), for: .touchUpInside)
+        button.addTarget(self, action: #selector(popToPreviousViewController), for: .touchUpInside)
         return button
     }()
     
-    private let firstDescriptionLabel: UILabel = {
-        let label = DesignSet.initLabel(text: "생성할 모임의", letterSpacing: -0.5)
-        label.textColor = DesignSet.colorSet(red: 34, green: 34, blue: 34)
-        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 24)
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }()
-    private let secondDescriptionLabel: UILabel = {
-        let label = DesignSet.initLabel(text: "이름을 정해주세요.", letterSpacing: -0.5)
-        label.textColor = DesignSet.colorSet(red: 34, green: 34, blue: 34)
-        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 24)
-        label.adjustsFontSizeToFitWidth = true
+    private let descriptionLabel: UILabel = {
+        let label = UILabel(text: "생성할 모임의\n이름을 정해주세요.", letterSpacing: -0.5)
+        label.textColor = UIColor(red: 34, green: 34, blue: 34)
+        label.font = UIFont(font: .systemMedium, size: 24)
+        label.numberOfLines = 2
         return label
     }()
     
     private let nameDescriptionLabel: UILabel = {
-        let label = DesignSet.initLabel(text: "모임명", letterSpacing: 0)
-        label.textColor = DesignSet.colorSet(red: 119, green: 119, blue: 119)
-        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 14)
-        label.adjustsFontSizeToFitWidth = true
+        let label = UILabel(text: "모임명", letterSpacing: 0)
+        label.textColor = UIColor(red: 119, green: 119, blue: 119)
+        label.font = UIFont(font: .systemMedium, size: 14)
         return label
     }()
     private let beeNameTextField: UITextField = {
         let textField = UITextField()
-        textField.borderStyle = .none
-        textField.font = DesignSet.fontSet(name: TextFonts.systemBold.rawValue, size: 16)
+        textField.font = UIFont(font: .systemBold, size: 16)
         textField.placeholder = "2~12자 이내로 입력해 주세요."
         textField.autocorrectionType = UITextAutocorrectionType.no
         textField.clearButtonMode = .whileEditing
+        textField.borderStyle = .none
+        textField.addTarget(self, action: #selector(limitTextFieldLength), for: .editingChanged)
         return textField
     }()
     private let lengthDescriptionLabel: UILabel = {
-        let label = DesignSet.initLabel(text: "X자 이내로 입력해주세요.", letterSpacing: -0.4)
-        label.textColor = DesignSet.colorSet(red: 170, green: 170, blue: 170)
-        label.font = DesignSet.fontSet(name: TextFonts.systemMedium.rawValue, size: 13)
+        let label = UILabel(text: "X 글자 수가 너무 짧아요.", letterSpacing: -0.4)
+        label.textColor = UIColor(red: 235, green: 54, blue: 54)
+        label.font = UIFont(font: .systemMedium, size: 13)
         label.adjustsFontSizeToFitWidth = true
-        label.isHidden = true
+        label.alpha = 0
         return label
     }()
     private let bottomlineView: UIView = {
         let view = UIView()
         view.layer.borderWidth = 0.5
-        view.layer.borderColor = DesignSet.colorSet(red: 211, green: 211, blue: 211).cgColor
+        view.layer.borderColor = UIColor(red: 211, green: 211, blue: 211).cgColor
         return view
     }()
 
     private let nextButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = DesignSet.colorSet(red: 229, green: 229, blue: 229)
-        button.isEnabled = false
         button.setTitle("다음 1/3", for: .normal)
-        button.setTitleColor(DesignSet.colorSet(red: 255, green: 255, blue: 255), for: .normal)
-        button.titleLabel?.font =  DesignSet.fontSet(name: TextFonts.systemSemiBold.rawValue,
-                                                     size: 15)
+        button.setTitleColor(UIColor(red: 170, green: 170, blue: 170), for: .disabled)
+        button.setTitleColor(UIColor(red: 34, green: 34, blue: 34), for: .normal)
+        button.titleLabel?.font = UIFont(font: .systemSemiBold, size: 15)
+        button.setBackgroundColor(UIColor(red: 255, green: 218, blue: 34), for: .normal)
+        button.setBackgroundColor(UIColor(red: 229, green: 229, blue: 229), for: .disabled)
         button.addTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
+        button.isEnabled = false
         return button
     }()
+    
+    /// Home Indicator Control
+    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
+        return .bottom
+    }
     
     // MARK:- Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupDesign()
         beeNameTextField.delegate = self
+        setLayout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow),
+                                               selector: #selector(willShowkeyboard),
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
+                                               selector: #selector(willHidekeyboard),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
     }
@@ -113,6 +113,7 @@ final class BeeCreateNameViewController: UIViewController, UITextFieldDelegate {
 extension BeeCreateNameViewController {
     
     @objc private func touchUpNextButton() {
+        beeNameTextField.endEditing(true)
         performSegue(withIdentifier: "pushToStepTime", sender: nil)
     }
     
@@ -123,76 +124,133 @@ extension BeeCreateNameViewController {
         beeCreateTimeViewController.beeName = beeNameTextField.text ?? ""
     }
     
-    @objc private func popToPrevious(_ sender: UIButton) {
-        NavigationControl().popToPrevViewController()
+    @objc private func popToPreviousViewController(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
     }
 }
 
-// MARK:- Touch Gesture Handling
+// MARK:- UX
 
 extension BeeCreateNameViewController {
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    
+    // MARK: Touch Event
+    
+    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         beeNameTextField.endEditing(true)
     }
-}
-
-// MARK:- Keyboard Controll
-
-extension BeeCreateNameViewController {
-    @objc private func keyboardWillShow(_ notification: Notification) {
-         guard let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
-             as? NSValue else {
+    
+    // MARK: Keyboard Event
+    
+    @objc private func willShowkeyboard(_ notification: Notification) {
+         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
              return
          }
          nextButton.transform = CGAffineTransform(translationX: 0, y: -keyboardFrame.cgRectValue.height)
      }
-       
-     @objc private func keyboardWillHide(_ notification: Notification) {
+    
+     @objc private func willHidekeyboard(_ notification: Notification) {
          nextButton.transform = .identity
      }
+}
+
+// MARK:- TextField Delegate
+
+extension BeeCreateNameViewController: UITextFieldDelegate {
     
-    // MARK: Button Control
+    public func textField(_ textField: UITextField,
+                          shouldChangeCharactersIn range: NSRange,
+                          replacementString string: String) -> Bool {
+        return true
+    }
     
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        lengthDescriptionLabel.isHidden = false
-        if beeNameTextField.text != "" {
-            nextButton.isEnabled = true
-            nextButton.backgroundColor = DesignSet.colorSet(red: 255, green: 218, blue: 34)
-            nextButton.setTitleColor(DesignSet.colorSet(red: 34, green: 34, blue: 34), for: .normal)
-        } else {
+    @objc private func limitTextFieldLength(_ sender: UITextField) {
+        guard let text = sender.text else {
+            return
+        }
+        if text.count == 0 {
+            bottomlineView.layer.borderColor = UIColor(red: 221, green: 221, blue: 221).cgColor
+        } else if text.count < 2 {
             nextButton.isEnabled = false
-            nextButton.backgroundColor = DesignSet.colorSet(red: 229, green: 229, blue: 229)
-            nextButton.setTitleColor(DesignSet.colorSet(red: 255, green: 255, blue: 255), for: .disabled)
+            bottomlineView.layer.borderColor = UIColor(red: 235, green: 54, blue: 54).cgColor
+            UIView.animate(withDuration: 0.5) { [self] in
+                lengthDescriptionLabel.alpha = 1
+            }
+            shakeLabel()
+        } else {
+            nextButton.isEnabled = true
+            bottomlineView.layer.borderColor = UIColor(red: 34, green: 34, blue: 34).cgColor
+            UIView.animate(withDuration: 0.1) { [self] in
+                lengthDescriptionLabel.alpha = 0
+            }
+        }
+        if 12 < text.count {
+            sender.text = String(text[..<text.index(text.startIndex, offsetBy: 12)])
+        }
+    }
+    
+    private func shakeLabel() {
+        UIView.animate(withDuration: 0.05, delay: 0, options: [.repeat, .autoreverse]) { [self] in
+            UIView.modifyAnimations(withRepeatCount: 2, autoreverses: true) {
+                lengthDescriptionLabel.transform = CGAffineTransform(translationX: +10, y: 0)
+                lengthDescriptionLabel.transform = .identity
+            }
         }
     }
 }
 
-// MARK:- Design
+// MARK:- Layout
 
 extension BeeCreateNameViewController {
     
-    private func setupDesign() {
+    private func setLayout() {
         view.addSubview(toPreviousButton)
-        view.addSubview(firstDescriptionLabel)
-        view.addSubview(secondDescriptionLabel)
+        toPreviousButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(12 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.width.equalTo(12 * DesignSet.frameWidthRatio)
+        }
+        view.addSubview(descriptionLabel)
+        descriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(70 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(66 * DesignSet.frameHeightRatio)
+        }
         
         view.addSubview(nameDescriptionLabel)
+        nameDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(203 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(17 * DesignSet.frameHeightRatio)
+        }
+        
         view.addSubview(beeNameTextField)
-        view.addSubview(lengthDescriptionLabel)
+        beeNameTextField.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(236 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+        }
         view.addSubview(bottomlineView)
+        bottomlineView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(271 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(1 * DesignSet.frameHeightRatio)
+            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+        }
+        view.addSubview(lengthDescriptionLabel)
+        lengthDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(bottomlineView.snp.top).offset(12 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+        }
         
         view.addSubview(nextButton)
-        
-        DesignSet.constraints(view: toPreviousButton, top: 42, leading: 24, height: 20, width: 12)
-        
-        DesignSet.constraints(view: firstDescriptionLabel, top: 90, leading: 24, height: 33, width: 174)
-        DesignSet.constraints(view: secondDescriptionLabel, top: 123, leading: 24, height: 33, width: 214)
-        
-        DesignSet.constraints(view: nameDescriptionLabel, top: 223, leading: 24, height: 17, width: 51)
-        DesignSet.constraints(view: beeNameTextField, top: 257, leading: 24, height: 20, width: 327)
-        DesignSet.constraints(view: lengthDescriptionLabel, top: 304, leading: 24, height: 16, width: 145)
-        DesignSet.constraints(view: bottomlineView, top: 291, leading: 24, height: 1, width: 327)
-        
-        DesignSet.constraints(view: nextButton, top: 611, leading: 0, height: 56, width: 375)
+        nextButton.snp.makeConstraints {
+            $0.top.equalTo(view.snp.bottom).offset(-56 * DesignSet.frameHeightRatio)
+            $0.bottom.equalToSuperview()
+            $0.centerX.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
     }
 }
