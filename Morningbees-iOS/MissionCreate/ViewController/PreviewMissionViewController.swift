@@ -176,22 +176,16 @@ extension PreviewMissionViewController {
         
         view.addSubview(activityIndicator)
         activityIndicator.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
-            $0.height.equalToSuperview()
-            $0.width.equalToSuperview()
+            $0.centerX.centerY.height.width.equalToSuperview()
         }
         activityIndicator.addSubview(activityIndicatorImageView)
         activityIndicatorImageView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.centerX.centerY.width.equalToSuperview()
             $0.height.equalTo(activityIndicator.snp.width)
-            $0.width.equalToSuperview()
         }
         activityIndicatorImageView.addSubview(activityIndicatorDescriptionLabel)
         activityIndicatorDescriptionLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.centerX.bottom.equalToSuperview()
             $0.height.equalTo(26 * DesignSet.frameHeightRatio)
         }
         

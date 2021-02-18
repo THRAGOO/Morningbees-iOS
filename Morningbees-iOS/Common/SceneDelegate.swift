@@ -59,20 +59,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 extension SceneDelegate {
     
     private func handleDynamicLinks(_ dynamiclink: DynamicLink) {
-        
-<<<<<<< Updated upstream
-        // login control needed
-        
-        guard let url = dynamiclink.url else {
-            return
-        }
-        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-            let queryItems = components.queryItems else {
-=======
         if (GIDSignIn.sharedInstance()?.currentUser) != nil ||
             NaverThirdPartyLoginConnection.getSharedInstance()?.accessToken != nil {
             guard let url = dynamiclink.url else {
->>>>>>> Stashed changes
                 return
             }
             if UserDefaults.standard.bool(forKey: UserDefaultsKey.alreadyJoin.rawValue) {

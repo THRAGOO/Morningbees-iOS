@@ -282,22 +282,16 @@ extension BeeCreateJellyViewController {
     private func setLayout() {
         view.addSubview(activityIndicator)
         activityIndicator.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
-            $0.height.equalToSuperview()
-            $0.width.equalToSuperview()
+            $0.centerX.centerY.height.width.equalToSuperview()
         }
         activityIndicator.addSubview(activityIndicatorImageView)
         activityIndicatorImageView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.centerX.centerY.width.equalToSuperview()
             $0.height.equalTo(activityIndicator.snp.width)
-            $0.width.equalToSuperview()
         }
         activityIndicatorImageView.addSubview(activityIndicatorDescriptionLabel)
         activityIndicatorDescriptionLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.centerX.bottom.equalToSuperview()
             $0.height.equalTo(26 * DesignSet.frameHeightRatio)
         }
         
@@ -306,7 +300,7 @@ extension BeeCreateJellyViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
             $0.leading.equalTo(12 * DesignSet.frameWidthRatio)
             $0.height.equalTo(20 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(12 * DesignSet.frameWidthRatio)
+            $0.width.equalTo(12 * DesignSet.frameHeightRatio)
         }
         
         view.addSubview(firstDescriptionLabel)
@@ -365,9 +359,7 @@ extension BeeCreateJellyViewController {
         view.addSubview(nextButton)
         nextButton.snp.makeConstraints {
             $0.top.equalTo(view.snp.bottom).offset(-56 * DesignSet.frameHeightRatio)
-            $0.bottom.equalToSuperview()
-            $0.centerX.equalToSuperview()
-            $0.width.equalToSuperview()
+            $0.bottom.centerX.width.equalToSuperview()
         }
         
         trackView.layer.zPosition = 0

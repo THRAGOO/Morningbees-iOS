@@ -208,8 +208,9 @@ extension BeeCreateNameViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
             $0.leading.equalTo(12 * DesignSet.frameWidthRatio)
             $0.height.equalTo(20 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(12 * DesignSet.frameWidthRatio)
+            $0.width.equalTo(12 * DesignSet.frameHeightRatio)
         }
+        
         view.addSubview(descriptionLabel)
         descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(70 * DesignSet.frameHeightRatio)
@@ -235,7 +236,7 @@ extension BeeCreateNameViewController {
         bottomlineView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(271 * DesignSet.frameHeightRatio)
             $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(1 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(1)
             $0.width.equalTo(327 * DesignSet.frameWidthRatio)
         }
         view.addSubview(lengthDescriptionLabel)
@@ -248,9 +249,7 @@ extension BeeCreateNameViewController {
         view.addSubview(nextButton)
         nextButton.snp.makeConstraints {
             $0.top.equalTo(view.snp.bottom).offset(-56 * DesignSet.frameHeightRatio)
-            $0.bottom.equalToSuperview()
-            $0.centerX.equalToSuperview()
-            $0.width.equalToSuperview()
+            $0.bottom.centerX.width.equalToSuperview()
         }
     }
 }

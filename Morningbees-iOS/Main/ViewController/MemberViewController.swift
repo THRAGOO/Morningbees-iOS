@@ -11,7 +11,7 @@ import FirebaseDynamicLinks
 
 final class MemberViewController: UIViewController {
     
-//MARK:- Properties
+// MARK:- Properties
     
     private let toPreviousButton: UIButton = {
         let button = UIButton()
@@ -59,7 +59,7 @@ final class MemberViewController: UIViewController {
         return tableView
     }()
     
-//MARK:- Life Cycle
+// MARK:- Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,7 +71,7 @@ final class MemberViewController: UIViewController {
     }
 }
 
-//MARK:- Navigation
+// MARK:- Navigation
 
 extension MemberViewController {
     
@@ -80,7 +80,7 @@ extension MemberViewController {
     }
 }
 
-//MARK:- Build DynamicLink
+// MARK:- Build DynamicLink
 
 extension MemberViewController {
     
@@ -132,13 +132,13 @@ extension MemberViewController {
     }
 }
 
-//MARK:- Custom Table View
+// MARK:- Custom Table View
 
 extension MemberViewController: UITableViewDelegate {
     
 }
 
-//MARK:- Design Set
+// MARK:- Design Set
 
 extension MemberViewController {
     

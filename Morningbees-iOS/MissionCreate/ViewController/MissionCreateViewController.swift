@@ -12,8 +12,6 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
     
 // MARK:- Properties
     
-<<<<<<< Updated upstream
-=======
     private var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.color = .white
@@ -30,7 +28,6 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
         return label
     }()
     
->>>>>>> Stashed changes
     private let toPreviousButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "arrowLeft"), for: .normal)
@@ -253,26 +250,18 @@ extension MissionCreateViewController {
                 return
             }
             let header = [RequestHeader.accessToken.rawValue: accessToken]
-<<<<<<< Updated upstream
-            
-            MultipartFormdataRequest().request(parameters: missionData,
-                                               imageData: imageData,
-                                               requestSet: requestSet,
-                                               header: header) { (created, error) in
-=======
             MultipartFormdataRequest().request(parameters: parameter,
                                                imageData: imageData,
                                                requestSet: requestSet,
-                                               header: header) { (created, error) in
+                                               header: header) { (isCreated, error) in
                 DispatchQueue.main.async {
                     activityIndicator.stopAnimating()
                 }
->>>>>>> Stashed changes
                 if let error = error {
                     presentConfirmAlert(title: "미션 생성 요청 에러!", message: error.localizedDescription)
                     return
                 }
-                if created {
+                if isCreated {
                     presentConfirmAlert(title: "미션 등록!", message: "성공적으로 등록하였습니다!") { _ in
                         NotificationCenter.default.post(name: Notification.Name.init("ReloadViewController"),
                                                         object: nil)
@@ -446,9 +435,6 @@ extension MissionCreateViewController {
 
 extension MissionCreateViewController {
     
-<<<<<<< Updated upstream
-    private func setupDesign() {
-=======
     private func setLayout() {
         view.backgroundColor = .white
         
@@ -473,13 +459,12 @@ extension MissionCreateViewController {
             $0.height.equalTo(26 * DesignSet.frameHeightRatio)
         }
         
->>>>>>> Stashed changes
         view.addSubview(toPreviousButton)
         toPreviousButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(11 * DesignSet.frameHeightRatio)
             $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
             $0.height.equalTo(20 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(12 * DesignSet.frameWidthRatio)
+            $0.width.equalTo(12 * DesignSet.frameHeightRatio)
         }
         view.addSubview(viewTitleLabel)
         viewTitleLabel.snp.makeConstraints {
@@ -577,27 +562,6 @@ extension MissionCreateViewController {
             $0.width.equalTo(327 * DesignSet.frameWidthRatio)
         }
         
-<<<<<<< Updated upstream
-        DesignSet.constraints(view: toPreviousButton, top: 37, leading: 24, height: 20, width: 12)
-        DesignSet.constraints(view: viewTitleLabel, top: 38, leading: 150, height: 20, width: 76)
-        DesignSet.flexibleConstraints(view: completeButton, top: 38, leading: 319, height: 20, width: 35)
-        
-        DesignSet.flexibleConstraints(view: missionTitleCommentLabel, top: 92, leading: 24, height: 19, width: 38)
-        DesignSet.constraints(view: missionTitleTextField, top: 127, leading: 24, height: 20, width: 327)
-        DesignSet.constraints(view: bottomlineView, top: 161, leading: 24, height: 1, width: 327)
-        
-        DesignSet.flexibleConstraints(view: missionPictureCommentLabel, top: 216, leading: 24, height: 19, width: 66)
-        DesignSet.constraints(view: takePictureButton, top: 256, leading: 54, height: 120, width: 120)
-        DesignSet.constraints(view: selectFromGalleryButton, top: 256, leading: 198, height: 120, width: 120)
-        DesignSet.constraints(view: selectedPictureView, top: 256, leading: 24, height: 120, width: 120)
-        DesignSet.flexibleConstraints(view: reloadPictureButton, top: 360, leading: 183, height: 17, width: 60)
-        DesignSet.constraints(view: reloadIcon, top: 358, leading: 159, height: 18, width: 17)
-        
-        DesignSet.flexibleConstraints(view: difficultyCommentLabel, top: 439, leading: 24, height: 19, width: 66)
-        DesignSet.flexibleConstraints(view: difficultyDescriptionLabel, top: 463, leading: 24, height: 16, width: 191)
-        DesignSet.constraints(view: customSegmentedControl, top: 498, leading: 24, height: 96, width: 327)
-=======
         activityIndicator.layer.zPosition = 1
->>>>>>> Stashed changes
     }
 }
