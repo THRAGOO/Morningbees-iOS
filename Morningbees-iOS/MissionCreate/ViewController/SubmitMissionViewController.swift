@@ -8,11 +8,11 @@
 
 import UIKit
 
-class SubmitMissionViewContoller: UIViewController {
+final class SubmitMissionViewContoller: UIViewController {
     
     // MARK:- Properties
     
-    let submitView: UIView = {
+    private let submitView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(red: 239, green: 239, blue: 239)
         view.layer.cornerRadius = 30
@@ -20,14 +20,14 @@ class SubmitMissionViewContoller: UIViewController {
         return view
     }()
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel(text: "오늘의 미션 참여하기", letterSpacing: -0.64)
         label.font = UIFont(font: .systemBold, size: 16)
         label.textColor = UIColor(red: 119, green: 119, blue: 119)
         return label
     }()
     
-    let cameraButton: UIButton = {
+    private let cameraButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(red: 250, green: 250, blue: 250)
         button.layer.cornerRadius = 18
@@ -35,12 +35,12 @@ class SubmitMissionViewContoller: UIViewController {
         button.addTarget(self, action: #selector(selectImageFromCamera), for: .touchUpInside)
         return button
     }()
-    let cameraImageView: UIImageView = {
+    private let cameraImageView: UIImageView = {
         let imageView = UIImageView(imageName: "iconCamera")
         imageView.alpha = 0.25
         return imageView
     }()
-    let cameraLabel: UILabel = {
+    private let cameraLabel: UILabel = {
         let label = UILabel(text: "사진찍기", letterSpacing: -0.62)
         label.font = UIFont(font: .systemBold, size: 13)
         label.textColor = UIColor(red: 170, green: 170, blue: 170)
@@ -48,7 +48,7 @@ class SubmitMissionViewContoller: UIViewController {
         return label
     }()
     
-    let libraryButton: UIButton = {
+    private let libraryButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(red: 250, green: 250, blue: 250)
         button.layer.cornerRadius = 18
@@ -56,12 +56,12 @@ class SubmitMissionViewContoller: UIViewController {
         button.addTarget(self, action: #selector(selectImageFromPhoto), for: .touchUpInside)
         return button
     }()
-    let libraryImageView: UIImageView = {
+    private let libraryImageView: UIImageView = {
         let imageView = UIImageView(imageName: "iconPhoto")
         imageView.alpha = 0.25
         return imageView
     }()
-    let libraryLabel: UILabel = {
+    private let libraryLabel: UILabel = {
         let label = UILabel(text: "갤러리에서\n가져오기", letterSpacing: -0.62)
         label.font = UIFont(font: .systemBold, size: 13)
         label.textColor = UIColor(red: 170, green: 170, blue: 170)
@@ -70,7 +70,7 @@ class SubmitMissionViewContoller: UIViewController {
         return label
     }()
     
-    var viewTranslation = CGPoint(x: 0, y: 0)
+    private var viewTranslation = CGPoint(x: 0, y: 0)
     
     // MARK:- Life Cycle
     
@@ -151,9 +151,8 @@ extension SubmitMissionViewContoller {
         view.addSubview(submitView)
         submitView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(407 * DesignSet.frameHeightRatio)
-            $0.centerX.equalToSuperview()
+            $0.centerX.width.equalToSuperview()
             $0.height.equalTo(270 * DesignSet.frameHeightRatio)
-            $0.width.equalToSuperview()
         }
         
         submitView.addSubview(titleLabel)
@@ -166,8 +165,7 @@ extension SubmitMissionViewContoller {
         cameraButton.snp.makeConstraints {
             $0.top.equalTo(79 * DesignSet.frameHeightRatio)
             $0.leading.equalTo(50 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(120 * DesignSet.frameWidthRatio)
-            $0.width.equalTo(120 * DesignSet.frameWidthRatio)
+            $0.height.width.equalTo(120 * DesignSet.frameWidthRatio)
         }
         cameraButton.addSubview(cameraImageView)
         cameraImageView.snp.makeConstraints {
@@ -179,15 +177,14 @@ extension SubmitMissionViewContoller {
         cameraButton.addSubview(cameraLabel)
         cameraLabel.snp.makeConstraints {
             $0.top.equalTo(cameraImageView.snp.bottom).offset(15)
-            $0.centerX.equalTo(cameraButton.snp.centerX)
+            $0.centerX.equalTo(cameraButton)
         }
         
         submitView.addSubview(libraryButton)
         libraryButton.snp.makeConstraints {
             $0.top.equalTo(79 * DesignSet.frameHeightRatio)
             $0.trailing.equalTo(-50 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(120 * DesignSet.frameWidthRatio)
-            $0.width.equalTo(120 * DesignSet.frameWidthRatio)
+            $0.height.width.equalTo(120 * DesignSet.frameWidthRatio)
         }
         libraryButton.addSubview(libraryImageView)
         libraryImageView.snp.makeConstraints {
@@ -199,7 +196,7 @@ extension SubmitMissionViewContoller {
         libraryButton.addSubview(libraryLabel)
         libraryLabel.snp.makeConstraints {
             $0.top.equalTo(libraryImageView.snp.bottom).offset(15)
-            $0.centerX.equalTo(libraryButton.snp.centerX)
+            $0.centerX.equalTo(libraryButton)
         }
     }
 }

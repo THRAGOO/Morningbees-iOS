@@ -24,6 +24,12 @@ final class CalendarViewController: UIViewController {
     
     private var todayDate = Date()
     
+    private let january: Int = 1
+    private let december: Int = 12
+    private let sunday: Int = 1
+    private let saturday: Int = 7
+    private let oneDay: Double = 24 * 60 * 60
+    
     private let calendarHeaderLabel: UILabel = {
         let label = UILabel(text: "", letterSpacing: 0.43)
         label.textColor = UIColor(red: 68, green: 68, blue: 68)
@@ -102,14 +108,14 @@ extension CalendarViewController {
         currentDay = calendar.component(.day, from: Date())
         todayDate = dateFormatter.date(from: "\(currentYear)-\(currentMonth)-\(currentDay)") ?? Date()
         
-        for count in 0...6 {
+        for weekday in 1...7 {
             let label = UILabel()
-            label.text = calendar.shortWeekdaySymbols[count]
+            label.text = calendar.shortWeekdaySymbols[weekday - 1]
             label.font = UIFont(font: .systemSemiBold, size: 12)
             label.textAlignment = .center
-            if count == 0 {
+            if weekday == sunday {
                 label.textColor = UIColor(red: 240, green: 62, blue: 62)
-            } else if count == 6 {
+            } else if weekday == saturday {
                 label.textColor = UIColor(red: 34, green: 105, blue: 255)
             } else {
                 label.textColor = UIColor(red: 204, green: 204, blue: 204)
@@ -131,23 +137,23 @@ extension CalendarViewController {
         calendarHeaderLabel.text = "\(currentMonthSymbol) \(currentYear)"
         var dayCount: Int = 1
         
-        for weekCount in 1...6 {
+        for week in 1...6 {
             let weekStackView = UIStackView()
             weekStackView.axis = .horizontal
             weekStackView.distribution = .fillEqually
             weekStackView.frame.size = CGSize(width: 273 * DesignSet.frameWidthRatio,
                                               height: 39 * DesignSet.frameWidthRatio)
-            if weekCount == 1 {
+            if 1 == week {
                 for _ in 0 ..< firstDayOfWeek - 1 {
                     let button = UIButton()
                     weekStackView.addArrangedSubview(button)
                 }
-                for count in firstDayOfWeek...7 {
+                for day in firstDayOfWeek...7 {
                     let button = UIButton()
                     button.setTitle("\(dayCount)", for: .normal)
-                    if count == 1 {
+                    if day == sunday {
                         button.setTitleColor(UIColor(red: 240, green: 62, blue: 62), for: .normal)
-                    } else if count == 7 {
+                    } else if day == saturday {
                         button.setTitleColor(UIColor(red: 34, green: 105, blue: 255), for: .normal)
                     } else {
                         button.setTitleColor(UIColor(red: 119, green: 119, blue: 119), for: .normal)
@@ -168,13 +174,13 @@ extension CalendarViewController {
                     dayCount += 1
                 }
             } else {
-                for count in 1...7 {
+                for day in 1...7 {
                     if dayCount <= MonthDays {
                         let button = UIButton()
                         button.setTitle("\(dayCount)", for: .normal)
-                        if count == 1 {
+                        if day == sunday {
                             button.setTitleColor(UIColor(red: 240, green: 62, blue: 62), for: .normal)
-                        } else if count == 7 {
+                        } else if day == saturday {
                             button.setTitleColor(UIColor(red: 34, green: 105, blue: 255), for: .normal)
                         } else {
                             button.setTitleColor(UIColor(red: 119, green: 119, blue: 119), for: .normal)
@@ -214,8 +220,7 @@ extension CalendarViewController {
         guard let parameterDate = dateFormatter.date(from: "\(currentYear)-\(currentMonth)-\(day)") else {
             return false
         }
-        // 24hours * 60minuates * 60seconds -> 1Day
-        if todayDate + (24 * 60 * 60) < parameterDate {
+        if todayDate + oneDay < parameterDate {
             return false
         }
         return true
@@ -241,8 +246,8 @@ extension CalendarViewController {
     
     @objc private func touchupNextMonth(_ sender: UIButton) {
         currentMonth += 1
-        if 12 < currentMonth {
-            currentMonth = 1
+        if december < currentMonth {
+            currentMonth = january
             currentYear += 1
         }
         currentMonthSymbol = calendar.monthSymbols[currentMonth - 1]
@@ -251,8 +256,8 @@ extension CalendarViewController {
     
     @objc private func touchupPrevMonth(_ sender: UIButton) {
         currentMonth -= 1
-        if currentMonth < 1 {
-            currentMonth = 12
+        if currentMonth < january {
+            currentMonth = december
             currentYear -= 1
         }
         currentMonthSymbol = calendar.monthSymbols[currentMonth - 1]
@@ -266,6 +271,7 @@ extension CalendarViewController {
     
     private func setLayout() {
         view.backgroundColor = .white
+        
         view.addSubview(calendarHeaderLabel)
         calendarHeaderLabel.snp.makeConstraints {
             $0.top.equalTo(21 * DesignSet.frameHeightRatio)
@@ -275,39 +281,37 @@ extension CalendarViewController {
         }
         view.addSubview(prevMonthButton)
         prevMonthButton.snp.makeConstraints {
-            $0.height.equalTo(30 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(30 * DesignSet.frameWidthRatio)
-            $0.centerY.equalTo(calendarHeaderLabel.snp.centerY)
-            $0.leading.equalToSuperview().offset(10 * DesignSet.frameWidthRatio)
+            $0.centerY.equalTo(calendarHeaderLabel)
+            $0.leading.equalTo(10 * DesignSet.frameWidthRatio)
+            $0.height.width.equalTo(30 * DesignSet.frameWidthRatio)
         }
         view.addSubview(nextMonthButton)
         nextMonthButton.snp.makeConstraints {
-            $0.height.equalTo(30 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(30 * DesignSet.frameWidthRatio)
-            $0.centerY.equalTo(calendarHeaderLabel.snp.centerY)
-            $0.trailing.equalToSuperview().offset(-10 * DesignSet.frameWidthRatio)
+            $0.centerY.equalTo(calendarHeaderLabel)
+            $0.trailing.equalTo(-10 * DesignSet.frameWidthRatio)
+            $0.height.width.equalTo(30 * DesignSet.frameWidthRatio)
         }
         
         view.addSubview(dayOfWeekStackView)
         dayOfWeekStackView.snp.makeConstraints {
             $0.top.equalTo(72 * DesignSet.frameHeightRatio)
+            $0.centerX.equalToSuperview()
             $0.height.equalTo(14 * DesignSet.frameHeightRatio)
             $0.width.greaterThanOrEqualTo(273 * DesignSet.frameWidthRatio)
-            $0.centerX.equalTo(view.snp.centerX)
         }
         view.addSubview(bottomlineView)
         bottomlineView.snp.makeConstraints {
             $0.top.equalTo(95 * DesignSet.frameHeightRatio)
+            $0.centerX.equalToSuperview()
             $0.height.equalTo(1 * DesignSet.frameHeightRatio)
             $0.width.greaterThanOrEqualTo(260 * DesignSet.frameWidthRatio)
-            $0.centerX.equalTo(view.snp.centerX)
         }
         view.addSubview(dateStackView)
         dateStackView.snp.makeConstraints {
             $0.top.equalTo(98 * DesignSet.frameHeightRatio)
+            $0.centerX.equalToSuperview()
             $0.height.greaterThanOrEqualTo(234 * DesignSet.frameWidthRatio)
             $0.width.greaterThanOrEqualTo(273 * DesignSet.frameWidthRatio)
-            $0.centerX.equalTo(view.snp.centerX)
         }
     }
 }

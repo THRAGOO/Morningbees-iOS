@@ -20,7 +20,7 @@ final class BeforeJoinViewController: UIViewController, CustomAlert {
     private let logOutButton: UIButton = {
         let button = UIButton()
         button.setTitle("로그아웃", for: .normal)
-        button.tintColor = .lightGray
+        button.setTitleColor(.lightGray, for: .normal)
         button.addTarget(self, action: #selector(touchUpSignOutNaver), for: .touchUpInside)
         button.addTarget(self, action: #selector(touchUpSignOutGoogle), for: .touchUpInside)
         return button
@@ -60,6 +60,7 @@ final class BeforeJoinViewController: UIViewController, CustomAlert {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        naverSignInInstance?.delegate = self
         setLayout()
     }
     
@@ -98,7 +99,6 @@ extension BeforeJoinViewController: NaverThirdPartyLoginConnectionDelegate {
     // MARK: Action
 
     @objc private func touchUpSignOutNaver(_ sender: UIButton) {
-        naverSignInInstance?.delegate = self
         naverSignInInstance?.requestDeleteToken()
     }
 }
@@ -127,14 +127,14 @@ extension BeforeJoinViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(28 * DesignSet.frameHeightRatio)
             $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
             $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.width.greaterThanOrEqualTo(30 * DesignSet.frameWidthRatio)
         }
         
         view.addSubview(illustBeforeJoiningImg)
         illustBeforeJoiningImg.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(67 * DesignSet.frameHeightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(240 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(240 * DesignSet.frameHeightRatio)
+            $0.height.width.equalTo(240 * DesignSet.frameHeightRatio)
         }
         
         view.addSubview(statusLabel)

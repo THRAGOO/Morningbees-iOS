@@ -10,7 +10,7 @@ import UIKit
 
 final class InvitedViewController: UIViewController {
     
-//MARK:- Properties
+    // MARK:- Properties
     
     private var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
@@ -30,7 +30,7 @@ final class InvitedViewController: UIViewController {
     
     private let invitationImageViwe = UIImageView(imageName: "illustInvite")
     private let mainDescriptionLabel: UILabel = {
-        let label = UILabel(text: "여왕벌에게 초대장이 도착하였습니다.", letterSpacing: -0.6)
+        let label = UILabel(text: "여왕벌에게\n초대장이 도착하였습니다.", letterSpacing: -0.6)
         label.textColor = UIColor(red: 34, green: 34, blue: 34)
         label.font = UIFont(font: .systemBold, size: 24)
         label.textAlignment = .center
@@ -45,8 +45,6 @@ final class InvitedViewController: UIViewController {
         label.numberOfLines = 2
         return label
     }()
-<<<<<<< Updated upstream
-=======
     private var beeTitle: String = ""
     private let joinButton: UIButton = {
         let button = UIButton()
@@ -54,14 +52,13 @@ final class InvitedViewController: UIViewController {
         button.setTitleColor(UIColor(red: 34, green: 34, blue: 34), for: .normal)
         button.titleLabel?.font = UIFont(font: .systemSemiBold, size: 14)
         button.backgroundColor = UIColor(red: 255, green: 218, blue: 34)
-        button.layer.cornerRadius = 25
+        button.setRatioCornerRadius(25)
         button.layer.masksToBounds = true
         button.addTarget(self, action: #selector(touchUpJoinButton), for: .touchUpInside)
         return button
     }()
->>>>>>> Stashed changes
     
-//MARK:- Life Cycle
+    // MARK:- Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,11 +81,7 @@ extension InvitedViewController {
     }
 }
 
-<<<<<<< Updated upstream
-//MARK:- View Design
-=======
 // MARK:- UI
->>>>>>> Stashed changes
 
 extension InvitedViewController {
     
@@ -96,7 +89,7 @@ extension InvitedViewController {
         guard let beeTitle = UserDefaults.standard.string(forKey: UserDefaultsKey.beeTitle.rawValue) else {
             return
         }
-        invitedLabel.text = "\(beeTitle)에 참여하여 미션을 함께 클리어 해 볼까요?"
+        invitedLabel.text = "\(beeTitle)에 참여하여\n미션을 함께 클리어 해 볼까요?"
         self.beeTitle = beeTitle
     }
 }
@@ -169,22 +162,16 @@ extension InvitedViewController {
     private func setLayout() {
         view.addSubview(activityIndicator)
         activityIndicator.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
-            $0.height.equalToSuperview()
-            $0.width.equalToSuperview()
+            $0.centerX.centerY.height.width.equalToSuperview()
         }
         activityIndicator.addSubview(activityIndicatorImageView)
         activityIndicatorImageView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.centerX.centerY.width.equalToSuperview()
             $0.height.equalTo(activityIndicator.snp.width)
-            $0.width.equalToSuperview()
         }
         activityIndicatorImageView.addSubview(activityIndicatorDescriptionLabel)
         activityIndicatorDescriptionLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.centerX.bottom.equalToSuperview()
             $0.height.equalTo(26 * DesignSet.frameHeightRatio)
         }
         
@@ -192,35 +179,22 @@ extension InvitedViewController {
         invitationImageViwe.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(67 * DesignSet.frameHeightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(240 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(240 * DesignSet.frameHeightRatio)
+            $0.height.width.equalTo(240 * DesignSet.frameHeightRatio)
         }
         
-<<<<<<< Updated upstream
-        view.addSubview(mainDescriptLabel)
-        view.addSubview(invitedLabel)
-        
-        DesignSet.constraints(view: invitationImageViwe, top: 87, leading: 67, height: 240, width: 240)
-        
-        mainDescriptLabel.snp.makeConstraints {
-            $0.top.equalTo(364 * DesignSet.frameHeightRatio)
-=======
         view.addSubview(mainDescriptionLabel)
         mainDescriptionLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(344 * DesignSet.frameHeightRatio)
             $0.centerX.equalToSuperview()
->>>>>>> Stashed changes
             $0.height.equalTo(66 * DesignSet.frameHeightRatio)
         }
+        
         view.addSubview(invitedLabel)
         invitedLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(431 * DesignSet.frameHeightRatio)
-            $0.centerX.equalTo(view.snp.centerX)
+            $0.centerX.equalToSuperview()
             $0.height.equalTo(40 * DesignSet.frameHeightRatio)
         }
-<<<<<<< Updated upstream
-=======
-        
         view.addSubview(joinButton)
         joinButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(510 * DesignSet.frameHeightRatio)
@@ -230,6 +204,5 @@ extension InvitedViewController {
         }
         
         activityIndicator.layer.zPosition = 1
->>>>>>> Stashed changes
     }
 }

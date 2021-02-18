@@ -200,13 +200,13 @@ extension BeeCreateTimeViewController {
 
 extension BeeCreateTimeViewController {
     
-    func setLayout() {
+    private func setLayout() {
         view.addSubview(toPreviousButton)
         toPreviousButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
             $0.leading.equalTo(12 * DesignSet.frameWidthRatio)
             $0.height.equalTo(20 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(12 * DesignSet.frameWidthRatio)
+            $0.width.equalTo(12 * DesignSet.frameHeightRatio)
         }
         
         view.addSubview(descriptionLabel)
@@ -233,9 +233,7 @@ extension BeeCreateTimeViewController {
         view.addSubview(nextButton)
         nextButton.snp.makeConstraints {
             $0.top.equalTo(view.snp.bottom).offset(-56 * DesignSet.frameHeightRatio)
-            $0.bottom.equalToSuperview()
-            $0.centerX.equalToSuperview()
-            $0.width.equalToSuperview()
+            $0.bottom.centerX.width.equalToSuperview()
         }
     }
 }

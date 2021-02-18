@@ -69,6 +69,7 @@ extension DesignSet {
 // MARK:- UIButton Backgroundcolor for status
 
 extension UIButton {
+    
     public func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
         UIGraphicsBeginImageContext(CGSize(width: 1.0, height: 1.0))
         guard let context = UIGraphicsGetCurrentContext() else {
@@ -96,12 +97,16 @@ extension UIColor {
 // MARK:- UIFont Override
 
 extension UIFont {
+    
     convenience init?(font: TextFonts, size: CGFloat) {
         self.init(name: font.rawValue, size: size)
     }
 }
 
+// MARK:- UIView Layer ConerRadius with view ratio
+
 extension UIView {
+    
     public func setRatioCornerRadius(_ value: Double) {
         layer.cornerRadius = CGFloat(DesignSet.frameHeightRatio * value)
     }

@@ -128,6 +128,21 @@
             </objects>
             <point key="canvasLocation" x="2023" y="805"/>
         </scene>
+        <!--Invited View Controller-->
+        <scene sceneID="diK-YK-8dU">
+            <objects>
+                <viewController storyboardIdentifier="InvitedViewController" id="uEx-6H-WM4" customClass="InvitedViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="j36-ua-YNt">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="spl-r2-M39"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hmh-vS-FQ4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2682" y="805"/>
+        </scene>
         <!--Before Join View Controller-->
         <scene sceneID="ANq-jK-4iR">
             <objects>
