@@ -57,7 +57,7 @@ final class BeeCreateNameViewController: UIViewController {
         view.layer.borderColor = UIColor(red: 211, green: 211, blue: 211).cgColor
         return view
     }()
-
+    
     private let nextButton: UIButton = {
         let button = UIButton()
         button.setTitle("다음 1/3", for: .normal)
@@ -71,11 +71,6 @@ final class BeeCreateNameViewController: UIViewController {
         return button
     }()
     
-    /// Home Indicator Control
-    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
-        return .bottom
-    }
-    
     // MARK:- Life Cycle
     
     override func viewDidLoad() {
@@ -86,7 +81,6 @@ final class BeeCreateNameViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(willShowkeyboard),
                                                name: UIResponder.keyboardWillShowNotification,
@@ -95,6 +89,11 @@ final class BeeCreateNameViewController: UIViewController {
                                                selector: #selector(willHidekeyboard),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NavigationControl.navigationController.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -125,7 +124,7 @@ extension BeeCreateNameViewController {
     }
     
     @objc private func popToPreviousViewController(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
+        NavigationControl.popViewController()
     }
 }
 
@@ -142,15 +141,24 @@ extension BeeCreateNameViewController {
     // MARK: Keyboard Event
     
     @objc private func willShowkeyboard(_ notification: Notification) {
-         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
-             return
-         }
-         nextButton.transform = CGAffineTransform(translationX: 0, y: -keyboardFrame.cgRectValue.height)
-     }
+        nextButton.snp.remakeConstraints {
+            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.bottom.centerX.width.equalToSuperview()
+        }
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+            return
+        }
+        nextButton.transform = CGAffineTransform(translationX: 0, y: -keyboardFrame.cgRectValue.height)
+    }
     
-     @objc private func willHidekeyboard(_ notification: Notification) {
-         nextButton.transform = .identity
-     }
+    @objc private func willHidekeyboard(_ notification: Notification) {
+        nextButton.transform = .identity
+        nextButton.snp.remakeConstraints {
+            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.centerX.width.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
+    }
 }
 
 // MARK:- TextField Delegate
@@ -248,8 +256,9 @@ extension BeeCreateNameViewController {
         
         view.addSubview(nextButton)
         nextButton.snp.makeConstraints {
-            $0.top.equalTo(view.snp.bottom).offset(-56 * DesignSet.frameHeightRatio)
-            $0.bottom.centerX.width.equalToSuperview()
+            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.centerX.width.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
     }
 }

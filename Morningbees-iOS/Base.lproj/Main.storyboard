@@ -22,7 +22,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2023.2" y="137.4384236453202"/>
+            <point key="canvasLocation" x="1318" y="137"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="pI6-tI-AWT">
@@ -38,7 +38,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aPz-0u-3s0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2682.4000000000001" y="136.69950738916256"/>
+            <point key="canvasLocation" x="1977" y="137"/>
         </scene>
         <!--Bee Create Name View Controller-->
         <scene sceneID="Z8B-bc-TZ3">
@@ -58,7 +58,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SNp-yH-Ll9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3765.5999999999999" y="136.69950738916256"/>
+            <point key="canvasLocation" x="3444" y="805"/>
         </scene>
         <!--Bee Create Time View Controller-->
         <scene sceneID="iv5-fE-vWh">
@@ -77,7 +77,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1uD-zN-Gse" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4460" y="136.69950738916256"/>
+            <point key="canvasLocation" x="4138" y="805"/>
         </scene>
         <!--Bee Create Jelly View Controller-->
         <scene sceneID="uXE-TX-ots">
@@ -93,25 +93,40 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QdN-rv-38F" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5149.6000000000004" y="136.69950738916256"/>
+            <point key="canvasLocation" x="4828" y="805"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Sgk-ma-XRJ">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PPN-b6-wYA" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="PPN-b6-wYA" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="X5Y-c7-bES">
-                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="QRS-N0-N4L"/>
+                        <segue destination="eOt-JJ-86H" kind="relationship" relationship="rootViewController" id="KE1-Qy-37J"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ft4-ir-Qus" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1319" y="137"/>
+            <point key="canvasLocation" x="-1041" y="805"/>
+        </scene>
+        <!--Root View Controller-->
+        <scene sceneID="18m-vl-o8K">
+            <objects>
+                <viewController storyboardIdentifier="RootViewController" id="eOt-JJ-86H" customClass="RootViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Rcj-cE-XqD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="7UW-y5-B8V"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="e81-BX-ipz"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gvn-Pc-F22" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-246" y="805"/>
         </scene>
         <!--Bee Main View Controller-->
         <scene sceneID="iap-E1-LYW">
@@ -126,7 +141,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="knA-BS-Z6L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2023" y="805"/>
+            <point key="canvasLocation" x="1318" y="1483"/>
         </scene>
         <!--Invited View Controller-->
         <scene sceneID="diK-YK-8dU">
@@ -141,7 +156,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hmh-vS-FQ4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2682" y="805"/>
+            <point key="canvasLocation" x="1977" y="1483"/>
         </scene>
         <!--Before Join View Controller-->
         <scene sceneID="ANq-jK-4iR">

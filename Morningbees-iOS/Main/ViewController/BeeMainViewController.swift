@@ -86,6 +86,7 @@ final class BeeMainViewController: UIViewController, CustomAlert {
         button.layer.masksToBounds = true
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor(red: 234, green: 234, blue: 234).cgColor
+        button.addTarget(self, action: #selector(touchupReceiptButton), for: .touchUpInside)
         return button
     }()
     
@@ -257,11 +258,11 @@ final class BeeMainViewController: UIViewController, CustomAlert {
         label.layer.masksToBounds = false
         return label
     }()
-    private let createMissionButton: UIButton = {
+    private let missionCreateButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "participateInMission"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
-        button.addTarget(self, action: #selector(touchupCreateMissionButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(touchupMissionCreateButton), for: .touchUpInside)
         return button
     }()
     
@@ -330,7 +331,7 @@ final class BeeMainViewController: UIViewController, CustomAlert {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(dismissSubView),
+                                               selector: #selector(dismissPopupView),
                                                name: Notification.Name.init("DismissSubmitView"),
                                                object: nil)
         NotificationCenter.default.addObserver(self,
@@ -358,7 +359,7 @@ final class BeeMainViewController: UIViewController, CustomAlert {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        NavigationControl.navigationController.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -367,6 +368,43 @@ final class BeeMainViewController: UIViewController, CustomAlert {
         NotificationCenter.default.removeObserver(self, name: Notification.Name.init("ChangeDate"), object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.init("MissionCamera"), object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.init("MissionPhoto"), object: nil)
+    }
+}
+
+// MARK:- Navigation Control
+
+extension BeeMainViewController: UIViewControllerTransitioningDelegate {
+    
+    @objc private func touchupSubmitMissionButton(_ sender: UIButton) {
+        let submitMissionViewController = SubmitMissionViewContoller()
+        submitMissionViewController.modalPresentationStyle = .overCurrentContext
+        UIView.animate(withDuration: 0.2) { [self] in
+            view.alpha = 0.4
+        } completion: { [self] _ in
+            present(submitMissionViewController, animated: true)
+        }
+    }
+    
+    @objc private func dismissPopupView() {
+        UIView.animate(withDuration: 0.2) { [self] in
+            view.alpha = 1.0
+        }
+    }
+    
+    @objc private func touchupSettingButton(_ sender: UIButton) {
+        NavigationControl.pushToSettingViewController()
+    }
+    
+    @objc private func touchupReceiptButton(_ sender: UIButton) {
+        NavigationControl.pushToRoyalJellyViewController()
+    }
+    
+    @objc private func touchupMissionCreateButton(_ sender: UIButton) {
+        NavigationControl.pushToMissionCreateViewController()
+    }
+    
+    @objc private func touchupMissionListButton(_ sender: UIButton) {
+        NavigationControl.pushToMissionListViewController()
     }
 }
 
@@ -459,10 +497,10 @@ extension BeeMainViewController {
         if !didSubmitMission() && isCreateMissionTime() && isQuestioner {
             missionNotPostedLabel.text = "미션을 등록해 주세요."
             addViewDashBorder(at: missionImageView)
-            createMissionButton.isHidden = false
+            missionCreateButton.isHidden = false
         } else {
             missionNotPostedLabel.text = "미션이 등록되지 않았습니다."
-            createMissionButton.isHidden = true
+            missionCreateButton.isHidden = true
         }
         
         guard let missions = missions, missions.first != nil else {
@@ -637,39 +675,6 @@ extension BeeMainViewController {
     }
 }
 
-// MARK:- Navigation Control
-
-extension BeeMainViewController: UIViewControllerTransitioningDelegate {
-    
-    @objc private func touchupCreateMissionButton(_ sender: UIButton) {
-        navigationController?.pushViewController(MissionCreateViewController(), animated: true)
-    }
-    
-    @objc private func touchupSubmitMissionButton(_ sender: UIButton) {
-        let submitMissionViewController = SubmitMissionViewContoller()
-        submitMissionViewController.modalPresentationStyle = .overCurrentContext
-        UIView.animate(withDuration: 0.2) { [self] in
-            view.alpha = 0.4
-        } completion: { [self] _ in
-            present(submitMissionViewController, animated: true)
-        }
-    }
-    
-    @objc private func dismissSubView() {
-        UIView.animate(withDuration: 0.2) { [self] in
-            view.alpha = 1.0
-        }
-    }
-    
-    @objc private func touchupSettingButton(_ sender: UIButton) {
-        navigationController?.pushViewController(SettingViewController(), animated: true)
-    }
-    
-    @objc private func touchupMissionListButton(_ sender: UIButton) {
-        navigationController?.pushViewController(MissionListViewController(), animated: true)
-    }
-}
-
 // MARK: Calendar
 
 extension BeeMainViewController {
@@ -818,8 +823,7 @@ extension BeeMainViewController: UIImagePickerControllerDelegate, UINavigationCo
         UserDefaults.standard.set(selectedImage.jpegData(compressionQuality: 1.0),
                                   forKey: UserDefaultsKey.missionImage.rawValue)
         dismiss(animated: true) {
-            let previewMissionViewController = PreviewMissionViewController()
-            self.navigationController?.pushViewController(previewMissionViewController, animated: true)
+            NavigationControl.pushToPreviewMissionViewController()
         }
     }
 }
@@ -842,7 +846,7 @@ extension BeeMainViewController {
         }
         activityIndicatorImageView.addSubview(activityIndicatorDescriptionLabel)
         activityIndicatorDescriptionLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
+            $0.centerX.bottom.equalToSuperview()
             $0.height.equalTo(26 * DesignSet.frameHeightRatio)
         }
         
@@ -1035,8 +1039,8 @@ extension BeeMainViewController {
             $0.height.equalTo(60 * DesignSet.frameHeightRatio)
             $0.width.equalTo(210 * DesignSet.frameWidthRatio)
         }
-        mainScrollView.addSubview(createMissionButton)
-        createMissionButton.snp.makeConstraints {
+        mainScrollView.addSubview(missionCreateButton)
+        missionCreateButton.snp.makeConstraints {
             $0.top.equalTo(544 * DesignSet.frameHeightRatio)
             $0.trailing.equalTo(missionImageView).offset(-13 * DesignSet.frameWidthRatio)
             $0.height.width.equalTo(100 * DesignSet.frameHeightRatio)
@@ -1070,7 +1074,7 @@ extension BeeMainViewController {
         
         shadowMissionView.layer.zPosition = 1
         missionImageView.layer.zPosition = 2
-        createMissionButton.layer.zPosition = 3
+        missionCreateButton.layer.zPosition = 3
         activityIndicator.layer.zPosition = 4
     }
 }

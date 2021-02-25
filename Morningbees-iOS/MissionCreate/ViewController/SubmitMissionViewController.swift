@@ -106,7 +106,7 @@ extension SubmitMissionViewContoller {
             viewTranslation = sender.translation(in: view)
         case .ended:
             if viewTranslation.y < 50 {
-                self.view.transform = .identity
+                view.transform = .identity
             } else {
                 NotificationCenter.default.post(name: Notification.Name.init("DismissSubmitView"), object: nil)
                 dismiss(animated: true)

@@ -132,15 +132,10 @@ final class BeeCreateJellyViewController: UIViewController {
         return button
     }()
     
-    var beeName: String = ""
-    var startTime: Int = 0
-    var endTime: Int = 0
-    var royalJelly: Int = 0
-    
-    /// Home Indicator Control
-    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
-        return .bottom
-    }
+    public var beeName: String = ""
+    public var startTime: Int = 0
+    public var endTime: Int = 0
+    private var royalJelly: Int = 0
     
     // MARK:- Life Cycle
     
@@ -151,7 +146,11 @@ final class BeeCreateJellyViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NavigationControl.navigationController.interactivePopGestureRecognizer?.isEnabled = true
     }
 }
 
@@ -164,7 +163,7 @@ extension BeeCreateJellyViewController {
     }
     
     @objc private func popToPreviousViewController(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
+        NavigationControl.popViewController()
     }
 }
 
@@ -172,7 +171,7 @@ extension BeeCreateJellyViewController {
 
 extension BeeCreateJellyViewController {
     
-    private func setSegmentValue(min: Bool, max: Bool, cur: Bool) {
+    private func updateJellyLabel(min: Bool, max: Bool, cur: Bool) {
         let selectedJellyColor = UIColor(red: 68, green: 68, blue: 68)
         let notSelectedJellyColor = UIColor(red: 170, green: 170, blue: 170)
         
@@ -197,11 +196,11 @@ extension BeeCreateJellyViewController {
         sender.setValue(Float(royalJelly), animated: false)
         
         if royalJelly == 2000 {
-            setSegmentValue(min: true, max: false, cur: false)
+            updateJellyLabel(min: true, max: false, cur: false)
         } else if royalJelly == 10000 {
-            setSegmentValue(min: false, max: true, cur: false)
+            updateJellyLabel(min: false, max: true, cur: false)
         } else {
-            setSegmentValue(min: false, max: false, cur: true)
+            updateJellyLabel(min: false, max: false, cur: true)
             curRoyalJellyLabel.text = "\(Int(sender.value))"
         }
         
@@ -263,9 +262,9 @@ extension BeeCreateJellyViewController: CustomAlert {
                                 return
                             }
                             if alreadyJoinBee {
-                                navigationController?.pushViewController(BeeMainViewController(), animated: true)
+                                NavigationControl.pushToBeeMainViewController()
                             } else {
-                                navigationController?.pushViewController(BeforeJoinViewController(), animated: true)
+                                NavigationControl.pushToBeforeJoinViewController()
                             }
                         }
                     }
@@ -358,8 +357,9 @@ extension BeeCreateJellyViewController {
         
         view.addSubview(nextButton)
         nextButton.snp.makeConstraints {
-            $0.top.equalTo(view.snp.bottom).offset(-56 * DesignSet.frameHeightRatio)
-            $0.bottom.centerX.width.equalToSuperview()
+            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.centerX.width.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
         trackView.layer.zPosition = 0
