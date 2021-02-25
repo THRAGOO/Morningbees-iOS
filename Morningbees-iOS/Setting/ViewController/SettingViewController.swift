@@ -7,23 +7,19 @@
 //
 
 import UIKit
-import GoogleSignIn
-import NaverThirdPartyLogin
 
 final class SettingViewController: UIViewController, CustomAlert {
-    
-    private let naverSignInInstance = NaverThirdPartyLoginConnection.getSharedInstance()
     
     private let toPreviousButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "arrowLeft"), for: .normal)
-        button.addTarget(self, action: #selector(toPrevViewController), for: .touchUpInside)
+        button.addTarget(self, action: #selector(toPreviousViewController), for: .touchUpInside)
         return button
     }()
     private let titleLabel: UILabel = {
         let label = UILabel(text: "설정", letterSpacing: -0.3)
-        label.font = UIFont(font: .systemSemiBold, size: 17)
         label.textColor = UIColor(red: 34, green: 34, blue: 34)
+        label.font = UIFont(font: .systemSemiBold, size: 17)
         return label
     }()
     private let bottomlineView: UIView = {
@@ -69,8 +65,8 @@ final class SettingViewController: UIViewController, CustomAlert {
     private let beeInfoHeaderViewImageView = UIImageView(imageName: "beeGroup")
     private let beeInfoHeaderViewLabel: UILabel = {
         let label = UILabel(text: "모임 관리", letterSpacing: -0.5)
-        label.font = UIFont(font: .systemMedium, size: 13)
         label.textColor = UIColor(red: 170, green: 170, blue: 170)
+        label.font = UIFont(font: .systemMedium, size: 13)
         return label
     }()
     
@@ -91,24 +87,226 @@ final class SettingViewController: UIViewController, CustomAlert {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        GIDSignIn.sharedInstance()?.presentingViewController = self
-        naverSignInInstance?.delegate = self
         settingTableView.delegate = self
         settingTableView.dataSource = self
         settingTableView.register(SettingTableViewCell.self,
                                  forCellReuseIdentifier: SettingTableViewCell.identifier)
-        beeInfoRequest()
+        requestBeeInfo()
+        setLayout()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NavigationControl.navigationController.interactivePopGestureRecognizer?.isEnabled = true
+    }
+}
+
+// MARK:- Navigation
+
+extension SettingViewController {
+    
+    @objc private func toPreviousViewController() {
+        NavigationControl.popViewController()
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        
+    private func pushToRoyalJellyViewController() {
+        NavigationControl.pushToRoyalJellyViewController()
+    }
+}
+
+// MARK:- TableView
+
+extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            return 3
+        case 2:
+            return 2
+        default:
+            return 0
+        }
+    }
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.identifier,
+                                                       for: indexPath) as? SettingTableViewCell else {
+            fatalError()
+        }
+        switch indexPath.section {
+        case 0:
+            cell.textLabel?.text = UserDefaults.standard.string(forKey: UserDefaultsKey.myNickname.rawValue)
+            cell.isUserInteractionEnabled = false
+            cell.imageView?.isHidden = true
+        case 1:
+            switch indexPath.row {
+            case 0:
+                cell.configure(with: SettingContent(title: .missionTime, detail: missionTimeString, needArrow: false))
+            case 1:
+                cell.configure(with: SettingContent(title: .royalJelly, detail: totalPenaltyString, needArrow: true))
+            case 2:
+                cell.configure(with: SettingContent(title: .memberList, detail: "", needArrow: true))
+            default:
+                break
+            }
+        case 2:
+            switch indexPath.row {
+            case 0:
+                cell.configure(with: SettingContent(title: .logout, detail: "", needArrow: true))
+            case 1:
+                cell.configure(with: SettingContent(title: .leaveBee, detail: "", needArrow: true))
+            default:
+                break
+            }
+        default:
+            break
+        }
+        return cell
+    }
+    
+    public func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+    
+    public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        switch section {
+        case 0:
+            return myInfoHeaderView
+        case 1:
+            return beeInfoHeaderView
+        case 2:
+            return leaveHeaderView
+        default:
+            return nil
+        }
+    }
+    
+    public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return CGFloat(36 * DesignSet.frameHeightRatio)
+    }
+    
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return CGFloat(54 * DesignSet.frameHeightRatio)
+    }
+    
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.section {
+        case 1:
+            switch indexPath.row {
+            case 0:
+                break
+            case 1:
+                NavigationControl.pushToRoyalJellyViewController()
+            case 2:
+                NavigationControl.pushToMemberViewController()
+            default:
+                break
+            }
+        case 2:
+            switch indexPath.row {
+            case 0:
+                presentYesNoAlert(title: "로그아웃", message: "정말로 로그아웃 하시겠습니까?") { [self] _ in
+                    signOut()
+                }
+            case 1:
+                presentYesNoAlert(title: "모임 떠나기", message: "정말로 모임을 떠나시겠습니까?") { [self] _ in
+                    leaveBee()
+                }
+            default:
+                break
+            }
+        default:
+            break
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+// MARK:- BeeInfo Request
+
+extension SettingViewController {
+    
+    private func requestBeeInfo() {
+        let requestModel = BeeInfoModel()
+        let request = RequestSet(method: requestModel.method, path: requestModel.path)
+        let beeInfo = Request<BeeInfo>()
+        KeychainService.extractKeyChainToken { [self] (accessToken, _, error) in
+            if let error = error {
+                presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
+            }
+            guard let accessToken = accessToken else {
+                return
+            }
+            let header: [String: String] = [RequestHeader.accessToken.rawValue: accessToken]
+            beeInfo.request(request: request, header: header, parameter: "") { (beeInfo, _, error) in
+                if let error = error {
+                    presentConfirmAlert(title: "모임 정보 요청 에러!", message: error.localizedDescription)
+                    return
+                }
+                guard let beeInfo = beeInfo else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    missionTimeString = "\(beeInfo.startTime[0])시 - \(beeInfo.endTime[0])시"
+                    totalPenaltyString = "\(beeInfo.pay)원"
+                    settingTableView.reloadData()
+                }
+            }
+        }
+    }
+}
+
+// MARK:- Sign Out
+
+extension SettingViewController {
+    
+    private func signOut() {
+        removeAllInfomations()
+        NavigationControl.popToRootViewController()
+    }
+    
+    private func removeAllInfomations() {
+        KeychainService.deleteKeychainToken { [self] error in
+            if let error = error {
+                presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
+            }
+        }
+        UserDefaultsKey.allCases.forEach {
+            UserDefaults.standard.removeObject(forKey: $0.rawValue)
+        }
+    }
+}
+
+// MARK:- Leave Bee
+
+extension SettingViewController {
+    
+    private func leaveBee() {
+        WithdrawalAPI().request { [self] (success, error) in
+            if let error = error {
+                presentConfirmAlert(title: "떠나기 요청 에러!", message: error.localizedDescription)
+            }
+            if let success = success {
+                if success {
+                    presentConfirmAlert(title: "행운은 빕니다!", message: "당신은 이제 자유입니다!") { _ in
+                        navigationController?.popToRootViewController(animated: true)
+                    }
+                } else {
+                    presentConfirmAlert(title: "실패!", message: "")
+                }
+            }
+        }
+    }
+}
+
+// MARK: Layout
+
+extension SettingViewController {
+    
+    private func setLayout() {
         view.backgroundColor = .white
         
         view.addSubview(toPreviousButton)
@@ -121,22 +319,22 @@ final class SettingViewController: UIViewController, CustomAlert {
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
-            $0.centerX.equalTo(view.snp.centerX)
+            $0.centerX.equalToSuperview()
             $0.height.equalTo(20 * DesignSet.frameHeightRatio)
         }
         view.addSubview(bottomlineView)
         bottomlineView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(43 * DesignSet.frameHeightRatio)
-            $0.centerX.equalTo(view.snp.centerX)
-            $0.width.equalTo(view.snp.width)
-            $0.height.equalTo(1 * DesignSet.frameHeightRatio)
+            $0.centerX.equalToSuperview()
+            $0.width.equalToSuperview()
+            $0.height.equalTo(1)
         }
         
         view.addSubview(settingTableView)
         settingTableView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(44 * DesignSet.frameHeightRatio)
-            $0.centerX.equalTo(view.snp.centerX)
-            $0.width.equalTo(view.snp.width)
+            $0.centerX.equalToSuperview()
+            $0.width.equalToSuperview()
             $0.height.equalTo(469 * DesignSet.frameHeightRatio)
         }
         
@@ -166,247 +364,6 @@ final class SettingViewController: UIViewController, CustomAlert {
             $0.centerY.equalTo(beeInfoHeaderView)
             $0.leading.equalTo(beeInfoHeaderView).offset(48 * DesignSet.frameWidthRatio)
             $0.height.equalTo(16 * DesignSet.frameHeightRatio)
-        }
-    }
-}
-
-// MARK:- TableView
-
-extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return 1
-        case 1:
-            return 3
-        case 2:
-            return 2
-        default:
-            return 0
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.identifier,
-                                                       for: indexPath) as? SettingTableViewCell else {
-            fatalError()
-        }
-        let isQueenBee = UserDefaults.standard.bool(forKey: UserDefaultsKey.isQueenBee.rawValue)
-        switch indexPath.section {
-        case 0:
-            cell.textLabel?.text = UserDefaults.standard.string(forKey: UserDefaultsKey.myNickname.rawValue)
-            cell.isUserInteractionEnabled = false
-            cell.imageView?.isHidden = true
-        case 1:
-            switch indexPath.row {
-            case 0:
-                cell.configure(with: SettingContent(title: .missionTime,
-                                                    detail: missionTimeString,
-                                                    isQueenBee: isQueenBee,
-                                                    isPushToOther: false))
-            case 1:
-                cell.configure(with: SettingContent(title: .royalJelly,
-                                                    detail: totalPenaltyString,
-                                                    isQueenBee: isQueenBee,
-                                                    isPushToOther: true))
-            case 2:
-                cell.configure(with: SettingContent(title: .memberList,
-                                                    detail: "",
-                                                    isQueenBee: isQueenBee,
-                                                    isPushToOther: true))
-            default:
-                break
-            }
-        case 2:
-            switch indexPath.row {
-            case 0:
-                cell.configure(with: SettingContent(title: .logout,
-                                                    detail: "",
-                                                    isQueenBee: isQueenBee,
-                                                    isPushToOther: true))
-            case 1:
-                cell.configure(with: SettingContent(title: .leaveBee,
-                                                    detail: "",
-                                                    isQueenBee: isQueenBee,
-                                                    isPushToOther: true))
-            default:
-                break
-            }
-        default:
-            break
-        }
-        return cell
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        switch section {
-        case 0:
-            return myInfoHeaderView
-        case 1:
-            return beeInfoHeaderView
-        case 2:
-            return leaveHeaderView
-        default:
-            return nil
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return CGFloat(36 * DesignSet.frameHeightRatio)
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(54 * DesignSet.frameHeightRatio)
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.section {
-        case 1:
-            switch indexPath.row {
-            case 0:
-                break
-            case 1:
-                navigationController?.pushViewController(RoyalJellyViewController(), animated: true)
-            case 2:
-                navigationController?.pushViewController(MemberViewController(), animated: true)
-            default:
-                break
-            }
-        case 2:
-            switch indexPath.row {
-            case 0:
-                presentYesNoAlert(title: "로그아웃", message: "정말로 로그아웃 하시겠습니까?") { _ in
-                    self.signOutNaver()
-                    self.signOutGoogle()
-                }
-            case 1:
-                presentYesNoAlert(title: "모임 떠나기", message: "정말로 모임을 떠나시겠습니까?") { _ in
-                    self.leaveBee()
-                }
-            default:
-                break
-            }
-        default:
-            break
-        }
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-}
-
-// MARK:- BeeInfo Request
-
-extension SettingViewController {
-    
-    private func beeInfoRequest() {
-        let requestModel = BeeInfoModel()
-        let request = RequestSet(method: requestModel.method, path: requestModel.path)
-        let beeInfo = Request<BeeInfo>()
-        KeychainService.extractKeyChainToken { (accessToken, _, error) in
-            if let error = error {
-                self.presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
-            }
-            guard let accessToken = accessToken else {
-                return
-            }
-            
-            let header: [String: String] = [RequestHeader.accessToken.rawValue: accessToken]
-            beeInfo.request(request: request, header: header, parameter: "") { (beeInfo, _, error) in
-                if let error = error {
-                    self.presentConfirmAlert(title: "모임 정보 요청 에러!", message: error.localizedDescription)
-                    return
-                }
-                guard let beeInfo = beeInfo else {
-                    return
-                }
-                self.missionTimeString = "\(beeInfo.startTime[0])시 - \(beeInfo.endTime[0])시"
-                self.totalPenaltyString = "\(beeInfo.pay)원"
-                DispatchQueue.main.async {
-                    self.settingTableView.reloadData()
-                }
-            }
-        }
-    }
-}
-
-// MARK:- Navigation
-
-extension SettingViewController {
-    
-    @objc private func toPrevViewController() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    private func pushToRoyalJellyViewController() {
-        navigationController?.pushViewController(RoyalJellyViewController(), animated: true)
-    }
-}
-
-// MARK:- Sign Out
-
-extension SettingViewController: NaverThirdPartyLoginConnectionDelegate {
-    
-    func oauth20ConnectionDidFinishRequestACTokenWithAuthCode() {
-    }
-    
-    func oauth20ConnectionDidFinishRequestACTokenWithRefreshToken() {
-    }
-    
-    func oauth20ConnectionDidFinishDeleteToken() {
-        navigationController?.popToRootViewController(animated: true)
-    }
-    
-    func oauth20Connection(_ oauthConnection: NaverThirdPartyLoginConnection!, didFailWithError error: Error!) {
-        print(error.localizedDescription)
-    }
-    
-    private func signOutNaver() {
-        removeAllInfomations()
-        naverSignInInstance?.resetToken()
-        navigationController?.popToRootViewController(animated: true)
-    }
-    
-    private func signOutGoogle() {
-        removeAllInfomations()
-        GIDSignIn.sharedInstance()?.signOut()
-        navigationController?.popToRootViewController(animated: true)
-    }
-    
-    private func removeAllInfomations() {
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.alreadyJoin.rawValue)
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.beeId.rawValue)
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.beeTitle.rawValue)
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.isQueenBee.rawValue)
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.missionImage.rawValue)
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.myNickname.rawValue)
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.queenBee.rawValue)
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.targetDate.rawValue)
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.userId.rawValue)
-    }
-}
-
-// MARK:- Leave Bee
-
-extension SettingViewController {
-    
-    private func leaveBee() {
-        WithdrawalAPI().request { [self] (success, error) in
-            if let error = error {
-                presentConfirmAlert(title: "떠나기 요청 에러!", message: error.localizedDescription)
-            }
-            if let success = success {
-                if success {
-                    presentConfirmAlert(title: "행운은 빕니다!", message: "당신은 이제 자유입니다!") { _ in
-                        navigationController?.popToRootViewController(animated: true)
-                    }
-                } else {
-                    presentConfirmAlert(title: "실패!", message: "")
-                }
-            }
         }
     }
 }

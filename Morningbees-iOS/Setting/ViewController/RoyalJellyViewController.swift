@@ -8,14 +8,30 @@
 
 import UIKit
 
-class RoyalJellyViewController: UIViewController {
+final class RoyalJellyViewController: UIViewController {
     
     // MARK:- Properties
+    
+    private var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.color = .white
+        indicator.style = .large
+        indicator.backgroundColor = .black
+        indicator.alpha = 0.5
+        return indicator
+    }()
+    private let activityIndicatorImageView = UIImageView(imageName: "illustErrorPage")
+    private let activityIndicatorDescriptionLabel: UILabel = {
+        let label = UILabel(text: "로얄젤리 불러오는 중...", letterSpacing: 0)
+        label.textColor = .white
+        label.font = UIFont(font: .systemBold, size: 24)
+        return label
+    }()
     
     private let toPreviousButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "arrowLeft"), for: .normal)
-        button.addTarget(self, action: #selector(toPrevViewController), for: .touchUpInside)
+        button.addTarget(self, action: #selector(toPreviousViewController), for: .touchUpInside)
         return button
     }()
     private let titleLabel: UILabel = {
@@ -93,11 +109,13 @@ class RoyalJellyViewController: UIViewController {
     private let unPaidMemberListTableView: UITableView = {
         let tableView = UITableView()
         tableView.allowsMultipleSelection = true
+        tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
         return tableView
     }()
     private let pastJellyReceiptTableView: UITableView = {
         let tableView = UITableView()
+        tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
         return tableView
     }()
@@ -107,17 +125,18 @@ class RoyalJellyViewController: UIViewController {
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.backgroundColor = UIColor(red: 242, green: 242, blue: 242)
-        let updatePartialPenaltyButton = UIButton()
-        updatePartialPenaltyButton.setTitle("부분 차감", for: .normal)
-        updatePartialPenaltyButton.titleLabel?.font = UIFont(font: .systemBold, size: 15)
-        updatePartialPenaltyButton.setTitleColor(UIColor(red: 68, green: 68, blue: 68), for: .normal)
-        updatePartialPenaltyButton.addTarget(self, action: #selector(presentUpdateJellyView), for: .touchUpInside)
-        stackView.addArrangedSubview(updatePartialPenaltyButton)
-        let updateEntirePenaltyButton = UIButton()
-        updateEntirePenaltyButton.setTitle("전액 납부", for: .normal)
-        updateEntirePenaltyButton.titleLabel?.font = UIFont(font: .systemBold, size: 15)
-        updateEntirePenaltyButton.setTitleColor(UIColor(red: 68, green: 68, blue: 68), for: .normal)
-        stackView.addArrangedSubview(updateEntirePenaltyButton)
+        let partialPaymentButton = UIButton()
+        partialPaymentButton.setTitle("부분 차감", for: .normal)
+        partialPaymentButton.titleLabel?.font = UIFont(font: .systemBold, size: 15)
+        partialPaymentButton.setTitleColor(UIColor(red: 68, green: 68, blue: 68), for: .normal)
+        partialPaymentButton.addTarget(self, action: #selector(touchupPartialPaymentButton), for: .touchUpInside)
+        stackView.addArrangedSubview(partialPaymentButton)
+        let fullPaymentButton = UIButton()
+        fullPaymentButton.setTitle("전액 납부", for: .normal)
+        fullPaymentButton.titleLabel?.font = UIFont(font: .systemBold, size: 15)
+        fullPaymentButton.setTitleColor(UIColor(red: 68, green: 68, blue: 68), for: .normal)
+        fullPaymentButton.addTarget(self, action: #selector(requestUpdateJelly), for: .touchUpInside)
+        stackView.addArrangedSubview(fullPaymentButton)
         stackView.isHidden = true
         return stackView
     }()
@@ -126,13 +145,14 @@ class RoyalJellyViewController: UIViewController {
         button.backgroundColor = UIColor(red: 242, green: 242, blue: 242)
         button.titleLabel?.font = UIFont(font: .systemBold, size: 15)
         button.setTitleColor(UIColor(red: 68, green: 68, blue: 68), for: .normal)
+        button.addTarget(self, action: #selector(requestUpdateJelly), for: .touchUpInside)
         button.isHidden = true
         return button
     }()
     
     private var penalties = [Penalty]()
     private var histories = [Penalty]()
-    private var selectedTableViewCellData = [Penalty]()
+    private var selectedTableViewCell = [Penalty]()
     
     // MARK:- Life Cycle
 
@@ -140,29 +160,33 @@ class RoyalJellyViewController: UIViewController {
         super.viewDidLoad()
         unPaidMemberListTableView.delegate = self
         unPaidMemberListTableView.dataSource = self
-        unPaidMemberListTableView.register(UnpaidMemberTableViewCell.self,
-                                           forCellReuseIdentifier: UnpaidMemberTableViewCell.identifier)
+        unPaidMemberListTableView.register(RoyalJellyTableViewCell.self,
+                                           forCellReuseIdentifier: RoyalJellyTableViewCell.identifier)
         pastJellyReceiptTableView.delegate = self
         pastJellyReceiptTableView.dataSource = self
-        pastJellyReceiptTableView.register(PastJellyReceiptTableViewCell.self,
-                                           forCellReuseIdentifier: PastJellyReceiptTableViewCell.identifier)
-        layout()
+        pastJellyReceiptTableView.register(RoyalJellyTableViewCell.self,
+                                           forCellReuseIdentifier: RoyalJellyTableViewCell.identifier)
+        requestBeePenalty(type: 0)
+        requestBeePenalty(type: 1)
+        setLayout()
         setupButtonStackView()
-        beePenaltyRequest(type: 0)
-        beePenaltyRequest(type: 1)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(dismissSubView),
+                                               selector: #selector(dismissPopupView),
                                                name: Notification.Name.init("DismissSearchView"),
                                                object: nil)
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(dismissSubView),
+                                               selector: #selector(dismissPopupView),
                                                name: Notification.Name.init("DismissUpdateJellyView"),
                                                object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NavigationControl.navigationController.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -180,8 +204,18 @@ class RoyalJellyViewController: UIViewController {
 
 extension RoyalJellyViewController {
     
-    @objc private func toPrevViewController() {
-        navigationController?.popViewController(animated: true)
+    @objc private func toPreviousViewController() {
+        NavigationControl.popViewController()
+    }
+    
+    private func popupUpdateJellyViewController(userId: Int, penalty: Int) {
+        let updateJellyViewController = UpdateJellyViewController(userid: userId, maxJelly: penalty)
+        updateJellyViewController.modalPresentationStyle = .overCurrentContext
+        UIView.animate(withDuration: 0.2) { [self] in
+            view.alpha = 0.4
+        } completion: { [self] _ in
+            present(updateJellyViewController, animated: true)
+        }
     }
 }
 
@@ -189,7 +223,7 @@ extension RoyalJellyViewController {
 
 extension RoyalJellyViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch tableView {
         case unPaidMemberListTableView:
             return penalties.count
@@ -200,20 +234,16 @@ extension RoyalJellyViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: RoyalJellyTableViewCell.identifier,
+                                                       for: indexPath) as? RoyalJellyTableViewCell else {
+            fatalError()
+        }
         switch tableView {
         case unPaidMemberListTableView:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: UnpaidMemberTableViewCell.identifier,
-                                                           for: indexPath) as? UnpaidMemberTableViewCell else {
-                fatalError()
-            }
             cell.configure(with: penalties[indexPath.row])
             return cell
         case pastJellyReceiptTableView:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: PastJellyReceiptTableViewCell.identifier,
-                                                           for: indexPath) as? PastJellyReceiptTableViewCell else {
-                fatalError()
-            }
             cell.configure(with: histories[indexPath.row])
             return cell
         default:
@@ -221,35 +251,53 @@ extension RoyalJellyViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? UnpaidMemberTableViewCell else {
-            return
-        }
-        if UserDefaults.standard.bool(forKey: UserDefaultsKey.isQueenBee.rawValue) {
-            selectedTableViewCellData.append(cell.penalty)
-            buttonControl()
-        } else {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch tableView {
+        case unPaidMemberListTableView:
+            guard let cell = tableView.cellForRow(at: indexPath) as? RoyalJellyTableViewCell else {
+                return
+            }
+            if UserDefaults.standard.bool(forKey: UserDefaultsKey.isQueenBee.rawValue) {
+                selectedTableViewCell.append(cell.penalty)
+                controlPayButton()
+            } else {
+                tableView.deselectRow(at: indexPath, animated: true)
+            }
+        case pastJellyReceiptTableView:
             tableView.deselectRow(at: indexPath, animated: true)
+        default:
+            break
         }
     }
     
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? UnpaidMemberTableViewCell else {
+    public func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? RoyalJellyTableViewCell else {
             return
         }
         if UserDefaults.standard.bool(forKey: UserDefaultsKey.isQueenBee.rawValue) {
-            for index in 0 ..< selectedTableViewCellData.count {
-                if cell.penalty.nickname == selectedTableViewCellData[index].nickname {
-                    selectedTableViewCellData.remove(at: index)
+            for index in 0 ..< selectedTableViewCell.count {
+                if cell.penalty.userId == selectedTableViewCell[index].userId {
+                    selectedTableViewCell.remove(at: index)
                     break
                 }
             }
-            buttonControl()
+            controlPayButton()
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(60 * DesignSet.frameHeightRatio)
+    }
+    
+    private func deselectAllTabelViewRows() {
+        guard let selectedRows = unPaidMemberListTableView.indexPathsForSelectedRows else {
+            return
+        }
+        selectedRows.forEach { indexPath in
+            unPaidMemberListTableView.deselectRow(at: indexPath, animated: false)
+        }
+        selectedTableViewCell.removeAll()
+        controlPayButton()
     }
 }
 
@@ -257,19 +305,19 @@ extension RoyalJellyViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension RoyalJellyViewController {
     
-    private func setupStackViewButton(title: String) -> UIButton {
+    private func setupStackViewButton(title: PenaltyTableLabel) -> UIButton {
         let button = UIButton()
-        button.setTitle(title, for: .normal)
+        button.setTitle(title.rawValue, for: .normal)
         button.setTitleColor(UIColor(red: 68, green: 68, blue: 68), for: .normal)
         button.titleLabel?.font = UIFont(font: .systemBold, size: 15)
-        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapSegmentedButton), for: .touchUpInside)
         button.layer.zPosition = 1
         return button
     }
     
     private func setupButtonStackView() {
-        buttonStackView.addArrangedSubview(setupStackViewButton(title: "미납 로얄젤리"))
-        buttonStackView.addArrangedSubview(setupStackViewButton(title: "총 로얄젤리"))
+        buttonStackView.addArrangedSubview(setupStackViewButton(title: .unpaid))
+        buttonStackView.addArrangedSubview(setupStackViewButton(title: .paid))
         selector.layer.zPosition = 0
         selector.frame.size = CGSize(width: 163.5 * DesignSet.frameWidthRatio,
                                      height: 48 * DesignSet.frameHeightRatio)
@@ -278,53 +326,35 @@ extension RoyalJellyViewController {
         pastJellyReceiptTableView.isHidden = true
     }
     
-    @objc private func didTapButton(_ sender: UIButton) {
-        guard let buttonTitle = sender.currentTitle else {
-            return
-        }
-        if buttonTitle == "미납 로얄젤리" {
-            unPaidMemberListTableView.isHidden = false
-            pastJellyReceiptTableView.isHidden = true
-        } else {
-            unPaidMemberListTableView.isHidden = true
-            pastJellyReceiptTableView.isHidden = false
-        }
-        UIView.animate(withDuration: 0.3) {
-            self.selector.frame.origin.x = sender.frame.origin.x
-        }
-    }
-    
-    private func buttonControl() {
-        switch selectedTableViewCellData.count {
+    private func controlPayButton() {
+        switch selectedTableViewCell.count {
         case 0:
             penaltyButtonStackView.isHidden = true
             multiPenaltyButton.isHidden = true
-            setUnPaidMemberListTableViewLayout(buttonEnable: false)
+            updateUnPaidMemberListTableViewLayout(isButtonEnable: false)
         case 1:
             penaltyButtonStackView.isHidden = false
             multiPenaltyButton.isHidden = true
-            setUnPaidMemberListTableViewLayout(buttonEnable: true)
+            updateUnPaidMemberListTableViewLayout(isButtonEnable: true)
         default:
             penaltyButtonStackView.isHidden = true
-            multiPenaltyButton.setTitle("선택한 \(selectedTableViewCellData.count)명, 전액 납부", for: .normal)
+            multiPenaltyButton.setTitle("선택한 \(selectedTableViewCell.count)명, 전액 납부", for: .normal)
             multiPenaltyButton.isHidden = false
-            setUnPaidMemberListTableViewLayout(buttonEnable: true)
+            updateUnPaidMemberListTableViewLayout(isButtonEnable: true)
         }
     }
     
-    private func setUnPaidMemberListTableViewLayout(buttonEnable: Bool) {
-        if buttonEnable {
+    private func updateUnPaidMemberListTableViewLayout(isButtonEnable: Bool) {
+        if isButtonEnable {
             unPaidMemberListTableView.snp.remakeConstraints {
                 $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(295 * DesignSet.frameHeightRatio)
-                $0.centerX.equalTo(view.snp.centerX)
-                $0.width.equalTo(view.snp.width)
+                $0.centerX.width.equalToSuperview()
                 $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-60 * DesignSet.frameHeightRatio)
             }
         } else {
             unPaidMemberListTableView.snp.remakeConstraints {
                 $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(295 * DesignSet.frameHeightRatio)
-                $0.centerX.equalTo(view.snp.centerX)
-                $0.width.equalTo(view.snp.width)
+                $0.centerX.width.equalToSuperview()
                 $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             }
         }
@@ -335,44 +365,64 @@ extension RoyalJellyViewController {
 
 extension RoyalJellyViewController {
     
-    @objc private func presentSearchView() {
-        let searchViewController = SearchViewController(list: penalties)
-        searchViewController.modalPresentationStyle = .overCurrentContext
-        UIView.animate(withDuration: 0.2) {
-            self.view.alpha = 0.4
-        } completion: { _ in
-            self.present(searchViewController, animated: true)
-        }
-    }
-    
-    @objc private func presentUpdateJellyView() {
-        guard let nickname = selectedTableViewCellData.first?.nickname,
-              let penalty = selectedTableViewCellData.first?.penalty else {
+    @objc private func didTapSegmentedButton(_ sender: UIButton) {
+        guard let buttonTitle = sender.currentTitle else {
             return
         }
-        let updateJellyViewController = UpdateJellyViewController(nickname: nickname, maxJelly: penalty)
-        updateJellyViewController.modalPresentationStyle = .overCurrentContext
-        UIView.animate(withDuration: 0.2) {
-            self.view.alpha = 0.4
-        } completion: { _ in
-            self.present(updateJellyViewController, animated: true)
+        if buttonTitle == PenaltyTableLabel.unpaid.rawValue {
+            unpaidPenaltyLabel.isHidden = false
+            unpaidPenaltyLabelUnderline.isHidden = false
+            unPaidMemberListTableView.isHidden = false
+            pastJellyReceiptTableView.isHidden = true
+        } else {
+            unpaidPenaltyLabel.isHidden = true
+            unpaidPenaltyLabelUnderline.isHidden = true
+            unPaidMemberListTableView.isHidden = true
+            pastJellyReceiptTableView.isHidden = false
+        }
+        UIView.animate(withDuration: 0.3) { [self] in
+            selector.frame.origin.x = sender.frame.origin.x
         }
     }
     
-    @objc private func dismissSubView(notification: NSNotification) {
-        UIView.animate(withDuration: 0.2) {
-            self.view.alpha = 1.0
+    @objc private func presentSearchView() {
+        let searchViewController = SearchViewController()
+        if pastJellyReceiptTableView.isHidden {
+            searchViewController.royalJellyList = penalties
+            searchViewController.isUnpaidList = true
+        } else {
+            searchViewController.royalJellyList = histories
+            searchViewController.isUnpaidList = false
         }
-        guard let nickname = notification.userInfo?["nickname"] as? String,
-              let penalty = notification.userInfo?["penalty"] as? Int else {
-                return
+        searchViewController.modalPresentationStyle = .overCurrentContext
+        UIView.animate(withDuration: 0.2) { [self] in
+            view.alpha = 0.4
+        } completion: { [self] _ in
+            present(searchViewController, animated: true)
         }
-        let updateJellyViewController = UpdateJellyViewController(nickname: nickname, maxJelly: penalty)
-        updateJellyViewController.modalPresentationStyle = .overCurrentContext
-        UIView.animate(withDuration: 0.2) {
-            self.view.alpha = 0.4
-        } completion: { _ in
-            self.present(updateJellyViewController, animated: true)
+    }
+    
+    @objc private func touchupPartialPaymentButton() {
+        guard let userId = selectedTableViewCell.first?.userId,
+              let penalty = selectedTableViewCell.first?.penalty else {
+            return
+        }
+        deselectAllTabelViewRows()
+        popupUpdateJellyViewController(userId: userId, penalty: penalty)
+    }
+    
+    @objc private func dismissPopupView(notification: NSNotification) {
+        UIView.animate(withDuration: 0.2) { [self] in
+            view.alpha = 1.0
+        }
+        // execute if update occurred in UpdateJellyViewController
+        if let _ = notification.userInfo?["didUpdateJelly"] as? Bool {
+            requestBeePenalty(type: 0)
+            requestBeePenalty(type: 1)
+        // execute if user selects value in search tableView
+        } else if let userId = notification.userInfo?["userId"] as? Int,
+                  let penalty = notification.userInfo?["penalty"] as? Int {
+            popupUpdateJellyViewController(userId: userId, penalty: penalty)
         }
     }
 }
@@ -381,23 +431,35 @@ extension RoyalJellyViewController {
 
 extension RoyalJellyViewController: CustomAlert {
     
-    private func beePenaltyRequest(type: Int) {
+    private func requestBeePenalty(type: Int) {
+        DispatchQueue.main.async {
+            self.activityIndicator.startAnimating()
+        }
         let requestModel = BeePenaltyModel()
         let request = RequestSet(method: requestModel.method, path: requestModel.path)
         let beePenalty = Request<BeePenalty>()
-        KeychainService.extractKeyChainToken { (accessToken, _, error) in
+        KeychainService.extractKeyChainToken { [self] (accessToken, _, error) in
             if let error = error {
-                self.presentConfirmAlert(title: "Token Error", message: error.localizedDescription)
+                DispatchQueue.main.async {
+                    activityIndicator.stopAnimating()
+                }
+                presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
             }
             guard let accessToken = accessToken else {
+                DispatchQueue.main.async {
+                    activityIndicator.stopAnimating()
+                }
+                presentConfirmAlert(title: "토큰 에러!", message: "")
                 return
             }
-            
             let header: [String: String] = [RequestHeader.accessToken.rawValue: accessToken]
             let parameter: [String: Int] = ["status": type]
             beePenalty.request(request: request, header: header, parameter: parameter) { (beePenalty, _, error) in
+                DispatchQueue.main.async {
+                    activityIndicator.stopAnimating()
+                }
                 if let error = error {
-                    self.presentConfirmAlert(title: "BeePenalty", message: error.localizedDescription)
+                    presentConfirmAlert(title: "모임 벌급 요청 에러!", message: error.localizedDescription)
                     return
                 }
                 guard let beePenalty = beePenalty else {
@@ -406,27 +468,63 @@ extension RoyalJellyViewController: CustomAlert {
                 DispatchQueue.main.async {
                     switch type {
                     case 0:
-                        for penalty in beePenalty.penalties {
-//                            if 0 < penalty.penalty {
-                                self.penalties.append(penalty)
-//                            }
+                        penalties.removeAll()
+                        for user in beePenalty.penalties {
+                            if 0 < user.penalty {
+                                penalties.append(user)
+                            }
                         }
-                        self.penalties.sort(by: {$0.penalty > $1.penalty})
-                        self.unPaidMemberListTableView.reloadData()
+                        penalties.sort(by: {$0.penalty > $1.penalty})
+                        unPaidMemberListTableView.reloadData()
                     case 1:
-                        self.histories = beePenalty.penalties
-                        self.histories.sort(by: {$0.penalty > $1.penalty})
-                        self.pastJellyReceiptTableView.reloadData()
+                        histories.removeAll()
+                        histories = beePenalty.penalties
+                        histories.sort(by: {$0.penalty > $1.penalty})
+                        pastJellyReceiptTableView.reloadData()
                     default:
                         break
                     }
-                    for list in beePenalty.penaltyHistories {
-                        if list.status == 0 {
-                            self.unpaidPenaltyLabel.text = "\(list.total)"
+                    for receipt in beePenalty.penaltyHistories {
+                        if receipt.status == 0 {
+                            unpaidPenaltyLabel.text = "총 미납금 \(receipt.total)"
                         } else {
-                            self.cumulativeJellyLabel.text = "\(list.total)"
+                            cumulativeJellyLabel.text = "\(receipt.total)"
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+// MARK:- Update Jelly Reqeust
+
+extension RoyalJellyViewController {
+    
+    @objc private func requestUpdateJelly() {
+        let requestModel = UpdateJellyModel()
+        let request = RequestSet(method: requestModel.method, path: requestModel.path)
+        let updateJelly = Request<UpdateJelly>()
+        KeychainService.extractKeyChainToken { [self] (accessToken, _, error) in
+            if let error = error {
+                self.presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
+            }
+            guard let accessToken = accessToken else {
+                return
+            }
+            let parameter = Penalties(penalties: selectedTableViewCell)
+            let header: [String: String] = [RequestHeader.accessToken.rawValue: accessToken]
+            deselectAllTabelViewRows()
+            updateJelly.request(request: request, header: header, parameter: parameter) { (_, success, error) in
+                if success {
+                    requestBeePenalty(type: 0)
+                    requestBeePenalty(type: 1)
+                } else {
+                    if let error = error {
+                        presentConfirmAlert(title: "로열 젤리 업데이트 요청 에러!", message: error.localizedDescription)
+                        return
+                    }
+                    presentConfirmAlert(title: "로열 젤리 업데이트 요청 에러!", message: "요청이 성공적으로 수행되지 못했습니다.")
                 }
             }
         }
@@ -437,8 +535,23 @@ extension RoyalJellyViewController: CustomAlert {
 
 extension RoyalJellyViewController {
     
-    private func layout() {
+    private func setLayout() {
         view.backgroundColor = .white
+        
+        view.addSubview(activityIndicator)
+        activityIndicator.snp.makeConstraints {
+            $0.centerX.centerY.height.width.equalToSuperview()
+        }
+        activityIndicator.addSubview(activityIndicatorImageView)
+        activityIndicatorImageView.snp.makeConstraints {
+            $0.centerX.centerY.width.equalToSuperview()
+            $0.height.equalTo(activityIndicator.snp.width)
+        }
+        activityIndicatorImageView.addSubview(activityIndicatorDescriptionLabel)
+        activityIndicatorDescriptionLabel.snp.makeConstraints {
+            $0.centerX.bottom.equalToSuperview()
+            $0.height.equalTo(26 * DesignSet.frameHeightRatio)
+        }
         
         view.addSubview(toPreviousButton)
         toPreviousButton.snp.makeConstraints {
@@ -450,14 +563,13 @@ extension RoyalJellyViewController {
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
-            $0.centerX.equalTo(view.snp.centerX)
+            $0.centerX.equalToSuperview()
             $0.height.equalTo(20 * DesignSet.frameHeightRatio)
         }
         view.addSubview(bottomlineView)
         bottomlineView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(43 * DesignSet.frameHeightRatio)
-            $0.centerX.equalTo(view.snp.centerX)
-            $0.width.equalTo(view.snp.width)
+            $0.centerX.width.equalToSuperview()
             $0.height.equalTo(1 * DesignSet.frameHeightRatio)
         }
         
@@ -477,7 +589,7 @@ extension RoyalJellyViewController {
         view.addSubview(buttonStackView)
         buttonStackView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(189 * DesignSet.frameHeightRatio)
-            $0.centerX.equalTo(view.snp.centerX)
+            $0.centerX.equalToSuperview()
             $0.width.equalTo(327 * DesignSet.frameWidthRatio)
             $0.height.equalTo(48 * DesignSet.frameHeightRatio)
         }
@@ -512,34 +624,31 @@ extension RoyalJellyViewController {
         view.addSubview(unPaidMemberListTableView)
         unPaidMemberListTableView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(295 * DesignSet.frameHeightRatio)
-            $0.centerX.equalTo(view.snp.centerX)
-            $0.width.equalTo(view.snp.width)
+            $0.centerX.width.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         view.addSubview(pastJellyReceiptTableView)
         pastJellyReceiptTableView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(295 * DesignSet.frameHeightRatio)
-            $0.centerX.equalTo(view.snp.centerX)
-            $0.width.equalTo(view.snp.width)
+            $0.centerX.width.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
         view.addSubview(penaltyButtonStackView)
         penaltyButtonStackView.snp.makeConstraints {
-            $0.centerX.equalTo(view.snp.centerX)
             $0.height.equalTo(60 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(view.snp.width)
+            $0.centerX.width.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         view.addSubview(multiPenaltyButton)
         multiPenaltyButton.snp.makeConstraints {
-            $0.centerX.equalTo(view.snp.centerX)
             $0.height.equalTo(60 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(view.snp.width)
+            $0.centerX.width.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
         unpaidPenaltyLabelUnderline.layer.zPosition = 0
         unpaidPenaltyLabel.layer.zPosition = 1
+        activityIndicator.layer.zPosition = 2
     }
 }
