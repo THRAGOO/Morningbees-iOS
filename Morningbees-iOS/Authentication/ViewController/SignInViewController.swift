@@ -7,7 +7,6 @@
 //
 
 import AuthenticationServices
-import Firebase
 import GoogleSignIn
 import NaverThirdPartyLogin
 import UIKit
@@ -102,11 +101,11 @@ final class SignInViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        autoSignIn()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        NavigationControl.navigationController.interactivePopGestureRecognizer?.isEnabled = false
         let y = CGFloat(-126 * DesignSet.frameHeightRatio)
         UIView.animate(withDuration: 0.5) {
             self.beeImageView.transform = CGAffineTransform(translationX: 0, y: y)
@@ -116,136 +115,6 @@ final class SignInViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         beeImageView.transform = .identity
-    }
-    
-    /// Auto SignIn
-    private func autoSignIn() {
-        if GIDSignIn.sharedInstance()?.hasPreviousSignIn() ?? false {
-            GIDSignIn.sharedInstance()?.restorePreviousSignIn()
-        } else if naverSignInInstance?.isValidAccessTokenExpireTimeNow() ?? false {
-            naverSignInInstance?.requestThirdPartyLogin()
-        }
-    }
-}
-
-// MARK:- Navigation
-
-extension SignInViewController {
-    
-    private func pushToSignUpViewController(from provider: SignInProvider) {
-        let signUpViewController = SignUpViewController()
-        signUpViewController.provider = provider
-        navigationController?.pushViewController(signUpViewController, animated: true)
-    }
-}
-
-// MARK:- SignIn with Naver
-
-extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
-    
-    public func oauth20ConnectionDidFinishRequestACTokenWithAuthCode() {
-    }
-    
-    public func oauth20ConnectionDidFinishRequestACTokenWithRefreshToken() {
-        requestNaverSignIn()
-    }
-    
-    public func oauth20ConnectionDidFinishDeleteToken() {
-    }
-    
-    public func oauth20Connection(_ oauthConnection: NaverThirdPartyLoginConnection!, didFailWithError error: Error!) {
-        presentConfirmAlert(title: "네이버 로그인 에러!", message: error.localizedDescription)
-    }
-    
-    @objc private func touchUpSignInNaver(_ sender: UIButton) {
-        naverSignInInstance?.requestThirdPartyLogin()
-    }
-    
-    private func requestNaverSignIn() {
-        activityIndicator.startAnimating()
-        guard let accessToken = naverSignInInstance?.accessToken else {
-            activityIndicator.stopAnimating()
-            presentConfirmAlert(title: "네이버 토큰 에러!", message: "토큰을 성공적으로 받지 못하였습니다.")
-            return
-        }
-        let requestModel = SignInModel()
-        let request = RequestSet(method: requestModel.method, path: requestModel.path)
-        let parameter: [String: String] = ["socialAccessToken": accessToken,
-                                           "provider": SignInProvider.naver.rawValue]
-        let signInReq = Request<SignIn>()
-        signInReq.request(request: request, parameter: parameter) { [self] (signIn, _, error)  in
-            if let error = error {
-                DispatchQueue.main.async {
-                    activityIndicator.stopAnimating()
-                }
-                presentConfirmAlert(title: "네이버 로그인 에러!", message: error.localizedDescription)
-            }
-            guard let signIn = signIn else {
-                DispatchQueue.main.async {
-                    activityIndicator.stopAnimating()
-                }
-                presentConfirmAlert(title: "네이버 로그인 에러!", message: "")
-                return
-            }
-            if signIn.type == 0 {
-                DispatchQueue.main.async {
-                    activityIndicator.stopAnimating()
-                    pushToSignUpViewController(from: .naver)
-                }
-            } else if signIn.type == 1 {
-                KeychainService.deleteKeychainToken { (error) in
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            activityIndicator.stopAnimating()
-                        }
-                        presentConfirmAlert(title: "키체인 토큰 에러!", message: error.localizedDescription)
-                    }
-                }
-                KeychainService.addKeychainToken(signIn.accessToken, signIn.refreshToken) { (error) in
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            activityIndicator.stopAnimating()
-                        }
-                        presentConfirmAlert(title: "키체인 토큰 에러!", message: error.localizedDescription)
-                    }
-                }
-                MeAPI().request { (alreadyJoinedBee, error) in
-                    DispatchQueue.main.async {
-                        activityIndicator.stopAnimating()
-                    }
-                    if let error = error {
-                        presentConfirmAlert(title: "사용자 정보 요청 에러!", message: error.localizedDescription)
-                    }
-                    guard let alreadyJoinedBee = alreadyJoinedBee else {
-                        presentConfirmAlert(title: "사용자 정보 요청 에러!", message: "")
-                        return
-                    }
-                    if alreadyJoinedBee {
-                        DispatchQueue.main.async {
-                            navigationController?.pushViewController(BeeMainViewController(), animated: true)
-                        }
-                    } else {
-                        DispatchQueue.main.async {
-                            navigationController?.pushViewController(BeforeJoinViewController(), animated: true)
-                        }
-                    }
-                }
-            } else {
-                DispatchQueue.main.async {
-                    activityIndicator.stopAnimating()
-                }
-                presentConfirmAlert(title: "네이버 로그인 에러!", message: "유효하지 않은 값이 나왔습니다.")
-            }
-        }
-    }
-}
-
-// MARK:- SignIn with Google
-
-extension SignInViewController: CustomAlert {
-    
-    @objc private func touchUpSignInGoogle(_ sender: UIButton) {
-        GIDSignIn.sharedInstance()?.signIn()
     }
 }
 
@@ -272,9 +141,8 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
                 presentConfirmAlert(title: "애플 토큰 에러!", message: "애플 토큰을 성공적으로 받아오지 못했습니다.")
                 return
             }
-            let userID = appleIDCredential.user
             let appleToken = String(decoding: identityToken, as: UTF8.self)
-            requestAppleSignIn(userID, appleToken)
+            requestSocialSignIn(from: .apple, with: appleToken)
         default:
             break
         }
@@ -282,83 +150,7 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
     
     public func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
     }
-    
-    private func requestAppleSignIn(_ userID: String, _ accessToken: String) {
-        activityIndicator.startAnimating()
-        let reqModel = SignInModel()
-        let request = RequestSet(method: reqModel.method, path: reqModel.path)
-        let param: [String: String] = ["socialAccessToken": accessToken,
-                                       "provider": SignInProvider.apple.rawValue]
-        let signInReq = Request<SignIn>()
-        signInReq.request(request: request, parameter: param) { [self] (signIn, _, error)  in
-            if let error = error {
-                DispatchQueue.main.async {
-                    activityIndicator.stopAnimating()
-                }
-                presentConfirmAlert(title: "애플 로그인 에러!", message: error.localizedDescription)
-            }
-            guard let signIn = signIn else {
-                DispatchQueue.main.async {
-                    activityIndicator.stopAnimating()
-                }
-                presentConfirmAlert(title: "애플 로그인 에러!", message: "")
-                return
-            }
-            KeychainService.deleteKeychainAppleInfo { (error) in
-                if let error = error {
-                    DispatchQueue.main.async {
-                        activityIndicator.stopAnimating()
-                    }
-                    presentConfirmAlert(title: "키체인 토큰 에러!", message: error.localizedDescription)
-                }
-            }
-            KeychainService.addKeychainAppleInfo(userID, accessToken) { (error) in
-                if let error = error {
-                    DispatchQueue.main.async {
-                        activityIndicator.stopAnimating()
-                    }
-                    presentConfirmAlert(title: "키체인 토큰 에러!", message: error.localizedDescription)
-                }
-            }
-            
-            if signIn.type == 0 {
-                DispatchQueue.main.async {
-                    activityIndicator.stopAnimating()
-                    pushToSignUpViewController(from: .apple)
-                }
-            } else if signIn.type == 1 {
-                MeAPI().request { (alreadyJoinedBee, error) in
-                    DispatchQueue.main.async {
-                        activityIndicator.stopAnimating()
-                    }
-                    if let error = error {
-                        presentConfirmAlert(title: "사용자 정보 요청 에러!", message: error.localizedDescription)
-                    }
-                    guard let alreadyJoinedBee = alreadyJoinedBee else {
-                        presentConfirmAlert(title: "사용자 정보 요청 에러!", message: "")
-                        return
-                    }
-                    if alreadyJoinedBee {
-                        DispatchQueue.main.async {
-                            navigationController?.pushViewController(BeeMainViewController(), animated: true)
-                        }
-                    } else {
-                        DispatchQueue.main.async {
-                            navigationController?.pushViewController(BeforeJoinViewController(), animated: true)
-                        }
-                    }
-                }
-            } else {
-                DispatchQueue.main.async {
-                    activityIndicator.stopAnimating()
-                }
-                presentConfirmAlert(title: "애플 로그인 에러!", message: "유효하지 않은 값이 나왔습니다.")
-            }
-        }
-    }
 }
-
-// MARK:- Provide Presentation Anchor
 
 extension SignInViewController: ASAuthorizationControllerPresentationContextProviding {
     
@@ -370,47 +162,144 @@ extension SignInViewController: ASAuthorizationControllerPresentationContextProv
     }
 }
 
+// MARK:- SignIn with Google
+
+extension SignInViewController: CustomAlert {
+    
+    @objc private func touchUpSignInGoogle(_ sender: UIButton) {
+        GIDSignIn.sharedInstance()?.signIn()
+    }
+}
+
+// MARK:- SignIn with Naver
+
+extension SignInViewController: NaverThirdPartyLoginConnectionDelegate {
+    
+    @objc private func touchUpSignInNaver(_ sender: UIButton) {
+        naverSignInInstance?.requestThirdPartyLogin()
+    }
+    
+    public func oauth20ConnectionDidFinishRequestACTokenWithAuthCode() {
+        guard let naverToken = naverSignInInstance?.accessToken else {
+            presentConfirmAlert(title: "네이버 로그인 에러!", message: "네이버 토큰을 받아오지 못했습니다.")
+            return
+        }
+        requestSocialSignIn(from: .naver, with: naverToken)
+    }
+    
+    public func oauth20ConnectionDidFinishRequestACTokenWithRefreshToken() {
+        guard let naverToken = naverSignInInstance?.accessToken else {
+            presentConfirmAlert(title: "네이버 로그인 에러!", message: "네이버 토큰을 받아오지 못했습니다.")
+            return
+        }
+        requestSocialSignIn(from: .naver, with: naverToken)
+    }
+    
+    public func oauth20ConnectionDidFinishDeleteToken() {
+    }
+    
+    public func oauth20Connection(_ oauthConnection: NaverThirdPartyLoginConnection!, didFailWithError error: Error!) {
+        presentConfirmAlert(title: "네이버 로그인 에러!", message: error.localizedDescription)
+    }
+}
+
+// MARK:- Social SignIn Request
+
+extension SignInViewController {
+    
+    public func requestSocialSignIn(from provider: SignInProvider, with accessToken: String) {
+        activityIndicator.startAnimating()
+        let reqModel = SignInModel()
+        let request = RequestSet(method: reqModel.method, path: reqModel.path)
+        let param: [String: String] = ["socialAccessToken": accessToken,
+                                       "provider": provider.rawValue]
+        let signInReq = Request<SignIn>()
+        signInReq.request(request: request, parameter: param) { [self] (signIn, _, error)  in
+            if let error = error {
+                DispatchQueue.main.async {
+                    activityIndicator.stopAnimating()
+                }
+                presentConfirmAlert(title: "소셜 로그인 에러!", message: error.localizedDescription)
+            }
+            guard let signIn = signIn else {
+                DispatchQueue.main.async {
+                    activityIndicator.stopAnimating()
+                }
+                presentConfirmAlert(title: "소셜 로그인 에러!", message: "")
+                return
+            }
+            if signIn.type == 0 {
+                DispatchQueue.main.async {
+                    activityIndicator.stopAnimating()
+                    NavigationControl.pushToSignUpViewController(from: .apple, with: accessToken)
+                }
+            } else if signIn.type == 1 {
+                KeychainService.addKeychainToken(signIn.accessToken, signIn.refreshToken) { (error) in
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            activityIndicator.stopAnimating()
+                        }
+                        presentConfirmAlert(title: "키체인 토큰 에러!", message: error.localizedDescription)
+                    }
+                }
+                MeAPI().request { (alreadyJoinedBee, error) in
+                    DispatchQueue.main.async {
+                        activityIndicator.stopAnimating()
+                    }
+                    if let error = error {
+                        presentConfirmAlert(title: "사용자 정보 요청 에러!", message: error.localizedDescription)
+                    }
+                    guard let alreadyJoinedBee = alreadyJoinedBee else {
+                        presentConfirmAlert(title: "사용자 정보 요청 에러!", message: "")
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        if alreadyJoinedBee {
+                            NavigationControl.pushToBeeMainViewController()
+                        } else {
+                            NavigationControl.pushToBeforeJoinViewController()
+                        }
+                    }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    activityIndicator.stopAnimating()
+                }
+                presentConfirmAlert(title: "소셜 로그인 에러!", message: "유효하지 않은 값이 나왔습니다.")
+            }
+        }
+    }
+}
+
 // MARK:- Layout
 
 extension SignInViewController {
     
     private func setLayout() {
-        navigationController?.navigationBar.isHidden = true
-        
         view.addSubview(activityIndicator)
         activityIndicator.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
-            $0.height.equalToSuperview()
-            $0.width.equalToSuperview()
+            $0.centerX.centerY.height.width.equalToSuperview()
         }
         activityIndicator.addSubview(activityIndicatorImageView)
         activityIndicatorImageView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.centerX.centerY.width.equalToSuperview()
             $0.height.equalTo(activityIndicator.snp.width)
-            $0.width.equalToSuperview()
         }
         activityIndicatorImageView.addSubview(activityIndicatorDescriptionLabel)
         activityIndicatorDescriptionLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.centerX.bottom.equalToSuperview()
             $0.height.equalTo(26 * DesignSet.frameHeightRatio)
         }
         
         view.addSubview(backgroundYellowImage)
         backgroundYellowImage.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.centerX.equalToSuperview()
+            $0.top.centerX.width.equalToSuperview()
             $0.height.equalTo(482 * DesignSet.frameHeightRatio)
-            $0.width.equalToSuperview()
         }
         view.addSubview(backgroundWhiteImage)
         backgroundWhiteImage.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(367 * DesignSet.frameHeightRatio)
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview()
-            $0.width.equalToSuperview()
+            $0.centerX.bottom.width.equalToSuperview()
         }
         
         view.addSubview(subtitleLabel)

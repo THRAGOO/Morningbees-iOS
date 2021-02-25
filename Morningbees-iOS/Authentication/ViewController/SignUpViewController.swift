@@ -6,9 +6,6 @@
 //  Copyright © 2019 JUN LEE. All rights reserved.
 //
 
-import Firebase
-import GoogleSignIn
-import NaverThirdPartyLogin
 import UIKit
 
 final class SignUpViewController: UIViewController {
@@ -16,7 +13,7 @@ final class SignUpViewController: UIViewController {
     // MARK:- Properties
     
     public var provider: SignInProvider?
-    private let naverSignInInstance = NaverThirdPartyLoginConnection.getSharedInstance()
+    public var socialAccessToken: String?
     
     private var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
@@ -106,8 +103,8 @@ final class SignUpViewController: UIViewController {
     private var startButton: UIButton = {
         let button = UIButton()
         button.setTitle("시작하기", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.setTitleColor(UIColor(red: 170, green: 170, blue: 170), for: .disabled)
+        button.setTitleColor(UIColor(red: 34, green: 34, blue: 34), for: .normal)
+        button.setTitleColor(.white, for: .disabled)
         button.titleLabel?.font = UIFont(font: .systemExtraBold, size: 16)
         button.setBackgroundColor(UIColor(red: 255, green: 218, blue: 34), for: .normal)
         button.setBackgroundColor(UIColor(red: 211, green: 211, blue: 211), for: .disabled)
@@ -115,11 +112,6 @@ final class SignUpViewController: UIViewController {
         button.isEnabled = false
         return button
     }()
-    
-    /// Home Indicator Control
-    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
-        return .bottom
-    }
     
     // MARK:- Life Cycle
     
@@ -131,7 +123,6 @@ final class SignUpViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(willShowkeyboard),
                                                name: UIResponder.keyboardWillShowNotification,
@@ -140,6 +131,11 @@ final class SignUpViewController: UIViewController {
                                                selector: #selector(willHidekeyboard),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NavigationControl.navigationController.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -166,6 +162,10 @@ extension SignUpViewController {
     // MARK: Keyboard Event
     
     @objc private func willShowkeyboard(_ notification: Notification) {
+        startButton.snp.remakeConstraints {
+            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.bottom.centerX.width.equalToSuperview()
+        }
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
@@ -178,6 +178,11 @@ extension SignUpViewController {
     @objc private func willHidekeyboard(_ notification: Notification) {
         view.transform = .identity
         startButton.transform = .identity
+        startButton.snp.remakeConstraints {
+            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.centerX.width.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
     }
     
     // MARK: Nickname Validation Status
@@ -242,6 +247,17 @@ extension SignUpViewController {
             setInvalidDescription(.short)
         }
     }
+    
+    // MARK: Start Button Action
+    
+    @objc private func touchUpStartBtn(_ sender: UIButton) {
+        guard let socialAccessToken = socialAccessToken,
+              let provider = provider?.rawValue else {
+            presentConfirmAlert(title: "요청 에러!", message: "유효하지 않은 요청입니다.")
+            return
+        }
+        requestSignUp(socialAccessToken, provider)
+    }
 }
 
 // MARK:- Validation Request
@@ -288,6 +304,7 @@ extension SignUpViewController: CustomAlert {
                                           options: [],
                                           range: NSRange.init(location: 0, length: originText.count))
         if newText?.count != originText.count {
+            setInvalidDescription(.invalidCharacter)
             return false
         }
         return true
@@ -314,6 +331,11 @@ extension SignUpViewController: UITextFieldDelegate {
             UIView.animate(withDuration: 0.1) { [self] in
                 invalidNicknameDescriptionLabel.alpha = 0
             }
+        } else if inspectNicknameRegulation(originText: text) == false {
+            UIView.animate(withDuration: 0.5) { [self] in
+                invalidNicknameDescriptionLabel.alpha = 1
+            }
+            setInvalidDescription(.invalidCharacter)
         } else {
             bottomlineView.layer.borderColor = UIColor(red: 34, green: 34, blue: 34).cgColor
             UIView.animate(withDuration: 0.5) { [self] in
@@ -385,40 +407,10 @@ extension SignUpViewController {
                 return
             }
             if alreadyJoinedBee {
-                navigationController?.pushViewController(BeeMainViewController(), animated: true)
+                NavigationControl.pushToBeeMainViewController()
             } else {
-                navigationController?.pushViewController(BeforeJoinViewController(), animated: true)
+                NavigationControl.pushToBeforeJoinViewController()
             }
-        }
-    }
-    
-    // MARK: Start Button Action
-    
-    @objc private func touchUpStartBtn(_ sender: UIButton) {
-        switch provider {
-        case .naver:
-            guard let naverAccessToken = naverSignInInstance?.accessToken else {
-                return
-            }
-            requestSignUp(naverAccessToken, SignInProvider.naver.rawValue)
-        case .google:
-            guard let googleAccessToken = GIDSignIn.sharedInstance()?.currentUser.authentication.idToken else {
-                return
-            }
-            requestSignUp(googleAccessToken, SignInProvider.google.rawValue)
-        case .apple:
-            KeychainService.extractKeyChainAppleInfo { [self] (_, idToken, error) in
-                if let error = error {
-                    presentConfirmAlert(title: "키체인 애플 토큰 에러!", message: error.localizedDescription)
-                }
-                guard let idToken = idToken else {
-                    presentConfirmAlert(title: "키체인 애플 토큰 에러!", message: "애플 토큰을 성공적으로 가져오지 못했습니다.")
-                    return
-                }
-                requestSignUp(idToken, SignInProvider.apple.rawValue)
-            }
-        default:
-            presentConfirmAlert(title: "요청 에러!", message: "유효하지 않은 요청입니다.")
         }
     }
 }
@@ -432,22 +424,16 @@ extension SignUpViewController {
         
         view.addSubview(activityIndicator)
         activityIndicator.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
-            $0.height.equalToSuperview()
-            $0.width.equalToSuperview()
+            $0.centerX.centerY.height.width.equalToSuperview()
         }
         activityIndicator.addSubview(activityIndicatorImageView)
         activityIndicatorImageView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.centerX.centerY.width.equalToSuperview()
             $0.height.equalTo(activityIndicator.snp.width)
-            $0.width.equalToSuperview()
         }
         activityIndicatorImageView.addSubview(activityIndicatorDescriptionLabel)
         activityIndicatorDescriptionLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.centerX.bottom.equalToSuperview()
             $0.height.equalTo(26 * DesignSet.frameHeightRatio)
         }
         
@@ -516,10 +502,9 @@ extension SignUpViewController {
         
         view.addSubview(startButton)
         startButton.snp.makeConstraints {
-            $0.top.equalTo(view.snp.bottom).offset(-56 * DesignSet.frameHeightRatio)
-            $0.bottom.equalToSuperview()
-            $0.centerX.equalToSuperview()
-            $0.width.equalToSuperview()
+            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.centerX.width.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
         highlightView.layer.zPosition = 0
