@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum PenaltyTableLabel: String {
+    case unpaid = "미납 로얄젤리"
+    case paid = "총 로얄젤리"
+}
+
 struct BeePenaltyModel: RequestModel {
     typealias ModelType = BeePenalty
     var method: HTTPMethod = .get
