@@ -19,10 +19,16 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
+        
+        // MARK: SignIn with Naver
+        
         guard let userActivity = connectionOptions.userActivities.first,
               let incomingURL = userActivity.webpageURL else {
             return
         }
+        
+        // MARK:- DynamicLinks
+        
         DynamicLinks.dynamicLinks().handleUniversalLink(incomingURL) { (dynamicLink, error) in
             guard error == nil else {
                 print(error!.localizedDescription)
@@ -59,23 +65,28 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 extension SceneDelegate {
     
     private func handleDynamicLinks(_ dynamiclink: DynamicLink) {
-        if (GIDSignIn.sharedInstance()?.currentUser) != nil ||
-            NaverThirdPartyLoginConnection.getSharedInstance()?.accessToken != nil {
-            guard let url = dynamiclink.url else {
+        MeAPI().request { (alreadyJoinedBee, error) in
+            if let _ = error {
                 return
             }
-            if UserDefaults.standard.bool(forKey: UserDefaultsKey.alreadyJoin.rawValue) {
-                print("Already Joined another Bee!")
-            } else {
-                guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-                    let queryItems = components.queryItems else {
+            guard let alreadyJoinedBee = alreadyJoinedBee else {
+                return
+            }
+            DispatchQueue.main.async {
+                if alreadyJoinedBee {
+                    NavigationControl.pushToBeeMainViewController()
+                } else {
+                    guard let url = dynamiclink.url,
+                          let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+                          let queryItems = components.queryItems else {
                         return
+                    }
+                    for queryItem in queryItems {
+                        let value = queryItem.value?.replacingOccurrences(of: "+", with: " ")
+                        UserDefaults.standard.set(value ?? "", forKey: queryItem.name)
+                    }
+                    NavigationControl.pushToInvitedViewController()
                 }
-                for queryItem in queryItems {
-                    let value = queryItem.value?.replacingOccurrences(of: "+", with: " ")
-                    UserDefaults.standard.set(value ?? "", forKey: queryItem.name)
-                }
-                NavigationControl.pushToInvitedViewController()
             }
         }
     }
