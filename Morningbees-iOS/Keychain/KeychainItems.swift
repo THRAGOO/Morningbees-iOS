@@ -16,7 +16,6 @@ enum KeychainError: Error {
 
 enum KeychainServer: String {
     case morningbeesAuth = "https://api-morningbees.thragoo.com/auth"
-    case appleSignAuth = "https://appleid.apple.com/auth/"
 }
 
 struct Credentials {
