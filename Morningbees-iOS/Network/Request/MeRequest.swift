@@ -16,7 +16,7 @@ final class MeAPI {
         let meRequest = Request<Me>()
         KeychainService.extractKeyChainToken { (accessToken, _, error) in
             if let error = error {
-                print(error.localizedDescription)
+                completion(nil, error)
             }
             guard let accessToken = accessToken else {
                 return
