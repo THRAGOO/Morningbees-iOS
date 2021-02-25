@@ -228,12 +228,13 @@ extension SignInViewController {
                 presentConfirmAlert(title: "소셜 로그인 에러!", message: "")
                 return
             }
-            if signIn.type == 0 {
+            switch SignState(rawValue: signIn.type) {
+            case .needSignUp:
                 DispatchQueue.main.async {
                     activityIndicator.stopAnimating()
                     NavigationControl.pushToSignUpViewController(from: .apple, with: accessToken)
                 }
-            } else if signIn.type == 1 {
+            case .signedUser:
                 KeychainService.addKeychainToken(signIn.accessToken, signIn.refreshToken) { (error) in
                     if let error = error {
                         DispatchQueue.main.async {
@@ -261,7 +262,7 @@ extension SignInViewController {
                         }
                     }
                 }
-            } else {
+            case .none:
                 DispatchQueue.main.async {
                     activityIndicator.stopAnimating()
                 }

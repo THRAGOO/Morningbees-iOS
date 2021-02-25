@@ -14,6 +14,11 @@ enum SignInProvider: String {
     case apple = "apple"
 }
 
+enum SignState: Int {
+    case needSignUp = 0
+    case signedUser = 1
+}
+
 struct SignInModel: RequestModel {
     typealias ModelType = SignIn
     var method: HTTPMethod = .post
