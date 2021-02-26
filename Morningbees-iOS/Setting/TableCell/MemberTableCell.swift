@@ -32,8 +32,6 @@ final class MemberTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.layer.borderWidth = 0.5
-        self.layer.borderColor = UIColor(red: 241, green: 241, blue: 241).cgColor
         contentView.addSubview(profileImageView)
         contentView.addSubview(nicknameLabel)
         contentView.addSubview(queenMarkImageView)
@@ -67,6 +65,8 @@ final class MemberTableViewCell: UITableViewCell {
     }
     
     func configure(with model: Profile) {
+        layer.borderWidth = 0.5
+        layer.borderColor = UIColor(red: 241, green: 241, blue: 241).cgColor
         profileImageView.setImage(with: model.profileImage)
         guard let queenBee = UserDefaults.standard.string(forKey: UserDefaultsKey.queenBee.rawValue) else {
             return

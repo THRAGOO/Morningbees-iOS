@@ -34,12 +34,10 @@ final class SettingTableViewCell: UITableViewCell {
             $0.centerY.equalTo(contentView.snp.centerY)
             $0.height.equalTo(19 * DesignSet.frameHeightRatio)
         }
-        
         detailTextLabel?.snp.makeConstraints {
             $0.centerY.equalTo(contentView.snp.centerY)
             $0.height.equalTo(19 * DesignSet.frameHeightRatio)
         }
-        
         imageView?.snp.makeConstraints {
             $0.trailing.equalTo(contentView.snp.trailing).offset(-23 * DesignSet.frameWidthRatio)
             $0.centerY.equalTo(contentView.snp.centerY)
@@ -50,25 +48,16 @@ final class SettingTableViewCell: UITableViewCell {
     func configure(with model: SettingContent) {
         textLabel?.text = model.title.rawValue
         detailTextLabel?.text = model.detail
-        if model.isQueenBee {
+        if model.needArrow {
+            imageView?.isHidden = false
             detailTextLabel?.snp.makeConstraints {
                 $0.trailing.equalTo(contentView.snp.trailing).offset(-41 * DesignSet.frameWidthRatio)
             }
         } else {
+            imageView?.isHidden = true
             detailTextLabel?.snp.makeConstraints {
                 $0.trailing.equalTo(contentView.snp.trailing).offset(-23 * DesignSet.frameWidthRatio)
             }
-        }
-        if model.isPushToOther || model.isQueenBee {
-            imageView?.isHidden = false
-            if model.isQueenBee {
-                detailTextLabel?.isHidden = false
-            } else {
-                detailTextLabel?.isHidden = true
-            }
-        } else {
-            imageView?.isHidden = true
-            detailTextLabel?.isHidden = false
         }
     }
 }

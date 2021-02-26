@@ -1,5 +1,5 @@
 //
-//  UnpaidMemberTableViewCell.swift
+//  RoyalJellyTableViewCell.swift
 //  Morningbees-iOS
 //
 //  Created by Byeongjo Koo on 2021/01/22.
@@ -8,15 +8,13 @@
 
 import UIKit
 
-final class UnpaidMemberTableViewCell: UITableViewCell {
+final class RoyalJellyTableViewCell: UITableViewCell {
     
-    static let identifier = "UnpaidMemberTableViewCell"
+    static let identifier = "RoyalJellyTableViewCell"
     public var penalty = Penalty(nickname: "", userId: 0, penalty: 0)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .value1, reuseIdentifier: reuseIdentifier)
-        
-        layer.borderWidth = 0
         
         textLabel?.font = UIFont(font: .systemMedium, size: 15)
         textLabel?.textColor = UIColor(red: 34, green: 34, blue: 34)
@@ -40,7 +38,6 @@ final class UnpaidMemberTableViewCell: UITableViewCell {
             $0.width.equalTo(36 * DesignSet.frameHeightRatio)
             $0.height.equalTo(36 * DesignSet.frameHeightRatio)
         }
-        
         textLabel?.snp.makeConstraints {
             if let imageViewTrailing = imageView?.snp.trailing {
                 $0.leading.equalTo(imageViewTrailing).offset(12 * DesignSet.frameWidthRatio)
@@ -48,7 +45,6 @@ final class UnpaidMemberTableViewCell: UITableViewCell {
             $0.centerY.equalTo(contentView.snp.centerY)
             $0.height.equalTo(18 * DesignSet.frameHeightRatio)
         }
-        
         detailTextLabel?.snp.makeConstraints {
             $0.trailing.equalToSuperview().offset(-24 * DesignSet.frameWidthRatio)
             $0.centerY.equalTo(contentView.snp.centerY)

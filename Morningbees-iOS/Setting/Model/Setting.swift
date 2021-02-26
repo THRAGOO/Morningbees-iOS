@@ -20,6 +20,5 @@ enum SettingContentTitle: String {
 struct SettingContent {
     let title: SettingContentTitle
     let detail: String
-    let isQueenBee: Bool
-    let isPushToOther: Bool
+    let needArrow: Bool
 }

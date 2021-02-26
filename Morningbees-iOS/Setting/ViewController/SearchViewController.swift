@@ -12,13 +12,10 @@ final class SearchViewController: UIViewController {
     
     // MARK:- Properties
     
-    private var unpaidUserList = [Penalty]()
-    private var resultUserList = [Penalty]()
-    
-    let searchView: UIView = {
+    private let searchView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 30
+        view.setRatioCornerRadius(30)
         view.layer.masksToBounds = true
         return view
     }()
@@ -31,8 +28,8 @@ final class SearchViewController: UIViewController {
     }()
     private let searchTextField: UITextField = {
         let textField = UITextField()
-        textField.font = UIFont(font: .systemMedium, size: 16)
         textField.textColor = UIColor(red: 34, green: 34, blue: 34)
+        textField.font = UIFont(font: .systemMedium, size: 16)
         textField.clearButtonMode = .whileEditing
         textField.addTarget(self, action: #selector(searchUser), for: .editingChanged)
         return textField
@@ -47,31 +44,27 @@ final class SearchViewController: UIViewController {
     
     private let searchTableView: UITableView = {
         let tableView = UITableView()
+        tableView.separatorStyle = .none
         tableView.tableFooterView = UITableViewHeaderFooterView()
         return tableView
     }()
     
-    var viewTranslation = CGPoint(x: 0, y: 0)
+    public var royalJellyList = [Penalty]()
+    private var resultUserList = [Penalty]()
+    public var isUnpaidList = false
+    
+    private var viewTranslation = CGPoint(x: 0, y: 0)
     
     // MARK:- Life Cycle
-    
-    init(list: [Penalty]) {
-        super.init(nibName: nil, bundle: nil)
-        unpaidUserList = list
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         searchTextField.delegate = self
         searchTableView.delegate = self
         searchTableView.dataSource = self
-        searchTableView.register(UnpaidMemberTableViewCell.self,
-                                 forCellReuseIdentifier: UnpaidMemberTableViewCell.identifier)
-        layout()
+        searchTableView.register(RoyalJellyTableViewCell.self,
+                                 forCellReuseIdentifier: RoyalJellyTableViewCell.identifier)
+        setLayout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,20 +78,15 @@ final class SearchViewController: UIViewController {
 
 extension SearchViewController {
     
-    @objc func dismissViewByPan(_ sender: UIPanGestureRecognizer) {
+    @objc private func dismissViewByPan(_ sender: UIPanGestureRecognizer) {
         switch sender.state {
         case .changed:
             viewTranslation = sender.translation(in: view)
         case .ended:
             if viewTranslation.y < 100 {
-                UIView.animate(withDuration: 0.5,
-                               delay: 0,
-                               usingSpringWithDamping: 0.7,
-                               initialSpringVelocity: 1,
-                               options: .curveEaseOut,
-                               animations: {
-                    self.view.transform = .identity
-                })
+                UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut) { [self] in
+                    view.transform = .identity
+                }
             } else {
                 NotificationCenter.default.post(name: Notification.Name.init("DismissSearchView"), object: nil)
                 dismiss(animated: true)
@@ -117,32 +105,34 @@ extension SearchViewController {
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return resultUserList.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: UnpaidMemberTableViewCell.identifier,
-                                                       for: indexPath) as? UnpaidMemberTableViewCell else {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: RoyalJellyTableViewCell.identifier,
+                                                       for: indexPath) as? RoyalJellyTableViewCell else {
             fatalError()
         }
         cell.configure(with: resultUserList[indexPath.row])
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let selectedCell = tableView.cellForRow(at: indexPath) as? UnpaidMemberTableViewCell else {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let selectedCell = tableView.cellForRow(at: indexPath) as? RoyalJellyTableViewCell else {
             return
         }
-        let userInfo = ["nickname": selectedCell.penalty.nickname,
-                        "penalty": selectedCell.penalty.penalty] as [String: Any]
-        NotificationCenter.default.post(name: Notification.Name.init("DismissSearchView"),
-                                        object: nil,
-                                        userInfo: userInfo)
-        dismiss(animated: true)
+        if isUnpaidList && UserDefaults.standard.bool(forKey: UserDefaultsKey.isQueenBee.rawValue) {
+            let userInfo = ["userId": selectedCell.penalty.userId,
+                            "penalty": selectedCell.penalty.penalty] as [String: Any]
+            NotificationCenter.default.post(name: Notification.Name.init("DismissSearchView"),
+                                            object: nil,
+                                            userInfo: userInfo)
+            dismiss(animated: true)
+        }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(60 * DesignSet.frameHeightRatio)
     }
 }
@@ -156,7 +146,7 @@ extension SearchViewController: UITextFieldDelegate {
         guard let searchUser = searchTextField.text else {
             return
         }
-        for user in unpaidUserList {
+        for user in royalJellyList {
             if user.nickname.contains(searchUser) {
                 resultUserList.append(user)
             }
@@ -164,9 +154,9 @@ extension SearchViewController: UITextFieldDelegate {
         searchTableView.reloadData()
     }
     
-    func textField(_ textField: UITextField,
-                   shouldChangeCharactersIn range: NSRange,
-                   replacementString string: String) -> Bool {
+    public func textField(_ textField: UITextField,
+                          shouldChangeCharactersIn range: NSRange,
+                          replacementString string: String) -> Bool {
         return true
     }
 }
@@ -175,7 +165,7 @@ extension SearchViewController: UITextFieldDelegate {
 
 extension SearchViewController {
     
-    private func layout() {
+    private func setLayout() {
         view.backgroundColor = .clear
         
         view.addSubview(searchView)
@@ -211,8 +201,7 @@ extension SearchViewController {
         searchTableView.snp.makeConstraints {
             $0.top.equalTo(55 * DesignSet.frameHeightRatio)
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            $0.centerX.equalTo(searchView.snp.centerX)
-            $0.width.equalToSuperview()
+            $0.centerX.width.equalToSuperview()
         }
     }
 }

@@ -8,6 +8,12 @@
 
 import Foundation
 
+enum DynamicLinkItem: String {
+    case uriPrefix = "https://thragoo.page.link"
+    case appStoreId = "454943023"
+    case androidPackage = "com.jasen.kimjaeseung.morningbees"
+}
+
 struct MembersModel: RequestModel {
     typealias ModelType = Members
     var method: HTTPMethod = .get
