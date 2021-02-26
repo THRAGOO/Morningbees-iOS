@@ -30,6 +30,7 @@ enum Path: String {
     
     case members = "/api/bees/{beeid}/members"
     case beePenalty = "/api/bee_penalties/{beeid}"
+    case updateJelly = "/api/bee_penalties/paid/{beeid}"
     
     case beeWithdrawal = "/api/bees/withdrawal"
 }

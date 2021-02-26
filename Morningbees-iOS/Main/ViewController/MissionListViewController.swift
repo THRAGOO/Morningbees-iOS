@@ -76,7 +76,11 @@ final class MissionListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NavigationControl.navigationController.interactivePopGestureRecognizer?.isEnabled = true
     }
 }
 
@@ -85,7 +89,7 @@ final class MissionListViewController: UIViewController {
 extension MissionListViewController {
     
     @objc private func popToPrevViewController() {
-        navigationController?.popViewController(animated: true)
+        NavigationControl.popViewController()
     }
 }
 

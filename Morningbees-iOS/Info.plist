@@ -27,25 +27,11 @@
 			<string></string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>naversigninmorningbees</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>naverloginformorningbees</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>naversearchapp</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>naversearchthirdlogin</string>
+				<string>naversigninmorningbees</string>
 			</array>
 		</dict>
 		<dict>
@@ -122,5 +108,7 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
+	<key>FirebaseAutomaticScreenReportingEnabled</key>
+	<false/>
 </dict>
 </plist>

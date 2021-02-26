@@ -55,14 +55,9 @@ final class BeeCreateTimeViewController: UIViewController {
         return stackView
     }()
     
+    public var beeName: String = ""
     private var startTime: Int = .max
     private var endTime: Int = .max
-    var beeName: String = ""
-    
-    /// Home Indicator Control
-    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
-        return .bottom
-    }
     
     // MARK:- Life Cycle
     
@@ -74,7 +69,11 @@ final class BeeCreateTimeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NavigationControl.navigationController.interactivePopGestureRecognizer?.isEnabled = true
     }
 }
 
@@ -96,7 +95,7 @@ extension BeeCreateTimeViewController {
     }
     
     @objc private func popToPreviousViewController(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
+        NavigationControl.popViewController()
     }
 }
 
@@ -232,8 +231,9 @@ extension BeeCreateTimeViewController {
         
         view.addSubview(nextButton)
         nextButton.snp.makeConstraints {
-            $0.top.equalTo(view.snp.bottom).offset(-56 * DesignSet.frameHeightRatio)
-            $0.bottom.centerX.width.equalToSuperview()
+            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.centerX.width.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
     }
 }

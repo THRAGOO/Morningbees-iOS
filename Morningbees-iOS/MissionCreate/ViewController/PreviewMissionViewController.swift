@@ -91,7 +91,7 @@ extension PreviewMissionViewController: CustomAlert {
     
     @objc private func popToPrevViewController() {
         UserDefaults.standard.set(nil, forKey: UserDefaultsKey.missionImage.rawValue)
-        navigationController?.popViewController(animated: true)
+        NavigationControl.popViewController()
     }
     
     private func setImage() {

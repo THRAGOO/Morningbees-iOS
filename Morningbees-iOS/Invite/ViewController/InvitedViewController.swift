@@ -57,6 +57,14 @@ final class InvitedViewController: UIViewController {
         button.addTarget(self, action: #selector(touchUpJoinButton), for: .touchUpInside)
         return button
     }()
+    private let closeButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("닫기", for: .normal)
+        button.setTitleColor(UIColor(red: 68, green: 68, blue: 68), for: .normal)
+        button.titleLabel?.font = UIFont(font: .systemMedium, size: 13)
+        button.addTarget(self, action: #selector(touchUpCloseButton), for: .touchUpInside)
+        return button
+    }()
     
     // MARK:- Life Cycle
     
@@ -68,7 +76,11 @@ final class InvitedViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NavigationControl.navigationController.interactivePopGestureRecognizer?.isEnabled = true
     }
 }
 
@@ -78,6 +90,10 @@ extension InvitedViewController {
     
     @objc private func touchUpJoinButton(_ sender: UIButton) {
         requestJoinBee()
+    }
+    
+    @objc private func touchUpCloseButton(_ sender: UIButton) {
+        NavigationControl.popViewController()
     }
 }
 
@@ -137,7 +153,9 @@ extension InvitedViewController: CustomAlert {
                             return
                         }
                         if alreadyJoinedBee {
-                            navigationController?.pushViewController(BeeMainViewController(), animated: true)
+                            NavigationControl.pushToBeeMainViewController()
+                        } else {
+                            NavigationControl.pushToBeforeJoinViewController()
                         }
                     }
                 } else {
@@ -160,6 +178,8 @@ extension InvitedViewController: CustomAlert {
 extension InvitedViewController {
     
     private func setLayout() {
+        view.backgroundColor = .white
+        
         view.addSubview(activityIndicator)
         activityIndicator.snp.makeConstraints {
             $0.centerX.centerY.height.width.equalToSuperview()
@@ -201,6 +221,11 @@ extension InvitedViewController {
             $0.centerX.equalToSuperview()
             $0.height.equalTo(50 * DesignSet.frameHeightRatio)
             $0.width.equalTo(210 * DesignSet.frameWidthRatio)
+        }
+        view.addSubview(closeButton)
+        closeButton.snp.makeConstraints {
+            $0.top.equalTo(joinButton.snp.bottom).offset(10 * DesignSet.frameHeightRatio)
+            $0.centerX.height.width.equalTo(joinButton)
         }
         
         activityIndicator.layer.zPosition = 1

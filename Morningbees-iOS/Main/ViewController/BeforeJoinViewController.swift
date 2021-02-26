@@ -7,22 +7,17 @@
 //
 
 import UIKit
-import GoogleSignIn
-import NaverThirdPartyLogin
 
 final class BeforeJoinViewController: UIViewController, CustomAlert {
     
     // MARK:- Properties
-    
-    private let naverSignInInstance = NaverThirdPartyLoginConnection.getSharedInstance()
     
     private let illustBeforeJoiningImg = UIImageView(imageName: "illustBeforeJoining")
     private let logOutButton: UIButton = {
         let button = UIButton()
         button.setTitle("로그아웃", for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
-        button.addTarget(self, action: #selector(touchUpSignOutNaver), for: .touchUpInside)
-        button.addTarget(self, action: #selector(touchUpSignOutGoogle), for: .touchUpInside)
+        button.addTarget(self, action: #selector(touchUpSignOut), for: .touchUpInside)
         return button
     }()
     
@@ -60,12 +55,11 @@ final class BeforeJoinViewController: UIViewController, CustomAlert {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        naverSignInInstance?.delegate = self
         setLayout()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        NavigationControl.navigationController.interactivePopGestureRecognizer?.isEnabled = false
     }
 }
 
@@ -74,44 +68,28 @@ final class BeforeJoinViewController: UIViewController, CustomAlert {
 extension BeforeJoinViewController {
     
     @objc private func touchUpBeeCreateButton(_ sender: UIButton) {
-        navigationController?.pushViewController(BeeCreateNameViewController(), animated: true)
+        NavigationControl.pushToBeeCreateViewController()
     }
 }
 
-// MARK:- SignOut Naver
-
-extension BeforeJoinViewController: NaverThirdPartyLoginConnectionDelegate {
-    
-    public func oauth20ConnectionDidFinishRequestACTokenWithAuthCode() {
-    }
-
-    public func oauth20ConnectionDidFinishRequestACTokenWithRefreshToken() {
-    }
-
-    public func oauth20ConnectionDidFinishDeleteToken() {
-        navigationController?.popToRootViewController(animated: true)
-    }
-
-    public func oauth20Connection(_ oauthConnection: NaverThirdPartyLoginConnection!, didFailWithError error: Error!) {
-        presentConfirmAlert(title: "네이버 로그인 에러!", message: error.localizedDescription)
-    }
-
-    // MARK: Action
-
-    @objc private func touchUpSignOutNaver(_ sender: UIButton) {
-        naverSignInInstance?.requestDeleteToken()
-    }
-}
-
-// MARK:- SignOut Google
+// MARK:- SignOut
 
 extension BeforeJoinViewController {
+    
+    private func removeAllInfomations() {
+        KeychainService.deleteKeychainToken { [self] error in
+            if let error = error {
+                presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
+            }
+        }
+        UserDefaultsKey.allCases.forEach {
+            UserDefaults.standard.removeObject(forKey: $0.rawValue)
+        }
+    }
 
-    // MARK: Action
-
-    @objc private func touchUpSignOutGoogle(_ sender: UIButton) {
-        GIDSignIn.sharedInstance()?.signOut()
-        navigationController?.popToRootViewController(animated: true)
+    @objc private func touchUpSignOut(_ sender: UIButton) {
+        removeAllInfomations()
+        NavigationControl.popToRootViewController()
     }
 }
 

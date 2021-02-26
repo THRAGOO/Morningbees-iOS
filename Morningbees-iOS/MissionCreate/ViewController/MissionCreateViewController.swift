@@ -196,9 +196,9 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
         setupCustomSegmentedControlView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NavigationControl.navigationController.interactivePopGestureRecognizer?.isEnabled = true
     }
 }
 
@@ -207,7 +207,7 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
 extension MissionCreateViewController {
     
     @objc private func popToPreviousViewController(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
+        NavigationControl.popViewController()
     }
 }
 
@@ -265,13 +265,13 @@ extension MissionCreateViewController {
                     presentConfirmAlert(title: "미션 등록!", message: "성공적으로 등록하였습니다!") { _ in
                         NotificationCenter.default.post(name: Notification.Name.init("ReloadViewController"),
                                                         object: nil)
-                        navigationController?.popViewController(animated: true)
+                        NavigationControl.popViewController()
                     }
                 } else {
                     presentConfirmAlert(title: "미션 등록!", message: "등록에 실패하였습니다!" ) { _ in
                         NotificationCenter.default.post(name: Notification.Name.init("ReloadViewController"),
                                                         object: nil)
-                        navigationController?.popViewController(animated: true)
+                        NavigationControl.popViewController()
                     }
                 }
             }
@@ -440,22 +440,16 @@ extension MissionCreateViewController {
         
         view.addSubview(activityIndicator)
         activityIndicator.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
-            $0.height.equalToSuperview()
-            $0.width.equalToSuperview()
+            $0.centerX.centerY.height.width.equalToSuperview()
         }
         activityIndicator.addSubview(activityIndicatorImageView)
         activityIndicatorImageView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.centerX.centerY.width.equalToSuperview()
             $0.height.equalTo(activityIndicator.snp.width)
-            $0.width.equalToSuperview()
         }
         activityIndicatorImageView.addSubview(activityIndicatorDescriptionLabel)
         activityIndicatorDescriptionLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.centerX.bottom.equalToSuperview()
             $0.height.equalTo(26 * DesignSet.frameHeightRatio)
         }
         
@@ -481,9 +475,8 @@ extension MissionCreateViewController {
         view.addSubview(bottomlineView)
         bottomlineView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(43 * DesignSet.frameHeightRatio)
-            $0.centerX.equalToSuperview()
+            $0.centerX.width.equalToSuperview()
             $0.height.equalTo(1)
-            $0.width.equalToSuperview()
         }
         
         view.addSubview(missionTitleDescriptionLabel)
