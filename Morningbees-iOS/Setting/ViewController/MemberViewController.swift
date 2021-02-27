@@ -307,7 +307,7 @@ extension MemberViewController {
         view.addSubview(toPreviousButton)
         toPreviousButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(11 * DesignSet.frameHeightRatio)
-            $0.leading.equalToSuperview().offset(12 * DesignSet.frameWidthRatio)
+            $0.leading.equalTo(12 * DesignSet.frameWidthRatio)
             $0.width.equalTo(12 * DesignSet.frameWidthRatio)
             $0.height.equalTo(20 * DesignSet.frameHeightRatio)
         }

@@ -40,61 +40,6 @@
             </objects>
             <point key="canvasLocation" x="1977" y="137"/>
         </scene>
-        <!--Bee Create Name View Controller-->
-        <scene sceneID="Z8B-bc-TZ3">
-            <objects>
-                <viewController storyboardIdentifier="BeeCreateNameViewController" hidesBottomBarWhenPushed="YES" id="XiI-iA-FDM" customClass="BeeCreateNameViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="5U3-XZ-YRY">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="ZcI-ZT-oHA"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <toolbarItems/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <segue destination="vii-ig-qB7" kind="show" identifier="pushToStepTime" id="PEj-1B-kT8"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="SNp-yH-Ll9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3444" y="805"/>
-        </scene>
-        <!--Bee Create Time View Controller-->
-        <scene sceneID="iv5-fE-vWh">
-            <objects>
-                <viewController storyboardIdentifier="BeeCreateTimeViewController" hidesBottomBarWhenPushed="YES" id="vii-ig-qB7" customClass="BeeCreateTimeViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="kxj-tL-hJD">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="AAl-dx-uGR"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="Kxc-oZ-5Sb"/>
-                    <connections>
-                        <segue destination="8cl-pr-6MT" kind="show" identifier="pushToStepJelly" id="8AY-Oh-pz8"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1uD-zN-Gse" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4138" y="805"/>
-        </scene>
-        <!--Bee Create Jelly View Controller-->
-        <scene sceneID="uXE-TX-ots">
-            <objects>
-                <viewController storyboardIdentifier="BeeCreateJellyViewController" hidesBottomBarWhenPushed="YES" id="8cl-pr-6MT" customClass="BeeCreateJellyViewController" customModule="Morningbees" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="qgi-QZ-b5d">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="O1R-Bo-TPA"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="WeC-ls-Ymj"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="QdN-rv-38F" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4828" y="805"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Sgk-ma-XRJ">
             <objects>
@@ -110,7 +55,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ft4-ir-Qus" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1041" y="805"/>
+            <point key="canvasLocation" x="-1079" y="1083"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="18m-vl-o8K">
@@ -126,7 +71,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gvn-Pc-F22" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-246" y="805"/>
+            <point key="canvasLocation" x="-284" y="1083"/>
         </scene>
         <!--Bee Main View Controller-->
         <scene sceneID="iap-E1-LYW">
@@ -156,7 +101,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hmh-vS-FQ4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1977" y="1483"/>
+            <point key="canvasLocation" x="1318" y="2159"/>
         </scene>
         <!--Before Join View Controller-->
         <scene sceneID="ANq-jK-4iR">
