@@ -132,12 +132,18 @@ final class BeeCreateJellyViewController: UIViewController {
         return button
     }()
     
-    public var beeName: String = ""
-    public var startTime: Int = 0
-    public var endTime: Int = 0
-    private var royalJelly: Int = 0
+    private var createModel = CreateModel(title: "", startTime: 0, endTime: 0, pay: 0)
     
     // MARK:- Life Cycle
+    
+    init(with createModel: CreateModel) {
+        super.init(nibName: nil, bundle: nil)
+        self.createModel = createModel
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -188,13 +194,13 @@ extension BeeCreateJellyViewController {
     }
     
     @objc private func didChangeSliderValue(_ sender: UISlider) {
-        royalJelly = Int(sender.value / 500)
+        var royalJelly = Int(sender.value / 500)
         if (royalJelly % 2) != 0 {
             royalJelly += 1
         }
         royalJelly *= 500
         sender.setValue(Float(royalJelly), animated: false)
-        
+        createModel.pay = royalJelly
         if royalJelly == 2000 {
             updateJellyLabel(min: true, max: false, cur: false)
         } else if royalJelly == 10000 {
@@ -204,7 +210,7 @@ extension BeeCreateJellyViewController {
             curRoyalJellyLabel.text = "\(Int(sender.value))"
         }
         
-        let jellyIndex = royalJelly / 1000 - 2
+        let jellyIndex = (royalJelly / 1000) - 2
         let jellyStartPosition = CGFloat(Double(36 * jellyIndex) * DesignSet.frameWidthRatio)
         UIView.animate(withDuration: 0.1) {
             self.curRoyalJellyLabel.transform = .identity
@@ -223,7 +229,7 @@ extension BeeCreateJellyViewController: CustomAlert {
         let requestModel = BeeCreateModel()
         let request = RequestSet(method: requestModel.method, path: requestModel.path)
         let beeCreate = Request<BeeCreate>()
-        let parameter = BeeCreateParam(title: beeName, startTime: startTime, endTime: endTime, pay: royalJelly)
+        let parameter = createModel
         KeychainService.extractKeyChainToken { [self] (accessToken, _, error) in
             if let error = error {
                 DispatchQueue.main.async {
@@ -279,6 +285,8 @@ extension BeeCreateJellyViewController: CustomAlert {
 extension BeeCreateJellyViewController {
     
     private func setLayout() {
+        view.backgroundColor = .white
+        
         view.addSubview(activityIndicator)
         activityIndicator.snp.makeConstraints {
             $0.centerX.centerY.height.width.equalToSuperview()

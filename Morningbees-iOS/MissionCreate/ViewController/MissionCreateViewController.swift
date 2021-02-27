@@ -69,6 +69,7 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
         textField.textColor = UIColor(red: 68, green: 68, blue: 68)
         textField.font = UIFont(font: .systemMedium, size: 17)
         textField.placeholder = "2~12자 이내로 입력해 주세요."
+        textField.clearButtonMode = .whileEditing
         textField.addTarget(self, action: #selector(limitTextFieldLength), for: .editingChanged)
         return textField
     }()
@@ -77,6 +78,13 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
         view.layer.borderWidth = 0.5
         view.layer.borderColor = UIColor(red: 229, green: 229, blue: 229).cgColor
         return view
+    }()
+    private let unavailableNameDescriptionLabel: UILabel = {
+        let label = UILabel(text: "", letterSpacing: -0.4)
+        label.textColor = UIColor(red: 235, green: 54, blue: 54)
+        label.font = UIFont(font: .systemMedium, size: 13)
+        label.alpha = 0
+        return label
     }()
     
     private let missionPhotoDescriptionLabel: UILabel = {
@@ -302,17 +310,62 @@ extension MissionCreateViewController: UITextFieldDelegate {
         return true
     }
     
-    public func textFieldDidChangeSelection(_ textField: UITextField) {
-        isTitleSet = 1 < missionDescriptionTextField.text?.count ?? 0
-        controlCompleteButton()
-    }
-    
     @objc private func limitTextFieldLength(_ sender: UITextField) {
         guard let text = sender.text else {
             return
         }
+        if text.count == 0 {
+            isTitleSet = false
+            textFieldBottomlineView.layer.borderColor = UIColor(red: 221, green: 221, blue: 221).cgColor
+            UIView.animate(withDuration: 0.1) { [self] in
+                unavailableNameDescriptionLabel.alpha = 0
+            }
+        } else if text.count < 2 {
+            isTitleSet = false
+            textFieldBottomlineView.layer.borderColor = UIColor(red: 235, green: 54, blue: 54).cgColor
+            unavailableNameDescriptionLabel.text = "X 글자 수가 너무 짧아요."
+            UIView.animate(withDuration: 0.5) { [self] in
+                unavailableNameDescriptionLabel.alpha = 1
+            }
+            shakeLabel()
+        } else if !inspectTextRegulation(originText: text) {
+            isTitleSet = false
+            unavailableNameDescriptionLabel.text = "X 포함될 수 없는 문자가 있어요."
+            UIView.animate(withDuration: 0.5) { [self] in
+                unavailableNameDescriptionLabel.alpha = 1
+            }
+            shakeLabel()
+        } else {
+            isTitleSet = true
+            textFieldBottomlineView.layer.borderColor = UIColor(red: 34, green: 34, blue: 34).cgColor
+            UIView.animate(withDuration: 0.1) { [self] in
+                unavailableNameDescriptionLabel.alpha = 0
+            }
+        }
         if 12 < text.count {
             sender.text = String(text[..<text.index(text.startIndex, offsetBy: 12)])
+        }
+        controlCompleteButton()
+    }
+    
+    private func inspectTextRegulation(originText: String) -> Bool {
+        let filter: String = "[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ~!_@#$%^&*()+=.,:;?<>/` ]"
+        let regulation = try? NSRegularExpression(pattern: filter, options: [])
+        let newText = regulation?.matches(in: originText,
+                                          options: [],
+                                          range: NSRange.init(location: 0, length: originText.count))
+        if newText?.count != originText.count {
+            return false
+        }
+        return true
+    }
+    
+    private func shakeLabel() {
+        UIView.animate(withDuration: 0.05, delay: 0, options: [.repeat, .autoreverse]) { [self] in
+            UIView.modifyAnimations(withRepeatCount: 2, autoreverses: true) {
+                unavailableNameDescriptionLabel.transform = CGAffineTransform(translationX: +10, y: 0)
+                unavailableNameDescriptionLabel.transform = .identity
+            }
         }
     }
 }
@@ -423,7 +476,7 @@ extension MissionCreateViewController {
                     selector.isHidden = false
                     self.selector.frame.origin.x = selectorStartPosition
                 }
-                UIView.animate(withDuration: 0.1, animations: {
+                UIView.animate(withDuration: 0.3, animations: {
                     self.selector.frame.origin.x = selectorStartPosition
                 })
             }
@@ -456,7 +509,7 @@ extension MissionCreateViewController {
         view.addSubview(toPreviousButton)
         toPreviousButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(11 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.leading.equalTo(12 * DesignSet.frameWidthRatio)
             $0.height.equalTo(20 * DesignSet.frameHeightRatio)
             $0.width.equalTo(12 * DesignSet.frameHeightRatio)
         }
@@ -498,6 +551,12 @@ extension MissionCreateViewController {
             $0.centerX.equalToSuperview()
             $0.height.equalTo(1)
             $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+        }
+        view.addSubview(unavailableNameDescriptionLabel)
+        unavailableNameDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(textFieldBottomlineView.snp.top).offset(12 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
         }
         
         view.addSubview(missionPhotoDescriptionLabel)

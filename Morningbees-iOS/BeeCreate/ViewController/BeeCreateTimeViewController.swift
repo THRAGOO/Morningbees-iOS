@@ -55,11 +55,21 @@ final class BeeCreateTimeViewController: UIViewController {
         return stackView
     }()
     
-    public var beeName: String = ""
-    private var startTime: Int = .max
-    private var endTime: Int = .max
+    private var createModel = CreateModel(title: "", startTime: 0, endTime: 0, pay: 0)
+    private let none = 11
     
     // MARK:- Life Cycle
+    
+    init(with createModel: CreateModel) {
+        super.init(nibName: nil, bundle: nil)
+        self.createModel = createModel
+        self.createModel.startTime = none
+        self.createModel.endTime = none
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,16 +92,8 @@ final class BeeCreateTimeViewController: UIViewController {
 extension BeeCreateTimeViewController {
     
     @objc private func touchUpNextButton() {
-        performSegue(withIdentifier: "pushToStepJelly", sender: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let beeCreateJellyViewController = segue.destination as? BeeCreateJellyViewController else {
-            return
-        }
-        beeCreateJellyViewController.beeName = self.beeName
-        beeCreateJellyViewController.startTime = self.startTime
-        beeCreateJellyViewController.endTime = self.endTime
+        let beeCreateJellyViewController = BeeCreateJellyViewController(with: createModel)
+        NavigationControl.navigationController.pushViewController(beeCreateJellyViewController, animated: true)
     }
     
     @objc private func popToPreviousViewController(_ sender: UIButton) {
@@ -157,24 +159,24 @@ extension BeeCreateTimeViewController {
         }
         let selectedTime = index + 6
         
-        if startTime == .max && timeButtons[index].isSelected == false {
-            startTime = selectedTime
+        if createModel.startTime == none && timeButtons[index].isSelected == false {
+            createModel.startTime = selectedTime
             didSelectTimeButton(true, index)
-            if startTime == 10 {
+            if createModel.startTime == 10 {
                 setupButtonLabel(.start)
             } else {
                 setupButtonLabel(.end)
             }
-        } else if endTime == .max && timeButtons[index].isSelected == false {
-            endTime = selectedTime
+        } else if createModel.endTime == none && timeButtons[index].isSelected == false {
+            createModel.endTime = selectedTime
             didSelectTimeButton(true, index)
-        } else if startTime == selectedTime || endTime == selectedTime {
-            if startTime == selectedTime {
-                startTime = .max
+        } else if createModel.startTime == selectedTime || createModel.endTime == selectedTime {
+            if createModel.startTime == selectedTime {
+                createModel.startTime = none
                 setupButtonLabel(.start)
             } else {
-                endTime = .max
-                if startTime == .max && endTime == .max {
+                createModel.endTime = none
+                if createModel.startTime == none && createModel.endTime == none {
                     setupButtonLabel(.start)
                 } else {
                     setupButtonLabel(.end)
@@ -183,11 +185,11 @@ extension BeeCreateTimeViewController {
             didSelectTimeButton(false, index)
         }
         
-        if startTime > endTime {
-            swap(&startTime, &endTime)
+        if createModel.startTime > createModel.endTime {
+            swap(&createModel.startTime, &createModel.endTime)
         }
         
-        if startTime != .max && endTime != .max {
+        if createModel.startTime != none && createModel.endTime != none {
             nextButton.isEnabled = true
         } else {
             nextButton.isEnabled = false
@@ -200,6 +202,8 @@ extension BeeCreateTimeViewController {
 extension BeeCreateTimeViewController {
     
     private func setLayout() {
+        view.backgroundColor = .white
+        
         view.addSubview(toPreviousButton)
         toPreviousButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
