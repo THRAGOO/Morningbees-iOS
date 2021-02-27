@@ -32,7 +32,7 @@ struct Missions: Codable {
     let nickname: String
     let type: Int
     let difficulty: Int
-    let createdAt: String
+    var createdAt: String
     let agreeCount: Int
     let disagreeCount: Int
 }

@@ -62,6 +62,16 @@ final class MissionListViewController: UIViewController {
         dateFormatter.locale = .current
         return dateFormatter
     }()
+    private let dateFormatterForLabel: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = .current
+        dateFormatter.locale = .current
+        return dateFormatter
+    }()
+    private let minute: Double = 60
+    private let hour: Double = 60 * 60
+    private let day: Double = 24 * 60 * 60
     
     // MARK:- Life Cycle
     
@@ -104,9 +114,10 @@ extension MissionListViewController: UITableViewDelegate, UITableViewDataSource 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MissionTableViewCell.identifier,
                                                        for: indexPath) as? MissionTableViewCell,
-              let missions = missions else {
+              var missions = missions else {
             fatalError()
         }
+        parsePostedTime(timeString: &missions[indexPath.row].createdAt)
         cell.configure(with: missions[indexPath.row])
         return cell
     }
@@ -117,6 +128,29 @@ extension MissionListViewController: UITableViewDelegate, UITableViewDataSource 
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+// MARK:- Time Label Parsing
+
+extension MissionListViewController {
+    
+    private func parsePostedTime(timeString: inout String) {
+        guard let postedTime = dateFormatterForLabel.date(from: timeString) else {
+            return
+        }
+        let currenTime = Date()
+        if currenTime - minute < postedTime {
+            timeString = "방금 전"
+        } else if currenTime - hour < postedTime {
+            let value = Int(postedTime.timeIntervalSince(Date()) / minute)
+            timeString = "\(value)분 전"
+        } else if currenTime - day < postedTime {
+            let value = Int(postedTime.timeIntervalSince(Date()) / hour)
+            timeString = "\(value)시간 전"
+        } else {
+            timeString = String(timeString[..<timeString.index(timeString.startIndex, offsetBy: 10)])
+        }
     }
 }
 
