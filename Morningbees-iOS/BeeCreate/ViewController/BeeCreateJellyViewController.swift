@@ -20,16 +20,10 @@ final class BeeCreateJellyViewController: UIViewController {
         indicator.alpha = 0.5
         return indicator
     }()
-    private let activityIndicatorImageView = UIImageView(imageName: "illustErrorPage")
-    private let activityIndicatorDescriptionLabel: UILabel = {
-        let label = UILabel(text: "모임 생성 요청 중...", letterSpacing: 0)
-        label.textColor = .white
-        label.font = UIFont(font: .systemBold, size: 24)
-        return label
-    }()
     
     private let toPreviousButton: UIButton = {
         let button = UIButton()
+        button.contentHorizontalAlignment = .left
         button.setImage(UIImage(named: "arrowLeft"), for: .normal)
         button.addTarget(self, action: #selector(popToPreviousViewController), for: .touchUpInside)
         return button
@@ -211,7 +205,7 @@ extension BeeCreateJellyViewController {
         }
         
         let jellyIndex = (royalJelly / 1000) - 2
-        let jellyStartPosition = CGFloat(Double(36 * jellyIndex) * DesignSet.frameWidthRatio)
+        let jellyStartPosition = CGFloat(Double(36 * jellyIndex) * ToolSet.widthRatio)
         UIView.animate(withDuration: 0.1) {
             self.curRoyalJellyLabel.transform = .identity
             self.curRoyalJellyLabel.transform = CGAffineTransform(translationX: +jellyStartPosition, y: 0)
@@ -235,7 +229,7 @@ extension BeeCreateJellyViewController: CustomAlert {
                 DispatchQueue.main.async {
                     activityIndicator.stopAnimating()
                 }
-                presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
+                presentConfirmAlert(title: "토큰 에러!", message: error.description)
                 return
             }
             guard let accessToken = accessToken else {
@@ -251,7 +245,7 @@ extension BeeCreateJellyViewController: CustomAlert {
                     DispatchQueue.main.async {
                         activityIndicator.stopAnimating()
                     }
-                    presentConfirmAlert(title: "모임 생성 에러!", message: error.localizedDescription)
+                    presentConfirmAlert(title: "모임 생성 에러!", message: error.description)
                 }
                 if created {
                     presentConfirmAlert(title: "", message: "성공적으로 모임을 생성하였습니다.") { _ in 
@@ -260,7 +254,7 @@ extension BeeCreateJellyViewController: CustomAlert {
                                 activityIndicator.stopAnimating()
                             }
                             if let error = error {
-                                presentConfirmAlert(title: "모임 생성 에러!", message: error.localizedDescription)
+                                presentConfirmAlert(title: "모임 생성 에러!", message: error.description)
                                 return
                             }
                             guard let alreadyJoinBee = alreadyJoinBee else {
@@ -291,81 +285,71 @@ extension BeeCreateJellyViewController {
         activityIndicator.snp.makeConstraints {
             $0.centerX.centerY.height.width.equalToSuperview()
         }
-        activityIndicator.addSubview(activityIndicatorImageView)
-        activityIndicatorImageView.snp.makeConstraints {
-            $0.centerX.centerY.width.equalToSuperview()
-            $0.height.equalTo(activityIndicator.snp.width)
-        }
-        activityIndicatorImageView.addSubview(activityIndicatorDescriptionLabel)
-        activityIndicatorDescriptionLabel.snp.makeConstraints {
-            $0.centerX.bottom.equalToSuperview()
-            $0.height.equalTo(26 * DesignSet.frameHeightRatio)
-        }
         
         view.addSubview(toPreviousButton)
         toPreviousButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(12 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(12 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * ToolSet.heightRatio)
+            $0.leading.equalTo(12 * ToolSet.widthRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
+            $0.width.equalTo(30 * ToolSet.heightRatio)
         }
         
         view.addSubview(firstDescriptionLabel)
         firstDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(70 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(66 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(70 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(66 * ToolSet.heightRatio)
         }
         view.addSubview(secondDescriptionLabel)
         secondDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(151 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(36 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(151 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(36 * ToolSet.heightRatio)
         }
         
         view.addSubview(jellyDescriptionLabel)
         jellyDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(213 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(17 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(213 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(17 * ToolSet.heightRatio)
         }
         view.addSubview(trackView)
         trackView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(251 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(251 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(14 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(14 * ToolSet.heightRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
         }
         view.addSubview(royaljellySlider)
         royaljellySlider.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(251 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(251 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(14 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(14 * ToolSet.heightRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
         }
         
         view.addSubview(minRoyalJellyLabel)
         minRoyalJellyLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(281 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(20 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(281 * ToolSet.heightRatio)
+            $0.leading.equalTo(20 * ToolSet.widthRatio)
+            $0.height.equalTo(16 * ToolSet.heightRatio)
         }
         view.addSubview(maxRoyalJellyLabel)
         maxRoyalJellyLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(281 * DesignSet.frameHeightRatio)
-            $0.trailing.equalTo(-20 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(281 * ToolSet.heightRatio)
+            $0.trailing.equalTo(-20 * ToolSet.widthRatio)
+            $0.height.equalTo(16 * ToolSet.heightRatio)
         }
         view.addSubview(curRoyalJellyLabel)
         curRoyalJellyLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(281 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(26 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(281 * ToolSet.heightRatio)
+            $0.leading.equalTo(26 * ToolSet.widthRatio)
+            $0.height.equalTo(16 * ToolSet.heightRatio)
         }
         
         view.addSubview(nextButton)
         nextButton.snp.makeConstraints {
-            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(56 * ToolSet.heightRatio)
             $0.centerX.width.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }

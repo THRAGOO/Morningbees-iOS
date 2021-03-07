@@ -10,25 +10,26 @@ import UIKit
 
 final class RenewalToken {
     
-    func request(completion: @escaping (Bool?, Error?) -> Void) {
+    func request(completion: @escaping (Bool, CustomError?) -> Void) {
         let requestModel = RenewalModel()
         let request = RequestSet(method: requestModel.method, path: requestModel.path)
         let renewalRequest = Request<Renewal>()
         
         KeychainService.extractKeyChainToken { (accessToken, refreshToken, error) in
             if let error = error {
-                print(error.localizedDescription)
+                completion(false, error)
             }
             guard let accessToken = accessToken,
-                let refreshToken = refreshToken else {
-                    print(KeychainError.noToken)
-                    return
+                  let refreshToken = refreshToken else {
+                let error = CustomError(errorType: .foundNil, description: ErrorDescription.foundNil.rawValue)
+                completion(false, error)
+                return
             }
             let headers: [String: String] = [RequestHeader.accessToken.rawValue: accessToken,
                                              RequestHeader.refreshToken.rawValue: refreshToken]
             renewalRequest.request(request: request, header: headers, parameter: "") { (renewal, _, error) in
                 if let error = error {
-                    completion(nil, error)
+                    completion(false, error)
                     return
                 }
                 guard let renewal = renewal else {
@@ -37,7 +38,7 @@ final class RenewalToken {
                 }
                 KeychainService.updateKeychainToken(renewal.accessToken, refreshToken) { (error) in
                     if let error = error {
-                        completion(nil, error)
+                        completion(false, error)
                     }
                 }
             }

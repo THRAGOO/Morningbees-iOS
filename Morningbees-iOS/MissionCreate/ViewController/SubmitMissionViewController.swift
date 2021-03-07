@@ -150,29 +150,29 @@ extension SubmitMissionViewContoller {
         
         view.addSubview(submitView)
         submitView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(407 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(407 * ToolSet.heightRatio)
             $0.centerX.width.equalToSuperview()
-            $0.height.equalTo(270 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(270 * ToolSet.heightRatio)
         }
         
         submitView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(30 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(30 * ToolSet.heightRatio)
             $0.centerX.equalTo(view.snp.centerX)
         }
         
         submitView.addSubview(cameraButton)
         cameraButton.snp.makeConstraints {
-            $0.top.equalTo(79 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(50 * DesignSet.frameWidthRatio)
-            $0.height.width.equalTo(120 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(79 * ToolSet.heightRatio)
+            $0.leading.equalTo(50 * ToolSet.widthRatio)
+            $0.height.width.equalTo(120 * ToolSet.widthRatio)
         }
         cameraButton.addSubview(cameraImageView)
         cameraImageView.snp.makeConstraints {
-            $0.top.equalTo(32 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(32 * ToolSet.heightRatio)
             $0.centerX.equalTo(cameraButton.snp.centerX)
-            $0.height.equalTo(19 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(19 * ToolSet.heightRatio)
+            $0.width.equalTo(20 * ToolSet.heightRatio)
         }
         cameraButton.addSubview(cameraLabel)
         cameraLabel.snp.makeConstraints {
@@ -182,16 +182,16 @@ extension SubmitMissionViewContoller {
         
         submitView.addSubview(libraryButton)
         libraryButton.snp.makeConstraints {
-            $0.top.equalTo(79 * DesignSet.frameHeightRatio)
-            $0.trailing.equalTo(-50 * DesignSet.frameWidthRatio)
-            $0.height.width.equalTo(120 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(79 * ToolSet.heightRatio)
+            $0.trailing.equalTo(-50 * ToolSet.widthRatio)
+            $0.height.width.equalTo(120 * ToolSet.widthRatio)
         }
         libraryButton.addSubview(libraryImageView)
         libraryImageView.snp.makeConstraints {
-            $0.top.equalTo(32 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(32 * ToolSet.heightRatio)
             $0.centerX.equalTo(libraryButton.snp.centerX)
-            $0.height.equalTo(19 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(19 * ToolSet.heightRatio)
+            $0.width.equalTo(20 * ToolSet.heightRatio)
         }
         libraryButton.addSubview(libraryLabel)
         libraryLabel.snp.makeConstraints {

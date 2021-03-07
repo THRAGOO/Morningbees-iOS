@@ -20,13 +20,6 @@ final class PreviewMissionViewController: UIViewController {
         indicator.alpha = 0.5
         return indicator
     }()
-    private let activityIndicatorImageView = UIImageView(imageName: "illustErrorPage")
-    private let activityIndicatorDescriptionLabel: UILabel = {
-        let label = UILabel(text: "미션 제출 요청 중...", letterSpacing: 0)
-        label.textColor = .white
-        label.font = UIFont(font: .systemBold, size: 24)
-        return label
-    }()
     
     let titleLabel: UILabel = {
         let label = UILabel(text: "업로드 이미지", letterSpacing: -0.3)
@@ -127,7 +120,7 @@ extension PreviewMissionViewController: CustomAlert {
                 DispatchQueue.main.async {
                     activityIndicator.stopAnimating()
                 }
-                presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
+                presentConfirmAlert(title: "토큰 에러!", message: error.description)
                 return
             }
             guard let accessToken = accessToken else {
@@ -146,7 +139,7 @@ extension PreviewMissionViewController: CustomAlert {
                     activityIndicator.stopAnimating()
                 }
                 if let error = error {
-                    presentConfirmAlert(title: "미션 제출 요청 에러!", message: error.localizedDescription)
+                    presentConfirmAlert(title: "미션 제출 요청 에러!", message: error.description)
                     return
                 }
                 if created {
@@ -178,37 +171,27 @@ extension PreviewMissionViewController {
         activityIndicator.snp.makeConstraints {
             $0.centerX.centerY.height.width.equalToSuperview()
         }
-        activityIndicator.addSubview(activityIndicatorImageView)
-        activityIndicatorImageView.snp.makeConstraints {
-            $0.centerX.centerY.width.equalToSuperview()
-            $0.height.equalTo(activityIndicator.snp.width)
-        }
-        activityIndicatorImageView.addSubview(activityIndicatorDescriptionLabel)
-        activityIndicatorDescriptionLabel.snp.makeConstraints {
-            $0.centerX.bottom.equalToSuperview()
-            $0.height.equalTo(26 * DesignSet.frameHeightRatio)
-        }
         
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * ToolSet.heightRatio)
             $0.centerX.equalTo(view.snp.centerX)
         }
         view.addSubview(cancelButton)
         cancelButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
         }
         view.addSubview(shareButton)
         shareButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
-            $0.trailing.equalTo(-24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * ToolSet.heightRatio)
+            $0.trailing.equalTo(-24 * ToolSet.widthRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
         }
         view.addSubview(bottomlineView)
         bottomlineView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(43 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(43 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(1)
             $0.width.equalToSuperview()
@@ -216,17 +199,17 @@ extension PreviewMissionViewController {
         
         view.addSubview(missionImageView)
         missionImageView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(134 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(134 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(view.snp.width)
             $0.width.equalToSuperview()
         }
         view.addSubview(reloadPhotoButton)
         reloadPhotoButton.snp.makeConstraints {
-            $0.top.equalTo(missionImageView.snp.bottom).offset(40 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(missionImageView.snp.bottom).offset(40 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(18 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(100 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(18 * ToolSet.heightRatio)
+            $0.width.equalTo(100 * ToolSet.widthRatio)
         }
         
         activityIndicator.layer.zPosition = 1

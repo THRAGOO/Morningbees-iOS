@@ -12,6 +12,7 @@ final class SettingViewController: UIViewController, CustomAlert {
     
     private let toPreviousButton: UIButton = {
         let button = UIButton()
+        button.contentHorizontalAlignment = .left
         button.setImage(UIImage(named: "arrowLeft"), for: .normal)
         button.addTarget(self, action: #selector(toPreviousViewController), for: .touchUpInside)
         return button
@@ -157,7 +158,11 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             case 0:
                 cell.configure(with: SettingContent(title: .logout, detail: "", needArrow: true))
             case 1:
-                cell.configure(with: SettingContent(title: .leaveBee, detail: "", needArrow: true))
+                if !UserDefaults.standard.bool(forKey: UserDefaultsKey.isQueenBee.rawValue) {
+                    cell.configure(with: SettingContent(title: .leaveBee, detail: "", needArrow: true))
+                } else {
+                    cell.configure(with: SettingContent(title: .none, detail: "", needArrow: false))
+                }
             default:
                 break
             }
@@ -185,11 +190,11 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return CGFloat(36 * DesignSet.frameHeightRatio)
+        return CGFloat(36 * ToolSet.heightRatio)
     }
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(54 * DesignSet.frameHeightRatio)
+        return CGFloat(54 * ToolSet.heightRatio)
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -212,8 +217,10 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
                     signOut()
                 }
             case 1:
-                presentYesNoAlert(title: "모임 떠나기", message: "정말로 모임을 떠나시겠습니까?") { [self] _ in
-                    leaveBee()
+                if !UserDefaults.standard.bool(forKey: UserDefaultsKey.isQueenBee.rawValue) {
+                    presentYesNoAlert(title: "모임 떠나기", message: "정말로 모임을 떠나시겠습니까?") { [self] _ in
+                        leaveBee()
+                    }
                 }
             default:
                 break
@@ -235,7 +242,7 @@ extension SettingViewController {
         let beeInfo = Request<BeeInfo>()
         KeychainService.extractKeyChainToken { [self] (accessToken, _, error) in
             if let error = error {
-                presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
+                presentConfirmAlert(title: "토큰 에러!", message: error.description)
             }
             guard let accessToken = accessToken else {
                 return
@@ -243,7 +250,7 @@ extension SettingViewController {
             let header: [String: String] = [RequestHeader.accessToken.rawValue: accessToken]
             beeInfo.request(request: request, header: header, parameter: "") { (beeInfo, _, error) in
                 if let error = error {
-                    presentConfirmAlert(title: "모임 정보 요청 에러!", message: error.localizedDescription)
+                    presentConfirmAlert(title: "모임 정보 요청 에러!", message: error.description)
                     return
                 }
                 guard let beeInfo = beeInfo else {
@@ -251,7 +258,7 @@ extension SettingViewController {
                 }
                 DispatchQueue.main.async {
                     missionTimeString = "\(beeInfo.startTime[0])시 - \(beeInfo.endTime[0])시"
-                    totalPenaltyString = "\(beeInfo.pay)원"
+                    totalPenaltyString = ToolSet.integerToCommaNumberString(with: beeInfo.pay) + "원"
                     settingTableView.reloadData()
                 }
             }
@@ -271,12 +278,14 @@ extension SettingViewController {
     private func removeAllInfomations() {
         KeychainService.deleteKeychainToken { [self] error in
             if let error = error {
-                presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
+                presentConfirmAlert(title: "토큰 에러!", message: error.description)
             }
         }
         UserDefaultsKey.allCases.forEach {
             UserDefaults.standard.removeObject(forKey: $0.rawValue)
         }
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
     }
 }
 
@@ -287,7 +296,7 @@ extension SettingViewController {
     private func leaveBee() {
         WithdrawalAPI().request { [self] (success, error) in
             if let error = error {
-                presentConfirmAlert(title: "떠나기 요청 에러!", message: error.localizedDescription)
+                presentConfirmAlert(title: "떠나기 요청 에러!", message: error.description)
             }
             if let success = success {
                 if success {
@@ -311,20 +320,20 @@ extension SettingViewController {
         
         view.addSubview(toPreviousButton)
         toPreviousButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(11 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(12 * DesignSet.frameWidthRatio)
-            $0.width.equalTo(12 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(11 * ToolSet.heightRatio)
+            $0.leading.equalTo(12 * ToolSet.widthRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
+            $0.width.equalTo(30 * ToolSet.heightRatio)
         }
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
         }
         view.addSubview(bottomlineView)
         bottomlineView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(43 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(43 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
             $0.width.equalToSuperview()
             $0.height.equalTo(1)
@@ -332,38 +341,38 @@ extension SettingViewController {
         
         view.addSubview(settingTableView)
         settingTableView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(44 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(44 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
             $0.width.equalToSuperview()
-            $0.height.equalTo(469 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(469 * ToolSet.heightRatio)
         }
         
         myInfoHeaderView.addSubview(myInfoHeaderViewImageView)
         myInfoHeaderViewImageView.snp.makeConstraints {
-            $0.top.equalTo(myInfoHeaderView).offset(8 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(myInfoHeaderView).offset(25 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(18 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(16 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(myInfoHeaderView).offset(8 * ToolSet.heightRatio)
+            $0.leading.equalTo(myInfoHeaderView).offset(25 * ToolSet.widthRatio)
+            $0.height.equalTo(18 * ToolSet.heightRatio)
+            $0.width.equalTo(16 * ToolSet.widthRatio)
         }
         myInfoHeaderView.addSubview(myInfoHeaderViewLabel)
         myInfoHeaderViewLabel.snp.makeConstraints {
             $0.centerY.equalTo(myInfoHeaderView)
-            $0.leading.equalTo(myInfoHeaderView).offset(47 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(myInfoHeaderView).offset(47 * ToolSet.widthRatio)
+            $0.height.equalTo(16 * ToolSet.heightRatio)
         }
         
         beeInfoHeaderView.addSubview(beeInfoHeaderViewImageView)
         beeInfoHeaderViewImageView.snp.makeConstraints {
             $0.centerY.equalTo(beeInfoHeaderView)
-            $0.leading.equalTo(beeInfoHeaderView).offset(25 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(14 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(16 * DesignSet.frameWidthRatio)
+            $0.leading.equalTo(beeInfoHeaderView).offset(25 * ToolSet.widthRatio)
+            $0.height.equalTo(14 * ToolSet.heightRatio)
+            $0.width.equalTo(16 * ToolSet.widthRatio)
         }
         beeInfoHeaderView.addSubview(beeInfoHeaderViewLabel)
         beeInfoHeaderViewLabel.snp.makeConstraints {
             $0.centerY.equalTo(beeInfoHeaderView)
-            $0.leading.equalTo(beeInfoHeaderView).offset(48 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(beeInfoHeaderView).offset(48 * ToolSet.widthRatio)
+            $0.height.equalTo(16 * ToolSet.heightRatio)
         }
     }
 }

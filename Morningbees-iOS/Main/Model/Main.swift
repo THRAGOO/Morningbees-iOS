@@ -8,10 +8,20 @@
 
 import Foundation
 
+enum MissionNotification: String {
+    case missionTime = "missionTime"
+    case nextQuestioner = "nextQuestioner"
+}
+
 enum ViewPresentPeriod {
     case past
     case today
     case tomorrow
+}
+
+enum MissionType: Int {
+    case created = 1
+    case submitted = 2
 }
 
 struct MainModel: RequestModel {

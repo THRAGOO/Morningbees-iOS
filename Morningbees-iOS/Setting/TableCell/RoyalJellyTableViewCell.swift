@@ -22,8 +22,8 @@ final class RoyalJellyTableViewCell: UITableViewCell {
         detailTextLabel?.textColor = UIColor(red: 34, green: 34, blue: 34)
         detailTextLabel?.font = UIFont(font: .systemBold, size: 14)
         
-        imageView?.backgroundColor = UIColor(red: 226, green: 226, blue: 226)
-        imageView?.layer.cornerRadius = CGFloat(18 * DesignSet.frameHeightRatio)
+        imageView?.backgroundColor = UIColor(red: 255, green: 239, blue: 158)
+        imageView?.layer.cornerRadius = CGFloat(18 * ToolSet.heightRatio)
         imageView?.layer.masksToBounds = true
     }
     
@@ -33,22 +33,22 @@ final class RoyalJellyTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         imageView?.snp.makeConstraints {
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
             $0.centerY.equalTo(contentView.snp.centerY)
-            $0.width.equalTo(36 * DesignSet.frameHeightRatio)
-            $0.height.equalTo(36 * DesignSet.frameHeightRatio)
+            $0.width.equalTo(36 * ToolSet.heightRatio)
+            $0.height.equalTo(36 * ToolSet.heightRatio)
         }
         textLabel?.snp.makeConstraints {
             if let imageViewTrailing = imageView?.snp.trailing {
-                $0.leading.equalTo(imageViewTrailing).offset(12 * DesignSet.frameWidthRatio)
+                $0.leading.equalTo(imageViewTrailing).offset(12 * ToolSet.widthRatio)
             }
             $0.centerY.equalTo(contentView.snp.centerY)
-            $0.height.equalTo(18 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(18 * ToolSet.heightRatio)
         }
         detailTextLabel?.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-24 * DesignSet.frameWidthRatio)
+            $0.trailing.equalToSuperview().offset(-24 * ToolSet.widthRatio)
             $0.centerY.equalTo(contentView.snp.centerY)
-            $0.height.equalTo(15 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(15 * ToolSet.heightRatio)
         }
     }
     
@@ -65,6 +65,6 @@ final class RoyalJellyTableViewCell: UITableViewCell {
     public func configure(with model: Penalty) {
         penalty = model
         textLabel?.text = penalty.nickname
-        detailTextLabel?.text = "\(penalty.penalty)"
+        detailTextLabel?.text = ToolSet.integerToCommaNumberString(with: penalty.penalty)
     }
 }

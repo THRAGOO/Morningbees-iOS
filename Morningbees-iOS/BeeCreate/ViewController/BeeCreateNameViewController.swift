@@ -15,6 +15,7 @@ final class BeeCreateNameViewController: UIViewController {
     private let toPreviousButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "arrowLeft"), for: .normal)
+        button.contentHorizontalAlignment = .left
         button.addTarget(self, action: #selector(popToPreviousViewController), for: .touchUpInside)
         return button
     }()
@@ -139,7 +140,7 @@ extension BeeCreateNameViewController {
     
     @objc private func willShowkeyboard(_ notification: Notification) {
         nextButton.snp.remakeConstraints {
-            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(56 * ToolSet.heightRatio)
             $0.bottom.centerX.width.equalToSuperview()
         }
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
@@ -151,7 +152,7 @@ extension BeeCreateNameViewController {
     @objc private func willHidekeyboard(_ notification: Notification) {
         nextButton.transform = .identity
         nextButton.snp.remakeConstraints {
-            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(56 * ToolSet.heightRatio)
             $0.centerX.width.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
@@ -236,50 +237,50 @@ extension BeeCreateNameViewController {
         
         view.addSubview(toPreviousButton)
         toPreviousButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(12 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(12 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * ToolSet.heightRatio)
+            $0.leading.equalTo(12 * ToolSet.widthRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
+            $0.width.equalTo(30 * ToolSet.heightRatio)
         }
         
         view.addSubview(descriptionLabel)
         descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(70 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(66 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(70 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(66 * ToolSet.heightRatio)
         }
         
         view.addSubview(nameDescriptionLabel)
         nameDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(203 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(17 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(203 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(17 * ToolSet.heightRatio)
         }
         
         view.addSubview(beeNameTextField)
         beeNameTextField.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(236 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(236 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
         }
         view.addSubview(bottomlineView)
         bottomlineView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(271 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(271 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
             $0.height.equalTo(1)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
         }
         view.addSubview(unavailableNameDescriptionLabel)
         unavailableNameDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(bottomlineView.snp.top).offset(12 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(bottomlineView.snp.top).offset(12 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(16 * ToolSet.heightRatio)
         }
         
         view.addSubview(nextButton)
         nextButton.snp.makeConstraints {
-            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(56 * ToolSet.heightRatio)
             $0.centerX.width.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }

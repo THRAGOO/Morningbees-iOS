@@ -1,5 +1,5 @@
 //
-//  DesignSet.swift
+//  UI+Extension.swift
 //  Morningbees-iOS
 //
 //  Created by Byeongjo Koo on 2020/02/26.
@@ -26,43 +26,22 @@ enum TextFonts: String {
     case systemExtraBold = "AppleSDGothicNeo-ExtraBold"
 }
 
-final class DesignSet {
+enum ToolSet {
     
-// MARK:- Properties
-    
-    static let frameHeightRatio = Double(UIViewController().view.frame.height) / StandardDevice.height.rawValue
-    static let frameWidthRatio = Double(UIViewController().view.frame.width) / StandardDevice.width.rawValue
+    static let heightRatio = Double(UIViewController().view.frame.height) / StandardDevice.height.rawValue
+    static let widthRatio = Double(UIViewController().view.frame.width) / StandardDevice.width.rawValue
 }
 
-extension DesignSet {
+extension ToolSet {
     
-    // MARK: Constraints
-    
-    static func constraints(view: UIView, top: Double, leading: Double, height: Double, width: Double) {
-        view.snp.makeConstraints {
-            $0.top.equalTo(top * frameHeightRatio)
-            $0.leading.equalTo(leading * frameWidthRatio)
-            $0.height.equalTo(height * frameHeightRatio)
-            $0.width.equalTo(width * frameWidthRatio)
+    /// Convert Int to comma number string
+    static func integerToCommaNumberString(with value: Int) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        guard let convertedValue = numberFormatter.string(from: NSNumber(value: value)) else {
+            return ""
         }
-    }
-    
-    static func flexibleConstraints(view: UIView, top: Double, leading: Double, height: Double, width: Double) {
-        view.snp.makeConstraints {
-            $0.top.equalTo(top * frameHeightRatio)
-            $0.leading.equalTo(leading * frameWidthRatio)
-            $0.height.equalTo(height * frameHeightRatio)
-            $0.width.greaterThanOrEqualTo(width * frameWidthRatio)
-        }
-    }
-    
-    static func squareConstraints(view: UIView, top: Double, leading: Double, height: Double, width: Double) {
-        view.snp.makeConstraints {
-            $0.top.equalTo(top * frameHeightRatio)
-            $0.leading.equalTo(leading * frameWidthRatio)
-            $0.height.equalTo(height * frameWidthRatio)
-            $0.width.equalTo(width * frameWidthRatio)
-        }
+        return convertedValue
     }
 }
 
@@ -108,7 +87,7 @@ extension UIFont {
 extension UIView {
     
     public func setRatioCornerRadius(_ value: Double) {
-        layer.cornerRadius = CGFloat(DesignSet.frameHeightRatio * value)
+        layer.cornerRadius = CGFloat(ToolSet.heightRatio * value)
     }
 }
 
@@ -152,8 +131,20 @@ extension UILabel {
         self.init()
         let attributedString = NSMutableAttributedString(string: text)
         attributedString.addAttribute(NSAttributedString.Key.kern,
-                                      value: CGFloat(letterSpacing * DesignSet.frameHeightRatio),
+                                      value: CGFloat(letterSpacing * ToolSet.heightRatio),
                                       range: NSRange.init(location: 0, length: attributedString.length))
         self.attributedText = attributedString
     }
+}
+
+// MARK: Date Override
+
+extension Date {
+    
+    static var tomorrow: Date = {
+        guard let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date()) else {
+            return Date.init(timeIntervalSinceNow: 24 * 60 * 60)
+        }
+        return tomorrow
+    }()
 }

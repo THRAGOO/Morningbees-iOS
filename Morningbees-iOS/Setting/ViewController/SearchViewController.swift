@@ -133,7 +133,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(60 * DesignSet.frameHeightRatio)
+        return CGFloat(60 * ToolSet.heightRatio)
     }
 }
 
@@ -170,36 +170,36 @@ extension SearchViewController {
         
         view.addSubview(searchView)
         searchView.snp.makeConstraints {
-            $0.top.equalTo(74 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(74 * ToolSet.heightRatio)
             $0.width.equalToSuperview()
             $0.bottom.equalToSuperview().offset(100)
         }
         
         searchView.addSubview(searchIconImageView)
         searchIconImageView.snp.makeConstraints {
-            $0.top.equalTo(24 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.width.equalTo(18 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(18 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(24 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.width.equalTo(18 * ToolSet.widthRatio)
+            $0.height.equalTo(18 * ToolSet.heightRatio)
         }
         searchView.addSubview(searchTextField)
         searchTextField.snp.makeConstraints {
-            $0.top.equalTo(20 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(59 * DesignSet.frameWidthRatio)
-            $0.width.equalTo(285 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(29 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(20 * ToolSet.heightRatio)
+            $0.leading.equalTo(59 * ToolSet.widthRatio)
+            $0.width.equalTo(285 * ToolSet.widthRatio)
+            $0.height.equalTo(29 * ToolSet.heightRatio)
         }
         searchView.addSubview(bottomlineView)
         bottomlineView.snp.makeConstraints {
-            $0.top.equalTo(54 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(54 * ToolSet.heightRatio)
             $0.centerX.equalTo(searchView.snp.centerX)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(1 * DesignSet.frameHeightRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
+            $0.height.equalTo(1 * ToolSet.heightRatio)
         }
         
         searchView.addSubview(searchTableView)
         searchTableView.snp.makeConstraints {
-            $0.top.equalTo(55 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(55 * ToolSet.heightRatio)
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             $0.centerX.width.equalToSuperview()
         }

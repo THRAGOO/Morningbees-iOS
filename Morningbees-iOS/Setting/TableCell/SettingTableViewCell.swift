@@ -30,18 +30,18 @@ final class SettingTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         textLabel?.snp.makeConstraints {
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
             $0.centerY.equalTo(contentView.snp.centerY)
-            $0.height.equalTo(19 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(19 * ToolSet.heightRatio)
         }
         detailTextLabel?.snp.makeConstraints {
             $0.centerY.equalTo(contentView.snp.centerY)
-            $0.height.equalTo(19 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(19 * ToolSet.heightRatio)
         }
         imageView?.snp.makeConstraints {
-            $0.trailing.equalTo(contentView.snp.trailing).offset(-23 * DesignSet.frameWidthRatio)
+            $0.trailing.equalTo(contentView.snp.trailing).offset(-23 * ToolSet.widthRatio)
             $0.centerY.equalTo(contentView.snp.centerY)
-            $0.height.equalTo(10 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(10 * ToolSet.heightRatio)
         }
     }
     
@@ -51,12 +51,12 @@ final class SettingTableViewCell: UITableViewCell {
         if model.needArrow {
             imageView?.isHidden = false
             detailTextLabel?.snp.makeConstraints {
-                $0.trailing.equalTo(contentView.snp.trailing).offset(-41 * DesignSet.frameWidthRatio)
+                $0.trailing.equalTo(contentView.snp.trailing).offset(-41 * ToolSet.widthRatio)
             }
         } else {
             imageView?.isHidden = true
             detailTextLabel?.snp.makeConstraints {
-                $0.trailing.equalTo(contentView.snp.trailing).offset(-23 * DesignSet.frameWidthRatio)
+                $0.trailing.equalTo(contentView.snp.trailing).offset(-23 * ToolSet.widthRatio)
             }
         }
     }

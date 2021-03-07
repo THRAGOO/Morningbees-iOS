@@ -14,7 +14,7 @@ final class MultipartFormdataRequest {
     private let dateFormatter: DateFormatter = {
         let date = DateFormatter()
         date.dateStyle = .short
-        date.timeStyle = .none
+        date.timeStyle = .medium
         date.locale = .autoupdatingCurrent
         return date
     }()
@@ -26,7 +26,7 @@ extension MultipartFormdataRequest {
                  imageData: Data,
                  requestSet: RequestSet,
                  header: [String: String]? = nil,
-                 completion: @escaping(_ created: Bool, Error?) -> Void) {
+                 completion: @escaping(_ created: Bool, CustomError?) -> Void) {
         let boundaryConstant = UUID().uuidString
         let prefixBoundary = "--" + boundaryConstant + "\r\n"
         let suffixBoundary = "--" + boundaryConstant + "--"
@@ -73,6 +73,7 @@ extension MultipartFormdataRequest {
         
         let dataTask = session.dataTask(with: request) { (data, urlResponse, error) in
             if let error = error {
+                let error = CustomError(errorType: .unknown, description: error.localizedDescription)
                 completion(false, error)
                 return
             }
@@ -89,8 +90,8 @@ extension MultipartFormdataRequest {
                     completion(false, nil)
                     return
                 }
-                print(failResult)
-                completion(false, nil)
+                let error = CustomError(errorType: .unknown, description: failResult.message)
+                completion(false, error)
             }
         }
         dataTask.resume()

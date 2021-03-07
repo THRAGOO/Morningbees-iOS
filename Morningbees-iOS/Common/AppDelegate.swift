@@ -14,8 +14,6 @@ import UIKit
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    private let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-    
     func application(_ app: UIApplication,
                      open url: URL,
                      options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
@@ -31,6 +29,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         // MARK: Swizzle
         
         UIViewController.swizzle
+        
+        // MARK: Notification Badge
+        
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         
         // MARK: Set up for SignIn with Naver
         
@@ -62,8 +65,7 @@ extension AppDelegate: GIDSignInDelegate {
               let signInViewController = navigationController.topViewController as? SignInViewController else {
             fatalError()
         }
-        if let error = error {
-            signInViewController.presentConfirmAlert(title: "구글 로그인 에러!", message: error.localizedDescription)
+        if let _ = error {
             return
         }
         guard let googleToken = user.authentication.idToken else {
@@ -74,6 +76,5 @@ extension AppDelegate: GIDSignInDelegate {
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        NavigationControl.popToRootViewController()
     }
 }

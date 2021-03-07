@@ -178,7 +178,7 @@ extension UpdateJellyViewController {
         let updateJelly = Request<UpdateJelly>()
         KeychainService.extractKeyChainToken { [self] (accessToken, _, error) in
             if let error = error {
-                self.presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
+                self.presentConfirmAlert(title: "토큰 에러!", message: error.description)
             }
             guard let accessToken = accessToken else {
                 return
@@ -193,7 +193,7 @@ extension UpdateJellyViewController {
                     }
                 } else {
                     if let error = error {
-                        presentConfirmAlert(title: "로열 젤리 업데이트 요청 에러!", message: error.localizedDescription)
+                        presentConfirmAlert(title: "로열 젤리 업데이트 요청 에러!", message: error.description)
                         return
                     }
                     presentConfirmAlert(title: "로열 젤리 업데이트 요청 에러!", message: "요청이 성공적으로 수행되지 못했습니다.") { _ in
@@ -216,51 +216,51 @@ extension UpdateJellyViewController {
         
         view.addSubview(updateJellyView)
         updateJellyView.snp.makeConstraints {
-            $0.top.equalTo(367 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(367 * ToolSet.heightRatio)
             $0.width.equalToSuperview()
             $0.bottom.equalToSuperview().offset(100)
         }
         
         updateJellyView.addSubview(descriptionLabel)
         descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(42 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(42 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(19 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(19 * ToolSet.heightRatio)
         }
         updateJellyView.addSubview(unpaidJellyLabel)
         unpaidJellyLabel.snp.makeConstraints {
-            $0.top.equalTo(70 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(70 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(36 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(36 * ToolSet.heightRatio)
         }
         
         updateJellyView.addSubview(royalJellySlider)
         royalJellySlider.snp.makeConstraints {
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-140 * DesignSet.frameHeightRatio)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-140 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(337 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
+            $0.width.equalTo(337 * ToolSet.widthRatio)
         }
         updateJellyView.addSubview(progressBar)
         progressBar.snp.makeConstraints {
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-126 * DesignSet.frameHeightRatio)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-126 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(6 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(6 * ToolSet.heightRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
         }
         
         updateJellyView.addSubview(updateDecriptionLabel)
         updateDecriptionLabel.snp.makeConstraints {
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-77 * DesignSet.frameHeightRatio)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-77 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(16 * ToolSet.heightRatio)
         }
         
         updateJellyView.addSubview(comfirmButton)
         comfirmButton.snp.makeConstraints {
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             $0.centerX.width.equalToSuperview()
-            $0.height.equalTo(59 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(59 * ToolSet.heightRatio)
         }
     }
 }

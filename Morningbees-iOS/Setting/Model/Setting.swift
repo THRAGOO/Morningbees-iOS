@@ -15,6 +15,7 @@ enum SettingContentTitle: String {
     
     case logout = "로그아웃"
     case leaveBee = "모임 떠나기"
+    case none = ""
 }
 
 struct SettingContent {

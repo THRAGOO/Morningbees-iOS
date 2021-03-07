@@ -41,21 +41,6 @@ enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
-enum ResponseCode: Int {
-    case success = 200
-    case created = 201
-}
-
-enum ResponseError: Error {
-    case unknown
-    case badRequest
-}
-
-enum ErrorCode: Int {
-    case expiredToken = 101
-    case badAccess = 110
-}
-
 enum RequestHeader: String {
     case accessToken = "X-BEES-ACCESS-TOKEN"
     case refreshToken = "X-BEES-REFRESH-TOKEN"

@@ -23,13 +23,6 @@ final class SignUpViewController: UIViewController {
         indicator.alpha = 0.5
         return indicator
     }()
-    private let activityIndicatorImageView = UIImageView(imageName: "illustErrorPage")
-    private let activityIndicatorDescriptionLabel: UILabel = {
-        let label = UILabel(text: "", letterSpacing: 0)
-        label.textColor = .white
-        label.font = UIFont(font: .systemBold, size: 24)
-        return label
-    }()
     
     private let iconImageView = UIImageView(imageName: "iconSignUp")
     private let signUpTitleLabel: UILabel = {
@@ -163,7 +156,7 @@ extension SignUpViewController {
     
     @objc private func willShowkeyboard(_ notification: Notification) {
         startButton.snp.remakeConstraints {
-            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(56 * ToolSet.heightRatio)
             $0.bottom.centerX.width.equalToSuperview()
         }
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
@@ -179,7 +172,7 @@ extension SignUpViewController {
         view.transform = .identity
         startButton.transform = .identity
         startButton.snp.remakeConstraints {
-            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(56 * ToolSet.heightRatio)
             $0.centerX.width.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
@@ -265,7 +258,6 @@ extension SignUpViewController {
 extension SignUpViewController: CustomAlert {
     
     private func requestNicknameValidation() {
-        activityIndicatorDescriptionLabel.text = "중복 확인 중..."
         activityIndicator.startAnimating()
         guard let nickname = nicknameTextField.text else {
             presentConfirmAlert(title: "요청 에러!", message: "닉네임 값을 불러오지 못했습니다.")
@@ -280,7 +272,7 @@ extension SignUpViewController: CustomAlert {
                 activityIndicator.stopAnimating()
                 if let error = error {
                     setNicknameAvailability(false)
-                    presentConfirmAlert(title: "요청 에러!", message: error.localizedDescription)
+                    presentConfirmAlert(title: "요청 에러!", message: error.description)
                     return
                 }
                 guard let validNickname = validNickname else {
@@ -357,9 +349,9 @@ extension SignUpViewController: UITextFieldDelegate {
 extension SignUpViewController {
     
     private func requestSignUp(_ socialAccessToken: String, _ provider: String) {
-        activityIndicatorDescriptionLabel.text = "가입 요청 중..."
         activityIndicator.startAnimating()
         guard let nickname = nicknameTextField.text else {
+            activityIndicator.stopAnimating()
             presentConfirmAlert(title: "가입 요청 에러!", message: "닉네임 값을 불러오지 못했습니다.")
             return
         }
@@ -370,46 +362,37 @@ extension SignUpViewController {
                                            "nickname": nickname]
         let signUp = Request<SignUp>()
         signUp.request(request: request, parameter: parameter) { [self] (signUp, _, error)  in
+            DispatchQueue.main.async {
+                activityIndicator.stopAnimating()
+            }
             if let error = error {
-                DispatchQueue.main.async {
-                    activityIndicator.stopAnimating()
-                }
-                presentConfirmAlert(title: "가입 요청 에러!", message: error.localizedDescription)
+                presentConfirmAlert(title: "가입 요청 에러!", message: error.description)
                 return
             }
             guard let signUp = signUp else {
-                DispatchQueue.main.async {
-                    activityIndicator.stopAnimating()
-                }
                 presentConfirmAlert(title: "가입 요청 에러!", message: "")
                 return
             }
             KeychainService.addKeychainToken(signUp.accessToken, signUp.refreshToken) { (error) in
                 if let error = error {
-                    DispatchQueue.main.async {
-                        activityIndicator.stopAnimating()
-                    }
-                    presentConfirmAlert(title: "키체인 토큰 에러!", message: error.localizedDescription)
+                    presentConfirmAlert(title: "키체인 토큰 에러!", message: error.description)
                     return
                 }
-            }
-        }
-        MeAPI().request { [self] (alreadyJoinedBee, error) in
-            DispatchQueue.main.async {
-                activityIndicator.stopAnimating()
-            }
-            if let error = error {
-                presentConfirmAlert(title: "사용자 정보 요청 에러!", message: error.localizedDescription)
-                return
-            }
-            guard let alreadyJoinedBee = alreadyJoinedBee else {
-                presentConfirmAlert(title: "사용자 정보 요청 에러!", message: "")
-                return
-            }
-            if alreadyJoinedBee {
-                NavigationControl.pushToBeeMainViewController()
-            } else {
-                NavigationControl.pushToBeforeJoinViewController()
+                MeAPI().request { [self] (alreadyJoinedBee, error) in
+                    if let error = error {
+                        presentConfirmAlert(title: "사용자 정보 요청 에러!", message: error.description)
+                        return
+                    }
+                    guard let alreadyJoinedBee = alreadyJoinedBee else {
+                        presentConfirmAlert(title: "사용자 정보 요청 에러!", message: "")
+                        return
+                    }
+                    if alreadyJoinedBee {
+                        NavigationControl.pushToBeeMainViewController()
+                    } else {
+                        NavigationControl.pushToBeforeJoinViewController()
+                    }
+                }
             }
         }
     }
@@ -426,83 +409,73 @@ extension SignUpViewController {
         activityIndicator.snp.makeConstraints {
             $0.centerX.centerY.height.width.equalToSuperview()
         }
-        activityIndicator.addSubview(activityIndicatorImageView)
-        activityIndicatorImageView.snp.makeConstraints {
-            $0.centerX.centerY.width.equalToSuperview()
-            $0.height.equalTo(activityIndicator.snp.width)
-        }
-        activityIndicatorImageView.addSubview(activityIndicatorDescriptionLabel)
-        activityIndicatorDescriptionLabel.snp.makeConstraints {
-            $0.centerX.bottom.equalToSuperview()
-            $0.height.equalTo(26 * DesignSet.frameHeightRatio)
-        }
         
         view.addSubview(iconImageView)
         iconImageView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(40 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(36 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(36 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(40 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(36 * ToolSet.heightRatio)
+            $0.width.equalTo(36 * ToolSet.heightRatio)
         }
         view.addSubview(signUpTitleLabel)
         signUpTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(102 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(36 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(102 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(36 * ToolSet.heightRatio)
         }
         view.addSubview(highlightView)
         highlightView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(120 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(120 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
             $0.bottom.equalTo(signUpTitleLabel.snp.bottom)
             $0.width.equalTo(signUpTitleLabel.snp.width)
         }
         
         view.addSubview(descriptionLabel)
         descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(164 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(72 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(164 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(72 * ToolSet.heightRatio)
         }
         view.addSubview(nicknameDescription)
         nicknameDescription.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(272 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(17 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(272 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(17 * ToolSet.heightRatio)
         }
         
         view.addSubview(nicknameTextField)
         nicknameTextField.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(304 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(19 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(240 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(304 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(19 * ToolSet.heightRatio)
+            $0.width.equalTo(240 * ToolSet.widthRatio)
         }
         view.addSubview(validCheckButton)
         validCheckButton.snp.makeConstraints {
             $0.centerY.equalTo(nicknameTextField.snp.centerY)
-            $0.trailing.equalTo(-24 * DesignSet.frameWidthRatio)
+            $0.trailing.equalTo(-24 * ToolSet.widthRatio)
             $0.height.equalTo(36)
-            $0.width.equalTo(70 * DesignSet.frameWidthRatio)
+            $0.width.equalTo(70 * ToolSet.widthRatio)
         }
         
         view.addSubview(bottomlineView)
         bottomlineView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(340 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(340 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(1)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
         }
         view.addSubview(invalidNicknameDescriptionLabel)
         invalidNicknameDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(bottomlineView.snp.bottom).offset(12 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(bottomlineView.snp.bottom).offset(12 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(16 * ToolSet.heightRatio)
         }
         
         view.addSubview(startButton)
         startButton.snp.makeConstraints {
-            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(56 * ToolSet.heightRatio)
             $0.centerX.width.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }

@@ -8,10 +8,6 @@
 
 import Foundation
 
-enum ServerErrAlert: String {
-    case title = "Server Error"
-}
-
 struct ServerError: Decodable {
     let timestamp: String
     let status: Int

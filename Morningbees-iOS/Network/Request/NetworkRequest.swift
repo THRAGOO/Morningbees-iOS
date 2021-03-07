@@ -18,7 +18,7 @@ extension Request {
     func request<T: Encodable>(request: RequestSet,
                                header: [String: String]? = nil,
                                parameter: T,
-                               completion: @escaping (Model?, _ created: Bool, Error?) -> Void) {
+                               completion: @escaping (Model?, _ created: Bool, CustomError?) -> Void) {
         var urlComponents: URLComponents = {
             var components = URLComponents()
             components.scheme = Path.scheme.rawValue
@@ -30,7 +30,8 @@ extension Request {
             return components
         }()
         guard let requestURL = urlComponents.url else {
-            completion(nil, false, ResponseError.unknown)
+            let error = CustomError(errorType: .foundNil, description: ErrorDescription.foundNil.rawValue)
+            completion(nil, false, error)
             return
         }
         
@@ -52,7 +53,8 @@ extension Request {
                 })
             }
             guard let requestUrl = urlComponents.url else {
-                completion(nil, false, ResponseError.unknown)
+                let error = CustomError(errorType: .foundNil, description: ErrorDescription.foundNil.rawValue)
+                completion(nil, false, error)
                 return
             }
             urlRequest.url = requestUrl
@@ -61,7 +63,8 @@ extension Request {
             let encoder = JSONEncoder()
             encoder.dateEncodingStrategy = .iso8601
             guard let httpBody = try? encoder.encode(parameter) else {
-                completion(nil, false, ResponseError.unknown)
+                let error = CustomError(errorType: .foundNil, description: ErrorDescription.foundNil.rawValue)
+                completion(nil, false, error)
                 return
             }
             urlRequest.httpBody = httpBody
@@ -69,19 +72,22 @@ extension Request {
         
         let dataTask = session.dataTask(with: urlRequest) { (data, response, error) in
             if let error = error {
+                let error = CustomError(errorType: .unknown, description: error.localizedDescription)
                 completion(nil, false, error)
             }
             
             guard let data = data,
                   let response = response as? HTTPURLResponse else {
-                completion(nil, false, ResponseError.unknown)
+                let error = CustomError(errorType: .foundNil, description: ErrorDescription.foundNil.rawValue)
+                completion(nil, false, error)
                 return
             }
             
             switch response.statusCode {
             case ResponseCode.success.rawValue:
                 guard let result = try? JSONDecoder().decode(Model.self, from: data) else {
-                    completion(nil, true, ResponseError.unknown)
+                    let error = CustomError(errorType: .foundNil, description: ErrorDescription.foundNil.rawValue)
+                    completion(nil, true, error)
                     return
                 }
                 completion(result, true, nil)
@@ -91,47 +97,48 @@ extension Request {
                 
             default:
                 guard let failResult = try? JSONDecoder().decode(ServerError.self, from: data) else {
-                    completion(nil, false, ResponseError.unknown)
+                    let error = CustomError(errorType: .foundNil, description: ErrorDescription.foundNil.rawValue)
+                    completion(nil, false, error)
                     return
                 }
-                
-                if failResult.code == ErrorCode.expiredToken.rawValue {
-                    RenewalToken().request { (result, error) in
+                switch failResult.code {
+                case ErrorCode.expiredToken.rawValue:
+                    RenewalToken().request { (renewed, error) in
                         if let error = error {
                             completion(nil, false, error)
                             return
                         }
-                        if let success = result {
-                            if success {
-                                KeychainService.extractKeyChainToken { (accessToken, _, error) in
+                        if renewed {
+                            KeychainService.extractKeyChainToken { (accessToken, _, error) in
+                                if let error = error {
+                                    completion(nil, false, error)
+                                }
+                                guard let accessToken = accessToken,
+                                      var renewalHeader = header else {
+                                    return
+                                }
+                                renewalHeader.updateValue(accessToken, forKey: RequestHeader.accessToken.rawValue)
+                                Request<Model>().request(request: request,
+                                                         header: renewalHeader,
+                                                         parameter: parameter) { (result, created, error)  in
                                     if let error = error {
                                         completion(nil, false, error)
                                     }
-                                    guard let accessToken = accessToken,
-                                          var renewalHeader = header else {
+                                    guard let result = result else {
                                         return
                                     }
-                                    renewalHeader.updateValue(accessToken, forKey: RequestHeader.accessToken.rawValue)
-                                    
-                                    Request<Model>().request(request: request,
-                                                             header: renewalHeader,
-                                                             parameter: parameter) { (result, created, error)  in
-                                        if let error = error {
-                                            completion(nil, false, error)
-                                        }
-                                        guard let result = result else {
-                                            return
-                                        }
-                                        completion(result, created, nil)
-                                    }
+                                    completion(result, created, nil)
                                 }
-                            } else {
-                                NavigationControl.popToRootViewController()
-                                completion(nil, false, nil)
-                                return
                             }
+                        } else {
+                            NavigationControl.popToRootViewController()
+                            completion(nil, false, nil)
+                            return
                         }
                     }
+                default:
+                    let error = CustomError(errorType: .foundNil, description: failResult.message)
+                    completion(nil, false, error)
                 }
             }
         }

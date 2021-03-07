@@ -22,13 +22,10 @@ final class CalendarViewController: UIViewController {
     private var currentMonthSymbol: String = ""
     private var currentDay: Int = 0
     
-    private var todayDate = Date()
-    
     private let january: Int = 1
     private let december: Int = 12
     private let sunday: Int = 1
     private let saturday: Int = 7
-    private let oneDay: Double = 24 * 60 * 60
     
     private let calendarHeaderLabel: UILabel = {
         let label = UILabel(text: "", letterSpacing: 0.43)
@@ -41,8 +38,8 @@ final class CalendarViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(named: "arrowLeft"), for: .normal)
         button.contentMode = .scaleAspectFit
-        let vertical = CGFloat(8 * DesignSet.frameHeightRatio)
-        let horizontal = CGFloat(11.5 * DesignSet.frameWidthRatio)
+        let vertical = CGFloat(8 * ToolSet.heightRatio)
+        let horizontal = CGFloat(11.5 * ToolSet.widthRatio)
         button.imageEdgeInsets = UIEdgeInsets(top: vertical, left: horizontal, bottom: vertical, right: horizontal)
         button.addTarget(self, action: #selector(touchupPrevMonth), for: .touchUpInside)
         return button
@@ -52,8 +49,8 @@ final class CalendarViewController: UIViewController {
         button.setImage(UIImage(named: "arrowLeft"), for: .normal)
         button.imageView?.transform = CGAffineTransform(rotationAngle: .pi)
         button.contentMode = .scaleAspectFit
-        let vertical = CGFloat(8 * DesignSet.frameHeightRatio)
-        let horizontal = CGFloat(11.5 * DesignSet.frameWidthRatio)
+        let vertical = CGFloat(8 * ToolSet.heightRatio)
+        let horizontal = CGFloat(11.5 * ToolSet.widthRatio)
         button.imageEdgeInsets = UIEdgeInsets(top: vertical, left: horizontal, bottom: vertical, right: horizontal)
         button.addTarget(self, action: #selector(touchupNextMonth), for: .touchUpInside)
         return button
@@ -106,7 +103,6 @@ extension CalendarViewController {
         currentMonth = calendar.component(.month, from: Date())
         currentMonthSymbol = calendar.monthSymbols[currentMonth - 1]
         currentDay = calendar.component(.day, from: Date())
-        todayDate = dateFormatter.date(from: "\(currentYear)-\(currentMonth)-\(currentDay)") ?? Date()
         
         for weekday in 1...7 {
             let label = UILabel()
@@ -141,8 +137,8 @@ extension CalendarViewController {
             let weekStackView = UIStackView()
             weekStackView.axis = .horizontal
             weekStackView.distribution = .fillEqually
-            weekStackView.frame.size = CGSize(width: 273 * DesignSet.frameWidthRatio,
-                                              height: 39 * DesignSet.frameWidthRatio)
+            weekStackView.frame.size = CGSize(width: 273 * ToolSet.widthRatio,
+                                              height: 39 * ToolSet.widthRatio)
             if 1 == week {
                 for _ in 0 ..< firstDayOfWeek - 1 {
                     let button = UIButton()
@@ -162,8 +158,8 @@ extension CalendarViewController {
                     button.titleLabel?.font = UIFont(font: .systemSemiBold, size: 13)
                     button.setBackgroundColor(UIColor(red: 217, green: 217, blue: 217), for: .highlighted)
                     button.setBackgroundColor(UIColor(red: 255, green: 218, blue: 34), for: .selected)
-                    button.frame.size = CGSize(width: 39 * DesignSet.frameWidthRatio,
-                                               height: 39 * DesignSet.frameWidthRatio)
+                    button.frame.size = CGSize(width: 39 * ToolSet.widthRatio,
+                                               height: 39 * ToolSet.widthRatio)
                     button.layer.cornerRadius = button.frame.height / 2
                     button.layer.masksToBounds = true
                     button.addTarget(self, action: #selector(touchupDateButton), for: .touchUpInside)
@@ -189,8 +185,8 @@ extension CalendarViewController {
                         button.setTitleColor(UIColor(red: 204, green: 204, blue: 204), for: .disabled)
                         button.setBackgroundColor(UIColor(red: 217, green: 217, blue: 217), for: .highlighted)
                         button.setBackgroundColor(UIColor(red: 255, green: 218, blue: 34), for: .selected)
-                        button.frame.size = CGSize(width: 39 * DesignSet.frameWidthRatio,
-                                                   height: 39 * DesignSet.frameWidthRatio)
+                        button.frame.size = CGSize(width: 39 * ToolSet.widthRatio,
+                                                   height: 39 * ToolSet.widthRatio)
                         button.layer.cornerRadius = button.frame.height / 2
                         button.layer.masksToBounds = true
                         button.addTarget(self, action: #selector(touchupDateButton), for: .touchUpInside)
@@ -220,7 +216,7 @@ extension CalendarViewController {
         guard let parameterDate = dateFormatter.date(from: "\(currentYear)-\(currentMonth)-\(day)") else {
             return false
         }
-        if todayDate + oneDay < parameterDate {
+        if Date.tomorrow < parameterDate {
             return false
         }
         return true
@@ -274,44 +270,44 @@ extension CalendarViewController {
         
         view.addSubview(calendarHeaderLabel)
         calendarHeaderLabel.snp.makeConstraints {
-            $0.top.equalTo(21 * DesignSet.frameHeightRatio)
-            $0.height.equalTo(24 * DesignSet.frameHeightRatio)
-            $0.width.greaterThanOrEqualTo(106 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(21 * ToolSet.heightRatio)
+            $0.height.equalTo(24 * ToolSet.heightRatio)
+            $0.width.greaterThanOrEqualTo(106 * ToolSet.widthRatio)
             $0.centerX.equalTo(view.snp.centerX)
         }
         view.addSubview(prevMonthButton)
         prevMonthButton.snp.makeConstraints {
             $0.centerY.equalTo(calendarHeaderLabel)
-            $0.leading.equalTo(10 * DesignSet.frameWidthRatio)
-            $0.height.width.equalTo(30 * DesignSet.frameWidthRatio)
+            $0.leading.equalTo(10 * ToolSet.widthRatio)
+            $0.height.width.equalTo(30 * ToolSet.widthRatio)
         }
         view.addSubview(nextMonthButton)
         nextMonthButton.snp.makeConstraints {
             $0.centerY.equalTo(calendarHeaderLabel)
-            $0.trailing.equalTo(-10 * DesignSet.frameWidthRatio)
-            $0.height.width.equalTo(30 * DesignSet.frameWidthRatio)
+            $0.trailing.equalTo(-10 * ToolSet.widthRatio)
+            $0.height.width.equalTo(30 * ToolSet.widthRatio)
         }
         
         view.addSubview(dayOfWeekStackView)
         dayOfWeekStackView.snp.makeConstraints {
-            $0.top.equalTo(72 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(72 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(14 * DesignSet.frameHeightRatio)
-            $0.width.greaterThanOrEqualTo(273 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(14 * ToolSet.heightRatio)
+            $0.width.greaterThanOrEqualTo(273 * ToolSet.widthRatio)
         }
         view.addSubview(bottomlineView)
         bottomlineView.snp.makeConstraints {
-            $0.top.equalTo(95 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(95 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(1 * DesignSet.frameHeightRatio)
-            $0.width.greaterThanOrEqualTo(260 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(1 * ToolSet.heightRatio)
+            $0.width.greaterThanOrEqualTo(260 * ToolSet.widthRatio)
         }
         view.addSubview(dateStackView)
         dateStackView.snp.makeConstraints {
-            $0.top.equalTo(98 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(98 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.greaterThanOrEqualTo(234 * DesignSet.frameWidthRatio)
-            $0.width.greaterThanOrEqualTo(273 * DesignSet.frameWidthRatio)
+            $0.height.greaterThanOrEqualTo(234 * ToolSet.widthRatio)
+            $0.width.greaterThanOrEqualTo(273 * ToolSet.widthRatio)
         }
     }
 }

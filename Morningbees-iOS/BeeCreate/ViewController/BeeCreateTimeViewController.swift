@@ -14,6 +14,7 @@ final class BeeCreateTimeViewController: UIViewController {
     
     private let toPreviousButton: UIButton = {
         let button = UIButton()
+        button.contentHorizontalAlignment = .left
         button.setImage(UIImage(named: "arrowLeft"), for: .normal)
         button.addTarget(self, action: #selector(popToPreviousViewController), for: .touchUpInside)
         return button
@@ -56,6 +57,8 @@ final class BeeCreateTimeViewController: UIViewController {
     }()
     
     private var createModel = CreateModel(title: "", startTime: 0, endTime: 0, pay: 0)
+    private var startTime = 0
+    private var endTime = 0
     private let none = 11
     
     // MARK:- Life Cycle
@@ -63,8 +66,8 @@ final class BeeCreateTimeViewController: UIViewController {
     init(with createModel: CreateModel) {
         super.init(nibName: nil, bundle: nil)
         self.createModel = createModel
-        self.createModel.startTime = none
-        self.createModel.endTime = none
+        self.startTime = none
+        self.endTime = none
     }
     
     required init?(coder: NSCoder) {
@@ -87,11 +90,13 @@ final class BeeCreateTimeViewController: UIViewController {
     }
 }
 
-// MARK:- Segue and Navigation
+// MARK:- Navigation
 
 extension BeeCreateTimeViewController {
     
     @objc private func touchUpNextButton() {
+        createModel.startTime = startTime
+        createModel.endTime = endTime
         let beeCreateJellyViewController = BeeCreateJellyViewController(with: createModel)
         NavigationControl.navigationController.pushViewController(beeCreateJellyViewController, animated: true)
     }
@@ -159,24 +164,24 @@ extension BeeCreateTimeViewController {
         }
         let selectedTime = index + 6
         
-        if createModel.startTime == none && timeButtons[index].isSelected == false {
-            createModel.startTime = selectedTime
+        if startTime == none && timeButtons[index].isSelected == false {
+            startTime = selectedTime
             didSelectTimeButton(true, index)
-            if createModel.startTime == 10 {
+            if startTime == 10 {
                 setupButtonLabel(.start)
             } else {
                 setupButtonLabel(.end)
             }
-        } else if createModel.endTime == none && timeButtons[index].isSelected == false {
-            createModel.endTime = selectedTime
+        } else if endTime == none && timeButtons[index].isSelected == false {
+            endTime = selectedTime
             didSelectTimeButton(true, index)
-        } else if createModel.startTime == selectedTime || createModel.endTime == selectedTime {
-            if createModel.startTime == selectedTime {
-                createModel.startTime = none
+        } else if startTime == selectedTime || endTime == selectedTime {
+            if startTime == selectedTime {
+                startTime = none
                 setupButtonLabel(.start)
             } else {
-                createModel.endTime = none
-                if createModel.startTime == none && createModel.endTime == none {
+                endTime = none
+                if startTime == none && endTime == none {
                     setupButtonLabel(.start)
                 } else {
                     setupButtonLabel(.end)
@@ -185,11 +190,10 @@ extension BeeCreateTimeViewController {
             didSelectTimeButton(false, index)
         }
         
-        if createModel.startTime > createModel.endTime {
-            swap(&createModel.startTime, &createModel.endTime)
-        }
-        
-        if createModel.startTime != none && createModel.endTime != none {
+        if startTime != none && endTime != none {
+            if startTime > endTime {
+                swap(&startTime, &endTime)
+            }
             nextButton.isEnabled = true
         } else {
             nextButton.isEnabled = false
@@ -206,36 +210,36 @@ extension BeeCreateTimeViewController {
         
         view.addSubview(toPreviousButton)
         toPreviousButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(12 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(12 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * ToolSet.heightRatio)
+            $0.leading.equalTo(12 * ToolSet.widthRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
+            $0.width.equalTo(30 * ToolSet.heightRatio)
         }
         
         view.addSubview(descriptionLabel)
         descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(70 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(66 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(70 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(66 * ToolSet.heightRatio)
         }
         
         view.addSubview(timeDescriptionLabel)
         timeDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(203 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(17 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(203 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(17 * ToolSet.heightRatio)
         }
         view.addSubview(timeSelectStackView)
         timeSelectStackView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(234 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(22 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(54 * DesignSet.frameWidthRatio)
-            $0.width.equalTo(290 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(234 * ToolSet.heightRatio)
+            $0.leading.equalTo(22 * ToolSet.widthRatio)
+            $0.height.equalTo(54 * ToolSet.widthRatio)
+            $0.width.equalTo(290 * ToolSet.widthRatio)
         }
         
         view.addSubview(nextButton)
         nextButton.snp.makeConstraints {
-            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(56 * ToolSet.heightRatio)
             $0.centerX.width.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }

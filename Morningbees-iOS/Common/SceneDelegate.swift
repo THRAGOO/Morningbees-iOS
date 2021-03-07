@@ -31,7 +31,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         DynamicLinks.dynamicLinks().handleUniversalLink(incomingURL) { (dynamicLink, error) in
             guard error == nil else {
-                print(error!.localizedDescription)
                 return
             }
             if let dynamicLink = dynamicLink {
@@ -46,7 +45,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         DynamicLinks.dynamicLinks().handleUniversalLink(incomingURL) { (dynamicLink, error) in
             guard error == nil else {
-                print(error!.localizedDescription)
                 return
             }
             if let dynamicLink = dynamicLink {
@@ -57,6 +55,14 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         NaverThirdPartyLoginConnection.getSharedInstance()?.receiveAccessToken(URLContexts.first?.url)
+    }
+    
+    func sceneWillEnterForeground(_ scene: UIScene) {
+        
+        // MARK: Notification Badge
+        
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }
 }
 
