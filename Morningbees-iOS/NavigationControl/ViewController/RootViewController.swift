@@ -9,6 +9,8 @@
 import UIKit
 
 final class RootViewController: UIViewController, UIGestureRecognizerDelegate {
+    
+    // MARK:- Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,6 +18,7 @@ final class RootViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        askPermissionForUserNotification()
         pushToStartViewController()
     }
     
@@ -25,9 +28,22 @@ final class RootViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 }
 
+// MARK:- UserNotification Permission Request
+
 extension RootViewController {
     
-    // MARK:- Auto SignIn
+    private func askPermissionForUserNotification() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (_, error) in
+            if let _ = error {
+                return
+            }
+        }
+    }
+}
+
+// MARK:- Auto SignIn
+
+extension RootViewController {
     
     private func pushToStartViewController() {
         MeAPI().request { (alreadyJoinedBee, error) in

@@ -23,24 +23,6 @@ final class BeeMainViewController: UIViewController, CustomAlert {
         indicator.alpha = 0.5
         return indicator
     }()
-    private let activityIndicatorImageView = UIImageView(imageName: "illustErrorPage")
-    private let activityIndicatorDescriptionLabel: UILabel = {
-        let label = UILabel(text: "모임 정보 요청 중...", letterSpacing: 0)
-        label.textColor = .white
-        label.font = UIFont(font: .systemBold, size: 24)
-        return label
-    }()
-    
-    private let mainBackgroundImageView = UIImageView(imageName: "mainBg")
-    private let mainScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.isScrollEnabled = true
-        scrollView.backgroundColor = .white
-        scrollView.contentSize.height = CGFloat(918 * DesignSet.frameHeightRatio)
-        scrollView.setRatioCornerRadius(30)
-        scrollView.layer.masksToBounds = true
-        return scrollView
-    }()
     
     private let settingButton: UIButton = {
         let button = UIButton()
@@ -63,6 +45,19 @@ final class BeeMainViewController: UIViewController, CustomAlert {
         label.font = UIFont(font: .systemSemiBold, size: 13)
         return label
     }()
+    
+    private let mainBackgroundImageView = UIImageView(imageName: "mainBg")
+    private let mainScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.isScrollEnabled = true
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.backgroundColor = .white
+        scrollView.contentSize.height = CGFloat(918 * ToolSet.heightRatio)
+        scrollView.setRatioCornerRadius(30)
+        scrollView.layer.masksToBounds = true
+        return scrollView
+    }()
+    private let mainScrollContentView = UIView()
     
     private let wonImageView = UIImageView(imageName: "oval")
     private let jellyDescriptionLabel: UILabel = {
@@ -127,7 +122,7 @@ final class BeeMainViewController: UIViewController, CustomAlert {
     private let todayQuestionerImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
-        view.backgroundColor = UIColor(red: 246, green: 245, blue: 242)
+        view.backgroundColor = UIColor(red: 255, green: 250, blue: 200)
         view.setRatioCornerRadius(22.5)
         view.layer.masksToBounds = true
         return view
@@ -141,7 +136,7 @@ final class BeeMainViewController: UIViewController, CustomAlert {
     private let nextQuestionerImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
-        view.backgroundColor = UIColor(red: 236, green: 235, blue: 232)
+        view.backgroundColor = UIColor(red: 255, green: 239, blue: 142)
         view.setRatioCornerRadius(15)
         view.layer.masksToBounds = true
         return view
@@ -242,7 +237,7 @@ final class BeeMainViewController: UIViewController, CustomAlert {
         label.textColor = .white
         label.font = UIFont(font: .systemBold, size: 14)
         label.layer.shadowColor = UIColor.black.cgColor
-        label.layer.shadowOpacity = 1.0
+        label.layer.shadowOpacity = 0.5
         label.layer.shadowOffset = CGSize(width: 1, height: 1)
         label.layer.masksToBounds = false
         return label
@@ -253,7 +248,7 @@ final class BeeMainViewController: UIViewController, CustomAlert {
         label.font = UIFont(font: .systemBold, size: 24)
         label.numberOfLines = 0
         label.layer.shadowColor = UIColor.black.cgColor
-        label.layer.shadowOpacity = 1.0
+        label.layer.shadowOpacity = 0.5
         label.layer.shadowOffset = CGSize(width: 1, height: 1)
         label.layer.masksToBounds = false
         return label
@@ -275,6 +270,7 @@ final class BeeMainViewController: UIViewController, CustomAlert {
     private let participantsScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.contentInset = UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
+        scrollView.isScrollEnabled = true
         return scrollView
     }()
     private let participateButton: UIButton = {
@@ -284,15 +280,15 @@ final class BeeMainViewController: UIViewController, CustomAlert {
         button.setRatioCornerRadius(18)
         button.layer.masksToBounds = false
         button.addTarget(self, action: #selector(touchupSubmitMissionButton), for: .touchUpInside)
-        let buttonWidth = 126 * DesignSet.frameWidthRatio
-        let buttonHeight = 174 * DesignSet.frameHeightRatio
+        let buttonWidth = 126 * ToolSet.widthRatio
+        let buttonHeight = 174 * ToolSet.heightRatio
         button.frame.size = CGSize(width: buttonWidth, height: buttonHeight)
         let dashBorder = CAShapeLayer()
         dashBorder.strokeColor = UIColor(red: 221, green: 221, blue: 221).cgColor
         dashBorder.fillColor = nil
         dashBorder.lineDashPattern = [3, 2]
         dashBorder.frame = button.bounds
-        let cornerRadius = CGFloat(18 * DesignSet.frameHeightRatio)
+        let cornerRadius = CGFloat(18 * ToolSet.heightRatio)
         dashBorder.path = UIBezierPath(roundedRect: button.bounds, cornerRadius: cornerRadius).cgPath
         button.layer.addSublayer(dashBorder)
         return button
@@ -354,12 +350,16 @@ final class BeeMainViewController: UIViewController, CustomAlert {
                                                selector: #selector(viewDidLoad),
                                                name: Notification.Name.init("ReloadViewController"),
                                                object: nil)
-        missionTimeAnimationView.play()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(viewDidAppear),
+                                               name: UIApplication.willEnterForegroundNotification,
+                                               object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         NavigationControl.navigationController.interactivePopGestureRecognizer?.isEnabled = false
+        missionTimeAnimationView.play()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -368,6 +368,9 @@ final class BeeMainViewController: UIViewController, CustomAlert {
         NotificationCenter.default.removeObserver(self, name: Notification.Name.init("ChangeDate"), object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.init("MissionCamera"), object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.init("MissionPhoto"), object: nil)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIApplication.willEnterForegroundNotification,
+                                                  object: nil)
     }
 }
 
@@ -413,22 +416,19 @@ extension BeeMainViewController: UIViewControllerTransitioningDelegate {
 extension BeeMainViewController: UIScrollViewDelegate {
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if scrollView.contentOffset.y.isLessThanOrEqualTo(CGFloat(-50.0 * DesignSet.frameHeightRatio)) {
+        if scrollView.contentOffset.y.isLessThanOrEqualTo(0) {
             UIView.animate(withDuration: 0.5) { [self] in
                 scrollView.transform = .identity
-                scrollView.isScrollEnabled = false
+                mainScrollContentView.transform = .identity
                 hideJellyView(false)
-            } completion: { _ in
-                scrollView.isScrollEnabled = true
             }
-        } else if view.frame.minY < scrollView.frame.minY {
+        } else if view.safeAreaLayoutGuide.layoutFrame.minY < scrollView.frame.minY {
             UIView.animate(withDuration: 0.5) { [self] in
-                let y = scrollView.frame.minY + CGFloat(30 * DesignSet.frameHeightRatio)
-                scrollView.transform = CGAffineTransform(translationX: 0, y: -y)
-                scrollView.isScrollEnabled = false
+                let scrollViewY = scrollView.frame.minY - view.safeAreaLayoutGuide.layoutFrame.minY
+                let contentViewY = CGFloat(53 * ToolSet.heightRatio)
+                scrollView.transform = CGAffineTransform(translationX: 0, y: -scrollViewY)
+                mainScrollContentView.transform = CGAffineTransform(translationX: 0, y: -contentViewY)
                 hideJellyView(true)
-            } completion: { _ in
-                scrollView.isScrollEnabled = true
             }
         }
     }
@@ -439,10 +439,16 @@ extension BeeMainViewController: UIScrollViewDelegate {
 extension BeeMainViewController {
     
     private func hideJellyView(_ setHide: Bool) {
+        view.backgroundColor = setHide ? .white: UIColor(red: 255, green: 250, blue: 233)
         wonImageView.alpha = setHide ? 0: 1
         jellyDescriptionLabel.alpha = setHide ? 0: 1
         totalJelly.alpha = setHide ? 0: 1
         jellyReceiptButton.alpha = setHide ? 0: 1
+        if setHide {
+            mainScrollView.setRatioCornerRadius(0)
+        } else {
+            mainScrollView.setRatioCornerRadius(30)
+        }
     }
     
     // MARK: Bee Info Setup
@@ -451,22 +457,25 @@ extension BeeMainViewController {
         guard let beeInfo = beeInfo else {
             return
         }
-        let myNickname = UserDefaults.standard.string(forKey: UserDefaultsKey.myNickname.rawValue)
-        let isQueenBee = myNickname == beeInfo.manager.nickname ? true: false
+        let userId = UserDefaults.standard.integer(forKey: UserDefaultsKey.userId.rawValue)
+        let isQueenBee = userId == beeInfo.manager.id ? true: false
+        let isNextQuestioner = beeInfo.nextQuestioner.id == userId ? true: false
         UserDefaults.standard.set(beeInfo.title, forKey: UserDefaultsKey.beeTitle.rawValue)
         UserDefaults.standard.set(beeInfo.manager.nickname, forKey: UserDefaultsKey.queenBee.rawValue)
         UserDefaults.standard.set(isQueenBee, forKey: UserDefaultsKey.isQueenBee.rawValue)
         
+        setMissionNotification(for: .missionTime)
+        if isNextQuestioner {
+            setMissionNotification(for: .nextQuestioner)
+        }
+        
         beeTitleLabel.text = beeInfo.title
         memberCountLabel.text = "전체멤버 \(beeInfo.memberCounts)"
-        totalJelly.text = "\(beeInfo.totalPenalty)원"
+        totalJelly.text = ToolSet.integerToCommaNumberString(with: beeInfo.totalPenalty) + "원"
         missionTimeLabel.text = "\(beeInfo.startTime)-\(beeInfo.endTime)"
         
         missionTimeAnimationView.isHidden = !isSubmitMissionTime()
         toBeDeterminedTimeView.isHidden = isSubmitMissionTime()
-        
-        todayQuestionerImageView.setImage(with: beeInfo.todayQuestioner.profileImage)
-        nextQuestionerImageView.setImage(with: beeInfo.nextQuestioner.profileImage)
         todayQuestionerNicknameLabel.text = beeInfo.todayQuestioner.nickname
         
         toBeDeterminedDifficultyView.isHidden = true
@@ -491,10 +500,11 @@ extension BeeMainViewController {
         removeViewDashBorder(at: missionImageView)
         controlMissionView(mission: false)
         
-        let isQuestioner = (isNextQuestioner() && getPresentedTargetView() == .tomorrow) ||
-            (isTodayQuestioner() && getPresentedTargetView() == .today)
+        let isQuestionerForToday = isTodayQuestioner() && getPresentedTargetView() == .today
+        let isQuestionerForTomorrow = isNextQuestioner() && getPresentedTargetView() == .tomorrow
+        let isQuestioner = isQuestionerForToday || isQuestionerForTomorrow
         
-        if !didSubmitMission() && isCreateMissionTime() && isQuestioner {
+        if !didCreateMission() && isCreateMissionTime() && isQuestioner {
             missionNotPostedLabel.text = "미션을 등록해 주세요."
             addViewDashBorder(at: missionImageView)
             missionCreateButton.isHidden = false
@@ -503,11 +513,21 @@ extension BeeMainViewController {
             missionCreateButton.isHidden = true
         }
         
-        guard let missions = missions, missions.first != nil else {
+        var submittedCount = 0.0
+        var isMissionListButtonHidden = true
+        let needtoPaticipateMission = !didSubmitMission() && !isTodayQuestioner()
+        if needtoPaticipateMission && isSubmitMissionTime() && getPresentedTargetView() == .today {
+            participantsScrollView.addSubview(participateButton)
+            participantsScrollView.contentSize.width = participateButton.frame.width
+            submittedCount += 1
+        }
+        
+        guard let missions = missions else {
             return
         }
         for mission in missions {
-            if mission.type == 1 {
+            switch MissionType(rawValue: mission.type) {
+            case .created:
                 if getPresentedTargetView() == .tomorrow {
                     missionBlurView.isHidden = false
                     missionTitleLabel.text = "자정 이후에 공개됩니다."
@@ -517,43 +537,35 @@ extension BeeMainViewController {
                 }
                 missionImageView.setImage(with: mission.imageUrl)
                 controlMissionView(mission: true)
-                break
-            }
-        }
-        
-        var submittedCount = 0.0
-        if !didSubmitMission() && isSubmitMissionTime() && getPresentedTargetView() == .today {
-            participantsScrollView.addSubview(participateButton)
-            participantsScrollView.contentSize.width = participateButton.frame.width
-            submittedCount += 1
-        }
-        for mission in missions {
-            if mission.type == 2 {
+            case .submitted:
                 let imageView = UIImageView()
                 imageView.setImage(with: mission.imageUrl)
                 imageView.contentMode = .scaleAspectFill
                 imageView.setRatioCornerRadius(18)
                 imageView.clipsToBounds = true
-                let xPosition = 135 * DesignSet.frameWidthRatio * submittedCount
-                let imageWidth = 126 * DesignSet.frameWidthRatio
-                let imageHeight = 174 * DesignSet.frameHeightRatio
+                let xPosition = 135 * ToolSet.widthRatio * submittedCount
+                let imageWidth = 126 * ToolSet.widthRatio
+                let imageHeight = 174 * ToolSet.heightRatio
                 imageView.frame = CGRect(x: xPosition, y: 0, width: imageWidth, height: imageHeight)
                 participantsScrollView.addSubview(imageView)
-                let scrollViewSize = CGFloat(135 * DesignSet.frameWidthRatio * (submittedCount + 1))
-                participantsScrollView.contentSize.width = scrollViewSize
+                let scrollViewWidth = CGFloat(135 * ToolSet.widthRatio * (submittedCount + 1))
+                participantsScrollView.contentSize.width = scrollViewWidth
                 submittedCount += 1
-                if 2 < submittedCount {
-                    break
-                }
+                isMissionListButtonHidden = false
+            case .none:
+                break
+            }
+            if 2 < submittedCount {
+                break
             }
         }
-        if (didSubmitMission() && 0 < submittedCount) || (!didSubmitMission() && 1 < submittedCount) {
+        if !isMissionListButtonHidden {
             let buttonX = Double(participantsScrollView.contentSize.width)
-            let buttonY = 63 * DesignSet.frameHeightRatio
-            let buttonWidth = 48 * DesignSet.frameHeightRatio
+            let buttonY = 63 * ToolSet.heightRatio
+            let buttonWidth = 48 * ToolSet.heightRatio
             toMissionListButton.frame = CGRect(x: buttonX, y: buttonY, width: buttonWidth, height: buttonWidth)
             participantsScrollView.addSubview(toMissionListButton)
-            participantsScrollView.contentSize.width += CGFloat(70 * DesignSet.frameWidthRatio)
+            participantsScrollView.contentSize.width += CGFloat(70 * ToolSet.widthRatio)
         }
     }
     
@@ -600,7 +612,7 @@ extension BeeMainViewController {
 
 extension BeeMainViewController {
     
-    /// Confirm Questionor
+    /// Confirm Questioner
     
     private func isTodayQuestioner() -> Bool {
         guard let myNickname = UserDefaults.standard.string(forKey: UserDefaultsKey.myNickname.rawValue),
@@ -661,13 +673,26 @@ extension BeeMainViewController {
     
     /// Submit Control
     
+    private func didCreateMission() -> Bool {
+        guard let missions = missions,
+              let nickname = UserDefaults.standard.string(forKey: UserDefaultsKey.myNickname.rawValue) else {
+            return false
+        }
+        for mission in missions {
+            if MissionType(rawValue: mission.type) == .created && mission.nickname == nickname {
+                return true
+            }
+        }
+        return false
+    }
+    
     private func didSubmitMission() -> Bool {
         guard let missions = missions,
               let nickname = UserDefaults.standard.string(forKey: UserDefaultsKey.myNickname.rawValue) else {
             return false
         }
         for mission in missions {
-            if mission.nickname == nickname {
+            if MissionType(rawValue: mission.type) == .submitted && mission.nickname == nickname {
                 return true
             }
         }
@@ -682,7 +707,7 @@ extension BeeMainViewController {
     @objc private func touchupCalendarButton(_ sender: UIButton) {
         let calendarViewController = CalendarViewController()
         calendarViewController.modalPresentationStyle = .popover
-        let size = CGSize(width: 327 * DesignSet.frameWidthRatio, height: 360 * DesignSet.frameWidthRatio)
+        let size = CGSize(width: 327 * ToolSet.widthRatio, height: 360 * ToolSet.widthRatio)
         calendarViewController.preferredContentSize = size
         calendarViewController.popoverPresentationController?.sourceView = view
         let x = view.bounds.midX
@@ -755,7 +780,7 @@ extension BeeMainViewController {
                 DispatchQueue.main.async {
                     activityIndicator.stopAnimating()
                 }
-                presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
+                presentConfirmAlert(title: "토큰 에러!", message: error.description)
                 return
             }
             guard let accessToken = accessToken else {
@@ -771,7 +796,7 @@ extension BeeMainViewController {
                     activityIndicator.stopAnimating()
                 }
                 if let error = error {
-                    presentConfirmAlert(title: "메인 요청 에러!", message: error.localizedDescription)
+                    presentConfirmAlert(title: "메인 요청 에러!", message: error.description)
                     return
                 }
                 guard let main = main else {
@@ -828,6 +853,36 @@ extension BeeMainViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
 }
 
+// MARK:- Notification Setting
+
+extension BeeMainViewController {
+    
+    private func setMissionNotification(for type: MissionNotification) {
+        let content = UNMutableNotificationContent()
+        content.badge = 1
+        content.sound = .default
+        var dateComponents = DateComponents()
+        var repeatable = false
+        switch type {
+        case .missionTime:
+            content.title = "미션시간!"
+            content.body = "오늘 미션에 참여해 볼까요?"
+            dateComponents.hour = beeInfo?.startTime
+            repeatable = true
+        case .nextQuestioner:
+            content.title = "내일의 미션!"
+            content.body = "내일 미션을 등록해 볼까요?"
+            dateComponents.year = Calendar.current.component(.year, from: Date())
+            dateComponents.month = Calendar.current.component(.month, from: Date())
+            dateComponents.day = Calendar.current.component(.day, from: Date())
+            dateComponents.hour = 18
+        }
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: repeatable)
+        let requset = UNNotificationRequest(identifier: type.rawValue, content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(requset, withCompletionHandler: nil)
+    }
+}
+
 // MARK:- Layout
 
 extension BeeMainViewController {
@@ -839,237 +894,233 @@ extension BeeMainViewController {
         activityIndicator.snp.makeConstraints {
             $0.centerX.centerY.height.width.equalToSuperview()
         }
-        activityIndicator.addSubview(activityIndicatorImageView)
-        activityIndicatorImageView.snp.makeConstraints {
-            $0.centerX.centerY.width.equalToSuperview()
-            $0.height.equalTo(activityIndicator.snp.width)
-        }
-        activityIndicatorImageView.addSubview(activityIndicatorDescriptionLabel)
-        activityIndicatorDescriptionLabel.snp.makeConstraints {
-            $0.centerX.bottom.equalToSuperview()
-            $0.height.equalTo(26 * DesignSet.frameHeightRatio)
-        }
         
         view.addSubview(mainBackgroundImageView)
         mainBackgroundImageView.snp.makeConstraints {
-            $0.top.centerX.width.equalToSuperview()
-            $0.height.equalTo(430 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(10 * ToolSet.heightRatio)
+            $0.centerX.width.equalToSuperview()
+            $0.height.equalTo(409 * ToolSet.heightRatio)
         }
         view.addSubview(settingButton)
         settingButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(28 * DesignSet.frameHeightRatio)
-            $0.trailing.equalTo(-24 * DesignSet.frameWidthRatio)
-            $0.height.width.equalTo(18 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(28 * ToolSet.heightRatio)
+            $0.trailing.equalTo(-24 * ToolSet.widthRatio)
+            $0.height.width.equalTo(18 * ToolSet.heightRatio)
         }
         view.addSubview(beeTitleLabel)
         beeTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(125 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(68 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(241 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(125 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(68 * ToolSet.heightRatio)
+            $0.width.equalTo(241 * ToolSet.widthRatio)
         }
         view.addSubview(memberCountLabel)
         memberCountLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(205 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(205 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(16 * ToolSet.heightRatio)
         }
         
         view.addSubview(mainScrollView)
         mainScrollView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(292 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(292 * ToolSet.heightRatio)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalToSuperview().offset(30 * DesignSet.frameHeightRatio)
+            $0.height.equalToSuperview().offset(30 * ToolSet.heightRatio)
+        }
+        mainScrollView.addSubview(mainScrollContentView)
+        mainScrollContentView.snp.makeConstraints {
+            $0.top.centerX.width.equalToSuperview()
+            $0.height.equalTo(mainScrollView.contentSize.height)
         }
         
-        mainScrollView.addSubview(wonImageView)
+        mainScrollContentView.addSubview(wonImageView)
         wonImageView.snp.makeConstraints {
-            $0.top.equalTo(22 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.width.equalTo(21 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(22 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.width.equalTo(21 * ToolSet.heightRatio)
         }
-        mainScrollView.addSubview(jellyDescriptionLabel)
+        mainScrollContentView.addSubview(jellyDescriptionLabel)
         jellyDescriptionLabel.snp.makeConstraints {
             $0.centerY.equalTo(wonImageView)
-            $0.leading.equalTo(wonImageView.snp.trailing).offset(6 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(17 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(wonImageView.snp.trailing).offset(6 * ToolSet.widthRatio)
+            $0.height.equalTo(17 * ToolSet.heightRatio)
         }
-        mainScrollView.addSubview(totalJelly)
+        mainScrollContentView.addSubview(totalJelly)
         totalJelly.snp.makeConstraints {
             $0.centerY.equalTo(wonImageView)
-            $0.leading.equalTo(jellyDescriptionLabel.snp.trailing).offset(12 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(19 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(jellyDescriptionLabel.snp.trailing).offset(12 * ToolSet.widthRatio)
+            $0.height.equalTo(19 * ToolSet.heightRatio)
         }
-        mainScrollView.addSubview(jellyReceiptButton)
+        mainScrollContentView.addSubview(jellyReceiptButton)
         jellyReceiptButton.snp.makeConstraints {
             $0.centerY.equalTo(wonImageView)
-            $0.trailing.equalTo(view).offset(-24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(27 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(72 * DesignSet.frameHeightRatio)
+            $0.trailing.equalTo(view).offset(-24 * ToolSet.widthRatio)
+            $0.height.equalTo(27 * ToolSet.heightRatio)
+            $0.width.equalTo(72 * ToolSet.heightRatio)
         }
         
-        mainScrollView.addSubview(missionTimeDescriptionLabel)
+        mainScrollContentView.addSubview(missionTimeDescriptionLabel)
         missionTimeDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(75 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(40 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(75 * ToolSet.heightRatio)
+            $0.leading.equalTo(40 * ToolSet.widthRatio)
+            $0.height.equalTo(16 * ToolSet.heightRatio)
         }
-        mainScrollView.addSubview(toBeDeterminedTimeView)
+        mainScrollContentView.addSubview(toBeDeterminedTimeView)
         toBeDeterminedTimeView.snp.makeConstraints {
-            $0.top.equalTo(missionTimeDescriptionLabel.snp.bottom).offset(14 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(missionTimeDescriptionLabel.snp.bottom).offset(14 * ToolSet.heightRatio)
             $0.centerX.equalTo(missionTimeDescriptionLabel)
-            $0.height.width.equalTo(54 * DesignSet.frameHeightRatio)
+            $0.height.width.equalTo(54 * ToolSet.heightRatio)
         }
-        mainScrollView.addSubview(missionTimeAnimationView)
+        mainScrollContentView.addSubview(missionTimeAnimationView)
         missionTimeAnimationView.snp.makeConstraints {
-            $0.top.equalTo(missionTimeDescriptionLabel.snp.bottom).offset(14 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(missionTimeDescriptionLabel.snp.bottom).offset(14 * ToolSet.heightRatio)
             $0.centerX.equalTo(missionTimeDescriptionLabel)
-            $0.height.width.equalTo(54 * DesignSet.frameHeightRatio)
+            $0.height.width.equalTo(54 * ToolSet.heightRatio)
         }
-        mainScrollView.addSubview(missionTimeLabel)
+        mainScrollContentView.addSubview(missionTimeLabel)
         missionTimeLabel.snp.makeConstraints {
-            $0.top.equalTo(missionTimeDescriptionLabel.snp.bottom).offset(31 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(missionTimeDescriptionLabel.snp.bottom).offset(31 * ToolSet.heightRatio)
             $0.centerX.equalTo(missionTimeDescriptionLabel)
-            $0.height.equalTo(21 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(21 * ToolSet.heightRatio)
         }
         
-        mainScrollView.addSubview(todayQuestionerDescriptionLabel)
+        mainScrollContentView.addSubview(todayQuestionerDescriptionLabel)
         todayQuestionerDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(75 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(75 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(16 * ToolSet.heightRatio)
         }
-        mainScrollView.addSubview(todayQuestionerImageView)
+        mainScrollContentView.addSubview(todayQuestionerImageView)
         todayQuestionerImageView.snp.makeConstraints {
-            $0.top.equalTo(todayQuestionerDescriptionLabel.snp.bottom).offset(17 * DesignSet.frameHeightRatio)
-            $0.centerX.equalToSuperview().offset(-2 * DesignSet.frameWidthRatio)
-            $0.height.width.equalTo(45 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(todayQuestionerDescriptionLabel.snp.bottom).offset(17 * ToolSet.heightRatio)
+            $0.centerX.equalToSuperview().offset(-2 * ToolSet.widthRatio)
+            $0.height.width.equalTo(45 * ToolSet.heightRatio)
         }
-        mainScrollView.addSubview(todayQuestionerNicknameLabel)
+        mainScrollContentView.addSubview(todayQuestionerNicknameLabel)
         todayQuestionerNicknameLabel.snp.makeConstraints {
-            $0.top.equalTo(todayQuestionerDescriptionLabel.snp.bottom).offset(71 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(todayQuestionerDescriptionLabel.snp.bottom).offset(71 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(15 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(15 * ToolSet.heightRatio)
         }
-        mainScrollView.addSubview(nextQuestionerImageView)
+        mainScrollContentView.addSubview(nextQuestionerImageView)
         nextQuestionerImageView.snp.makeConstraints {
             $0.centerY.equalTo(todayQuestionerImageView)
-            $0.leading.equalTo(195 * DesignSet.frameWidthRatio)
-            $0.height.width.equalTo(30 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(195 * ToolSet.widthRatio)
+            $0.height.width.equalTo(30 * ToolSet.heightRatio)
         }
         
-        mainScrollView.addSubview(difficultyDescriptionLabel)
+        mainScrollContentView.addSubview(difficultyDescriptionLabel)
         difficultyDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(75 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(291.5 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(75 * ToolSet.heightRatio)
+            $0.leading.equalTo(291.5 * ToolSet.widthRatio)
+            $0.height.equalTo(16 * ToolSet.heightRatio)
         }
-        mainScrollView.addSubview(difficultyImageView)
+        mainScrollContentView.addSubview(difficultyImageView)
         difficultyImageView.snp.makeConstraints {
-            $0.top.equalTo(difficultyDescriptionLabel.snp.bottom).offset(12 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(difficultyDescriptionLabel.snp.bottom).offset(12 * ToolSet.heightRatio)
             $0.centerX.equalTo(difficultyDescriptionLabel)
-            $0.height.width.equalTo(60 * DesignSet.frameHeightRatio)
+            $0.height.width.equalTo(60 * ToolSet.heightRatio)
         }
-        mainScrollView.addSubview(toBeDeterminedDifficultyView)
+        mainScrollContentView.addSubview(toBeDeterminedDifficultyView)
         toBeDeterminedDifficultyView.snp.makeConstraints {
-            $0.top.equalTo(difficultyDescriptionLabel.snp.bottom).offset(14 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(difficultyDescriptionLabel.snp.bottom).offset(14 * ToolSet.heightRatio)
             $0.centerX.equalTo(difficultyDescriptionLabel)
-            $0.height.width.equalTo(54 * DesignSet.frameHeightRatio)
+            $0.height.width.equalTo(54 * ToolSet.heightRatio)
         }
         toBeDeterminedDifficultyView.addSubview(toBeDeterminedDifficultyLabel)
         toBeDeterminedDifficultyLabel.snp.makeConstraints {
             $0.centerX.centerY.equalTo(toBeDeterminedDifficultyView)
         }
         
-        mainScrollView.addSubview(todaysMissionDescriptionLabel)
+        mainScrollContentView.addSubview(todaysMissionDescriptionLabel)
         todaysMissionDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(201 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(32 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(201 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(32 * ToolSet.heightRatio)
         }
         
-        mainScrollView.addSubview(dateLabel)
+        mainScrollContentView.addSubview(dateLabel)
         dateLabel.snp.makeConstraints {
-            $0.top.equalTo(204 * DesignSet.frameHeightRatio)
-            $0.trailing.equalTo(view).offset(-54 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(21 * DesignSet.frameHeightRatio)
-            $0.width.greaterThanOrEqualTo(76 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(204 * ToolSet.heightRatio)
+            $0.trailing.equalTo(view).offset(-54 * ToolSet.widthRatio)
+            $0.height.equalTo(21 * ToolSet.heightRatio)
+            $0.width.greaterThanOrEqualTo(76 * ToolSet.widthRatio)
         }
-        mainScrollView.addSubview(calendarButton)
+        mainScrollContentView.addSubview(calendarButton)
         calendarButton.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel.snp.centerY)
-            $0.trailing.equalTo(view).offset(-24 * DesignSet.frameWidthRatio)
-            $0.height.width.equalTo(18 * DesignSet.frameHeightRatio)
+            $0.trailing.equalTo(view).offset(-24 * ToolSet.widthRatio)
+            $0.height.width.equalTo(18 * ToolSet.heightRatio)
         }
         
-        mainScrollView.addSubview(missionImageView)
+        mainScrollContentView.addSubview(missionImageView)
         missionImageView.snp.makeConstraints {
-            $0.top.equalTo(252 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(252 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(407 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(407 * ToolSet.heightRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
         }
         missionImageView.addSubview(missionBlurView)
         missionBlurView.snp.makeConstraints {
             $0.centerX.centerY.height.width.equalToSuperview()
         }
-        mainScrollView.addSubview(shadowMissionView)
+        mainScrollContentView.addSubview(shadowMissionView)
         shadowMissionView.snp.makeConstraints {
-            $0.top.equalTo(639 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(639 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
         }
         
         missionImageView.addSubview(missionNotPostedLabel)
         missionNotPostedLabel.snp.makeConstraints {
             $0.centerX.centerY.equalTo(missionImageView)
-            $0.height.equalTo(19 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(19 * ToolSet.heightRatio)
         }
         missionImageView.addSubview(missionDescriptionLabel)
         missionDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(289 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(29 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(17 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(289 * ToolSet.heightRatio)
+            $0.leading.equalTo(29 * ToolSet.widthRatio)
+            $0.height.equalTo(17 * ToolSet.heightRatio)
         }
         missionImageView.addSubview(missionTitleLabel)
         missionTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(318 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(29 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(60 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(210 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(318 * ToolSet.heightRatio)
+            $0.leading.equalTo(29 * ToolSet.widthRatio)
+            $0.height.equalTo(60 * ToolSet.heightRatio)
+            $0.width.equalTo(210 * ToolSet.widthRatio)
         }
-        mainScrollView.addSubview(missionCreateButton)
+        mainScrollContentView.addSubview(missionCreateButton)
         missionCreateButton.snp.makeConstraints {
-            $0.top.equalTo(544 * DesignSet.frameHeightRatio)
-            $0.trailing.equalTo(missionImageView).offset(-13 * DesignSet.frameWidthRatio)
-            $0.height.width.equalTo(100 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(544 * ToolSet.heightRatio)
+            $0.trailing.equalTo(missionImageView).offset(-13 * ToolSet.widthRatio)
+            $0.height.width.equalTo(100 * ToolSet.heightRatio)
         }
         
-        mainScrollView.addSubview(participatedMissionDescriptionLabel)
+        mainScrollContentView.addSubview(participatedMissionDescriptionLabel)
         participatedMissionDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(695 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(24 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(695 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(24 * ToolSet.heightRatio)
         }
-        mainScrollView.addSubview(participantsScrollView)
+        mainScrollContentView.addSubview(participantsScrollView)
         participantsScrollView.snp.makeConstraints {
-            $0.top.equalTo(740 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(26 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(740 * ToolSet.heightRatio)
+            $0.leading.equalTo(26 * ToolSet.widthRatio)
             $0.trailing.equalTo(view)
-            $0.height.equalTo(240 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(240 * ToolSet.heightRatio)
         }
         participateButton.addSubview(participateImage)
         participateImage.snp.makeConstraints {
-            $0.top.equalTo(58 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(58 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.width.equalTo(24 * DesignSet.frameHeightRatio)
+            $0.height.width.equalTo(24 * ToolSet.heightRatio)
         }
         participateButton.addSubview(participateLabel)
         participateLabel.snp.makeConstraints {
-            $0.top.equalTo(106 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(106 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(36 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(36 * ToolSet.heightRatio)
         }
         
         shadowMissionView.layer.zPosition = 1
