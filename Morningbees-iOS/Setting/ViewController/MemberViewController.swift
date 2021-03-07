@@ -11,10 +11,11 @@ import FirebaseDynamicLinks
 
 final class MemberViewController: UIViewController {
     
-// MARK:- Properties
+    // MARK:- Properties
     
     private let toPreviousButton: UIButton = {
         let button = UIButton()
+        button.contentHorizontalAlignment = .left
         button.setImage(UIImage(named: "arrowLeft"), for: .normal)
         button.addTarget(self, action: #selector(popToPreviousViewController), for: .touchUpInside)
         return button
@@ -83,7 +84,7 @@ final class MemberViewController: UIViewController {
     private var sortedProfiles = [Profile]()
     private var resultProfiles = [Profile]()
     
-// MARK:- Life Cycle
+    // MARK:- Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -152,10 +153,10 @@ extension MemberViewController {
                 return
             }
             let shareController: UIActivityViewController = {
-              let activities: [Any] = ["모닝비즈로 부터 초대장이 왔습니다! 링크를 통해 확인해 주세요:)", url]
-              let controller = UIActivityViewController(activityItems: activities,
-                                                        applicationActivities: nil)
-              return controller
+                let activities: [Any] = ["모닝비즈로 부터 초대장이 왔습니다! 링크를 통해 확인해 주세요:)", url]
+                let controller = UIActivityViewController(activityItems: activities,
+                                                          applicationActivities: nil)
+                return controller
             }()
             shareController.popoverPresentationController?.sourceView = sender as UIView
             present(shareController, animated: true, completion: nil)
@@ -189,7 +190,7 @@ extension MemberViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(60 * DesignSet.frameHeightRatio)
+        return CGFloat(60 * ToolSet.heightRatio)
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -203,10 +204,10 @@ extension MemberViewController: UITableViewDelegate, UITableViewDataSource {
 extension MemberViewController: UIScrollViewDelegate {
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if scrollView.contentOffset.y.isLessThanOrEqualTo(CGFloat(-10.0 * DesignSet.frameHeightRatio)) {
+        if scrollView.contentOffset.y.isLessThanOrEqualTo(CGFloat(-10.0 * ToolSet.heightRatio)) {
             UIView.animate(withDuration: 0.1) { [self] in
                 searchView.isHidden = false
-                let y = CGFloat(58 * DesignSet.frameHeightRatio)
+                let y = CGFloat(58 * ToolSet.heightRatio)
                 subTitleLabel.transform = CGAffineTransform(translationX: 0, y: y)
                 inviteLinkButton.transform = CGAffineTransform(translationX: 0, y: y)
                 scrollView.transform = CGAffineTransform(translationX: 0, y: y)
@@ -230,7 +231,7 @@ extension MemberViewController {
         let beeMembers = Request<Members>()
         KeychainService.extractKeyChainToken { [self] (accessToken, _, error) in
             if let error = error {
-                presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
+                presentConfirmAlert(title: "토큰 에러!", message: error.description)
             }
             guard let accessToken = accessToken else {
                 presentConfirmAlert(title: "토큰 에러!", message: "")
@@ -239,7 +240,7 @@ extension MemberViewController {
             let header: [String: String] = [RequestHeader.accessToken.rawValue: accessToken]
             beeMembers.request(request: request, header: header, parameter: "") { (beeMembers, _, error) in
                 if let error = error {
-                    presentConfirmAlert(title: "Members", message: error.localizedDescription)
+                    presentConfirmAlert(title: "Members", message: error.description)
                     return
                 }
                 guard let beeMembers = beeMembers else {
@@ -306,63 +307,63 @@ extension MemberViewController {
         
         view.addSubview(toPreviousButton)
         toPreviousButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(11 * DesignSet.frameHeightRatio)
-            $0.leading.equalToSuperview().offset(12 * DesignSet.frameWidthRatio)
-            $0.width.equalTo(12 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(11 * ToolSet.heightRatio)
+            $0.leading.equalTo(12 * ToolSet.widthRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
+            $0.width.equalTo(30 * ToolSet.heightRatio)
         }
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
         }
         view.addSubview(bottomlineView)
         bottomlineView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(43 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(43 * ToolSet.heightRatio)
             $0.centerX.width.equalToSuperview()
             $0.height.equalTo(1)
         }
         
         view.addSubview(searchView)
         searchView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(64 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(64 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(36 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(36 * ToolSet.heightRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
         }
         searchView.addSubview(searchImageView)
         searchImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalTo(10 * DesignSet.frameWidthRatio)
-            $0.height.width.equalTo(18 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(10 * ToolSet.widthRatio)
+            $0.height.width.equalTo(18 * ToolSet.heightRatio)
         }
         searchView.addSubview(searchTextField)
         searchTextField.snp.makeConstraints {
             $0.centerY.trailing.equalToSuperview()
-            $0.leading.equalTo(searchImageView.snp.trailing).offset(6 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(18 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(searchImageView.snp.trailing).offset(6 * ToolSet.widthRatio)
+            $0.height.equalTo(18 * ToolSet.heightRatio)
         }
         
         view.addSubview(subTitleLabel)
         subTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(59 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(17 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(59 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(17 * ToolSet.heightRatio)
         }
         
         if UserDefaults.standard.bool(forKey: UserDefaultsKey.isQueenBee.rawValue) {
             view.addSubview(inviteLinkButton)
             inviteLinkButton.snp.makeConstraints {
-                $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(52 * DesignSet.frameHeightRatio)
-                $0.trailing.equalTo(-24 * DesignSet.frameWidthRatio)
-                $0.height.equalTo(30 * DesignSet.frameHeightRatio)
-                $0.width.equalTo(99 * DesignSet.frameWidthRatio)
+                $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(52 * ToolSet.heightRatio)
+                $0.trailing.equalTo(-24 * ToolSet.widthRatio)
+                $0.height.equalTo(30 * ToolSet.heightRatio)
+                $0.width.equalTo(99 * ToolSet.widthRatio)
             }
         }
         view.addSubview(memberTableView)
         memberTableView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(91 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(91 * ToolSet.heightRatio)
             $0.centerX.width.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }

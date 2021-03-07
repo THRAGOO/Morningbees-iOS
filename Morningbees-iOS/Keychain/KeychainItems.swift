@@ -8,12 +8,6 @@
 
 import Foundation
 
-enum KeychainError: Error {
-    case noToken
-    case unexpectedTokenData
-    case unhandledError(status: OSStatus)
-}
-
 enum KeychainServer: String {
     case morningbeesAuth = "https://api-morningbees.thragoo.com/auth"
 }

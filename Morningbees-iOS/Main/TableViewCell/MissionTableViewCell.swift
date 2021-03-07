@@ -15,7 +15,7 @@ final class MissionTableViewCell: UITableViewCell {
     private let profileImgaeview: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = CGFloat(15 * DesignSet.frameHeightRatio)
+        imageView.layer.cornerRadius = CGFloat(15 * ToolSet.heightRatio)
         imageView.layer.masksToBounds = true
         imageView.backgroundColor = UIColor(red: 229, green: 229, blue: 229)
         return imageView
@@ -50,34 +50,41 @@ final class MissionTableViewCell: UITableViewCell {
         super.layoutSubviews()
         
         profileImgaeview.snp.makeConstraints {
-            $0.top.equalTo(15 * DesignSet.frameWidthRatio)
-            $0.leading.equalTo(25 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(30 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(30 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(15 * ToolSet.widthRatio)
+            $0.leading.equalTo(25 * ToolSet.widthRatio)
+            $0.height.equalTo(30 * ToolSet.heightRatio)
+            $0.width.equalTo(30 * ToolSet.heightRatio)
         }
         
         textLabel?.snp.makeConstraints {
-            $0.top.equalTo(15 * DesignSet.frameWidthRatio)
-            $0.leading.equalTo(profileImgaeview.snp.trailing).offset(9 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(15 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(15 * ToolSet.widthRatio)
+            $0.leading.equalTo(profileImgaeview.snp.trailing).offset(9 * ToolSet.widthRatio)
+            $0.height.equalTo(15 * ToolSet.heightRatio)
         }
         detailTextLabel?.snp.makeConstraints {
-            $0.top.equalTo(33 * DesignSet.frameWidthRatio)
-            $0.leading.equalTo(profileImgaeview.snp.trailing).offset(9 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(15 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(33 * ToolSet.widthRatio)
+            $0.leading.equalTo(profileImgaeview.snp.trailing).offset(9 * ToolSet.widthRatio)
+            $0.height.equalTo(15 * ToolSet.heightRatio)
         }
         
         missionImageView.snp.makeConstraints {
-            $0.top.equalTo(60 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(60 * ToolSet.widthRatio)
             $0.centerX.equalTo(contentView.snp.centerX)
-            $0.height.equalTo(407 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(407 * ToolSet.heightRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
         }
     }
     
     public func configure(with model: Missions) {
         textLabel?.text = model.nickname
-        detailTextLabel?.text = model.createdAt
+        switch MissionType(rawValue: model.type) {
+        case .created:
+            detailTextLabel?.text = "미션 사진"
+        case .submitted:
+            detailTextLabel?.text = model.createdAt
+        case .none:
+            break
+        }
         missionImageView.setImage(with: model.imageUrl)
     }
 }

@@ -52,7 +52,7 @@
 		D5580D6B240960BC008F16F5 /* AppleSDGothicNeo.ttc in Resources */ = {isa = PBXBuildFile; fileRef = D5580D6A240960BC008F16F5 /* AppleSDGothicNeo.ttc */; };
 		D56F18FB255C0B320049DF5D /* WithdrawalRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56F18FA255C0B320049DF5D /* WithdrawalRequest.swift */; };
 		D56F18FE255C0B9C0049DF5D /* Withdrawal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56F18FD255C0B9C0049DF5D /* Withdrawal.swift */; };
-		D57B830C2405A761001DB1FF /* ViewDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57B830B2405A761001DB1FF /* ViewDesign.swift */; };
+		D57B830C2405A761001DB1FF /* UI+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57B830B2405A761001DB1FF /* UI+Extensions.swift */; };
 		D580E2C925B80ED700B02722 /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D580E2C825B80ED700B02722 /* UserDefaultsKey.swift */; };
 		D580E2D025B8808C00B02722 /* RoyalJellyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D580E2CF25B8808C00B02722 /* RoyalJellyViewController.swift */; };
 		D580E2D325B884E900B02722 /* BeeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D580E2D225B884E900B02722 /* BeeInfo.swift */; };
@@ -60,6 +60,7 @@
 		D5AEB5B92465D63A0084831E /* MissionCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5AEB5B82465D63A0084831E /* MissionCreateViewController.swift */; };
 		D5B2D1FE244326C7001C2466 /* NavigationControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B2D1FD244326C7001C2466 /* NavigationControl.swift */; };
 		D5B2D20024437807001C2466 /* NetworkItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B2D1FF24437807001C2466 /* NetworkItem.swift */; };
+		D5C48C6325F1C745006A171B /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C48C6225F1C745006A171B /* CustomError.swift */; };
 		D5D3DA2A2427623500EFB04B /* RenewalRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D3DA292427623500EFB04B /* RenewalRequest.swift */; };
 		D5D3DA2C2427644800EFB04B /* Renewal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D3DA2B2427644800EFB04B /* Renewal.swift */; };
 		D5D9919C2438C7BE00BEFEE8 /* MeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D9919B2438C7BE00BEFEE8 /* MeRequest.swift */; };
@@ -126,7 +127,7 @@
 		D5580D6A240960BC008F16F5 /* AppleSDGothicNeo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleSDGothicNeo.ttc; sourceTree = "<group>"; };
 		D56F18FA255C0B320049DF5D /* WithdrawalRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalRequest.swift; sourceTree = "<group>"; };
 		D56F18FD255C0B9C0049DF5D /* Withdrawal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Withdrawal.swift; sourceTree = "<group>"; };
-		D57B830B2405A761001DB1FF /* ViewDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDesign.swift; sourceTree = "<group>"; };
+		D57B830B2405A761001DB1FF /* UI+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI+Extensions.swift"; sourceTree = "<group>"; };
 		D580E2C825B80ED700B02722 /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
 		D580E2CF25B8808C00B02722 /* RoyalJellyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoyalJellyViewController.swift; sourceTree = "<group>"; };
 		D580E2D225B884E900B02722 /* BeeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeInfo.swift; sourceTree = "<group>"; };
@@ -134,6 +135,7 @@
 		D5AEB5B82465D63A0084831E /* MissionCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionCreateViewController.swift; sourceTree = "<group>"; };
 		D5B2D1FD244326C7001C2466 /* NavigationControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControl.swift; sourceTree = "<group>"; };
 		D5B2D1FF24437807001C2466 /* NetworkItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkItem.swift; sourceTree = "<group>"; };
+		D5C48C6225F1C745006A171B /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 		D5D3DA292427623500EFB04B /* RenewalRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenewalRequest.swift; sourceTree = "<group>"; };
 		D5D3DA2B2427644800EFB04B /* Renewal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renewal.swift; sourceTree = "<group>"; };
 		D5D5BC8623FE6B6000F59DA0 /* Morningbees.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Morningbees.entitlements; sourceTree = "<group>"; };
@@ -210,7 +212,6 @@
 				D5337C1124445C3800D7A079 /* BeeCreate */,
 				CE432C1F239009200005F257 /* Common */,
 				D527AE7724DC5ABB00849EDB /* Calendar */,
-				D57B830A2405A747001DB1FF /* Design */,
 				CE432C2323900E170005F257 /* Extension */,
 				D5580D6324082684008F16F5 /* Fonts */,
 				D50C18EF24F657D7008155F3 /* Invite */,
@@ -243,9 +244,9 @@
 		B0747AAA23AA63CF00100858 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				D5C48C6125F1C711006A171B /* Item */,
 				D5AEB5B124654B290084831E /* Request */,
 				B0449EA923B5D3C00079D816 /* Model */,
-				D5B2D1FF24437807001C2466 /* NetworkItem.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -295,6 +296,7 @@
 				7279EF85236EC61D005ECC81 /* SceneDelegate.swift */,
 				7254BF4A23A913940036D24D /* Logger.swift */,
 				B0CC67AC23C9958C0083A012 /* CustomAlert.swift */,
+				D5C48C6225F1C745006A171B /* CustomError.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -311,6 +313,7 @@
 		CE432C2323900E170005F257 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				D57B830B2405A761001DB1FF /* UI+Extensions.swift */,
 				CE432C202390098F0005F257 /* UIApplication+Extension.swift */,
 				7254BF4E23B658C00036D24D /* UIViewController+Extension.swift */,
 			);
@@ -406,14 +409,6 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
-		D57B830A2405A747001DB1FF /* Design */ = {
-			isa = PBXGroup;
-			children = (
-				D57B830B2405A761001DB1FF /* ViewDesign.swift */,
-			);
-			path = Design;
-			sourceTree = "<group>";
-		};
 		D580E2C725B80E8C00B02722 /* UserDefaults */ = {
 			isa = PBXGroup;
 			children = (
@@ -488,6 +483,14 @@
 				D5B2D1FD244326C7001C2466 /* NavigationControl.swift */,
 			);
 			path = NavigationControl;
+			sourceTree = "<group>";
+		};
+		D5C48C6125F1C711006A171B /* Item */ = {
+			isa = PBXGroup;
+			children = (
+				D5B2D1FF24437807001C2466 /* NetworkItem.swift */,
+			);
+			path = Item;
 			sourceTree = "<group>";
 		};
 		D5D9E8DF25BD8F40005685CB /* TableViewCell */ = {
@@ -694,7 +697,7 @@
 				B0CC882F23F81B8700B3131E /* KeychainItems.swift in Sources */,
 				D50C18F624F69330008155F3 /* Invite.swift in Sources */,
 				D5DC3FD125E27CC6006AF2A7 /* RootViewController.swift in Sources */,
-				D57B830C2405A761001DB1FF /* ViewDesign.swift in Sources */,
+				D57B830C2405A761001DB1FF /* UI+Extensions.swift in Sources */,
 				D5067EC425B3CD1400D7C89F /* MissionListViewController.swift in Sources */,
 				D533339725CD1DE400C0951A /* BeePenalty.swift in Sources */,
 				D580E2D325B884E900B02722 /* BeeInfo.swift in Sources */,
@@ -736,6 +739,7 @@
 				D527AE8324DD691000849EDB /* CalendarViewController.swift in Sources */,
 				D5DB344F25A9CB8D0093F38C /* JoinBee.swift in Sources */,
 				D5D3DA2C2427644800EFB04B /* Renewal.swift in Sources */,
+				D5C48C6325F1C745006A171B /* CustomError.swift in Sources */,
 				D5B2D1FE244326C7001C2466 /* NavigationControl.swift in Sources */,
 				B0CC882C23F6A33500B3131E /* SignUp.swift in Sources */,
 				B0B3CDBA23FA42BF00CF4200 /* KeychainService.swift in Sources */,

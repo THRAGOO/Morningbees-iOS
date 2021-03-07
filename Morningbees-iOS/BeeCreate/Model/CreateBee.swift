@@ -22,10 +22,10 @@ struct BeeCreateModel: RequestModel {
 struct BeeCreate: Codable {
 }
 
-struct BeeCreateParam: Encodable {
-    let title: String
-    let startTime: Int
-    let endTime: Int
-    let pay: Int
-    let description: String = ""
+struct CreateModel: Encodable {
+    var title: String
+    var startTime: Int
+    var endTime: Int
+    var pay: Int
+    var description = ""
 }

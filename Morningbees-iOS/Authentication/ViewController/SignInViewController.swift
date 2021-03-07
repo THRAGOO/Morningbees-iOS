@@ -25,13 +25,6 @@ final class SignInViewController: UIViewController {
         indicator.alpha = 0.5
         return indicator
     }()
-    public let activityIndicatorImageView = UIImageView(imageName: "illustErrorPage")
-    public let activityIndicatorDescriptionLabel: UILabel = {
-        let label = UILabel(text: "로그인 중...", letterSpacing: 0)
-        label.textColor = .white
-        label.font = UIFont(font: .systemBold, size: 24)
-        return label
-    }()
     
     private let backgroundYellowImage = UIImageView(imageName: "bgSigninYellow")
     private let backgroundWhiteImage = UIImageView(imageName: "bgSignInWhite")
@@ -106,7 +99,7 @@ final class SignInViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         NavigationControl.navigationController.interactivePopGestureRecognizer?.isEnabled = false
-        let y = CGFloat(-126 * DesignSet.frameHeightRatio)
+        let y = CGFloat(-126 * ToolSet.heightRatio)
         UIView.animate(withDuration: 0.5) {
             self.beeImageView.transform = CGAffineTransform(translationX: 0, y: y)
         }
@@ -219,7 +212,7 @@ extension SignInViewController {
                 DispatchQueue.main.async {
                     activityIndicator.stopAnimating()
                 }
-                presentConfirmAlert(title: "소셜 로그인 에러!", message: error.localizedDescription)
+                presentConfirmAlert(title: "소셜 로그인 에러!", message: error.description)
             }
             guard let signIn = signIn else {
                 DispatchQueue.main.async {
@@ -232,15 +225,15 @@ extension SignInViewController {
             case .needSignUp:
                 DispatchQueue.main.async {
                     activityIndicator.stopAnimating()
-                    NavigationControl.pushToSignUpViewController(from: .apple, with: accessToken)
+                    NavigationControl.pushToSignUpViewController(from: provider, with: accessToken)
                 }
             case .signedUser:
-                KeychainService.addKeychainToken(signIn.accessToken, signIn.refreshToken) { (error) in
+                KeychainService.addKeychainToken(signIn.accessToken, signIn.refreshToken) { error in
                     if let error = error {
                         DispatchQueue.main.async {
                             activityIndicator.stopAnimating()
                         }
-                        presentConfirmAlert(title: "키체인 토큰 에러!", message: error.localizedDescription)
+                        presentConfirmAlert(title: "키체인 토큰 에러!", message: error.description)
                     }
                 }
                 MeAPI().request { (alreadyJoinedBee, error) in
@@ -248,7 +241,7 @@ extension SignInViewController {
                         activityIndicator.stopAnimating()
                     }
                     if let error = error {
-                        presentConfirmAlert(title: "사용자 정보 요청 에러!", message: error.localizedDescription)
+                        presentConfirmAlert(title: "사용자 정보 요청 에러!", message: error.description)
                     }
                     guard let alreadyJoinedBee = alreadyJoinedBee else {
                         presentConfirmAlert(title: "사용자 정보 요청 에러!", message: "")
@@ -281,70 +274,60 @@ extension SignInViewController {
         activityIndicator.snp.makeConstraints {
             $0.centerX.centerY.height.width.equalToSuperview()
         }
-        activityIndicator.addSubview(activityIndicatorImageView)
-        activityIndicatorImageView.snp.makeConstraints {
-            $0.centerX.centerY.width.equalToSuperview()
-            $0.height.equalTo(activityIndicator.snp.width)
-        }
-        activityIndicatorImageView.addSubview(activityIndicatorDescriptionLabel)
-        activityIndicatorDescriptionLabel.snp.makeConstraints {
-            $0.centerX.bottom.equalToSuperview()
-            $0.height.equalTo(26 * DesignSet.frameHeightRatio)
-        }
         
         view.addSubview(backgroundYellowImage)
         backgroundYellowImage.snp.makeConstraints {
             $0.top.centerX.width.equalToSuperview()
-            $0.height.equalTo(482 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(482 * ToolSet.heightRatio)
         }
         view.addSubview(backgroundWhiteImage)
         backgroundWhiteImage.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(367 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(367 * ToolSet.heightRatio)
             $0.centerX.bottom.width.equalToSuperview()
         }
         
         view.addSubview(subtitleLabel)
         subtitleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(92 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(92 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(19 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(19 * ToolSet.heightRatio)
         }
         view.addSubview(logoTitleImage)
         logoTitleImage.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(124 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(124 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(69 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(198 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(69 * ToolSet.heightRatio)
+            $0.width.equalTo(198 * ToolSet.heightRatio)
         }
         
         view.addSubview(beeImageView)
         beeImageView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(380 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(380 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(188 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(182 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(188 * ToolSet.heightRatio)
+            $0.width.equalTo(182 * ToolSet.heightRatio)
         }
         
         view.addSubview(appleSignInButton)
         appleSignInButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(460 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(460 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(45 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(45 * ToolSet.heightRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
         }
         view.addSubview(naverSignInButton)
         naverSignInButton.snp.makeConstraints {
-            $0.top.equalTo(appleSignInButton.snp.bottom).offset(10 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(appleSignInButton.snp.bottom).offset(10 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(45 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(45 * ToolSet.heightRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
         }
         view.addSubview(googleSignInButton)
         googleSignInButton.snp.makeConstraints {
-            $0.top.equalTo(naverSignInButton.snp.bottom).offset(10 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(naverSignInButton.snp.bottom).offset(10 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(45 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(45 * ToolSet.heightRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
         }
         
         backgroundYellowImage.layer.zPosition = 0

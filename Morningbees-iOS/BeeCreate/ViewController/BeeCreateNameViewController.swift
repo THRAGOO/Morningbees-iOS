@@ -15,6 +15,7 @@ final class BeeCreateNameViewController: UIViewController {
     private let toPreviousButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "arrowLeft"), for: .normal)
+        button.contentHorizontalAlignment = .left
         button.addTarget(self, action: #selector(popToPreviousViewController), for: .touchUpInside)
         return button
     }()
@@ -43,11 +44,10 @@ final class BeeCreateNameViewController: UIViewController {
         textField.addTarget(self, action: #selector(limitTextFieldLength), for: .editingChanged)
         return textField
     }()
-    private let lengthDescriptionLabel: UILabel = {
-        let label = UILabel(text: "X 글자 수가 너무 짧아요.", letterSpacing: -0.4)
+    private let unavailableNameDescriptionLabel: UILabel = {
+        let label = UILabel(text: "", letterSpacing: -0.4)
         label.textColor = UIColor(red: 235, green: 54, blue: 54)
         label.font = UIFont(font: .systemMedium, size: 13)
-        label.adjustsFontSizeToFitWidth = true
         label.alpha = 0
         return label
     }()
@@ -113,14 +113,12 @@ extension BeeCreateNameViewController {
     
     @objc private func touchUpNextButton() {
         beeNameTextField.endEditing(true)
-        performSegue(withIdentifier: "pushToStepTime", sender: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard  let beeCreateTimeViewController = segue.destination as? BeeCreateTimeViewController else {
+        guard let beeName = beeNameTextField.text else {
             return
         }
-        beeCreateTimeViewController.beeName = beeNameTextField.text ?? ""
+        let createModel = CreateModel(title: beeName, startTime: 0, endTime: 0, pay: 0)
+        let beeCreateTimeViewController = BeeCreateTimeViewController(with: createModel)
+        NavigationControl.navigationController.pushViewController(beeCreateTimeViewController, animated: true)
     }
     
     @objc private func popToPreviousViewController(_ sender: UIButton) {
@@ -142,7 +140,7 @@ extension BeeCreateNameViewController {
     
     @objc private func willShowkeyboard(_ notification: Notification) {
         nextButton.snp.remakeConstraints {
-            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(56 * ToolSet.heightRatio)
             $0.bottom.centerX.width.equalToSuperview()
         }
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
@@ -154,7 +152,7 @@ extension BeeCreateNameViewController {
     @objc private func willHidekeyboard(_ notification: Notification) {
         nextButton.transform = .identity
         nextButton.snp.remakeConstraints {
-            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(56 * ToolSet.heightRatio)
             $0.centerX.width.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
@@ -176,19 +174,31 @@ extension BeeCreateNameViewController: UITextFieldDelegate {
             return
         }
         if text.count == 0 {
+            nextButton.isEnabled = false
             bottomlineView.layer.borderColor = UIColor(red: 221, green: 221, blue: 221).cgColor
+            UIView.animate(withDuration: 0.1) { [self] in
+                unavailableNameDescriptionLabel.alpha = 0
+            }
         } else if text.count < 2 {
             nextButton.isEnabled = false
             bottomlineView.layer.borderColor = UIColor(red: 235, green: 54, blue: 54).cgColor
+            unavailableNameDescriptionLabel.text = "X 글자 수가 너무 짧아요."
             UIView.animate(withDuration: 0.5) { [self] in
-                lengthDescriptionLabel.alpha = 1
+                unavailableNameDescriptionLabel.alpha = 1
+            }
+            shakeLabel()
+        } else if !inspectTextRegulation(originText: text) {
+            nextButton.isEnabled = false
+            unavailableNameDescriptionLabel.text = "X 포함될 수 없는 문자가 있어요."
+            UIView.animate(withDuration: 0.5) { [self] in
+                unavailableNameDescriptionLabel.alpha = 1
             }
             shakeLabel()
         } else {
             nextButton.isEnabled = true
             bottomlineView.layer.borderColor = UIColor(red: 34, green: 34, blue: 34).cgColor
             UIView.animate(withDuration: 0.1) { [self] in
-                lengthDescriptionLabel.alpha = 0
+                unavailableNameDescriptionLabel.alpha = 0
             }
         }
         if 12 < text.count {
@@ -196,11 +206,23 @@ extension BeeCreateNameViewController: UITextFieldDelegate {
         }
     }
     
+    private func inspectTextRegulation(originText: String) -> Bool {
+        let filter: String = "[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ~!_@#$%^&*()+=.,:;?<>/` ]"
+        let regulation = try? NSRegularExpression(pattern: filter, options: [])
+        let newText = regulation?.matches(in: originText,
+                                          options: [],
+                                          range: NSRange.init(location: 0, length: originText.count))
+        if newText?.count != originText.count {
+            return false
+        }
+        return true
+    }
+    
     private func shakeLabel() {
         UIView.animate(withDuration: 0.05, delay: 0, options: [.repeat, .autoreverse]) { [self] in
             UIView.modifyAnimations(withRepeatCount: 2, autoreverses: true) {
-                lengthDescriptionLabel.transform = CGAffineTransform(translationX: +10, y: 0)
-                lengthDescriptionLabel.transform = .identity
+                unavailableNameDescriptionLabel.transform = CGAffineTransform(translationX: +10, y: 0)
+                unavailableNameDescriptionLabel.transform = .identity
             }
         }
     }
@@ -211,52 +233,54 @@ extension BeeCreateNameViewController: UITextFieldDelegate {
 extension BeeCreateNameViewController {
     
     private func setLayout() {
+        view.backgroundColor = .white
+        
         view.addSubview(toPreviousButton)
         toPreviousButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(12 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(12 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * ToolSet.heightRatio)
+            $0.leading.equalTo(12 * ToolSet.widthRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
+            $0.width.equalTo(30 * ToolSet.heightRatio)
         }
         
         view.addSubview(descriptionLabel)
         descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(70 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(66 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(70 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(66 * ToolSet.heightRatio)
         }
         
         view.addSubview(nameDescriptionLabel)
         nameDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(203 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(17 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(203 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(17 * ToolSet.heightRatio)
         }
         
         view.addSubview(beeNameTextField)
         beeNameTextField.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(236 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(236 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
         }
         view.addSubview(bottomlineView)
         bottomlineView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(271 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(271 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
             $0.height.equalTo(1)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
         }
-        view.addSubview(lengthDescriptionLabel)
-        lengthDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(bottomlineView.snp.top).offset(12 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+        view.addSubview(unavailableNameDescriptionLabel)
+        unavailableNameDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(bottomlineView.snp.top).offset(12 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(16 * ToolSet.heightRatio)
         }
         
         view.addSubview(nextButton)
         nextButton.snp.makeConstraints {
-            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(56 * ToolSet.heightRatio)
             $0.centerX.width.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }

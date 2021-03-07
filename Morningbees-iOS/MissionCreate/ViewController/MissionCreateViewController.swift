@@ -20,16 +20,10 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
         indicator.alpha = 0.5
         return indicator
     }()
-    private let activityIndicatorImageView = UIImageView(imageName: "illustErrorPage")
-    private let activityIndicatorDescriptionLabel: UILabel = {
-        let label = UILabel(text: "미션 생성 요청 중...", letterSpacing: 0)
-        label.textColor = .white
-        label.font = UIFont(font: .systemBold, size: 24)
-        return label
-    }()
     
     private let toPreviousButton: UIButton = {
         let button = UIButton()
+        button.contentHorizontalAlignment = .left
         button.setImage(UIImage(named: "arrowLeft"), for: .normal)
         button.addTarget(self, action: #selector(popToPreviousViewController), for: .touchUpInside)
         return button
@@ -69,6 +63,7 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
         textField.textColor = UIColor(red: 68, green: 68, blue: 68)
         textField.font = UIFont(font: .systemMedium, size: 17)
         textField.placeholder = "2~12자 이내로 입력해 주세요."
+        textField.clearButtonMode = .whileEditing
         textField.addTarget(self, action: #selector(limitTextFieldLength), for: .editingChanged)
         return textField
     }()
@@ -77,6 +72,13 @@ final class MissionCreateViewController: UIViewController, CustomAlert {
         view.layer.borderWidth = 0.5
         view.layer.borderColor = UIColor(red: 229, green: 229, blue: 229).cgColor
         return view
+    }()
+    private let unavailableNameDescriptionLabel: UILabel = {
+        let label = UILabel(text: "", letterSpacing: -0.4)
+        label.textColor = UIColor(red: 235, green: 54, blue: 54)
+        label.font = UIFont(font: .systemMedium, size: 13)
+        label.alpha = 0
+        return label
     }()
     
     private let missionPhotoDescriptionLabel: UILabel = {
@@ -239,7 +241,7 @@ extension MissionCreateViewController {
                 DispatchQueue.main.async {
                     activityIndicator.stopAnimating()
                 }
-                presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
+                presentConfirmAlert(title: "토큰 에러!", message: error.description)
                 return
             }
             guard let accessToken = accessToken else {
@@ -258,7 +260,7 @@ extension MissionCreateViewController {
                     activityIndicator.stopAnimating()
                 }
                 if let error = error {
-                    presentConfirmAlert(title: "미션 생성 요청 에러!", message: error.localizedDescription)
+                    presentConfirmAlert(title: "미션 생성 요청 에러!", message: error.description)
                     return
                 }
                 if isCreated {
@@ -302,17 +304,62 @@ extension MissionCreateViewController: UITextFieldDelegate {
         return true
     }
     
-    public func textFieldDidChangeSelection(_ textField: UITextField) {
-        isTitleSet = 1 < missionDescriptionTextField.text?.count ?? 0
-        controlCompleteButton()
-    }
-    
     @objc private func limitTextFieldLength(_ sender: UITextField) {
         guard let text = sender.text else {
             return
         }
+        if text.count == 0 {
+            isTitleSet = false
+            textFieldBottomlineView.layer.borderColor = UIColor(red: 221, green: 221, blue: 221).cgColor
+            UIView.animate(withDuration: 0.1) { [self] in
+                unavailableNameDescriptionLabel.alpha = 0
+            }
+        } else if text.count < 2 {
+            isTitleSet = false
+            textFieldBottomlineView.layer.borderColor = UIColor(red: 235, green: 54, blue: 54).cgColor
+            unavailableNameDescriptionLabel.text = "X 글자 수가 너무 짧아요."
+            UIView.animate(withDuration: 0.5) { [self] in
+                unavailableNameDescriptionLabel.alpha = 1
+            }
+            shakeLabel()
+        } else if !inspectTextRegulation(originText: text) {
+            isTitleSet = false
+            unavailableNameDescriptionLabel.text = "X 포함될 수 없는 문자가 있어요."
+            UIView.animate(withDuration: 0.5) { [self] in
+                unavailableNameDescriptionLabel.alpha = 1
+            }
+            shakeLabel()
+        } else {
+            isTitleSet = true
+            textFieldBottomlineView.layer.borderColor = UIColor(red: 34, green: 34, blue: 34).cgColor
+            UIView.animate(withDuration: 0.1) { [self] in
+                unavailableNameDescriptionLabel.alpha = 0
+            }
+        }
         if 12 < text.count {
             sender.text = String(text[..<text.index(text.startIndex, offsetBy: 12)])
+        }
+        controlCompleteButton()
+    }
+    
+    private func inspectTextRegulation(originText: String) -> Bool {
+        let filter: String = "[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ~!_@#$%^&*()+=.,:;?<>/` ]"
+        let regulation = try? NSRegularExpression(pattern: filter, options: [])
+        let newText = regulation?.matches(in: originText,
+                                          options: [],
+                                          range: NSRange.init(location: 0, length: originText.count))
+        if newText?.count != originText.count {
+            return false
+        }
+        return true
+    }
+    
+    private func shakeLabel() {
+        UIView.animate(withDuration: 0.05, delay: 0, options: [.repeat, .autoreverse]) { [self] in
+            UIView.modifyAnimations(withRepeatCount: 2, autoreverses: true) {
+                unavailableNameDescriptionLabel.transform = CGAffineTransform(translationX: +10, y: 0)
+                unavailableNameDescriptionLabel.transform = .identity
+            }
         }
     }
 }
@@ -394,13 +441,13 @@ extension MissionCreateViewController {
         setupSegmentControlButton(title: "중\n" + "기본값")
         setupSegmentControlButton(title: "하\n" + "+1,000원")
         customSegmentedControl.addSubview(selector)
-        DesignSet.constraints(view: selector, top: 0, leading: 0, height: 96, width: 109)
+        selector.frame.size = CGSize(width: 109 * ToolSet.widthRatio, height: 96 * ToolSet.heightRatio)
         let stackView = UIStackView.init(arrangedSubviews: difficultyButtons)
         stackView.axis = .horizontal
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
         customSegmentedControl.addSubview(stackView)
-        DesignSet.constraints(view: stackView, top: 0, leading: 0, height: 96, width: 327)
+        stackView.frame.size = CGSize(width: 327 * ToolSet.widthRatio, height: 96 * ToolSet.heightRatio)
         customSegmentedControl.layer.zPosition = 0
         selector.layer.zPosition = 1
         stackView.layer.zPosition = 2
@@ -423,7 +470,7 @@ extension MissionCreateViewController {
                     selector.isHidden = false
                     self.selector.frame.origin.x = selectorStartPosition
                 }
-                UIView.animate(withDuration: 0.1, animations: {
+                UIView.animate(withDuration: 0.3, animations: {
                     self.selector.frame.origin.x = selectorStartPosition
                 })
             }
@@ -442,117 +489,113 @@ extension MissionCreateViewController {
         activityIndicator.snp.makeConstraints {
             $0.centerX.centerY.height.width.equalToSuperview()
         }
-        activityIndicator.addSubview(activityIndicatorImageView)
-        activityIndicatorImageView.snp.makeConstraints {
-            $0.centerX.centerY.width.equalToSuperview()
-            $0.height.equalTo(activityIndicator.snp.width)
-        }
-        activityIndicatorImageView.addSubview(activityIndicatorDescriptionLabel)
-        activityIndicatorDescriptionLabel.snp.makeConstraints {
-            $0.centerX.bottom.equalToSuperview()
-            $0.height.equalTo(26 * DesignSet.frameHeightRatio)
-        }
         
         view.addSubview(toPreviousButton)
         toPreviousButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(11 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(12 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(11 * ToolSet.heightRatio)
+            $0.leading.equalTo(12 * ToolSet.widthRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
+            $0.width.equalTo(30 * ToolSet.heightRatio)
         }
         view.addSubview(viewTitleLabel)
         viewTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
         }
         view.addSubview(completeButton)
         completeButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
-            $0.trailing.equalTo(-24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * ToolSet.heightRatio)
+            $0.trailing.equalTo(-24 * ToolSet.widthRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
         }
         view.addSubview(bottomlineView)
         bottomlineView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(43 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(43 * ToolSet.heightRatio)
             $0.centerX.width.equalToSuperview()
             $0.height.equalTo(1)
         }
         
         view.addSubview(missionTitleDescriptionLabel)
         missionTitleDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(71 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(19 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(71 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(19 * ToolSet.heightRatio)
         }
         view.addSubview(missionDescriptionTextField)
         missionDescriptionTextField.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(107 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(107 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
         }
         view.addSubview(textFieldBottomlineView)
         textFieldBottomlineView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(140 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(140 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(1)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
+        }
+        view.addSubview(unavailableNameDescriptionLabel)
+        unavailableNameDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(textFieldBottomlineView.snp.top).offset(12 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(16 * ToolSet.heightRatio)
         }
         
         view.addSubview(missionPhotoDescriptionLabel)
         missionPhotoDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(195 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(19 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(195 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(19 * ToolSet.heightRatio)
         }
         view.addSubview(takeFromCameraButton)
         takeFromCameraButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(235 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(120 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(153 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(235 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(120 * ToolSet.heightRatio)
+            $0.width.equalTo(153 * ToolSet.widthRatio)
         }
         view.addSubview(takeFromGalleryButton)
         takeFromGalleryButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(235 * DesignSet.frameHeightRatio)
-            $0.trailing.equalTo(-24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(120 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(153 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(235 * ToolSet.heightRatio)
+            $0.trailing.equalTo(-24 * ToolSet.widthRatio)
+            $0.height.equalTo(120 * ToolSet.heightRatio)
+            $0.width.equalTo(153 * ToolSet.widthRatio)
         }
         view.addSubview(selectedPictureView)
         selectedPictureView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(235 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(120 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(153 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(235 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(120 * ToolSet.heightRatio)
+            $0.width.equalTo(153 * ToolSet.widthRatio)
         }
         view.addSubview(reloadPhotoButton)
         reloadPhotoButton.snp.makeConstraints {
             $0.bottom.equalTo(selectedPictureView.snp.bottom)
-            $0.leading.equalTo(selectedPictureView.snp.trailing).offset(15 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(18 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(100 * DesignSet.frameWidthRatio)
+            $0.leading.equalTo(selectedPictureView.snp.trailing).offset(15 * ToolSet.widthRatio)
+            $0.height.equalTo(18 * ToolSet.heightRatio)
+            $0.width.equalTo(100 * ToolSet.widthRatio)
         }
         
         view.addSubview(difficultyDescriptionLabel)
         difficultyDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(418 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(19 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(418 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(19 * ToolSet.heightRatio)
         }
         view.addSubview(difficultyDescriptionDetailLabel)
         difficultyDescriptionDetailLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(443 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(16 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(443 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(16 * ToolSet.heightRatio)
         }
         view.addSubview(customSegmentedControl)
         customSegmentedControl.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(477 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(477 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(96 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(96 * ToolSet.heightRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
         }
         
         activityIndicator.layer.zPosition = 1

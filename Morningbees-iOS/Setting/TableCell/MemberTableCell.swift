@@ -17,8 +17,7 @@ final class MemberTableViewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 18
         imageView.layer.masksToBounds = true
-        imageView.image = UIImage(systemName: "person.fill")
-        imageView.tintColor = UIColor(red: 255, green: 218, blue: 34)
+        imageView.backgroundColor = UIColor(red: 255, green: 239, blue: 158)
         return imageView
     }()
     private let nicknameLabel: UILabel = {
@@ -45,29 +44,28 @@ final class MemberTableViewCell: UITableViewCell {
         super.layoutSubviews()
         
         profileImageView.snp.makeConstraints {
-            $0.leading.equalTo(25 * DesignSet.frameWidthRatio)
+            $0.leading.equalTo(25 * ToolSet.widthRatio)
             $0.centerY.equalTo(contentView.snp.centerY)
-            $0.height.equalTo(36 * DesignSet.frameWidthRatio)
-            $0.width.equalTo(36 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(36 * ToolSet.widthRatio)
+            $0.width.equalTo(36 * ToolSet.widthRatio)
         }
         nicknameLabel.snp.makeConstraints {
-            $0.leading.equalTo(profileImageView.snp.trailing).offset(12 * DesignSet.frameWidthRatio)
+            $0.leading.equalTo(profileImageView.snp.trailing).offset(12 * ToolSet.widthRatio)
             $0.centerY.equalTo(contentView.snp.centerY)
-            $0.height.equalTo(18 * DesignSet.frameWidthRatio)
-            $0.width.greaterThanOrEqualTo(171 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(18 * ToolSet.widthRatio)
+            $0.width.greaterThanOrEqualTo(171 * ToolSet.widthRatio)
         }
         queenMarkImageView.snp.makeConstraints {
-            $0.trailing.equalTo(contentView.snp.trailing).offset(-24 * DesignSet.frameWidthRatio)
+            $0.trailing.equalTo(contentView.snp.trailing).offset(-24 * ToolSet.widthRatio)
             $0.centerY.equalTo(contentView.snp.centerY)
-            $0.height.equalTo(18 * DesignSet.frameWidthRatio)
-            $0.width.equalTo(20 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(18 * ToolSet.widthRatio)
+            $0.width.equalTo(20 * ToolSet.widthRatio)
         }
     }
     
     func configure(with model: Profile) {
         layer.borderWidth = 0.5
         layer.borderColor = UIColor(red: 241, green: 241, blue: 241).cgColor
-        profileImageView.setImage(with: model.profileImage)
         guard let queenBee = UserDefaults.standard.string(forKey: UserDefaultsKey.queenBee.rawValue) else {
             return
         }

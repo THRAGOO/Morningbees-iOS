@@ -8,9 +8,8 @@
 
 import UIKit
 
-final class NavigationControl {
-    
-    static let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+enum NavigationControl {
+
     static var navigationController: UINavigationController {
         guard let navigationViewController = UIApplication.shared.keyWindow?.rootViewController
                 as? UINavigationController else {

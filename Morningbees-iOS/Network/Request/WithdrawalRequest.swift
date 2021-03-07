@@ -10,13 +10,13 @@ import Foundation
 
 final class WithdrawalAPI {
     
-    func request(completion: @escaping (Bool?, Error?) -> Void) {
+    func request(completion: @escaping (Bool?, CustomError?) -> Void) {
         let reqModel = WithdrawalModel()
         let request = RequestSet(method: reqModel.method, path: reqModel.path)
         let withdrawalRequest = Request<Withdrawal>()
         KeychainService.extractKeyChainToken { (accessToken, _, error) in
             if let error = error {
-                print(error.localizedDescription)
+                completion(nil, error)
             }
             guard let accessToken = accessToken else {
                 return

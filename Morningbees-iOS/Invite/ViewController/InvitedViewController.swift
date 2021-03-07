@@ -20,13 +20,6 @@ final class InvitedViewController: UIViewController {
         indicator.alpha = 0.5
         return indicator
     }()
-    private let activityIndicatorImageView = UIImageView(imageName: "illustErrorPage")
-    private let activityIndicatorDescriptionLabel: UILabel = {
-        let label = UILabel(text: "모임 참여 요청 중...", letterSpacing: 0)
-        label.textColor = .white
-        label.font = UIFont(font: .systemBold, size: 24)
-        return label
-    }()
     
     private let invitationImageViwe = UIImageView(imageName: "illustInvite")
     private let mainDescriptionLabel: UILabel = {
@@ -127,7 +120,7 @@ extension InvitedViewController: CustomAlert {
                 DispatchQueue.main.async {
                     activityIndicator.stopAnimating()
                 }
-                presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
+                presentConfirmAlert(title: "토큰 에러!", message: error.description)
                 return
             }
             guard let accessToken = accessToken else {
@@ -145,7 +138,7 @@ extension InvitedViewController: CustomAlert {
                             activityIndicator.stopAnimating()
                         }
                         if let error = error {
-                            presentConfirmAlert(title: "사용자 정보 요청 에러!", message: error.localizedDescription)
+                            presentConfirmAlert(title: "사용자 정보 요청 에러!", message: error.description)
                             return
                         }
                         guard let alreadyJoinedBee = alreadyJoinedBee else {
@@ -163,7 +156,7 @@ extension InvitedViewController: CustomAlert {
                         activityIndicator.stopAnimating()
                     }
                     if let error = error {
-                        presentConfirmAlert(title: "모임 참여 에러!", message: error.localizedDescription)
+                        presentConfirmAlert(title: "모임 참여 에러!", message: error.description)
                         return
                     }
                     presentConfirmAlert(title: "모임 참여 에러!", message: "모임 참여에 실패했습니다.")
@@ -184,47 +177,37 @@ extension InvitedViewController {
         activityIndicator.snp.makeConstraints {
             $0.centerX.centerY.height.width.equalToSuperview()
         }
-        activityIndicator.addSubview(activityIndicatorImageView)
-        activityIndicatorImageView.snp.makeConstraints {
-            $0.centerX.centerY.width.equalToSuperview()
-            $0.height.equalTo(activityIndicator.snp.width)
-        }
-        activityIndicatorImageView.addSubview(activityIndicatorDescriptionLabel)
-        activityIndicatorDescriptionLabel.snp.makeConstraints {
-            $0.centerX.bottom.equalToSuperview()
-            $0.height.equalTo(26 * DesignSet.frameHeightRatio)
-        }
         
         view.addSubview(invitationImageViwe)
         invitationImageViwe.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(67 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(67 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.width.equalTo(240 * DesignSet.frameHeightRatio)
+            $0.height.width.equalTo(240 * ToolSet.heightRatio)
         }
         
         view.addSubview(mainDescriptionLabel)
         mainDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(344 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(344 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(66 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(66 * ToolSet.heightRatio)
         }
         
         view.addSubview(invitedLabel)
         invitedLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(431 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(431 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(40 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(40 * ToolSet.heightRatio)
         }
         view.addSubview(joinButton)
         joinButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(510 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(510 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(50 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(210 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(50 * ToolSet.heightRatio)
+            $0.width.equalTo(210 * ToolSet.widthRatio)
         }
         view.addSubview(closeButton)
         closeButton.snp.makeConstraints {
-            $0.top.equalTo(joinButton.snp.bottom).offset(10 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(joinButton.snp.bottom).offset(10 * ToolSet.heightRatio)
             $0.centerX.height.width.equalTo(joinButton)
         }
         

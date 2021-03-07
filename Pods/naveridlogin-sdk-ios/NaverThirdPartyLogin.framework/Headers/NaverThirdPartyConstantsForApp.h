@@ -34,6 +34,6 @@ typedef enum {
 
 #define kServiceAppUrlScheme    @"naversigninmorningbees"
 
-#define kConsumerKey            @"VRDBGJh6Er49wvpQ1aqs"
-#define kConsumerSecret         @"jEwBPkeloD"
+#define kConsumerKey            @"BvB6b9Zgxwpo5y_BYzH7"
+#define kConsumerSecret         @"praiBTB8hN"
 #define kServiceAppName         @"morningbees"

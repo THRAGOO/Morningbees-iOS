@@ -10,7 +10,7 @@ import UIKit
 
 final class MeAPI {
 
-    func request(completion: @escaping (Bool?, Error?) -> Void) {
+    func request(completion: @escaping (Bool?, CustomError?) -> Void) {
         let reqModel = MeModel()
         let request = RequestSet(method: reqModel.method, path: reqModel.path)
         let meRequest = Request<Me>()

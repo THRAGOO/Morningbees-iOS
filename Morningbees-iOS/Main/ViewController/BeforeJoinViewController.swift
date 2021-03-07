@@ -16,7 +16,8 @@ final class BeforeJoinViewController: UIViewController, CustomAlert {
     private let logOutButton: UIButton = {
         let button = UIButton()
         button.setTitle("로그아웃", for: .normal)
-        button.setTitleColor(.lightGray, for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont(font: .systemBold, size: 13)
         button.addTarget(self, action: #selector(touchUpSignOut), for: .touchUpInside)
         return button
     }()
@@ -79,7 +80,7 @@ extension BeforeJoinViewController {
     private func removeAllInfomations() {
         KeychainService.deleteKeychainToken { [self] error in
             if let error = error {
-                presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
+                presentConfirmAlert(title: "토큰 에러!", message: error.description)
             }
         }
         UserDefaultsKey.allCases.forEach {
@@ -102,38 +103,38 @@ extension BeforeJoinViewController {
         
         view.addSubview(logOutButton)
         logOutButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(28 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
-            $0.width.greaterThanOrEqualTo(30 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(28 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(15 * ToolSet.heightRatio)
+            $0.width.greaterThanOrEqualTo(20 * ToolSet.widthRatio)
         }
         
         view.addSubview(illustBeforeJoiningImg)
         illustBeforeJoiningImg.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(67 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(67 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.width.equalTo(240 * DesignSet.frameHeightRatio)
+            $0.height.width.equalTo(240 * ToolSet.heightRatio)
         }
         
         view.addSubview(statusLabel)
         statusLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(344 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(344 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(66 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(66 * ToolSet.heightRatio)
         }
         view.addSubview(adviceLabel)
         adviceLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(431 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(431 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(40 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(40 * ToolSet.heightRatio)
         }
         
         view.addSubview(createBeeButton)
         createBeeButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(510 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(510 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(50 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(210 * DesignSet.frameWidthRatio)
+            $0.height.equalTo(50 * ToolSet.heightRatio)
+            $0.width.equalTo(210 * ToolSet.widthRatio)
         }
     }
 }

@@ -14,6 +14,7 @@ final class BeeCreateTimeViewController: UIViewController {
     
     private let toPreviousButton: UIButton = {
         let button = UIButton()
+        button.contentHorizontalAlignment = .left
         button.setImage(UIImage(named: "arrowLeft"), for: .normal)
         button.addTarget(self, action: #selector(popToPreviousViewController), for: .touchUpInside)
         return button
@@ -55,11 +56,23 @@ final class BeeCreateTimeViewController: UIViewController {
         return stackView
     }()
     
-    public var beeName: String = ""
-    private var startTime: Int = .max
-    private var endTime: Int = .max
+    private var createModel = CreateModel(title: "", startTime: 0, endTime: 0, pay: 0)
+    private var startTime = 0
+    private var endTime = 0
+    private let none = 11
     
     // MARK:- Life Cycle
+    
+    init(with createModel: CreateModel) {
+        super.init(nibName: nil, bundle: nil)
+        self.createModel = createModel
+        self.startTime = none
+        self.endTime = none
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,21 +90,15 @@ final class BeeCreateTimeViewController: UIViewController {
     }
 }
 
-// MARK:- Segue and Navigation
+// MARK:- Navigation
 
 extension BeeCreateTimeViewController {
     
     @objc private func touchUpNextButton() {
-        performSegue(withIdentifier: "pushToStepJelly", sender: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let beeCreateJellyViewController = segue.destination as? BeeCreateJellyViewController else {
-            return
-        }
-        beeCreateJellyViewController.beeName = self.beeName
-        beeCreateJellyViewController.startTime = self.startTime
-        beeCreateJellyViewController.endTime = self.endTime
+        createModel.startTime = startTime
+        createModel.endTime = endTime
+        let beeCreateJellyViewController = BeeCreateJellyViewController(with: createModel)
+        NavigationControl.navigationController.pushViewController(beeCreateJellyViewController, animated: true)
     }
     
     @objc private func popToPreviousViewController(_ sender: UIButton) {
@@ -157,7 +164,7 @@ extension BeeCreateTimeViewController {
         }
         let selectedTime = index + 6
         
-        if startTime == .max && timeButtons[index].isSelected == false {
+        if startTime == none && timeButtons[index].isSelected == false {
             startTime = selectedTime
             didSelectTimeButton(true, index)
             if startTime == 10 {
@@ -165,16 +172,16 @@ extension BeeCreateTimeViewController {
             } else {
                 setupButtonLabel(.end)
             }
-        } else if endTime == .max && timeButtons[index].isSelected == false {
+        } else if endTime == none && timeButtons[index].isSelected == false {
             endTime = selectedTime
             didSelectTimeButton(true, index)
         } else if startTime == selectedTime || endTime == selectedTime {
             if startTime == selectedTime {
-                startTime = .max
+                startTime = none
                 setupButtonLabel(.start)
             } else {
-                endTime = .max
-                if startTime == .max && endTime == .max {
+                endTime = none
+                if startTime == none && endTime == none {
                     setupButtonLabel(.start)
                 } else {
                     setupButtonLabel(.end)
@@ -183,11 +190,10 @@ extension BeeCreateTimeViewController {
             didSelectTimeButton(false, index)
         }
         
-        if startTime > endTime {
-            swap(&startTime, &endTime)
-        }
-        
-        if startTime != .max && endTime != .max {
+        if startTime != none && endTime != none {
+            if startTime > endTime {
+                swap(&startTime, &endTime)
+            }
             nextButton.isEnabled = true
         } else {
             nextButton.isEnabled = false
@@ -200,38 +206,40 @@ extension BeeCreateTimeViewController {
 extension BeeCreateTimeViewController {
     
     private func setLayout() {
+        view.backgroundColor = .white
+        
         view.addSubview(toPreviousButton)
         toPreviousButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(12 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
-            $0.width.equalTo(12 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * ToolSet.heightRatio)
+            $0.leading.equalTo(12 * ToolSet.widthRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
+            $0.width.equalTo(30 * ToolSet.heightRatio)
         }
         
         view.addSubview(descriptionLabel)
         descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(70 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(66 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(70 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(66 * ToolSet.heightRatio)
         }
         
         view.addSubview(timeDescriptionLabel)
         timeDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(203 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(17 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(203 * ToolSet.heightRatio)
+            $0.leading.equalTo(24 * ToolSet.widthRatio)
+            $0.height.equalTo(17 * ToolSet.heightRatio)
         }
         view.addSubview(timeSelectStackView)
         timeSelectStackView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(234 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(22 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(54 * DesignSet.frameWidthRatio)
-            $0.width.equalTo(290 * DesignSet.frameWidthRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(234 * ToolSet.heightRatio)
+            $0.leading.equalTo(22 * ToolSet.widthRatio)
+            $0.height.equalTo(54 * ToolSet.widthRatio)
+            $0.width.equalTo(290 * ToolSet.widthRatio)
         }
         
         view.addSubview(nextButton)
         nextButton.snp.makeConstraints {
-            $0.height.equalTo(56 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(56 * ToolSet.heightRatio)
             $0.centerX.width.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }

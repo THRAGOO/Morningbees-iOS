@@ -20,16 +20,10 @@ final class RoyalJellyViewController: UIViewController {
         indicator.alpha = 0.5
         return indicator
     }()
-    private let activityIndicatorImageView = UIImageView(imageName: "illustErrorPage")
-    private let activityIndicatorDescriptionLabel: UILabel = {
-        let label = UILabel(text: "로얄젤리 불러오는 중...", letterSpacing: 0)
-        label.textColor = .white
-        label.font = UIFont(font: .systemBold, size: 24)
-        return label
-    }()
     
     private let toPreviousButton: UIButton = {
         let button = UIButton()
+        button.contentHorizontalAlignment = .left
         button.setImage(UIImage(named: "arrowLeft"), for: .normal)
         button.addTarget(self, action: #selector(toPreviousViewController), for: .touchUpInside)
         return button
@@ -63,7 +57,7 @@ final class RoyalJellyViewController: UIViewController {
     private let buttonStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.backgroundColor = .clear
-        stackView.layer.cornerRadius = CGFloat(24 * DesignSet.frameHeightRatio)
+        stackView.layer.cornerRadius = CGFloat(24 * ToolSet.heightRatio)
         stackView.layer.borderWidth = 1
         stackView.layer.borderColor = UIColor(red: 218, green: 218, blue: 218).cgColor
         stackView.layer.masksToBounds = true
@@ -74,7 +68,7 @@ final class RoyalJellyViewController: UIViewController {
     let selector: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(red: 255, green: 218, blue: 34)
-        view.layer.cornerRadius = CGFloat(24 * DesignSet.frameHeightRatio)
+        view.layer.cornerRadius = CGFloat(24 * ToolSet.heightRatio)
         view.layer.borderWidth = 3.5
         view.layer.borderColor = UIColor.white.cgColor
         view.layer.masksToBounds = true
@@ -286,7 +280,7 @@ extension RoyalJellyViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(60 * DesignSet.frameHeightRatio)
+        return CGFloat(60 * ToolSet.heightRatio)
     }
     
     private func deselectAllTabelViewRows() {
@@ -319,8 +313,8 @@ extension RoyalJellyViewController {
         buttonStackView.addArrangedSubview(setupStackViewButton(title: .unpaid))
         buttonStackView.addArrangedSubview(setupStackViewButton(title: .paid))
         selector.layer.zPosition = 0
-        selector.frame.size = CGSize(width: 163.5 * DesignSet.frameWidthRatio,
-                                     height: 48 * DesignSet.frameHeightRatio)
+        selector.frame.size = CGSize(width: 163.5 * ToolSet.widthRatio,
+                                     height: 48 * ToolSet.heightRatio)
         buttonStackView.addSubview(selector)
         unPaidMemberListTableView.isHidden = false
         pastJellyReceiptTableView.isHidden = true
@@ -347,13 +341,13 @@ extension RoyalJellyViewController {
     private func updateUnPaidMemberListTableViewLayout(isButtonEnable: Bool) {
         if isButtonEnable {
             unPaidMemberListTableView.snp.remakeConstraints {
-                $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(295 * DesignSet.frameHeightRatio)
+                $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(295 * ToolSet.heightRatio)
                 $0.centerX.width.equalToSuperview()
-                $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-60 * DesignSet.frameHeightRatio)
+                $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-60 * ToolSet.heightRatio)
             }
         } else {
             unPaidMemberListTableView.snp.remakeConstraints {
-                $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(295 * DesignSet.frameHeightRatio)
+                $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(295 * ToolSet.heightRatio)
                 $0.centerX.width.equalToSuperview()
                 $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             }
@@ -443,7 +437,7 @@ extension RoyalJellyViewController: CustomAlert {
                 DispatchQueue.main.async {
                     activityIndicator.stopAnimating()
                 }
-                presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
+                presentConfirmAlert(title: "토큰 에러!", message: error.description)
             }
             guard let accessToken = accessToken else {
                 DispatchQueue.main.async {
@@ -459,7 +453,7 @@ extension RoyalJellyViewController: CustomAlert {
                     activityIndicator.stopAnimating()
                 }
                 if let error = error {
-                    presentConfirmAlert(title: "모임 벌급 요청 에러!", message: error.localizedDescription)
+                    presentConfirmAlert(title: "모임 벌금 요청 에러!", message: error.description)
                     return
                 }
                 guard let beePenalty = beePenalty else {
@@ -486,9 +480,9 @@ extension RoyalJellyViewController: CustomAlert {
                     }
                     for receipt in beePenalty.penaltyHistories {
                         if receipt.status == 0 {
-                            unpaidPenaltyLabel.text = "총 미납금 \(receipt.total)"
+                            unpaidPenaltyLabel.text = "총 미납금 " + ToolSet.integerToCommaNumberString(with: receipt.total)
                         } else {
-                            cumulativeJellyLabel.text = "\(receipt.total)"
+                            cumulativeJellyLabel.text = ToolSet.integerToCommaNumberString(with: receipt.total)
                         }
                     }
                 }
@@ -507,7 +501,7 @@ extension RoyalJellyViewController {
         let updateJelly = Request<UpdateJelly>()
         KeychainService.extractKeyChainToken { [self] (accessToken, _, error) in
             if let error = error {
-                self.presentConfirmAlert(title: "토큰 에러!", message: error.localizedDescription)
+                self.presentConfirmAlert(title: "토큰 에러!", message: error.description)
             }
             guard let accessToken = accessToken else {
                 return
@@ -521,7 +515,7 @@ extension RoyalJellyViewController {
                     requestBeePenalty(type: 1)
                 } else {
                     if let error = error {
-                        presentConfirmAlert(title: "로열 젤리 업데이트 요청 에러!", message: error.localizedDescription)
+                        presentConfirmAlert(title: "로열 젤리 업데이트 요청 에러!", message: error.description)
                         return
                     }
                     presentConfirmAlert(title: "로열 젤리 업데이트 요청 에러!", message: "요청이 성공적으로 수행되지 못했습니다.")
@@ -542,107 +536,97 @@ extension RoyalJellyViewController {
         activityIndicator.snp.makeConstraints {
             $0.centerX.centerY.height.width.equalToSuperview()
         }
-        activityIndicator.addSubview(activityIndicatorImageView)
-        activityIndicatorImageView.snp.makeConstraints {
-            $0.centerX.centerY.width.equalToSuperview()
-            $0.height.equalTo(activityIndicator.snp.width)
-        }
-        activityIndicatorImageView.addSubview(activityIndicatorDescriptionLabel)
-        activityIndicatorDescriptionLabel.snp.makeConstraints {
-            $0.centerX.bottom.equalToSuperview()
-            $0.height.equalTo(26 * DesignSet.frameHeightRatio)
-        }
         
         view.addSubview(toPreviousButton)
         toPreviousButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(11 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(view.snp.leading).offset(12 * DesignSet.frameWidthRatio)
-            $0.width.equalTo(12 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(11 * ToolSet.heightRatio)
+            $0.leading.equalTo(12 * ToolSet.widthRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
+            $0.width.equalTo(30 * ToolSet.heightRatio)
         }
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(20 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(20 * ToolSet.heightRatio)
         }
         view.addSubview(bottomlineView)
         bottomlineView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(43 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(43 * ToolSet.heightRatio)
             $0.centerX.width.equalToSuperview()
-            $0.height.equalTo(1 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(1 * ToolSet.heightRatio)
         }
         
         view.addSubview(cumulativeDescriptionLabel)
         cumulativeDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(83 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(83 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(19 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(19 * ToolSet.heightRatio)
         }
         view.addSubview(cumulativeJellyLabel)
         cumulativeJellyLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(108 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(108 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(48 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(48 * ToolSet.heightRatio)
         }
         
         view.addSubview(buttonStackView)
         buttonStackView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(189 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(189 * ToolSet.heightRatio)
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(327 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(48 * DesignSet.frameHeightRatio)
+            $0.width.equalTo(327 * ToolSet.widthRatio)
+            $0.height.equalTo(48 * ToolSet.heightRatio)
         }
         
         view.addSubview(userListDescriptionLabel)
         userListDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(267 * DesignSet.frameHeightRatio)
-            $0.leading.equalTo(26 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(19 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(267 * ToolSet.heightRatio)
+            $0.leading.equalTo(26 * ToolSet.widthRatio)
+            $0.height.equalTo(19 * ToolSet.heightRatio)
         }
         view.addSubview(searchButton)
         searchButton.snp.makeConstraints {
             $0.centerY.equalTo(userListDescriptionLabel.snp.centerY)
-            $0.leading.equalTo(userListDescriptionLabel.snp.trailing).offset(12 * DesignSet.frameWidthRatio)
-            $0.width.equalTo(18 * DesignSet.frameHeightRatio)
-            $0.height.equalTo(18 * DesignSet.frameHeightRatio)
+            $0.leading.equalTo(userListDescriptionLabel.snp.trailing).offset(12 * ToolSet.widthRatio)
+            $0.width.equalTo(18 * ToolSet.heightRatio)
+            $0.height.equalTo(18 * ToolSet.heightRatio)
         }
         view.addSubview(unpaidPenaltyLabel)
         unpaidPenaltyLabel.snp.makeConstraints {
             $0.top.equalTo(userListDescriptionLabel.snp.top)
-            $0.trailing.equalToSuperview().offset(-24 * DesignSet.frameWidthRatio)
-            $0.height.equalTo(19 * DesignSet.frameHeightRatio)
+            $0.trailing.equalToSuperview().offset(-24 * ToolSet.widthRatio)
+            $0.height.equalTo(19 * ToolSet.heightRatio)
         }
         view.addSubview(unpaidPenaltyLabelUnderline)
         unpaidPenaltyLabelUnderline.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(278.5 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(278.5 * ToolSet.heightRatio)
             $0.centerX.equalTo(unpaidPenaltyLabel)
-            $0.height.equalTo(7 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(7 * ToolSet.heightRatio)
             $0.width.equalTo(unpaidPenaltyLabel)
         }
         
         view.addSubview(unPaidMemberListTableView)
         unPaidMemberListTableView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(295 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(295 * ToolSet.heightRatio)
             $0.centerX.width.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         view.addSubview(pastJellyReceiptTableView)
         pastJellyReceiptTableView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(295 * DesignSet.frameHeightRatio)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(295 * ToolSet.heightRatio)
             $0.centerX.width.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
         view.addSubview(penaltyButtonStackView)
         penaltyButtonStackView.snp.makeConstraints {
-            $0.height.equalTo(60 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(60 * ToolSet.heightRatio)
             $0.centerX.width.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         view.addSubview(multiPenaltyButton)
         multiPenaltyButton.snp.makeConstraints {
-            $0.height.equalTo(60 * DesignSet.frameHeightRatio)
+            $0.height.equalTo(60 * ToolSet.heightRatio)
             $0.centerX.width.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
