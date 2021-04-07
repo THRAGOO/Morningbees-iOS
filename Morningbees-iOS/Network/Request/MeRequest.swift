@@ -27,6 +27,7 @@ final class MeAPI {
                     completion(nil, error)
                 }
                 guard let me = me else {
+                    completion(nil, nil)
                     return
                 }
                 UserDefaults.standard.set(me.nickname, forKey: UserDefaultsKey.myNickname.rawValue)
