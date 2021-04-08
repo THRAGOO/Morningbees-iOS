@@ -34,6 +34,7 @@ final class MeAPI {
                 UserDefaults.standard.set(me.beeId, forKey: UserDefaultsKey.beeId.rawValue)
                 UserDefaults.standard.set(me.alreadyJoin, forKey: UserDefaultsKey.alreadyJoin.rawValue)
                 UserDefaults.standard.set(me.userId, forKey: UserDefaultsKey.userId.rawValue)
+                UserDefaults.standard.set(me.email, forKey: UserDefaultsKey.email.rawValue)
                 completion(me.alreadyJoin, nil)
             }
         }

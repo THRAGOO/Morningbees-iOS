@@ -22,7 +22,7 @@ final class RoyalJellyTableViewCell: UITableViewCell {
         detailTextLabel?.textColor = UIColor(red: 34, green: 34, blue: 34)
         detailTextLabel?.font = UIFont(font: .systemBold, size: 14)
         
-        imageView?.backgroundColor = UIColor(red: 255, green: 239, blue: 158)
+        imageView?.image = UIImage(named: "profileImage")
         imageView?.layer.cornerRadius = CGFloat(18 * ToolSet.heightRatio)
         imageView?.layer.masksToBounds = true
     }

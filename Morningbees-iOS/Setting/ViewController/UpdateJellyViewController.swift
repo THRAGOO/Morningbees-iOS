@@ -30,7 +30,7 @@ final class UpdateJellyViewController: UIViewController, CustomAlert {
         return label
     }()
     private let unpaidJellyLabel: UILabel = {
-        let label = UILabel(text: "1000", letterSpacing: -0.5)
+        let label = UILabel(text: "1,000", letterSpacing: -0.5)
         label.textColor = UIColor(red: 34, green: 34, blue: 34)
         label.font = UIFont(font: .systemBold, size: 30)
         return label
@@ -163,7 +163,7 @@ extension UpdateJellyViewController {
         value *= 500
         sender.setValue(Float(value), animated: false)
         progressBar.progress = sender.value / sender.maximumValue
-        unpaidJellyLabel.text = "\(value)"
+        unpaidJellyLabel.text = ToolSet.integerToCommaNumberString(with: value)
         comfirmButtonControl()
     }
 }

@@ -31,6 +31,7 @@ final class CalendarViewController: UIViewController {
         let label = UILabel(text: "", letterSpacing: 0.43)
         label.textColor = UIColor(red: 68, green: 68, blue: 68)
         label.font = UIFont(font: .systemBold, size: 20)
+        label.textAlignment = .center
         return label
     }()
     
@@ -73,6 +74,7 @@ final class CalendarViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
+        stackView.spacing = 5
         return stackView
     }()
     
@@ -91,6 +93,11 @@ final class CalendarViewController: UIViewController {
         initCalendar()
         setupCalendar()
         setLayout()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.post(name: Notification.Name.init("DismissSubView"), object: nil)
     }
 }
 
@@ -137,67 +144,24 @@ extension CalendarViewController {
             let weekStackView = UIStackView()
             weekStackView.axis = .horizontal
             weekStackView.distribution = .fillEqually
-            weekStackView.frame.size = CGSize(width: 273 * ToolSet.widthRatio,
-                                              height: 39 * ToolSet.widthRatio)
-            if 1 == week {
+            if week == 1 {
                 for _ in 0 ..< firstDayOfWeek - 1 {
-                    let button = UIButton()
-                    weekStackView.addArrangedSubview(button)
+                    weekStackView.addArrangedSubview(UIButton())
                 }
                 for day in firstDayOfWeek...7 {
-                    let button = UIButton()
-                    button.setTitle("\(dayCount)", for: .normal)
-                    if day == sunday {
-                        button.setTitleColor(UIColor(red: 240, green: 62, blue: 62), for: .normal)
-                    } else if day == saturday {
-                        button.setTitleColor(UIColor(red: 34, green: 105, blue: 255), for: .normal)
-                    } else {
-                        button.setTitleColor(UIColor(red: 119, green: 119, blue: 119), for: .normal)
-                    }
-                    button.setTitleColor(UIColor(red: 204, green: 204, blue: 204), for: .disabled)
-                    button.titleLabel?.font = UIFont(font: .systemSemiBold, size: 13)
-                    button.setBackgroundColor(UIColor(red: 217, green: 217, blue: 217), for: .highlighted)
-                    button.setBackgroundColor(UIColor(red: 255, green: 218, blue: 34), for: .selected)
-                    button.frame.size = CGSize(width: 39 * ToolSet.widthRatio,
-                                               height: 39 * ToolSet.widthRatio)
-                    button.layer.cornerRadius = button.frame.height / 2
-                    button.layer.masksToBounds = true
-                    button.addTarget(self, action: #selector(touchupDateButton), for: .touchUpInside)
-                    if !isValidDate(dayCount) {
-                        button.isEnabled = false
-                    }
-                    weekStackView.addArrangedSubview(button)
+                    weekStackView.addArrangedSubview(setupDayButton(dayCount, day))
                     dayCount += 1
                 }
             } else {
                 for day in 1...7 {
                     if dayCount <= MonthDays {
-                        let button = UIButton()
-                        button.setTitle("\(dayCount)", for: .normal)
-                        if day == sunday {
-                            button.setTitleColor(UIColor(red: 240, green: 62, blue: 62), for: .normal)
-                        } else if day == saturday {
-                            button.setTitleColor(UIColor(red: 34, green: 105, blue: 255), for: .normal)
-                        } else {
-                            button.setTitleColor(UIColor(red: 119, green: 119, blue: 119), for: .normal)
+                        weekStackView.addArrangedSubview(setupDayButton(dayCount, day))
+                        if dayCount == MonthDays {
+                            setPopupViewSize(count: week)
                         }
-                        button.titleLabel?.font = UIFont(font: .systemSemiBold, size: 13)
-                        button.setTitleColor(UIColor(red: 204, green: 204, blue: 204), for: .disabled)
-                        button.setBackgroundColor(UIColor(red: 217, green: 217, blue: 217), for: .highlighted)
-                        button.setBackgroundColor(UIColor(red: 255, green: 218, blue: 34), for: .selected)
-                        button.frame.size = CGSize(width: 39 * ToolSet.widthRatio,
-                                                   height: 39 * ToolSet.widthRatio)
-                        button.layer.cornerRadius = button.frame.height / 2
-                        button.layer.masksToBounds = true
-                        button.addTarget(self, action: #selector(touchupDateButton), for: .touchUpInside)
-                        if !isValidDate(dayCount) {
-                            button.isEnabled = false
-                        }
-                        weekStackView.addArrangedSubview(button)
                         dayCount += 1
                     } else {
-                        let button = UIButton()
-                        weekStackView.addArrangedSubview(button)
+                        weekStackView.addArrangedSubview(UIButton())
                     }
                 }
             }
@@ -220,6 +184,31 @@ extension CalendarViewController {
             return false
         }
         return true
+    }
+    
+    private func setupDayButton(_ dayCount: Int, _ day: Int) -> UIButton {
+        let button = UIButton()
+        button.setTitle("\(dayCount)", for: .normal)
+        if day == sunday {
+            button.setTitleColor(UIColor(red: 240, green: 62, blue: 62), for: .normal)
+        } else if day == saturday {
+            button.setTitleColor(UIColor(red: 34, green: 105, blue: 255), for: .normal)
+        } else {
+            button.setTitleColor(UIColor(red: 119, green: 119, blue: 119), for: .normal)
+        }
+        button.titleLabel?.font = UIFont(font: .systemSemiBold, size: 13)
+        button.setTitleColor(UIColor(red: 204, green: 204, blue: 204), for: .disabled)
+        button.setBackgroundColor(UIColor(red: 217, green: 217, blue: 217), for: .highlighted)
+        button.setBackgroundColor(UIColor(red: 255, green: 218, blue: 34), for: .selected)
+        button.frame.size = CGSize(width: 39 * ToolSet.widthRatio,
+                                   height: 39 * ToolSet.widthRatio)
+        button.layer.cornerRadius = button.frame.height / 2
+        button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(touchupDateButton), for: .touchUpInside)
+        if !isValidDate(dayCount) {
+            button.isEnabled = false
+        }
+        return button
     }
 }
 
@@ -270,44 +259,49 @@ extension CalendarViewController {
         
         view.addSubview(calendarHeaderLabel)
         calendarHeaderLabel.snp.makeConstraints {
-            $0.top.equalTo(21 * ToolSet.heightRatio)
-            $0.height.equalTo(24 * ToolSet.heightRatio)
-            $0.width.greaterThanOrEqualTo(106 * ToolSet.widthRatio)
+            $0.top.equalTo(34 * ToolSet.widthRatio)
+            $0.height.equalTo(24 * ToolSet.widthRatio)
             $0.centerX.equalTo(view.snp.centerX)
         }
         view.addSubview(prevMonthButton)
         prevMonthButton.snp.makeConstraints {
             $0.centerY.equalTo(calendarHeaderLabel)
-            $0.leading.equalTo(10 * ToolSet.widthRatio)
+            $0.leading.equalTo(27 * ToolSet.widthRatio)
             $0.height.width.equalTo(30 * ToolSet.widthRatio)
         }
         view.addSubview(nextMonthButton)
         nextMonthButton.snp.makeConstraints {
             $0.centerY.equalTo(calendarHeaderLabel)
-            $0.trailing.equalTo(-10 * ToolSet.widthRatio)
+            $0.trailing.equalTo(-27 * ToolSet.widthRatio)
             $0.height.width.equalTo(30 * ToolSet.widthRatio)
         }
         
         view.addSubview(dayOfWeekStackView)
         dayOfWeekStackView.snp.makeConstraints {
-            $0.top.equalTo(72 * ToolSet.heightRatio)
+            $0.top.equalTo(85 * ToolSet.widthRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(14 * ToolSet.heightRatio)
-            $0.width.greaterThanOrEqualTo(273 * ToolSet.widthRatio)
+            $0.height.equalTo(14 * ToolSet.widthRatio)
+            $0.width.equalTo(273 * ToolSet.widthRatio)
         }
         view.addSubview(bottomlineView)
         bottomlineView.snp.makeConstraints {
-            $0.top.equalTo(95 * ToolSet.heightRatio)
+            $0.top.equalTo(108 * ToolSet.widthRatio)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(1 * ToolSet.heightRatio)
-            $0.width.greaterThanOrEqualTo(260 * ToolSet.widthRatio)
+            $0.height.equalTo(1 * ToolSet.widthRatio)
+            $0.width.equalTo(260 * ToolSet.widthRatio)
         }
         view.addSubview(dateStackView)
         dateStackView.snp.makeConstraints {
-            $0.top.equalTo(98 * ToolSet.heightRatio)
+            $0.top.equalTo(111 * ToolSet.widthRatio)
             $0.centerX.equalToSuperview()
-            $0.height.greaterThanOrEqualTo(234 * ToolSet.widthRatio)
-            $0.width.greaterThanOrEqualTo(273 * ToolSet.widthRatio)
+            $0.height.equalTo(259 * ToolSet.widthRatio)
+            $0.width.equalTo(273 * ToolSet.widthRatio)
         }
+    }
+    
+    private func setPopupViewSize(count: Int) {
+        let height = Double(127 + count * 44) * ToolSet.widthRatio
+        let size = CGSize(width: 327 * ToolSet.widthRatio, height: height)
+        self.preferredContentSize = size
     }
 }

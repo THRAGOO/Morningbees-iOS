@@ -20,4 +20,5 @@ enum UserDefaultsKey: String, CaseIterable {
     case queenBee = "queenBee"
     case isQueenBee = "isQueenBee"
     case myNickname = "myNickname"
+    case email = "email"
 }
