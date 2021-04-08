@@ -19,4 +19,5 @@ struct Me: Codable {
     let alreadyJoin: Bool
     let beeId: Int
     let userId: Int
+    let email: String
 }

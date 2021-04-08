@@ -17,7 +17,7 @@ final class MemberTableViewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 18
         imageView.layer.masksToBounds = true
-        imageView.backgroundColor = UIColor(red: 255, green: 239, blue: 158)
+        imageView.image = UIImage(named: "profileImage")
         return imageView
     }()
     private let nicknameLabel: UILabel = {

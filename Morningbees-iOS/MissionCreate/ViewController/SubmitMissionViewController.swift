@@ -108,7 +108,7 @@ extension SubmitMissionViewContoller {
             if viewTranslation.y < 50 {
                 view.transform = .identity
             } else {
-                NotificationCenter.default.post(name: Notification.Name.init("DismissSubmitView"), object: nil)
+                NotificationCenter.default.post(name: Notification.Name.init("DismissSubView"), object: nil)
                 dismiss(animated: true)
             }
         default:
@@ -120,7 +120,7 @@ extension SubmitMissionViewContoller {
         if sender.state == .ended {
             if view.bounds.contains(sender.location(in: view))
                 && !submitView.bounds.contains(sender.location(in: submitView)) {
-                NotificationCenter.default.post(name: Notification.Name.init("DismissSubmitView"), object: nil)
+                NotificationCenter.default.post(name: Notification.Name.init("DismissSubView"), object: nil)
                 dismiss(animated: true)
             }
         }
@@ -128,14 +128,14 @@ extension SubmitMissionViewContoller {
     
     @objc private func selectImageFromPhoto() {
         dismiss(animated: true) {
-            NotificationCenter.default.post(name: Notification.Name.init("DismissSubmitView"), object: nil)
+            NotificationCenter.default.post(name: Notification.Name.init("DismissSubView"), object: nil)
             NotificationCenter.default.post(name: Notification.Name.init("MissionPhoto"), object: nil)
         }
     }
     
     @objc private func selectImageFromCamera() {
         dismiss(animated: true) {
-            NotificationCenter.default.post(name: Notification.Name.init("DismissSubmitView"), object: nil)
+            NotificationCenter.default.post(name: Notification.Name.init("DismissSubView"), object: nil)
             NotificationCenter.default.post(name: Notification.Name.init("MissionCamera"), object: nil)
         }
     }

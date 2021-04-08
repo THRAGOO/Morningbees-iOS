@@ -51,6 +51,7 @@ extension RootViewController {
                 NavigationControl.pushToSignInViewController()
             }
             guard let alreadyJoinedBee = alreadyJoinedBee else {
+                NavigationControl.pushToSignInViewController()
                 return
             }
             if alreadyJoinedBee {

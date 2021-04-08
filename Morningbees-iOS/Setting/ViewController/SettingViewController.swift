@@ -139,9 +139,9 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         }
         switch indexPath.section {
         case 0:
+            let email = UserDefaults.standard.string(forKey: UserDefaultsKey.email.rawValue) ?? ""
+            cell.configure(with: SettingContent(title: .none, detail: email, needArrow: false))
             cell.textLabel?.text = UserDefaults.standard.string(forKey: UserDefaultsKey.myNickname.rawValue)
-            cell.isUserInteractionEnabled = false
-            cell.imageView?.isHidden = true
         case 1:
             switch indexPath.row {
             case 0:

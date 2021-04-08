@@ -17,7 +17,7 @@ final class MissionTableViewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = CGFloat(15 * ToolSet.heightRatio)
         imageView.layer.masksToBounds = true
-        imageView.backgroundColor = UIColor(red: 229, green: 229, blue: 229)
+        imageView.image = UIImage(named: "profileImage")
         return imageView
     }()
     private let missionImageView: UIImageView = {

@@ -120,12 +120,12 @@ final class BeeMainViewController: UIViewController, CustomAlert {
         return label
     }()
     private let todayQuestionerImageView: UIImageView = {
-        let view = UIImageView()
-        view.contentMode = .scaleAspectFill
-        view.backgroundColor = UIColor(red: 255, green: 250, blue: 200)
-        view.setRatioCornerRadius(22.5)
-        view.layer.masksToBounds = true
-        return view
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "profileImage")
+        imageView.setRatioCornerRadius(22.5)
+        imageView.layer.masksToBounds = true
+        return imageView
     }()
     private let todayQuestionerNicknameLabel: UILabel = {
         let label = UILabel(text: "", letterSpacing: -0.3)
@@ -134,12 +134,12 @@ final class BeeMainViewController: UIViewController, CustomAlert {
         return label
     }()
     private let nextQuestionerImageView: UIImageView = {
-        let view = UIImageView()
-        view.contentMode = .scaleAspectFill
-        view.backgroundColor = UIColor(red: 255, green: 239, blue: 142)
-        view.setRatioCornerRadius(15)
-        view.layer.masksToBounds = true
-        return view
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "profileImage")
+        imageView.setRatioCornerRadius(15)
+        imageView.layer.masksToBounds = true
+        return imageView
     }()
     
     private let difficultyDescriptionLabel: UILabel = {
@@ -322,13 +322,14 @@ final class BeeMainViewController: UIViewController, CustomAlert {
         mainScrollView.delegate = self
         requestMain(changeDate: false)
         setLayout()
+        missionTimeAnimationView.play()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(dismissPopupView),
-                                               name: Notification.Name.init("DismissSubmitView"),
+                                               name: Notification.Name.init("DismissSubView"),
                                                object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(changeDate),
@@ -351,7 +352,7 @@ final class BeeMainViewController: UIViewController, CustomAlert {
                                                name: Notification.Name.init("ReloadViewController"),
                                                object: nil)
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(viewDidAppear),
+                                               selector: #selector(viewDidLoad),
                                                name: UIApplication.willEnterForegroundNotification,
                                                object: nil)
     }
@@ -359,12 +360,11 @@ final class BeeMainViewController: UIViewController, CustomAlert {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         NavigationControl.navigationController.interactivePopGestureRecognizer?.isEnabled = false
-        missionTimeAnimationView.play()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self, name: Notification.Name.init("DismissSubmitView"), object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.init("DismissSubView"), object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.init("ChangeDate"), object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.init("MissionCamera"), object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.init("MissionPhoto"), object: nil)
@@ -707,15 +707,17 @@ extension BeeMainViewController {
     @objc private func touchupCalendarButton(_ sender: UIButton) {
         let calendarViewController = CalendarViewController()
         calendarViewController.modalPresentationStyle = .popover
-        let size = CGSize(width: 327 * ToolSet.widthRatio, height: 360 * ToolSet.widthRatio)
-        calendarViewController.preferredContentSize = size
         calendarViewController.popoverPresentationController?.sourceView = view
         let x = view.bounds.midX
         let y = view.bounds.midY
         calendarViewController.popoverPresentationController?.sourceRect = CGRect(x: x, y: y, width: 0, height: 0)
         calendarViewController.popoverPresentationController?.permittedArrowDirections = .init()
         calendarViewController.popoverPresentationController?.delegate = self
-        present(calendarViewController, animated: true, completion: nil)
+        UIView.animate(withDuration: 0.2) { [self] in
+            view.alpha = 0.4
+        } completion: { [self] _ in
+            present(calendarViewController, animated: true, completion: nil)
+        }
     }
     
     private func setDateLabel() {

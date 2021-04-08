@@ -24,8 +24,7 @@ extension Request {
             components.scheme = Path.scheme.rawValue
             components.host = Path.host.rawValue
             let beeId = UserDefaults.standard.integer(forKey: UserDefaultsKey.beeId.rawValue)
-            let path = request.path.rawValue.replacingOccurrences(of: "{beeid}",
-                                                                  with: "\(beeId)")
+            let path = request.path.rawValue.replacingOccurrences(of: "{beeid}", with: "\(beeId)")
             components.path = path
             return components
         }()
@@ -105,6 +104,9 @@ extension Request {
                 case ErrorCode.expiredToken.rawValue:
                     RenewalToken().request { (renewed, error) in
                         if let error = error {
+                            KeychainService.deleteKeychainToken { (error) in
+                                completion(nil, false, error)
+                            }
                             completion(nil, false, error)
                             return
                         }
@@ -131,7 +133,9 @@ extension Request {
                                 }
                             }
                         } else {
-                            NavigationControl.popToRootViewController()
+                            KeychainService.deleteKeychainToken { (error) in
+                                completion(nil, false, error)
+                            }
                             completion(nil, false, nil)
                             return
                         }

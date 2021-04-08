@@ -19,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -55,12 +55,14 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>FirebaseAutomaticScreenReportingEnabled</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Allows you to add Photo from your Camera.</string>
+	<string>모닝비즈 미션에 참여하기 위해서는 카메라에 대한 접근이 필요합니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allows you to add Photo from your Library.</string>
+	<string>모닝비즈 미션에 참여하기 위해서는 사진 라이브러리에 대한 접근이 필요합니다.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>NanumBarunGothicBold.ttf</string>
@@ -108,7 +110,5 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
-	<key>FirebaseAutomaticScreenReportingEnabled</key>
-	<false/>
 </dict>
 </plist>

@@ -907,6 +907,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thragoo.Morningbees-iOS";
 				PRODUCT_NAME = Morningbees;
 				SWIFT_VERSION = 5.0;
@@ -928,6 +929,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thragoo.Morningbees-iOS";
 				PRODUCT_NAME = Morningbees;
 				SWIFT_VERSION = 5.0;
