@@ -1,23 +1,27 @@
 # Morningbees-iOS
-This is an application created to help people who want to be morning bird aka morning bees in this app. Let's create a bee(group) with friends and participate in the mission to make an early habits!
+
+This is an application created to help people who want to be early bird aka morning bees in this app. Let's create a bee(group) with friends and participate in the mission to make an early habits!
 
 Each mission day, the mission assignor(one of the members) sets the mission, and within that time, participants must upload the mission photo.
 
 Missions are voted for success or failure and fines are raised.
 
-아침형 인간이 되고싶은 사람을 돕기위해 만든 Application 입니다. 친구들끼리 모임을 생성하고, 미션에 참여하여 일찍 일어나는 습관을 길러봅시다!
+Bee 가 "모임" 이라는 뜻인걸 알고 계셨나요?
 
-미션일마다 미션 출제자가 미션을 정하고 해당 시간내에 참여자들은 미션 사진을 업로드 해야 합니다.
+Morning Bees는 하루를 일찍 시작하고 싶어하는 사람들의 모임입니다 :) 
+여러분도 Morning Bees로 친구, 주변 지인들과 기상미션을 수행하며 일찍 일어나는 습관을 만들어 보세요.
+재미있는 미션 사진을 만들어 하루를 기분 좋게 시작하고, 쌓인 로얄 젤리로 뒤풀이까지~!
 
-미션은 투표를 통해서 성공여부가 정해지고 실패 시 벌금이 쌓입니다.
+Designed by 임지혜
 
-<img src="/ImageForReadMe/SignInView.png" width="120" height="215"> <img src="/ImageForReadMe/MainView.png" width="120" height="215">
+* App Store Link: [모닝비즈] (https://apps.apple.com/kr/app/모닝비즈/id1557197440?l=en)
+
+<img src="/ImageForReadMe/스크린샷1.png" width="120" height="270"><img src="/ImageForReadMe/스크린샷2.png" width="120" height="270"><img src="/ImageForReadMe/스크린샷3.png" width="120" height="270"><img src="/ImageForReadMe/스크린샷4.png" width="120" height="270"><img src="/ImageForReadMe/스크린샷5.png" width="120" height="270">
 
 ## Implemented by below tech.
 * SignIn with Social Media(Google, Naver, Apple(iOS))
 * KeyChain Service
 * Programmatic Layout
-* Network(JSON)
 * Swift5
 
 ## Libraries
@@ -27,5 +31,5 @@ Missions are voted for success or failure and fines are raised.
 * naveridlogin(for SignIn with Naver)
 * SnapKit(Layout)
 * SwiftLint
-* Kingfisher(Not yet)
-* SwiftyBeaver(Not yet)
+* Kingfisher
+* SwiftyBeaver
