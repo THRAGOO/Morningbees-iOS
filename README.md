@@ -14,7 +14,7 @@ Morning Bees는 하루를 일찍 시작하고 싶어하는 사람들의 모임�
 
 Designed by 임지혜
 
-* App Store Link: [모닝비즈] (https://apps.apple.com/kr/app/모닝비즈/id1557197440?l=en)
+* App Store Link: [모닝비즈](https://apps.apple.com/kr/app/모닝비즈/id1557197440?l=en)
 
 <img src="/ImageForReadMe/스크린샷1.png" width="120" height="270">  <img src="/ImageForReadMe/스크린샷2.png" width="120" height="270">  <img src="/ImageForReadMe/스크린샷3.png" width="120" height="270">  <img src="/ImageForReadMe/스크린샷4.png" width="120" height="270">  <img src="/ImageForReadMe/스크린샷5.png" width="120" height="270">
 
